@@ -303,7 +303,7 @@ class CardGenPipeline:
         checks = {
             "gemini": bool(os.getenv("GEMINI_API_KEY")),
             "github": bool(os.getenv("GITHUB_TOKEN")),
-            "search_provider": bool(os.getenv("SERPAPI_API_KEY") or (os.getenv("GOOGLE_API_KEY") and os.getenv("GOOGLE_CSE_ID"))),
+            # Web search is always available with DuckDuckGo (no API key required)
         }
         
         missing = [k for k, v in checks.items() if not v]
@@ -312,8 +312,6 @@ class CardGenPipeline:
             print("   Some features may be limited:")
             if "github" in missing:
                 print("   - GitHub API calls will be rate-limited (60/hour)")
-            if "search_provider" in missing:
-                print("   - Web search will be disabled")
             print()
     
     async def safe_get(self, url: str, **kwargs):
@@ -837,8 +835,55 @@ class CardGenPipeline:
         """Search web for official websites and documentation using web search API"""
         results = []
         try:
-            # Web search not available - using fallback method
-            print("Web search not available - continuing with other sources")
+            # Import web search function
+            from utils.web_search import web_search, is_web_search_available
+            
+            if not is_web_search_available():
+                print("Web search not available - continuing with other sources")
+                return results
+            
+            # Enhanced search queries for official websites and documentation
+            search_queries = [
+                f'"{model_name}" official website',
+                f'"{model_name}" documentation',
+                f'"{model_name}" medical device',
+                f'"{model_name}" FDA approval',
+                f'"{model_name}" dermatology AI',
+                f'"{model_name}" skin cancer detection'
+            ]
+            
+            if developer_name:
+                search_queries.extend([
+                    f'"{model_name}" "{developer_name}" official',
+                    f'"{developer_name}" "{model_name}" documentation',
+                    f'"{developer_name}" "{model_name}" medical device'
+                ])
+            
+            # Perform web searches
+            for query in search_queries:
+                try:
+                    print(f"🔍 Web searching: {query}")
+                    search_results = await web_search(query, max_results=5)
+                    
+                    for result in search_results:
+                        results.append({
+                            'url': result.get('url', ''),
+                            'title': result.get('title', ''),
+                            'snippet': result.get('snippet', ''),
+                            'source_type': 'web_search',
+                            'discovery_method': 'web_search',
+                            'relevance_score': 0.8,  # Default relevance score
+                            'query_used': query
+                        })
+                    
+                    # Small delay between searches to be respectful
+                    await asyncio.sleep(0.5)
+                    
+                except Exception as e:
+                    print(f"Web search failed for '{query}': {e}")
+                    continue
+            
+            print(f"  Found {len(results)} web sources")
                     
         except Exception as e:
             print(f"Error in web source search: {e}")
@@ -883,8 +928,33 @@ class CardGenPipeline:
                 developer_searches.insert(0, f'site:{domain} "{model_name}"')
         
         try:
-            # Web search not available - using fallback method
-            print("Web search not available for developer-specific sources")
+            # Use web search for targeted discovery
+            from utils.web_search import web_search, is_web_search_available
+            
+            if not is_web_search_available():
+                print("Web search not available for developer-specific sources")
+                return results
+            
+            for search_query in developer_searches:
+                try:
+                    search_results = await web_search(search_query, max_results=3)
+                    for result in search_results:
+                        results.append({
+                            'url': result.get('url', ''),
+                            'title': result.get('title', ''),
+                            'snippet': result.get('snippet', ''),
+                            'source_type': 'developer_web_search',
+                            'discovery_method': 'developer_specific_search',
+                            'relevance_score': 0.9,
+                            'query_used': search_query
+                        })
+                    
+                    # Small delay between searches
+                    await asyncio.sleep(0.3)
+                    
+                except Exception as e:
+                    print(f"Developer-specific web search failed for '{search_query}': {e}")
+                    continue
         
         except Exception as e:
             print(f"Error in developer-specific search: {e}")
@@ -1241,8 +1311,37 @@ class CardGenPipeline:
                     f'{developer_name} {model_name} company site'
                 ])
             
-            # Web search not available - using fallback method
-            print("Web search not available for official sources discovery")
+            # Use web_search function for official sources discovery
+            try:
+                from utils.web_search import web_search, is_web_search_available
+                
+                if not is_web_search_available():
+                    print("Web search not available for official sources discovery")
+                    return results
+                
+                for query in search_queries:
+                    try:
+                        search_result = await web_search(query, max_results=3)
+                        for result in search_result:
+                            results.append({
+                                'url': result.get('url', ''),
+                                'title': result.get('title', ''),
+                                'snippet': result.get('snippet', ''),
+                                'source_type': 'web_search',
+                                'discovery_method': 'web_search',
+                                'relevance_score': 0.8,
+                                'query_used': query
+                            })
+                        
+                        # Small delay between searches
+                        await asyncio.sleep(0.5)
+                        
+                    except Exception as e:
+                        print(f"Web search failed for '{query}': {e}")
+                        continue
+                        
+            except ImportError:
+                print("Web search not available for official sources discovery")
                     
         except Exception as e:
             print(f"Error in general web search: {e}")
