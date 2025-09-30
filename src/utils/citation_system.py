@@ -154,7 +154,7 @@ class FieldCitation:
             title=source_title,
             url=source_url,
             source_type=source_type,
-            priority_score=SourcePriority.get_source_priority(source_type) if 'SourcePriority' in globals() else 5.0,
+            priority_score=5.0,  # Default priority score
             extracted_content=extracted_text
         )
         self.cite_field(field_name, source_id)
@@ -288,13 +288,4 @@ class FieldCitation:
         }
 
 
-# Minimal SourcePriority implementation for backward compatibility
-class SourcePriority:
-    @staticmethod
-    def get_source_priority(source_type: str) -> float:
-        priorities = {
-            'fda_approval': 9.5, 'pubmed_paper': 8.5, 'github_repo': 6.5,
-            'huggingface_model': 7.5, 'official_website': 8.0,
-            'documentation': 7.0, 'unknown': 5.0
-        }
-        return priorities.get(source_type, 5.0)
+# SourcePriority implementation moved to cardgen_pipeline.py

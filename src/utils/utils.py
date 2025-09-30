@@ -8,17 +8,15 @@ assessment, and medical domain detection capabilities.
 
 HOW IT WORKS:
 - Text cleaning and normalization functions
-- URL extraction and validation
 - Medical domain detection and categorization
-- Content quality assessment and filtering
-- Model name and data validation utilities
+- Performance metrics extraction
+- Academic reference extraction
 
 KEY FUNCTIONS:
 - clean_text(): Removes artifacts and normalizes text content
-- extract_urls_from_text(): Finds and validates URLs in content
 - is_medical_domain(): Identifies medical/healthcare domains
-- assess_content_quality(): Evaluates content relevance and quality
-- validate_model_name(): Ensures model names meet requirements
+- extract_metrics_keywords(): Extracts performance metrics from text
+- extract_references_from_text(): Extracts academic references and citations
 
 USAGE:
 from utils import clean_text, is_medical_domain
@@ -48,96 +46,8 @@ def clean_text(text: str) -> str:
     return text.strip()
 
 
-def extract_urls_from_text(text: str) -> List[str]:
-    """Extract URLs from text content"""
-    url_pattern = r'https?://[^\s<>"{}|\\^`\[\]]+[^\s<>"{}|\\^`\[\].,;:!?]'
-    urls = re.findall(url_pattern, text)
-    
-    # Filter out common false positives
-    filtered_urls = []
-    for url in urls:
-        if not any(exclude in url.lower() for exclude in [
-            'javascript:', 'mailto:', 'tel:', '#', 'data:',
-            'facebook.com', 'twitter.com', 'linkedin.com'
-        ]):
-            filtered_urls.append(url)
-    
-    return list(set(filtered_urls))  # Remove duplicates
 
 
-def is_valid_model_name(name: str) -> bool:
-    """Validate if a string is a reasonable model name"""
-    if not name or len(name) < 2:
-        return False
-    
-    # Check for common invalid patterns
-    invalid_patterns = [
-        r'^[0-9]+$',  # Only numbers
-        r'^[^a-zA-Z]*$',  # No letters
-        r'test|example|sample|demo|placeholder',  # Test names
-    ]
-    
-    for pattern in invalid_patterns:
-        if re.search(pattern, name, re.IGNORECASE):
-            return False
-    
-    return True
-
-
-def extract_version_from_text(text: str) -> Optional[str]:
-    """Extract version information from text"""
-    version_patterns = [
-        r'version[:\s]+([v]?[\d\.]+[\w\-]*)',
-        r'v(\d+\.[\d\.]+[\w\-]*)',
-        r'release[:\s]+([v]?[\d\.]+[\w\-]*)',
-        r'(\d+\.[\d\.]+[\w\-]*)\s*release',
-    ]
-    
-    for pattern in version_patterns:
-        match = re.search(pattern, text, re.IGNORECASE)
-        if match:
-            version = match.group(1)
-            # Clean up version string
-            version = re.sub(r'^v', '', version, flags=re.IGNORECASE)
-            return version
-    
-    return None
-
-
-def extract_dates_from_text(text: str) -> List[str]:
-    """Extract dates from text in various formats"""
-    date_patterns = [
-        r'\b(\d{4}[-/]\d{2}[-/]\d{2})\b',  # YYYY-MM-DD or YYYY/MM/DD
-        r'\b(\d{2}[-/]\d{2}[-/]\d{4})\b',  # MM-DD-YYYY or MM/DD/YYYY
-        r'\b([A-Za-z]+\s+\d{1,2},?\s+\d{4})\b',  # Month DD, YYYY
-        r'\b(\d{1,2}\s+[A-Za-z]+\s+\d{4})\b',  # DD Month YYYY
-        r'\b(\d{4})\b',  # Just year
-    ]
-    
-    dates = []
-    for pattern in date_patterns:
-        matches = re.findall(pattern, text)
-        dates.extend(matches)
-    
-    return list(set(dates))
-
-
-def normalize_developer_name(name: str) -> str:
-    """Normalize developer/organization names for consistency"""
-    if not name:
-        return ""
-    
-    # Remove common suffixes/prefixes
-    name = re.sub(r'\b(Inc\.?|Corp\.?|LLC|Ltd\.?|Co\.?|Company)\b', '', name, flags=re.IGNORECASE)
-    
-    # Clean up whitespace
-    name = re.sub(r'\s+', ' ', name.strip())
-    
-    # Capitalize properly
-    if name.islower() or name.isupper():
-        name = name.title()
-    
-    return name
 
 
 def extract_metrics_keywords(text: str) -> Dict[str, List[str]]:
@@ -186,17 +96,6 @@ def extract_metrics_keywords(text: str) -> Dict[str, List[str]]:
     return {k: list(set(v)) for k, v in metrics.items() if v}  # Remove duplicates
 
 
-def format_timestamp() -> str:
-    """Get formatted timestamp for documentation"""
-    return datetime.now().strftime("%Y-%m-%d %H:%M:%S UTC")
-
-
-def truncate_text(text: str, max_length: int = 200, suffix: str = "...") -> str:
-    """Truncate text to specified length with suffix"""
-    if not text or len(text) <= max_length:
-        return text
-    
-    return text[:max_length - len(suffix)] + suffix
 
 
 def is_medical_domain(url: str) -> bool:
@@ -213,25 +112,6 @@ def is_medical_domain(url: str) -> bool:
     return any(domain in url_lower for domain in medical_domains)
 
 
-def extract_dermatology_keywords(text: str) -> List[str]:
-    """Extract dermatology-specific keywords from text"""
-    derm_keywords = [
-        'dermatology', 'skin', 'melanoma', 'lesion', 'dermoscopy',
-        'mole', 'cancer', 'carcinoma', 'pigmented', 'nevus',
-        'basal cell', 'squamous cell', 'actinic keratosis',
-        'psoriasis', 'eczema', 'dermatitis', 'rash',
-        'seborrheic keratosis', 'hemangioma', 'solar lentigo',
-        'wound', 'scar', 'biopsy', 'diagnosis', 'detection'
-    ]
-    
-    found_keywords = []
-    text_lower = text.lower()
-    
-    for keyword in derm_keywords:
-        if keyword in text_lower:
-            found_keywords.append(keyword)
-    
-    return list(set(found_keywords))
 
 
 def extract_references_from_text(text: str) -> List[Dict[str, str]]:
@@ -285,29 +165,3 @@ def extract_references_from_text(text: str) -> List[Dict[str, str]]:
     
     return references
 
-
-def calculate_content_quality_score(content: str) -> float:
-    """Calculate a quality score for extracted content (0-1)"""
-    if not content:
-        return 0.0
-    
-    score = 0.0
-    
-    # Length factor (longer content generally better, up to a point)
-    length_score = min(len(content) / 1000, 1.0) * 0.3
-    score += length_score
-    
-    # Medical terminology factor
-    medical_terms = ['clinical', 'study', 'validation', 'accuracy', 'performance',
-                    'evaluation', 'dataset', 'training', 'testing', 'results']
-    medical_count = sum(1 for term in medical_terms if term in content.lower())
-    medical_score = min(medical_count / len(medical_terms), 1.0) * 0.4
-    score += medical_score
-    
-    # Structure factor (presence of structured information)
-    structure_indicators = [':' in content, '=' in content, '%' in content,
-                          'http' in content, len(content.split('\n')) > 3]
-    structure_score = sum(structure_indicators) / len(structure_indicators) * 0.3
-    score += structure_score
-    
-    return min(score, 1.0)
