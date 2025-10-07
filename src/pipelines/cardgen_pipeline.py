@@ -2170,12 +2170,12 @@ class CardGenPipeline:
         self._user_provided_developer = bool(developer_name and developer_name.strip())
         if self._user_provided_developer:
             # PRIORITY: Use exact user input when provided
-            chai_card.model_developer = developer_name.strip()
-            print(f"✓ Developer set from user input: {chai_card.model_developer}")
+            chai_card.developer = developer_name.strip()
+            print(f"✓ Developer set from user input: {chai_card.developer}")
         else:
             # Fallback to automatic identification only when no user input
             developer_info = self._identify_model_developer(model_name, extracted_content)
-            chai_card.model_developer = developer_info
+            chai_card.developer = developer_info
         
         # PRIORITY: Populate basic metadata first with enhanced logic
         self._populate_basic_metadata_priority(chai_card, extracted_content)
@@ -2194,19 +2194,19 @@ class CardGenPipeline:
             chai_card.model_name = model_name
         
         # Ensure developer name matches user input if provided
-        if self._user_provided_developer and chai_card.model_developer != developer_name.strip():
-            print(f"WARNING: Developer name was changed from '{developer_name.strip()}' to '{chai_card.model_developer}' - reverting to user input")
-            chai_card.model_developer = developer_name.strip()
+        if self._user_provided_developer and chai_card.developer != developer_name.strip():
+            print(f"WARNING: Developer name was changed from '{developer_name.strip()}' to '{chai_card.developer}' - reverting to user input")
+            chai_card.developer = developer_name.strip()
         
         # Enhanced Release Information from specialized extraction
         release_info = self._extract_release_information_from_sources(extracted_content)
         if release_info:
-            chai_card.model_software_release_stage = release_info.get('stage', 'Not specified')
+            chai_card.release_stage = release_info.get('stage', 'Not specified')
             chai_card.release_date = release_info.get('release_date', 'Not specified')
-            chai_card.model_version = release_info.get('version', 'Not specified')
+            chai_card.version = release_info.get('version', 'Not specified')
             chai_card.geographic_availability = release_info.get('availability', 'Not specified')
-            if not chai_card.regulatory_approval_status:
-                chai_card.regulatory_approval_status = release_info.get('regulatory_status', 'Not specified')
+            if not chai_card.regulatory_approval_status_if_applicable:
+                chai_card.regulatory_approval_status_if_applicable = release_info.get('regulatory_status', 'Not specified')
         
         # Generate comprehensive sources summary
         chai_card.sources_summary = self._generate_sources_summary(extracted_content)
@@ -2351,7 +2351,7 @@ class CardGenPipeline:
         
         chai_card.model_type = ai_analysis.get('model_type', self._generate_model_type_description(all_text, model_name))
         chai_card.input_data_source = self._generate_input_data_source(all_text, model_name)
-        chai_card.output_and_input_data_types = self._generate_data_types_description(all_text, model_name)
+        chai_card.output_input_data_type = self._generate_data_types_description(all_text, model_name)
         chai_card.development_data_characterization = self._generate_development_data_characterization(all_text, model_name)
         
         # Enhanced bias analysis using AI
@@ -2378,9 +2378,9 @@ class CardGenPipeline:
             if ai_facts.get('outcomes_outputs'):
                 chai_card.outcomes_and_outputs = ai_facts['outcomes_outputs']
             if ai_facts.get('foundation_models'):
-                chai_card.foundation_models_used = ai_facts['foundation_models']
+                chai_card.foundation_models_used_in_application_if_applicable = ai_facts['foundation_models']
             if ai_facts.get('data_types'):
-                chai_card.output_and_input_data_types = ai_facts['data_types']
+                chai_card.output_input_data_type = ai_facts['data_types']
             
             # Enhanced bias mitigation from AI extraction
             if trust_info.get('bias_mitigation'):
@@ -2434,7 +2434,7 @@ class CardGenPipeline:
             chai_card.evaluation_references = evaluation_refs
         
         # Transparency
-        chai_card.transparency = "Model card generated using automated CardGen pipeline with multi-source data extraction and AI-powered content analysis"
+        chai_card.transparency_information = "Model card generated using automated CardGen pipeline with multi-source data extraction and AI-powered content analysis"
         
         # Set source citations if available for footnote-style citations
         if hasattr(self, 'citations'):
@@ -2456,9 +2456,9 @@ class CardGenPipeline:
             print(f"CRITICAL: Final verification failed - model name '{chai_card.model_name}' != user input '{model_name}' - forcing correction")
             chai_card.model_name = model_name
         
-        if self._user_provided_developer and chai_card.model_developer != developer_name.strip():
-            print(f"CRITICAL: Final verification failed - developer name '{chai_card.model_developer}' != user input '{developer_name.strip()}' - forcing correction")
-            chai_card.model_developer = developer_name.strip()
+        if self._user_provided_developer and chai_card.developer != developer_name.strip():
+            print(f"CRITICAL: Final verification failed - developer name '{chai_card.developer}' != user input '{developer_name.strip()}' - forcing correction")
+            chai_card.developer = developer_name.strip()
         
         print(f"✅ Model card generated with model name: '{chai_card.model_name}' (verified to match user input)")
         
@@ -2584,10 +2584,10 @@ class CardGenPipeline:
                     chai_card.contact = best_metadata
                     basic_metadata_utilization_count += 1
                 elif field_name == 'funding_source' and not getattr(chai_card, 'funding_source', ''):
-                    chai_card.funding_source = best_metadata
+                    chai_card.funding_source_of_the_technical_implementation = best_metadata
                     basic_metadata_utilization_count += 1
                 elif field_name == 'regulatory_approval_status' and not getattr(chai_card, 'regulatory_approval_status', ''):
-                    chai_card.regulatory_approval_status = best_metadata
+                    chai_card.regulatory_approval_status_if_applicable = best_metadata
                     basic_metadata_utilization_count += 1
         
         print(f"Basic Metadata Utilization: {basic_metadata_utilization_count} fields populated from basic metadata")
@@ -2648,17 +2648,17 @@ class CardGenPipeline:
                     display_value = str(best_value)[:50] if best_value else "Not specified"
                     print(f"  ✓ Populated {field}: {display_value}...")
                 elif field == 'model_software_release_stage' and best_value != "Not specified":
-                    chai_card.model_software_release_stage = best_value
+                    chai_card.release_stage = best_value
                     populated_count += 1
                     display_value = str(best_value)[:50] if best_value else "Not specified"
                     print(f"  ✓ Populated {field}: {display_value}...")
                 elif field == 'geographic_availability' and best_value != "Not specified":
-                    chai_card.geographic_availability = best_value
+                    chai_card.global_availability = best_value
                     populated_count += 1
                     display_value = str(best_value)[:50] if best_value else "Not specified"
                     print(f"  ✓ Populated {field}: {display_value}...")
                 elif field == 'inquiries_support' and best_value != "Not specified":
-                    chai_card.inquiries_support = best_value
+                    chai_card.inquiries_or_to_report_an_issue = best_value
                     populated_count += 1
                     display_value = str(best_value)[:50] if best_value else "Not specified"
                     print(f"  ✓ Populated {field}: {display_value}...")
@@ -2681,14 +2681,14 @@ class CardGenPipeline:
                     else:
                         chai_card.keywords.append(str(best_value))
                 elif field == 'doi_of_dataset_used' and best_value != "Not specified":
-                    chai_card.doi_of_dataset_used = best_value
+                    chai_card.dataset_doi_if_applicable = best_value
                 elif field == 'funding_source' and best_value != "Not specified":
-                    chai_card.funding_source = best_value
+                    chai_card.funding_source_of_the_technical_implementation = best_value
                     populated_count += 1
                     display_value = str(best_value)[:50] if best_value else "Not specified"
                     print(f"  ✓ Populated {field}: {display_value}...")
                 elif field == 'regulatory_approval_status' and best_value != "Not specified":
-                    chai_card.regulatory_approval_status = best_value
+                    chai_card.regulatory_approval_status_if_applicable = best_value
                     populated_count += 1
                     display_value = str(best_value)[:50] if best_value else "Not specified"
                     print(f"  ✓ Populated {field}: {display_value}...")
@@ -2720,13 +2720,13 @@ class CardGenPipeline:
         if 'exclusion_inclusion_criteria' in all_missing_fields:
             chai_card.exclusion_inclusion_criteria = all_missing_fields['exclusion_inclusion_criteria'][0]['value']
         if 'demographics' in all_missing_fields:
-            chai_card.demographics = all_missing_fields['demographics'][0]['value']
+            chai_card.demographic_representativeness = all_missing_fields['demographics'][0]['value']
         if 'development_data_characterization' in all_missing_fields:
             chai_card.development_data_characterization = all_missing_fields['development_data_characterization'][0]['value']
         if 'training_data' in all_missing_fields:
             chai_card.training_data = all_missing_fields['training_data'][0]['value']
         if 'dataset' in all_missing_fields:
-            chai_card.dataset = all_missing_fields['dataset'][0]['value']
+            chai_card.dataset_doi_if_applicable = all_missing_fields['dataset'][0]['value']
         if 'dataset_transparency' in all_missing_fields:
             chai_card.dataset_transparency = all_missing_fields['dataset_transparency'][0]['value']
         if 'validation_test_dataset' in all_missing_fields:
@@ -2734,41 +2734,41 @@ class CardGenPipeline:
         if 'timeline_data_collection' in all_missing_fields:
             chai_card.timeline_data_collection = all_missing_fields['timeline_data_collection'][0]['value']
         if 'derm_specific' in all_missing_fields:
-            chai_card.derm_specific = all_missing_fields['derm_specific'][0]['value']
+            chai_card.skin_tone_diversity = all_missing_fields['derm_specific'][0]['value']
         
         # Ethical and Governance Fields
         if 'ethical_review_conducted' in all_missing_fields:
-            chai_card.data_collection_ethical_review = all_missing_fields['ethical_review_conducted'][0]['value']
+            chai_card.did_the_data_collection_process_undergo_ethical_review = all_missing_fields['ethical_review_conducted'][0]['value']
         if 'ethical_review_board_oversight' in all_missing_fields:
             chai_card.ethical_review_board_oversight = all_missing_fields['ethical_review_board_oversight'][0]['value']
         if 'irb_approval' in all_missing_fields:
             chai_card.irb_approval = all_missing_fields['irb_approval'][0]['value']
         if 'relevance_training_data' in all_missing_fields:
-            chai_card.relevance_training_data_to_intended_population = all_missing_fields['relevance_training_data'][0]['value']
+            chai_card.relevance_of_training_data_to_intended_population = all_missing_fields['relevance_training_data'][0]['value']
         if 'bias_mitigation' in all_missing_fields:
             chai_card.bias_mitigation_approaches = all_missing_fields['bias_mitigation'][0]['value']
         if 'ongoing_maintenance' in all_missing_fields:
             chai_card.ongoing_maintenance = all_missing_fields['ongoing_maintenance'][0]['value']
         if 'transparency' in all_missing_fields:
-            chai_card.transparency = all_missing_fields['transparency'][0]['value']
+            chai_card.transparency_information = all_missing_fields['transparency'][0]['value']
         if 'stakeholders' in all_missing_fields:
-            chai_card.stakeholders_consulted = all_missing_fields['stakeholders'][0]['value']
+            chai_card.stakeholders_consulted_during_design_of_solution = all_missing_fields['stakeholders'][0]['value']
         if 'third_party_info' in all_missing_fields:
-            chai_card.third_party_evaluations = all_missing_fields['third_party_info'][0]['value']
+            chai_card.third_party_information_if_applicable = all_missing_fields['third_party_info'][0]['value']
         
         # Technical and Compliance Fields
         if 'foundation_models_used' in all_missing_fields:
             foundation_models = all_missing_fields['foundation_models_used'][0]['value']
             if isinstance(foundation_models, list):
-                chai_card.foundation_models_used = foundation_models
+                chai_card.foundation_models_used_in_application_if_applicable = foundation_models
             else:
-                chai_card.foundation_models_used = [foundation_models]
+                chai_card.foundation_models_used_in_application_if_applicable = [foundation_models]
         if 'security_compliance' in all_missing_fields:
-            chai_card.security_compliance = all_missing_fields['security_compliance'][0]['value']
+            chai_card.security_and_compliance_environment_practices_or_accreditations_if_applicable = all_missing_fields['security_compliance'][0]['value']
         if 'funding_source' in all_missing_fields:
-            chai_card.funding_source = all_missing_fields['funding_source'][0]['value']
+            chai_card.funding_source_of_the_technical_implementation = all_missing_fields['funding_source'][0]['value']
         if 'regulatory_approval_status' in all_missing_fields:
-            chai_card.regulatory_approval_status = all_missing_fields['regulatory_approval_status'][0]['value']
+            chai_card.regulatory_approval_status_if_applicable = all_missing_fields['regulatory_approval_status'][0]['value']
         if 'privacy_security_protocols' in all_missing_fields:
             chai_card.privacy_security_protocols = all_missing_fields['privacy_security_protocols'][0]['value']
         
@@ -3643,26 +3643,26 @@ class CardGenPipeline:
                 best_value = candidates[0]['value']
                 
                 # Map to CHAI model card fields (respect user input for developer)
-                if field_name == 'model_developer' and not chai_card.model_developer:
+                if field_name == 'model_developer' and not chai_card.developer:
                     # Only auto-populate if user didn't provide developer name
                     if not hasattr(self, '_user_provided_developer') or not self._user_provided_developer:
-                        chai_card.model_developer = best_value
+                        chai_card.developer = best_value
                         populated_count += 1
-                        print(f"  ✓ Populated model_developer: {best_value}")
+                        print(f"  ✓ Populated developer: {best_value}")
                     else:
-                        print(f"  → Skipped model_developer (user provided: {chai_card.model_developer})")
-                elif field_name == 'developer_organization' and not chai_card.developer_organization:
-                    chai_card.developer_organization = best_value
+                        print(f"  → Skipped developer (user provided: {chai_card.developer})")
+                elif field_name == 'developer_organization' and not chai_card.developer:
+                    chai_card.developer = best_value
                     populated_count += 1
-                    print(f"  ✓ Populated developer_organization: {best_value}")
+                    print(f"  ✓ Populated developer: {best_value}")
                 elif field_name == 'release_date' and not chai_card.release_date:
                     chai_card.release_date = best_value
                     populated_count += 1
                     print(f"  ✓ Populated release_date: {best_value}")
-                elif field_name == 'model_version' and not chai_card.model_version:
-                    chai_card.model_version = best_value
+                elif field_name == 'model_version' and not chai_card.version:
+                    chai_card.version = best_value
                     populated_count += 1
-                    print(f"  ✓ Populated model_version: {best_value}")
+                    print(f"  ✓ Populated version: {best_value}")
                 elif field_name == 'contact' and not chai_card.contact:
                     chai_card.contact = best_value
                     populated_count += 1
@@ -3675,8 +3675,8 @@ class CardGenPipeline:
                     chai_card.regulatory_approval_status = best_value
                     populated_count += 1
                     print(f"  ✓ Populated regulatory_approval_status: {best_value}")
-                elif field_name == 'funding_source' and not chai_card.funding_source:
-                    chai_card.funding_source = best_value
+                elif field_name == 'funding_source' and not chai_card.funding_source_of_the_technical_implementation:
+                    chai_card.funding_source_of_the_technical_implementation = best_value
                     populated_count += 1
                     print(f"  ✓ Populated funding_source: {best_value}")
         

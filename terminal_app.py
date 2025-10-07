@@ -130,9 +130,9 @@ def display_model_card(chai_card):
     
     # Basic information
     print(f"\n🤖 Model: {chai_card.model_name}")
-    print(f"🏢 Developer: {chai_card.developer_organization}")
-    print(f"📅 Version: {chai_card.model_version or 'Not specified'}")
-    print(f"📊 Release Stage: {chai_card.model_software_release_stage or 'Not specified'}")
+    print(f"🏢 Developer: {chai_card.developer}")
+    print(f"📅 Version: {chai_card.version or 'Not specified'}")
+    print(f"📊 Release Stage: {chai_card.release_stage or 'Not specified'}")
     
     # Summary
     if chai_card.summary:
@@ -169,9 +169,9 @@ def display_model_card(chai_card):
         print(f"\n👥 Primary Users:")
         print(f"   {chai_card.primary_intended_users}")
     
-    if hasattr(chai_card, 'bias_mitigation') and chai_card.bias_mitigation:
+    if hasattr(chai_card, 'bias_mitigation_approaches') and chai_card.bias_mitigation_approaches:
         print(f"\n⚖️ Bias Mitigation:")
-        print(f"   {chai_card.bias_mitigation}")
+        print(f"   {chai_card.bias_mitigation_approaches}")
     
     # Model type and technical details
     if hasattr(chai_card, 'model_type') and chai_card.model_type:

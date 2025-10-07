@@ -200,12 +200,12 @@ class AIContentExtractor:
     
     # Field name canonicalization mapping
     FIELD_MAPPING = {
-        'developer': 'model_developer',
-        'outcomes_outputs': 'outcomes_and_outputs',
-        'regulatory_status': 'regulatory_approval_status',
+        'developer': 'developer',
+        'outcomes_outputs': 'outcomes_and_output',
+        'regulatory_status': 'regulatory_approval_status_if_applicable',
         'website': 'contact',
-        'organization': 'developer_organization',
-        'version': 'model_version'
+        'organization': 'developer',
+        'version': 'version'
     }
     
     def __init__(self, client=None):
