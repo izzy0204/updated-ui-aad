@@ -1,280 +1,282 @@
 #!/usr/bin/env python3
 """
-Terminal-based AI Model Card Generator
-This script provides a command-line interface for generating model cards.
+Terminal-based AI Model Card Generator (updated)
+
+- Uses CardGenPipeline.generate_model_card(...)
+- Works with GOOGLE_API_KEY (preferred) or GEMINI_API_KEY
+- Prints a concise summary of the CHAI model card
+- Shows where artifacts were written (JSON/MD/XML/Citations)
+
+Run:
+  python terminal_app.py --model-name "DermNetX" --developer "ACME Health"
 """
 
+from __future__ import annotations
+
 import asyncio
-import sys
 import os
+import sys
 from pathlib import Path
-from dotenv import load_dotenv
+import argparse
+from typing import Any, Optional
 
-# Load environment variables from .env file
-load_dotenv()
+# Add src/ to the path so local packages import cleanly
+CURRENT_DIR = Path(__file__).parent
+SRC_DIR = CURRENT_DIR / "src"
+if str(SRC_DIR) not in sys.path:
+    sys.path.insert(0, str(SRC_DIR))
 
-# Add src directory to path for imports
-current_dir = Path(__file__).parent
-src_path = current_dir / "src"
-sys.path.insert(0, str(src_path))
+from src.pipelines.cardgen_pipeline import CardGenPipeline  # noqa: E402
+from src.core.chai_schema import CHAIModelCard              # noqa: E402
 
-from pipelines.cardgen_pipeline import CardGenPipeline
-from core.chai_schema import CHAIModelCard
-from ai_extractors.ai_extractor import RateLimitExceededError, QuotaExceededError
 
-def print_header():
-    """Print application header"""
+# ----------------------------- UI helpers -----------------------------
+
+def print_header() -> None:
     print("=" * 60)
-    print("🏥 AI MODEL CARD GENERATOR - TERMINAL VERSION")
+    print("🏥 AI MODEL CARD GENERATOR — TERMINAL")
     print("=" * 60)
-    print("Generate professional model cards for dermatology AI models")
-    print()
+    print("Generate CHAI-aligned model cards for dermatology AI models.\n")
 
-def get_user_input():
-    """Get input from user"""
-    print("📝 Please provide the following information:")
-    print()
-    
-    model_name = input("🤖 Model Name: ").strip()
-    if not model_name:
-        print("❌ Model name is required!")
-        return None, None
-    
-    developer_name = input("🏢 Developer/Organization (optional): ").strip()
-    
-    return model_name, developer_name
 
-def print_progress(message):
-    """Print progress message"""
-    print(f"⏳ {message}")
+def ok(msg: str) -> None:
+    print(f"✅ {msg}")
 
-def print_success(message):
-    """Print success message"""
-    print(f"✅ {message}")
 
-def print_error(message):
-    """Print error message"""
-    print(f"❌ {message}")
+def info(msg: str) -> None:
+    print(f"⏳ {msg}")
 
-def print_sources_used(chai_card):
-    """Print detailed information about sources used for the model card"""
+
+def warn(msg: str) -> None:
+    print(f"⚠️  {msg}")
+
+
+def err(msg: str) -> None:
+    print(f"❌ {msg}")
+
+
+# ----------------------------- Content helpers -----------------------------
+
+def _safe_get(obj: Any, name: str, default: str = "") -> str:
+    try:
+        v = getattr(obj, name, default)
+        if v is None:
+            return default
+        if isinstance(v, list):
+            return ", ".join(str(x).strip() for x in v if str(x).strip())
+        return str(v).strip()
+    except Exception:
+        return default
+
+
+def _print_if(value: str, title: str) -> None:
+    if value and value.strip() and value.strip().lower() != "not specified":
+        print(f"   {title}: {value}")
+
+
+def print_card_summary(card: CHAIModelCard) -> None:
+    """Pretty-print a concise summary using common CHAI fields (safe if missing)."""
     print("\n" + "=" * 60)
-    print("📚 SOURCES USED FOR MODEL CARD GENERATION")
+    print("📋 GENERATED MODEL CARD (summary)")
     print("=" * 60)
-    
-    # Extract source information
-    sources_summary = getattr(chai_card, 'sources_summary', {}) or {}
-    extraction_summary = getattr(chai_card, 'extraction_summary', {}) or {}
-    source_citations = getattr(chai_card, 'source_citations', {}) or {}
-    
-    # Display source counts
-    if extraction_summary.get('sources_discovered'):
-        source_counts = extraction_summary['sources_discovered']
-        print(f"\n📊 Source Discovery Summary:")
-        print(f"   Total sources found: {source_counts.get('total', 0)}")
-        if source_counts.get('huggingface', 0) > 0:
-            print(f"   • HuggingFace: {source_counts['huggingface']}")
-        if source_counts.get('github', 0) > 0:
-            print(f"   • GitHub: {source_counts['github']}")
-        if source_counts.get('pubmed', 0) > 0:
-            print(f"   • PubMed: {source_counts['pubmed']}")
-        if source_counts.get('arxiv', 0) > 0:
-            print(f"   • arXiv: {source_counts['arxiv']}")
-        if source_counts.get('websites', 0) > 0:
-            print(f"   • Websites: {source_counts['websites']}")
-    
-    # Display extraction statistics
-    if extraction_summary:
-        print(f"\n📈 Content Extraction:")
-        print(f"   Content extracted from: {extraction_summary.get('content_extracted', 0)} sources")
-        print(f"   Success rate: {extraction_summary.get('success_rate', 'N/A')}")
-        print(f"   Source types analyzed: {extraction_summary.get('source_types_analyzed', 0)}")
-    
-    # Display detailed source citations
-    if source_citations:
-        print(f"\n🔗 Detailed Source Citations:")
-        citation_count = 0
-        for field_name, citations in source_citations.items():
-            if citations and isinstance(citations, list):
-                citation_count += len(citations)
-                print(f"\n   📝 {field_name.replace('_', ' ').title()}:")
-                for i, citation in enumerate(citations[:3], 1):  # Show max 3 citations per field
-                    if isinstance(citation, dict):
-                        title = citation.get('title', 'Unknown Title')
-                        url = citation.get('url', '')
-                        source_type = citation.get('type', 'web')
-                        print(f"      {i}. {title}")
-                        print(f"         URL: {url}")
-                        print(f"         Type: {source_type}")
-        
-        if citation_count > 0:
-            print(f"\n   Total citations: {citation_count}")
-    
-    # Display sources summary if available
-    if sources_summary and isinstance(sources_summary, dict):
-        print(f"\n📋 Sources Summary:")
-        if sources_summary.get('total_analyzed'):
-            print(f"   Sources analyzed: {sources_summary['total_analyzed']}")
-        if sources_summary.get('successes'):
-            print(f"   Successful extractions: {sources_summary['successes']}")
-        if sources_summary.get('success_ratio'):
-            print(f"   Success ratio: {sources_summary['success_ratio']:.1%}")
-    
-    print(f"\n💡 All information in this model card was extracted from the sources listed above.")
 
-def display_model_card(chai_card):
-    """Display the generated model card"""
-    print("\n" + "=" * 60)
-    print("📋 GENERATED MODEL CARD")
-    print("=" * 60)
-    
-    # Basic information
-    print(f"\n🤖 Model: {chai_card.model_name}")
-    print(f"🏢 Developer: {chai_card.developer}")
-    print(f"📅 Version: {chai_card.version or 'Not specified'}")
-    print(f"📊 Release Stage: {chai_card.release_stage or 'Not specified'}")
-    
+    # Headline
+    model_name = _safe_get(card, "model_name", "Unknown model")
+    developer = _safe_get(card, "developer", "Not specified")
+    print(f"\n🤖 Model: {model_name}")
+    print(f"🏢 Developer: {developer}")
+
+    # Metadata
+    version = _safe_get(card, "version")
+    release_stage = _safe_get(card, "release_stage")
+    release_date = _safe_get(card, "release_date")
+    _print_if(version, "Version")
+    _print_if(release_stage, "Release Stage")
+    _print_if(release_date, "Release Date")
+
     # Summary
-    if chai_card.summary:
-        print(f"\n📝 Summary:")
-        print(f"   {chai_card.summary}")
-    
-    # Performance metrics
-    if hasattr(chai_card, 'performance_metrics') and chai_card.performance_metrics:
-        print(f"\n📈 Performance Metrics:")
-        for metric in chai_card.performance_metrics:
-            print(f"   • {metric}")
-    
-    # Dataset information
-    if hasattr(chai_card, 'dataset_description') and chai_card.dataset_description:
-        print(f"\n📊 Dataset:")
-        print(f"   {chai_card.dataset_description}")
-    
-    # Clinical oversight
-    if hasattr(chai_card, 'clinical_oversight') and chai_card.clinical_oversight:
-        print(f"\n👨‍⚕️ Clinical Oversight:")
-        print(f"   {chai_card.clinical_oversight}")
-    
-    # Regulatory information
-    if hasattr(chai_card, 'regulatory_approval') and chai_card.regulatory_approval:
-        print(f"\n🏛️ Regulatory Approval:")
-        print(f"   {chai_card.regulatory_approval}")
-    
-    # Additional fields
-    if hasattr(chai_card, 'intended_use_and_workflow') and chai_card.intended_use_and_workflow:
-        print(f"\n🎯 Intended Use:")
-        print(f"   {chai_card.intended_use_and_workflow}")
-    
-    if hasattr(chai_card, 'primary_intended_users') and chai_card.primary_intended_users:
-        print(f"\n👥 Primary Users:")
-        print(f"   {chai_card.primary_intended_users}")
-    
-    if hasattr(chai_card, 'bias_mitigation_approaches') and chai_card.bias_mitigation_approaches:
-        print(f"\n⚖️ Bias Mitigation:")
-        print(f"   {chai_card.bias_mitigation_approaches}")
-    
-    # Model type and technical details
-    if hasattr(chai_card, 'model_type') and chai_card.model_type:
-        print(f"\n🔧 Model Type:")
-        print(f"   {chai_card.model_type}")
-    
-    # Contact information
-    if hasattr(chai_card, 'contact') and chai_card.contact:
-        print(f"\n📞 Contact:")
-        print(f"   {chai_card.contact}")
-    
-    # Geographic availability
-    if hasattr(chai_card, 'geographic_availability') and chai_card.geographic_availability:
-        print(f"\n🌍 Geographic Availability:")
-        print(f"   {chai_card.geographic_availability}")
-    
-    # Release date
-    if hasattr(chai_card, 'release_date') and chai_card.release_date:
-        print(f"\n📅 Release Date:")
-        print(f"   {chai_card.release_date}")
-    
-    print(f"\n✅ Model card generation completed successfully!")
-    
-    # Display sources used
-    print_sources_used(chai_card)
+    summary = _safe_get(card, "summary")
+    if summary:
+        print("\n📝 Summary:")
+        print("   " + summary.replace("\n", "\n   "))
 
-def save_model_card(chai_card):
-    """Save model card to file"""
-    try:
-        # Save to JSON file using the model card's built-in method
-        filename = f"model_card_{chai_card.model_name.replace(' ', '_').lower()}.json"
-        with open(filename, 'w', encoding='utf-8') as f:
-            f.write(chai_card.to_json())
-        
-        print_success(f"Model card saved to: {filename}")
-        return filename
-        
-    except Exception as e:
-        print_error(f"Failed to save model card: {str(e)}")
-        return None
+    # Use & workflow
+    intended_use = _safe_get(card, "intended_use_and_workflow")
+    primary_users = _safe_get(card, "primary_intended_users")
+    how_to_use = _safe_get(card, "how_to_use")
+    if intended_use or primary_users or how_to_use:
+        print("\n🎯 Intended Use:")
+        _print_if(intended_use, "Workflow")
+        _print_if(primary_users, "Primary Users")
+        _print_if(how_to_use, "How to Use")
 
-async def main():
-    """Main application function"""
+    # Technical
+    model_type = _safe_get(card, "model_type")
+    foundation_models = _safe_get(card, "foundation_models_used_in_application_if_applicable")
+    _print_if(model_type, "Model Type")
+    _print_if(foundation_models, "Foundation Models")
+
+    # Data
+    training_data = _safe_get(card, "training_data")
+    validation_ds = _safe_get(card, "validation_test_dataset")
+    skin_tones = _safe_get(card, "skin_tone_diversity")
+    _print_if(training_data, "Training Data")
+    _print_if(validation_ds, "Validation/Test Dataset")
+    _print_if(skin_tones, "Skin Tone Diversity")
+
+    # Limitations / risk
+    limitations = _safe_get(card, "model_limitations")
+    clinical_risk = _safe_get(card, "clinical_risk_level")
+    if limitations or clinical_risk:
+        print("\n⚠️  Limitations & Risk:")
+        _print_if(limitations, "Limitations")
+        _print_if(clinical_risk, "Clinical Risk Level")
+
+
+def print_sources_summary(sources: dict) -> None:
+    """Show a small digest of discovery + enrichment."""
+    print("\n" + "=" * 60)
+    print("📚 SOURCES / DISCOVERY")
+    print("=" * 60)
+
+    web = (sources or {}).get("web_search", {})
+    pubs = (sources or {}).get("publications", []) or []
+    fda = (sources or {}).get("fda", []) or []
+    postfill = (sources or {}).get("postfill", {}) or {}
+
+    discovered = web.get("discovered", []) or []
+    top_urls = web.get("top_urls", []) or []
+
+    print(f"\n🔎 Web discovery results: {len(discovered)}")
+    if top_urls:
+        print("   Top URLs used:")
+        for u in top_urls[:5]:
+            print(f"   • {u}")
+
+    if pubs:
+        print(f"\n📄 Publications collected: {len(pubs)} (Crossref + ArXiv)")
+        for p in pubs[:3]:
+            title = (p.get("title") or "").strip() or "Untitled"
+            journal = (p.get("journal") or p.get("type") or "").strip()
+            url = (p.get("url") or p.get("doi_url") or "").strip()
+            print(f"   • {title} [{journal}]")
+            if url:
+                print(f"     {url}")
+
+    if fda:
+        print(f"\n🏛️ FDA 510(k) matches: {len(fda)}")
+        for r in fda[:3]:
+            kn = (r.get("k_number") or r.get("kNumber") or "").strip()
+            dec = (r.get("decision") or r.get("decision_date") or "").strip()
+            app = (r.get("applicant") or r.get("applicant_name") or "").strip()
+            print(f"   • {kn} — decision: {dec} — applicant: {app}")
+
+    print(f"\n🧩 Post-fill pass ran: {bool(postfill.get('ran'))}")
+
+
+def print_artifacts(paths: Optional[Any]) -> None:
+    """Display paths to artifacts written by the pipeline."""
+    if not paths:
+        warn("No artifacts written (write_files=False).")
+        return
+    print("\n" + "=" * 60)
+    print("💾 ARTIFACTS")
+    print("=" * 60)
+    if getattr(paths, "json_path", None):
+        print(f"   JSON:      {paths.json_path}")
+    if getattr(paths, "md_path", None):
+        print(f"   Markdown:  {paths.md_path}")
+    if getattr(paths, "xml_path", None):
+        print(f"   XML:       {paths.xml_path}")
+    if getattr(paths, "citations_json_path", None):
+        print(f"   Citations: {paths.citations_json_path}")
+
+
+# ----------------------------- CLI / main -----------------------------
+
+def build_argparser() -> argparse.ArgumentParser:
+    p = argparse.ArgumentParser(description="Generate a CHAI model card via Gemini agent (terminal)")
+    p.add_argument("--model-name", "-m", required=False, help="Model name (e.g., 'DermNetX')")
+    p.add_argument("--developer", "-d", default="", help="Developer/organization name")
+    p.add_argument("--iters", type=int, default=3, help="Max agent iters")
+    p.add_argument("--coverage", type=float, default=0.60, help="Coverage target [0..1]")
+    p.add_argument("--finalize", default="not_specified", choices=["not_specified", "none"],
+                   help="Finalize policy for missing fields")
+    p.add_argument("--out-dir", default="outputs", help="Artifacts output directory")
+    p.add_argument("--no-write", action="store_true", help="Do not write artifacts to disk")
+    p.add_argument("--no-discovery", action="store_true", help="Disable web discovery step")
+    return p
+
+
+def ensure_api_key_or_exit() -> None:
+    # Your config.get_settings() reads GOOGLE_API_KEY for the Gemini client.
+    # We also accept GEMINI_API_KEY as a fallback for convenience.
+    if not os.environ.get("GOOGLE_API_KEY") and not os.environ.get("GEMINI_API_KEY"):
+        err("No API key found.")
+        print("   Set one of:")
+        print("     export GOOGLE_API_KEY='your_key_here'   # preferred (matches config.get_settings())")
+        print("     or export GEMINI_API_KEY='your_key_here'")
+        sys.exit(1)
+
+
+async def run(args: argparse.Namespace) -> int:
     print_header()
-    
-    # Check for API key
-    if not os.environ.get("GEMINI_API_KEY"):
-        print_error("GEMINI_API_KEY environment variable is not set!")
-        print("   Set it with: export GEMINI_API_KEY='your_key_here'")
-        return
-    
-    # Get user input
-    model_name, developer_name = get_user_input()
+    ensure_api_key_or_exit()
+
+    model_name = args.model_name
+    developer = args.developer
+
+    # Prompt interactively if not provided via flags
     if not model_name:
-        return
-    
-    print(f"\n🚀 Starting model card generation for: {model_name}")
-    if developer_name:
-        print(f"   Developer: {developer_name}")
-    print()
-    
+        try:
+            model_name = input("🤖 Model Name: ").strip()
+        except EOFError:
+            model_name = ""
+    if not model_name:
+        err("Model name is required.")
+        return 2
+
+    if not developer:
+        try:
+            developer = input("🏢 Developer/Organization (optional): ").strip()
+        except EOFError:
+            developer = ""
+
+    info("Initializing pipeline...")
+    async with CardGenPipeline(out_dir=args.out_dir, use_web_discovery=not args.no_discovery) as pipeline:
+        info("Discovering sources and analyzing content (this can take a few minutes)...")
+        chai_card, sources, content = await pipeline.generate_model_card(
+            model_name=model_name,
+            developer_name=developer,
+            iters=args.iters,
+            coverage_target=args.coverage,
+            finalize_policy=args.finalize,
+            write_files=not args.no_write,
+            file_prefix=None,
+        )
+
+    ok("Model card generation completed.")
+    print_card_summary(chai_card)
+    print_sources_summary(sources)
+    print_artifacts((content or {}).get("paths"))
+
+    print("\n🎉 Done.")
+    return 0
+
+
+def main() -> None:
+    parser = build_argparser()
+    args = parser.parse_args()
     try:
-        # Initialize pipeline
-        print_progress("Initializing AI pipeline...")
-        
-        # Generate model card
-        print_progress("Discovering sources and analyzing content...")
-        print("   This may take a few minutes...")
-        
-        async with CardGenPipeline() as pipeline:
-            chai_card = await pipeline.run_full_pipeline(model_name)
-        
-        print_success("Model card generation completed!")
-        
-        # Display results
-        display_model_card(chai_card)
-        
-        # Ask if user wants to save
-        print("\n" + "=" * 60)
-        save_choice = input("💾 Save model card to file? (y/n): ").strip().lower()
-        if save_choice in ['y', 'yes']:
-            filename = save_model_card(chai_card)
-            if filename:
-                print(f"📁 File saved in current directory: {filename}")
-        
-        print("\n🎉 Thank you for using the AI Model Card Generator!")
-        
-    except RateLimitExceededError as e:
-        print_error("Gemini API rate limit exceeded!")
-        print("   Please wait a few minutes and try again.")
-        
-    except QuotaExceededError as e:
-        print_error("Gemini API quota exceeded!")
-        print("   Please check your billing and usage limits.")
-        
+        rc = asyncio.run(run(args))
+        sys.exit(rc)
+    except KeyboardInterrupt:
+        print("\n\n👋 Goodbye!")
+        sys.exit(130)
     except Exception as e:
-        print_error(f"An error occurred: {str(e)}")
-        print("   Please check your internet connection and try again.")
+        err(f"Unexpected error: {e}")
+        sys.exit(1)
+
 
 if __name__ == "__main__":
-    try:
-        asyncio.run(main())
-    except KeyboardInterrupt:
-        print("\n\n👋 Goodbye! Thanks for using the AI Model Card Generator.")
-    except Exception as e:
-        print(f"\n❌ Unexpected error: {str(e)}")
+    main()

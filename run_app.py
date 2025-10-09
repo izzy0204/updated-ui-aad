@@ -7,10 +7,6 @@ This script provides options to run either the web interface or terminal version
 import os
 import subprocess
 import sys
-from dotenv import load_dotenv
-
-# Load environment variables from .env file
-load_dotenv()
 
 def show_menu():
     """Show application options"""

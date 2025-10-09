@@ -1,27 +1,35 @@
+# config/config.py
 import os
-import google.generativeai as genai
 from dotenv import load_dotenv
+from dataclasses import dataclass
 
-# Load environment variables from .env file
+# ✅ Load .env one time only
 load_dotenv()
 
-DEFAULT_MODEL = os.getenv("GEMINI_MODEL", "gemini-2.0-flash-exp")
-DEFAULT_TEMP  = float(os.getenv("GEMINI_TEMPERATURE", "0.2"))
+@dataclass
+class Settings:
+    # --- Gemini Model & API ---
+    google_api_key: str = os.getenv("GEMINI_API_KEY", "")
+    gemini_model: str = os.getenv("GEMINI_MODEL", "gemini-2.0-flash-exp")
+    gemini_temperature: float = float(os.getenv("GEMINI_TEMPERATURE", "0.2"))
+    http_timeout: float = float(os.getenv("HTTP_TIMEOUT", "30"))
 
-# Web Search Configuration (simplified - only DuckDuckGo available)
-WEB_SEARCH_ENABLED = os.getenv("WEB_SEARCH_ENABLED", "true").lower() == "true"
-WEB_SEARCH_MAX_RESULTS = int(os.getenv("WEB_SEARCH_MAX_RESULTS", "10"))
+    # --- Pricing / Limits ---
+    input_cost_per_1k: float = float(os.getenv("INPUT_COST_PER_1K", "0.00125"))
+    output_cost_per_1k: float = float(os.getenv("OUTPUT_COST_PER_1K", "0.005"))
+    max_input_chars: int = int(os.getenv("MAX_INPUT_CHARS", "12000"))
 
-def make_client():
-    key = os.environ.get("GEMINI_API_KEY")
-    if not key:
-        raise RuntimeError("GEMINI_API_KEY missing in environment")
-    genai.configure(api_key=key)
-    return genai.GenerativeModel(DEFAULT_MODEL)
+    # --- Debug / Verbosity ---
+    extractor_verbose: bool = bool(int(os.getenv("EXTRACTOR_VERBOSE", "1")))
 
-def get_web_search_config():
-    """Get web search configuration"""
-    return {
-        'enabled': WEB_SEARCH_ENABLED,
-        'max_results': WEB_SEARCH_MAX_RESULTS
-    }
+    # --- Integration Tokens ---
+    github_token: str = os.getenv("GITHUB_TOKEN", "")
+    batch_size: int = int(os.getenv("BATCH_SIZE", "3"))
+
+def get_settings() -> Settings:
+    return Settings()
+
+def warn_if_missing(name: str, value: str):
+    if not value:
+        print(f"⚠️ Warning: {name} is not set. Continuing without it.")
+    return value
