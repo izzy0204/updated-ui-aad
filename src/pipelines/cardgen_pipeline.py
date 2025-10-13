@@ -37,7 +37,7 @@ from agents.gemini_agent.agent import run_async as gemini_run_async
 
 # Optional: direct Gemini access for post-fill (safe no-op if absent)
 try:
-    from google import genai as _genai
+    import google.generativeai as _genai
     from config.config import get_settings as _get_settings
     _HAS_GENAI = True
 except Exception:
@@ -767,20 +767,30 @@ def _build_context_block(seed_pages: list[dict], citations: dict, max_chars: int
 
 
 def _postfill_client():
-    if not _HAS_GENAI or _get_settings is None:
-        return None, None, None
-    s = _get_settings()
+    """
+    Returns (client, model, timeout). Safe no-op if genai/settings are unavailable.
+    """
     try:
+        if not _HAS_GENAI or _genai is None or _get_settings is None:
+            return None, "", 0.0
+        s = _get_settings()
         client = _genai.Client(api_key=s.google_api_key)
+        return client, s.gemini_model, getattr(s, "http_timeout", 20.0)
     except Exception:
-        return None, None, None
-    return client, s.gemini_model, s.http_timeout
+        return None, "", 0.0
 
+
+
+import json, re
+from typing import List, Dict, Tuple
 
 def _postfill_one_field(client, model: str, field_name: str, context_block: str) -> tuple[str, list[dict]]:
     """
     Ask Gemini to fill exactly one CHAI field. Returns (value, evidence_list).
     Evidence list items: {url, snippet}
+    - Uses text 'contents' (not role-based messages) per google-genai
+    - Recovers a JSON block leniently
+    - Tolerates "value" or "values" and several evidence key shapes
     """
     if client is None or not model:
         return "", []
@@ -804,29 +814,84 @@ Respond as JSON:
   "value": "<concise answer for this field or empty if unknown>",
   "evidence": [{{"url":"<source url>", "snippet":"<short supporting quote>"}}, ...]
 }}
-"""
+""".strip()
+
     try:
-        msgs = [{"role": "system", "content": system}, {"role": "user", "content": prompt}]
-        resp = client.models.generate_content(model=model, contents=msgs)
+        text = system + "\n\n" + prompt
+        resp = client.models.generate_content(model=model, contents=text)
         raw = getattr(resp, "text", None) or getattr(resp, "output_text", None) or ""
 
         # lenient JSON block recovery
         m = re.search(r"\{[\s\S]*\}", raw)
         if not m:
             return "", []
-        obj = json.loads(m.group(0))
-        val = (obj.get("value") or "").strip()
-        ev = obj.get("evidence") or []
-        ev_clean: list[dict] = []
-        if isinstance(ev, list):
-            for e in ev:
-                u = (e or {}).get("url") or ""
-                sn = (e or {}).get("snippet") or ""
-                if u.strip() and sn.strip():
-                    ev_clean.append({"url": u.strip(), "snippet": sn.strip()[:240]})
-        return val, ev_clean
+
+        try:
+            obj = json.loads(m.group(0))
+        except (json.JSONDecodeError, ValueError, TypeError) as e:
+            # try to sanitize trailing commas / smart quotes quickly
+            cleaned = re.sub(r",\s*([}\]])", r"\1", m.group(0))
+            cleaned = cleaned.replace("“", '"').replace("”", '"').replace("’", "'")
+            try:
+                obj = json.loads(cleaned)
+            except Exception:
+                return "", []
+
+        # Accept "value" or "values"
+        val = obj.get("value")
+        if not val and isinstance(obj.get("values"), dict):
+            # if the model used plural, try to pick the single field's value
+            vmap = obj["values"]
+            if field_name in vmap and isinstance(vmap[field_name], (str, int, float)):
+                val = vmap[field_name]
+            else:
+                # otherwise pick any first scalar
+                for _k, _v in vmap.items():
+                    if isinstance(_v, (str, int, float)):
+                        val = _v
+                        break
+
+        # Coerce to string
+        if isinstance(val, list):
+            val = "; ".join(str(x).strip() for x in val if str(x).strip())
+        elif isinstance(val, (int, float)):
+            val = str(val)
+        elif not isinstance(val, str):
+            val = ""
+
+        # Evidence may be under 'evidence' (dict or list) or 'citations'
+        ev_raw = obj.get("evidence") or obj.get("citations") or {}
+        ev_out: list[dict] = []
+
+        def _clean_ev_list(lst):
+            out = []
+            for e in lst:
+                if not isinstance(e, dict): 
+                    continue
+                u = (e.get("url") or "").strip()
+                sn = (e.get("snippet") or e.get("quote") or "").strip()
+                if u and sn:
+                    out.append({"url": u, "snippet": sn[:240]})
+            return out
+
+        if isinstance(ev_raw, list):
+            ev_out = _clean_ev_list(ev_raw)
+        elif isinstance(ev_raw, dict):
+            # pick evidence for this field, else flatten all
+            if isinstance(ev_raw.get(field_name), list):
+                ev_out = _clean_ev_list(ev_raw[field_name])
+            else:
+                flat = []
+                for k, lst in ev_raw.items():
+                    if isinstance(lst, list):
+                        flat.extend(_clean_ev_list(lst))
+                ev_out = flat
+
+        return (val.strip() if isinstance(val, str) else ""), ev_out
     except Exception:
         return "", []
+
+
 
 
 async def _postfill_missing_fields(
@@ -837,8 +902,8 @@ async def _postfill_missing_fields(
     max_fields: int = 40,
 ) -> tuple[CHAIModelCard, dict]:
     """
-    Post-processing pass: for any empty CHAI field, ask Gemini to fill it using
-    (seed_pages + citations) as context. Adds citations under 'postfill.<field>'.
+    For any empty CHAI field, ask Gemini to fill it using (seed_pages + citations) as context.
+    Adds citations under 'postfill.<field>'.
     """
     empty_fields = _collect_empty_chai_fields(chai_card)[:max_fields]
     if not empty_fields:
@@ -846,22 +911,19 @@ async def _postfill_missing_fields(
 
     client, model, _timeout = _postfill_client()
     if client is None or not model:
-        # genai not available; skip silently
         return chai_card, citations
 
     context_block = _build_context_block(seed_pages, citations)
 
-    # Fill each field independently (sequential to be gentle with rate limits)
     for fname in empty_fields:
         val, ev = _postfill_one_field(client, model, fname, context_block)
         if val:
-            # Set into dataclass
             setattr(chai_card, fname, val)
-            # Save citations
             if ev:
                 citations[f"postfill.{fname}"] = ev
 
     return chai_card, citations
+
 
 
 # ------------------------- main pipeline -------------------------
@@ -904,7 +966,7 @@ class CardGenPipeline:
         """
         model_hint = f"{model_name} ({developer_name})" if developer_name else model_name
 
-        # 0) Discovery (DuckDuckGo) + prefetch top pages
+        # 0) Discovery (DuckDuckGo) + prefetch top pages (WEB ONLY for first pass)
         discovered: List[Dict[str, Any]] = []
         seed_pages_web: List[Dict[str, Any]] = []
         if self.use_web_discovery:
@@ -913,55 +975,27 @@ class CardGenPipeline:
             except Exception:
                 discovered, seed_pages_web = ([], [])
 
-        # Publications enrichment (Crossref + ArXiv) → seed_pages_pubs
-        publications: List[Dict[str, Any]] = []
-        seed_pages_pubs: List[Dict[str, Any]] = []
-        try:
-            publications, seed_pages_pubs = await _fetch_publications(model_name)
-        except Exception:
-            publications, seed_pages_pubs = ([], [])
-
-        # FDA enrichment (if clinical-ish and finder available)
-        fda_records: List[Dict[str, Any]] = []
-        seed_pages_fda: List[Dict[str, Any]] = []
-        if _looks_clinical(model_hint):
-            try:
-                fda_records, seed_pages_fda = await _fetch_fda_records(model_name, developer_name)
-            except Exception:
-                fda_records, seed_pages_fda = ([], [])
-
-        # Merge all seed pages (web + pubs + fda)
-        seed_pages: List[Dict[str, Any]] = []
-        seen_urls: set[str] = set()
-        for group in (seed_pages_web, seed_pages_pubs, seed_pages_fda):
-            for p in group:
-                u = (p.get("url") or "").strip()
-                t = (p.get("text") or "").strip()
-                if not u or not t or u in seen_urls:
-                    continue
-                seen_urls.add(u)
-                seed_pages.append({"url": u, "text": t})
-
-        # top URLs: keep discovered (not strictly needed when using seed_pages)
+        # top URLs (bias early targets)
         top_urls = [s["url"] for s in discovered[:5] if s.get("url")]
 
-        # 1) Run Gemini agent; try passing both URLs and pre-extracted page text
+        # 1) Run Gemini agent with WEB ONLY seed (no publications/FDA yet)
         try:
             agent_card_like, citations = await gemini_run_async(
                 model_hint=model_hint,
                 max_iters=iters,
                 coverage_target=coverage_target,
                 finalize_policy=finalize_policy,
+                developer=developer_name,
                 seed_urls=top_urls,
-                seed_pages=seed_pages,   # high-signal priming (web+pubs+fda)
+                seed_pages=list(seed_pages_web),
             )
         except TypeError:
-            # agent signature doesn't accept seed_pages/seed_urls
             agent_card_like, citations = await gemini_run_async(
                 model_hint=model_hint,
                 max_iters=iters,
                 coverage_target=coverage_target,
                 finalize_policy=finalize_policy,
+                developer=developer_name,
             )
 
         # 2) Normalize agent output to a plain dict
@@ -975,17 +1009,48 @@ class CardGenPipeline:
         # 3) Map nested agent fields → CHAI flat dataclass
         chai_card = _map_agent_dump_to_chai(agent_dump)
 
-        # 3.5) Post-fill: have Gemini fill ALL remaining blanks using context
+        # ---- NOW fetch Publications + FDA (late) and use them for post-fill only ----
+        publications: List[Dict[str, Any]] = []
+        seed_pages_pubs: List[Dict[str, Any]] = []
+        try:
+            publications, seed_pages_pubs = await _fetch_publications(model_name)
+        except Exception:
+            publications, seed_pages_pubs = ([], [])
+
+        fda_records: List[Dict[str, Any]] = []
+        seed_pages_fda: List[Dict[str, Any]] = []
+        if _looks_clinical(model_hint):
+            try:
+                fda_records, seed_pages_fda = await _fetch_fda_records(model_name, developer_name)
+            except Exception:
+                fda_records, seed_pages_fda = ([], [])
+
+        # Merge all seed pages (web + pubs + fda) for POST-FILL
+        seed_pages_post: List[Dict[str, Any]] = []
+        seen_urls: set[str] = set()
+        for group in (seed_pages_web, seed_pages_pubs, seed_pages_fda):
+            for p in group:
+                u = (p.get("url") or "").strip()
+                t = (p.get("text") or "").strip()
+                if not u or not t or u in seen_urls:
+                    continue
+                seen_urls.add(u)
+                seed_pages_post.append({"url": u, "text": t})
+
+        # 3.5) Post-fill: have Gemini fill remaining blanks using the expanded context
         postfill_ran = False
         try:
             chai_card, citations = await _postfill_missing_fields(
-                chai_card=chai_card, seed_pages=seed_pages, citations=citations, max_fields=60
+                chai_card=chai_card,
+                seed_pages=seed_pages_post,
+                citations=citations,
+                max_fields=60
             )
             postfill_ran = True
         except Exception:
             postfill_ran = False  # safe failure; continue
 
-        # 4) Build artifacts using CHAIModelCard's exporters
+        # 4) Build artifacts
         json_text = chai_card.to_json()
         md_text = chai_card.to_markdown()
         xml_text = chai_card.to_xml()
@@ -1009,8 +1074,8 @@ class CardGenPipeline:
                 "discovered": discovered,
                 "top_urls": top_urls,
             },
-            "publications": publications,  # Crossref + ArXiv (high-signal list)
-            "fda": fda_records,            # 510(k) matches if any
+            "publications": publications,
+            "fda": fda_records,
             "postfill": {"ran": postfill_ran},
         }
         content = {

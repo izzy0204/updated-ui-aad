@@ -1,16 +1,9 @@
-
 """
 ENHANCED PUBLICATION FINDER (Crossref + ArXiv only)
 
 PURPOSE
 - Find high-signal publications about medical/dermatology AI models without API keys.
 - ArXiv (preprints) + Crossref (journal-specific queries for precision).
-
-HOW IT WORKS
-1) ArXiv Atom feed queries (no key required)
-2) Crossref /works JSON API (journal-filtered, no key required)
-3) Lightweight dedup + relevance scoring
-4) Optional AI analysis via AIContentExtractor on abstracts (budgeted)
 
 USAGE
 async with EnhancedPublicationFinder() as finder:
@@ -20,15 +13,16 @@ async with EnhancedPublicationFinder() as finder:
 from __future__ import annotations
 
 import asyncio
-import aiohttp
 import json
+import random
 import re
 from typing import Dict, List, Any, Optional
 from urllib.parse import quote_plus
-import random
-import ssl
-import certifi
+from datetime import datetime
 
+import aiohttp
+
+from utils.net import new_session  # centralized, certifi CA, proxy-aware
 from ai_extractors.ai_extractor import AIContentExtractor
 
 
@@ -121,26 +115,19 @@ class EnhancedPublicationFinder:
     # ---------------- context manager ----------------
 
     async def __aenter__(self):
-        timeout = aiohttp.ClientTimeout(total=25, connect=10, sock_read=15)
-        connector = aiohttp.TCPConnector(
-            ssl=ssl.create_default_context(cafile=certifi.where()),
-            limit=8,
-            limit_per_host=3,
-            enable_cleanup_closed=True,
-        )
-        self.session = aiohttp.ClientSession(
-            timeout=timeout,
-            connector=connector,
-            headers={
-                "User-Agent": "Mozilla/5.0 (compatible; ModelCardGenerator/1.0)",
-                "Accept": "application/json, text/xml, */*;q=0.8",
-            },
-        )
+        # Use the shared session factory for consistent SSL/proxy/timeouts
+        # We still pass lightweight headers appropriate for these APIs.
+        self.session = await new_session().__aenter__()  # enter the async context of new_session
+        # Attach API-specific defaults
+        self.session.headers.update({
+            "User-Agent": "Mozilla/5.0 (compatible; ModelCardGenerator/1.0)",
+            "Accept": "application/json, text/xml, */*;q=0.8",
+        })
         return self
 
     async def __aexit__(self, exc_type, exc_val, exc_tb):
         if self.session:
-            await self.session.close()
+            await new_session().__aexit__(exc_type, exc_val, exc_tb)  # close via the same context manager
 
     # ---------------- top-level searches ----------------
 
@@ -182,7 +169,6 @@ class EnhancedPublicationFinder:
         query = f'{model_name} dermatology OR "skin" OR melanoma OR dermoscopy OR "computer vision" OR "deep learning"'
 
         # Date filter (YYYY-01-01 from {current_year - years_back})
-        from datetime import datetime
         from_year = max(1900, datetime.utcnow().year - years_back)
         from_pub_date = f"{from_year}-01-01"
 
@@ -240,6 +226,7 @@ class EnhancedPublicationFinder:
                 abstract = re.sub(r"<[^>]+>", " ", abstract_raw).strip() if abstract_raw else ""
 
                 content_for_analysis = f"{title} {abstract}".strip()
+
                 # quick relevance gate + budget
                 kw = ("dermatology", "skin", "melanoma", "dermoscop", "clinical", model_name.lower())
                 should_analyze = content_for_analysis and any(k in content_for_analysis.lower() for k in kw)
@@ -256,7 +243,7 @@ class EnhancedPublicationFinder:
                     "authors": authors,
                     "abstract": abstract,
                     "journal": journal_title,
-                    "pmid": "",  # not applicable here
+                    "pmid": "",
                     "doi": doi,
                     "url": url_item or doi_url,
                     "doi_url": doi_url,
@@ -286,6 +273,7 @@ class EnhancedPublicationFinder:
         ]
         for q in queries:
             try:
+                # HTTPS required; some networks fail on http
                 url = f"https://export.arxiv.org/api/query?search_query=all:{quote_plus(q)}&start=0&max_results=8"
                 xml_content = await self._get_text(url)
                 if xml_content:

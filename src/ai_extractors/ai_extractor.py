@@ -8,7 +8,7 @@ import random
 from typing import Dict, List, Any, Optional
 from datetime import datetime
 
-from google import genai
+import google.generativeai as genai
 from config.config import get_settings
 
 
@@ -135,15 +135,28 @@ class _OpenAIResponse:
         self.choices = [type("Choice", (), {"message": type("Msg", (), {"content": text})()})]
 
 class _OpenAIChatCompletions:
-    def __init__(self, gclient: genai.Client, default_model: str):
-        self._gclient = gclient
-        self._model = default_model
+    def __init__(self, model: genai.GenerativeModel, default_model: str):
+        self._model = model
+        self._model_name = default_model
 
     def create(self, model: Optional[str] = None, messages: Optional[List[Dict[str, str]]] = None, **kwargs):
-        m = model or self._model
         msgs = messages or []
-        resp = self._gclient.responses.generate(model=m, input=msgs)
-        text = getattr(resp, "output_text", "") or ""
+        
+        # Convert messages to prompt
+        prompt_parts = []
+        for msg in msgs:
+            role = msg.get('role', 'user')
+            content = msg.get('content', '')
+            if role == 'system':
+                prompt_parts.append(f"System: {content}")
+            elif role == 'user':
+                prompt_parts.append(f"User: {content}")
+            elif role == 'assistant':
+                prompt_parts.append(f"Assistant: {content}")
+        
+        full_prompt = "\n".join(prompt_parts)
+        resp = self._model.generate_content(full_prompt)
+        text = resp.text if resp.text else ""
         return _OpenAIResponse(text)
 
 class _OpenAIChat:
@@ -151,8 +164,8 @@ class _OpenAIChat:
         self.completions = comps
 
 class _OpenAICompatClient:
-    def __init__(self, gclient: genai.Client, default_model: str):
-        self.chat = _OpenAIChat(_OpenAIChatCompletions(gclient, default_model))
+    def __init__(self, model: genai.GenerativeModel, default_model: str):
+        self.chat = _OpenAIChat(_OpenAIChatCompletions(model, default_model))
 
 
 # --------------------------- Main Extractor ---------------------------
@@ -167,10 +180,13 @@ class AIContentExtractor:
         "version": "version",
     }
 
-    def __init__(self, client: Optional[genai.Client] = None):
+    def __init__(self, model: Optional[genai.GenerativeModel] = None):
         s = get_settings()
-        self._genai = client or genai.Client(api_key=s.google_api_key)
-        self._model = s.gemini_model
+        if model is None:
+            genai.configure(api_key=s.google_api_key)
+            self._model = genai.GenerativeModel(s.gemini_model)
+        else:
+            self._model = model
         self._temp = s.gemini_temperature
         self._timeout = s.http_timeout
         # pricing/limits/verbosity from centralized config
@@ -180,7 +196,7 @@ class AIContentExtractor:
         self.verbose = bool(s.extractor_verbose)
 
         # legacy-compatible handle (cardgen_pipeline uses this)
-        self.client = _OpenAICompatClient(self._genai, self._model)
+        self.client = _OpenAICompatClient(self._model, self._model_name)
 
         self.tracer = TracingLogger()
         self.rate_limit_hit = False
@@ -267,9 +283,9 @@ class AIContentExtractor:
             up = f"{user_prompt}\n\nReturn ONLY valid JSON. No prose."
             msgs.append({"role": "user", "content": up})
 
-            resp = self._genai.responses.generate(model=self._model, input=msgs)
+            resp = self._model.generate_content(msgs)
             dt = time.time() - t0
-            text = getattr(resp, "output_text", "") or "{}"
+            text = resp.text if resp.text else "{}"
 
             prompt_tokens = self._estimate_tokens(up)
             completion_tokens = self._estimate_tokens(text)

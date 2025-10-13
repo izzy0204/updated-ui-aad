@@ -105,21 +105,154 @@ def normalize_sources(blobs: List[Tuple[str, str]], types: List[str]) -> Tuple[s
 
 # ---------- JSON helpers ----------
 def extract_json_block(s: str) -> Dict[str, Any]:
+    """Extract JSON block from text, with improved error handling for malformed responses."""
+    if not s or not isinstance(s, str):
+        return {}
+    
+    # Clean the input - remove common artifacts
+    s = s.strip()
+    
+    # Remove markdown code blocks if present
+    if s.startswith("```json"):
+        s = s[7:]
+    if s.startswith("```"):
+        s = s[3:]
+    if s.endswith("```"):
+        s = s[:-3]
+    s = s.strip()
+    
+    # Remove any remaining prompt text that might have leaked through
+    prompt_indicators = [
+        "CRITICAL REQUIREMENTS:",
+        "You MUST return ONLY valid JSON",
+        "The JSON MUST start with",
+        " and end with ",
+        "MANDATORY JSON FORMAT",
+        "STRICT NAMING:",
+        "OUTPUT POLICY:",
+        "RESPOND AS JSON:",
+        "Return ONLY a compact JSON",
+        "The JSON MUST start with { and end with }"
+    ]
+    
+    for indicator in prompt_indicators:
+        if indicator in s:
+            # Find the start of JSON
+            json_start = s.find("{")
+            if json_start > 0:
+                s = s[json_start:]
+                break
+    
+    # Look for JSON object boundaries
     start, end = s.find("{"), s.rfind("}")
     if start < 0 or end <= start:
+        print(f"DEBUG: No JSON object found in: {repr(s[:100])}...")
         return {}
+    
+    json_str = s[start:end+1]
+    
+    # Additional cleaning for common malformed responses
+    json_str = json_str.replace('" and end with "', '')
+    json_str = json_str.replace('"CRITICAL REQUIREMENTS"', '')
+    json_str = json_str.replace('"You MUST return ONLY valid JSON"', '')
+    
     try:
-        return json.loads(s[start:end+1])
-    except Exception:
+        result = json.loads(json_str)
+        # Ensure we got a dictionary, not just a string
+        if isinstance(result, dict):
+            return result
+        else:
+            # If we got a string like "values", wrap it in a dict
+            print(f"DEBUG: Got non-dict result: {type(result)} = {repr(result)}")
+            return {"raw_response": result}
+    except json.JSONDecodeError as e:
+        # Log the error for debugging
+        print(f"JSON parsing error: {e}")
+        print(f"Attempted to parse: {repr(json_str[:200])}...")
+        
+        # Try to fix common issues
+        if '"values"' in json_str and not json_str.endswith('}'):
+            # Try to complete the JSON
+            try:
+                fixed_json = json_str + '}'
+                result = json.loads(fixed_json)
+                if isinstance(result, dict):
+                    print("DEBUG: Fixed incomplete JSON")
+                    return result
+            except:
+                pass
+        
+        # Try to extract just the values part if the structure is malformed
+        if '"values"' in json_str:
+            try:
+                # Find the values section
+                values_start = json_str.find('"values"')
+                if values_start >= 0:
+                    # Look for the next colon and opening brace
+                    colon_pos = json_str.find(':', values_start)
+                    if colon_pos >= 0:
+                        brace_pos = json_str.find('{', colon_pos)
+                        if brace_pos >= 0:
+                            # Find the matching closing brace
+                            brace_count = 0
+                            end_pos = brace_pos
+                            for i, char in enumerate(json_str[brace_pos:], brace_pos):
+                                if char == '{':
+                                    brace_count += 1
+                                elif char == '}':
+                                    brace_count -= 1
+                                    if brace_count == 0:
+                                        end_pos = i
+                                        break
+                            
+                            values_json = json_str[brace_pos:end_pos+1]
+                            values_obj = json.loads(values_json)
+                            if isinstance(values_obj, dict):
+                                print("DEBUG: Extracted values section")
+                                return {"values": values_obj, "evidence": {}}
+            except:
+                pass
+        
+        return {}
+    except Exception as e:
+        print(f"Unexpected error in JSON parsing: {e}")
         return {}
 
 # ---------- Utility ----------
 def set_by_path(root: Dict[str, Any], path: str, value):
-    keys = path.split(".")
-    cur = root
-    for k in keys[:-1]:
-        cur = cur[k]
-    cur[keys[-1]] = value
+    print(f"DEBUG: set_by_path called with path={repr(path)}, value={repr(value)[:100]}...")
+    
+    # Safety check: reject paths that look like prompt text or are malformed
+    if not path or not isinstance(path, str):
+        print(f"ERROR: Invalid path type: {type(path)}")
+        return
+        
+    if any(indicator in path for indicator in ["CRITICAL REQUIREMENTS", "You MUST", "The JSON MUST", " and end with"]):
+        print(f"ERROR: Rejecting path that looks like prompt text: {repr(path)}")
+        return
+    
+    # Additional safety checks for malformed paths
+    if path.strip() == "" or len(path.strip()) < 2:
+        print(f"ERROR: Path too short or empty: {repr(path)}")
+        return
+        
+    # Check for invalid characters that shouldn't be in field paths
+    invalid_chars = ['\n', '\r', '\t', '"', "'", '`', '(', ')', '[', ']', '{', '}']
+    if any(char in path for char in invalid_chars):
+        print(f"ERROR: Path contains invalid characters: {repr(path)}")
+        return
+    
+    try:
+        keys = path.split(".")
+        cur = root
+        for k in keys[:-1]:
+            if k not in cur:
+                cur[k] = {}
+            cur = cur[k]
+        cur[keys[-1]] = value
+    except Exception as e:
+        print(f"ERROR: Failed to set path {repr(path)}: {e}")
+        return
 
 def flatten_nonempty(d: Dict[str, Any]) -> int:
     """Counts non-empty leaf values in a nested dict."""

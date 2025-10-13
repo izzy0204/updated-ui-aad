@@ -26,8 +26,8 @@ SRC_DIR = CURRENT_DIR / "src"
 if str(SRC_DIR) not in sys.path:
     sys.path.insert(0, str(SRC_DIR))
 
-from src.pipelines.cardgen_pipeline import CardGenPipeline  # noqa: E402
-from src.core.chai_schema import CHAIModelCard              # noqa: E402
+from pipelines.cardgen_pipeline import CardGenPipeline
+from core.chai_schema import CHAIModelCard           # noqa: E402
 
 
 # ----------------------------- UI helpers -----------------------------
@@ -238,7 +238,7 @@ async def run(args: argparse.Namespace) -> int:
 
     if not developer:
         try:
-            developer = input("🏢 Developer/Organization (optional): ").strip()
+            developer = input("🏢 Developer/Organization: ").strip()
         except EOFError:
             developer = ""
 
@@ -275,6 +275,9 @@ def main() -> None:
         sys.exit(130)
     except Exception as e:
         err(f"Unexpected error: {e}")
+        print(f"\nDebug info:")
+        print(f"  Error type: {type(e).__name__}")
+        print(f"  Error details: {repr(e)}")
         sys.exit(1)
 
 
