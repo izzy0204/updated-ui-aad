@@ -1,0 +1,248 @@
+{
+  "model_name": [
+    {
+      "url": "https://developers.google.com/health-ai-developer-foundations/derm-foundation/model-card",
+      "snippet": "Model documentation: Derm Foundation"
+    },
+    {
+      "url": "https://research.google/blog/health-specific-embedding-tools-for-dermatology-and-pathology",
+      "snippet": "Derm Foundation is an embedding tool derived from our research in applying DL to interpret images of dermatology conditions"
+    }
+  ],
+  "developer": [
+    {
+      "url": "https://developers.google.com/health-ai-developer-foundations/derm-foundation/model-card",
+      "snippet": "Author: Google"
+    }
+  ],
+  "application_url": [
+    {
+      "url": "https://developers.google.com/health-ai-developer-foundations/derm-foundation/model-card",
+      "snippet": "Model documentation: Derm Foundation"
+    }
+  ],
+  "inquiries_or_to_report_an_issue": [
+    {
+      "url": "https://developers.google.com/health-ai-developer-foundations/derm-foundation/model-card",
+      "snippet": "- Support: See Contact."
+    }
+  ],
+  "release_date": [
+    {
+      "url": "https://developers.google.com/health-ai-developer-foundations/derm-foundation/model-card",
+      "snippet": "- Model created: 2023-12-19"
+    }
+  ],
+  "version": [
+    {
+      "url": "https://developers.google.com/health-ai-developer-foundations/derm-foundation/model-card",
+      "snippet": "- Model version: Version: 1.0.0"
+    }
+  ],
+  "summary": [
+    {
+      "url": "https://developers.google.com/health-ai-developer-foundations/derm-foundation/model-card",
+      "snippet": "Derm Foundation is a machine learning model designed to accelerate AI development for skin image analysis for dermatology applications using pre-trained embeddings."
+    },
+    {
+      "url": "https://developers.google.com/health-ai-developer-foundations/derm-foundation/model-card",
+      "snippet": "The model produces a 6144-dimensional embedding vector as output, which can be used for downstream tasks like classifying skin conditions and scoring severity."
+    }
+  ],
+  "keywords": [
+    {
+      "url": "https://developers.google.com/health-ai-developer-foundations/derm-foundation/model-card",
+      "snippet": "Derm Foundation is a machine learning model designed to accelerate AI development for skin image analysis for dermatology applications."
+    },
+    {
+      "url": "https://developers.google.com/health-ai-developer-foundations/derm-foundation",
+      "snippet": "Derm Foundation can be used for data-efficient classification tasks, including:\n- Classifying clinical conditions like psoriasis, melanoma, or dermatitis\n- Scoring the severity or progression of clinical conditions"
+    }
+  ],
+  "intended_use_and_workflow": [
+    {
+      "url": "https://developers.google.com/health-ai-developer-foundations/derm-foundation/model-card",
+      "snippet": "Derm Foundation can reduce the training data, compute, and technical expertise necessary to develop task-specific models for skin image analysis."
+    },
+    {
+      "url": "https://developers.google.com/health-ai-developer-foundations/derm-foundation/model-card",
+      "snippet": "Embeddings from the model can be used for a variety of user-defined downstream tasks including, but not limited to:\n- Classifying clinical conditions like psoriasis, melanoma or dermatitis\n- Scoring severity or progression of clinical condi"
+    }
+  ],
+  "primary_intended_users": [
+    {
+      "url": "https://developers.google.com/health-ai-developer-foundations/derm-foundation",
+      "snippet": "Trained on large scale datasets, Derm Foundation helps businesses and institutions in healthcare and life sciences do more with their dermatology data with less data"
+    }
+  ],
+  "how_to_use": [
+    {
+      "url": "https://developers.google.com/health-ai-developer-foundations/derm-foundation/model-card",
+      "snippet": "Following are some example code snippets to help you quickly get started running the model locally. If you want to use the model at scale, we recommend that you create a production version using Model Garden."
+    }
+  ],
+  "targeted_patient_population": [
+    {
+      "url": "https://developers.google.com/health-ai-developer-foundations/derm-foundation/model-card",
+      "snippet": "As with any research, developers should ensure any downstream application is validated to understand performance using data that is appropriately representative of the intended use setting for the specific application (e.g., skin tone/type,"
+    }
+  ],
+  "patient_consent_or_disclosure_required_or_suggested": [
+    {
+      "url": "https://developers.google.com/health-ai-developer-foundations/derm-foundation/model-card",
+      "snippet": "null"
+    }
+  ],
+  "developer_supplied_warnings": [
+    {
+      "url": "https://developers.google.com/health-ai-developer-foundations/derm-foundation/model-card",
+      "snippet": "As with any research, developers should ensure any downstream application is validated to understand performance using data that is appropriately representative of the intended use setting for the specific application (e.g., skin tone/type,"
+    }
+  ],
+  "model_limitations": [
+    {
+      "url": "https://developers.google.com/health-ai-developer-foundations/derm-foundation/model-card",
+      "snippet": "Derm Foundation is trained on images with various lightning and noise conditions captured in a real-world environment. However, its quality can degrade in extreme conditions, such as photos that are too light or too dark."
+    },
+    {
+      "url": "https://developers.google.com/health-ai-developer-foundations/derm-foundation/model-card",
+      "snippet": "The base model was trained using image-text pairs from the public web. These images come from a variety of sources but may by noisy or low-quality. The SFT (supervised fine-tuned) model was trained data from a limited set of countries (Unit"
+    },
+    {
+      "url": "https://developers.google.com/health-ai-developer-foundations/derm-foundation/model-card",
+      "snippet": "The model is only used to generate embeddings of user-provided data. It does not generate any predictions or diagnosis on its own."
+    }
+  ],
+  "skin_type_representation_and_equity": [
+    {
+      "url": "https://developers.google.com/health-ai-developer-foundations/derm-foundation/model-card",
+      "snippet": "null"
+    }
+  ],
+  "clinical_risk_level": [
+    {
+      "url": "https://developers.google.com/health-ai-developer-foundations/derm-foundation/model-card",
+      "snippet": "null"
+    }
+  ],
+  "ai_system_facts": [
+    {
+      "url": "https://developers.google.com/health-ai-developer-foundations/derm-foundation/model-card",
+      "snippet": "null"
+    }
+  ],
+  "model_type": [
+    {
+      "url": "https://developers.google.com/health-ai-developer-foundations/derm-foundation/model-card",
+      "snippet": "- Model type: BiT-101x3 CNN (Convolutional Neural Network)"
+    }
+  ],
+  "interaction_with_other_systems": [
+    {
+      "url": "https://developers.google.com/health-ai-developer-foundations/derm-foundation/model-card",
+      "snippet": "null"
+    }
+  ],
+  "outcomes_and_output": [
+    {
+      "url": "https://developers.google.com/health-ai-developer-foundations/derm-foundation/model-card",
+      "snippet": "The model produces a 6144-dimensional embedding vector as output, which can be used for downstream tasks like classifying skin conditions and scoring severity."
+    }
+  ],
+  "type_and_value_of_solution_output": [
+    {
+      "url": "https://developers.google.com/health-ai-developer-foundations/derm-foundation/model-card",
+      "snippet": "Output: Embedding vector of floating point values (Dimensions: 6144)"
+    }
+  ],
+  "explanation_for_how_an_output_is_generated": [
+    {
+      "url": "https://developers.google.com/health-ai-developer-foundations/derm-foundation/model-card",
+      "snippet": "Derm Foundation is pre-trained on large amounts of labeled skin images to produce 6144 dimensional embeddings that capture dense features relevant for analyzing these images."
+    }
+  ],
+  "foundation_models_used_in_application_if_applicable": [
+    {
+      "url": "https://developers.google.com/health-ai-developer-foundations/derm-foundation/model-card",
+      "snippet": "null"
+    }
+  ],
+  "input_data_source": [
+    {
+      "url": "https://developers.google.com/health-ai-developer-foundations/derm-foundation/model-card",
+      "snippet": "- Base model (pre-training): A large number of health-related image-text pairs from the public web\n- SFT (supervised fine-tuned) model: tele-dermatology datasets from the United States and Colombia, a skin cancer dataset from Australia, and"
+    }
+  ],
+  "output_input_data_type": [
+    {
+      "url": "https://developers.google.com/health-ai-developer-foundations/derm-foundation/model-card",
+      "snippet": "Input:\nPNG\nimage file 448 x 448 pixels"
+    }
+  ],
+  "development_data_characterization": [
+    {
+      "url": "https://developers.google.com/health-ai-developer-foundations/derm-foundation/model-card",
+      "snippet": "Derm Foundation was trained in two stages. The first pre-training stage used contrastive learning to train on a large number of public image-text pairs from the internet. The image component of this pre-trained model was then fine-tuned for"
+    }
+  ],
+  "training_data": [
+    {
+      "url": "https://developers.google.com/health-ai-developer-foundations/derm-foundation/model-card",
+      "snippet": "Base model (pre-training): A large number of health-related image-text pairs from the public web\n- SFT (supervised fine-tuned) model: tele-dermatology datasets from the United States and Colombia, a skin cancer dataset from Australia, and a"
+    }
+  ],
+  "demographic_representativeness": [
+    {
+      "url": "https://developers.google.com/health-ai-developer-foundations/derm-foundation/model-card",
+      "snippet": "The SFT (supervised fine-tuned) model was trained data from a limited set of countries (United States, Colombia, Australia, public images) and settings (mostly clinical). It may not generalize well to data from other countries, patient popu"
+    }
+  ],
+  "usefulness_efficacy_goal_of_metrics": [
+    {
+      "url": "https://developers.google.com/health-ai-developer-foundations/derm-foundation/model-card",
+      "snippet": "Derm Foundation was evaluated for data-efficient accuracy across a range of skin-related classifications tasks."
+    },
+    {
+      "url": "https://developers.google.com/health-ai-developer-foundations/derm-foundation/model-card",
+      "snippet": "Derm Foundation can reduce the training data, compute, and technical expertise necessary to develop task-specific models for skin image analysis."
+    }
+  ],
+  "usefulness_efficacy_result": [
+    {
+      "url": "https://developers.google.com/health-ai-developer-foundations/derm-foundation/model-card",
+      "snippet": "Training a linear classifier on Derm-Foundations embeddings were substantially more performant (10-15% increase in accuracy) than doing the same for a standard BiT-M model across different proportions of training data."
+    },
+    {
+      "url": "https://research.google/blog/health-specific-embedding-tools-for-dermatology-and-pathology",
+      "snippet": "Models built on top of the Derm Foundation embeddings for dermatology-related tasks achieved significantly higher quality than those built solely on embeddings or fine tuned from BiT-M, particularly when working with smaller training datase"
+    }
+  ],
+  "usefulness_efficacy_interpretation": [
+    {
+      "url": "https://research.google/blog/health-specific-embedding-tools-for-dermatology-and-pathology",
+      "snippet": "These results demonstrate that the Derm Foundation tooI can serve as a useful starting point to accelerate skin-related modeling tasks."
+    }
+  ],
+  "usefulness_efficacy_test_type": [
+    {
+      "url": "https://developers.google.com/health-ai-developer-foundations/derm-foundation/model-card",
+      "snippet": "Derm Foundation was evaluated for data-efficient accuracy across a range of skin-related classifications tasks."
+    },
+    {
+      "url": "https://research.google/blog/health-specific-embedding-tools-for-dermatology-and-pathology",
+      "snippet": "The modeling variants considered were: - A linear classifier on frozen embeddings from BiT-M (a standard pre-trained image model) - Fine-tuned version of BiT-M with an extra dense layer for the downstream task - A linear classifier on froze"
+    }
+  ],
+  "usefulness_efficacy_testing_data_description": [
+    {
+      "url": "https://developers.google.com/health-ai-developer-foundations/derm-foundation/model-card",
+      "snippet": "The SFT (supervised fine-tuned) model was trained data from a limited set of countries (United States, Colombia, Australia, public images) and settings (mostly clinical)."
+    }
+  ],
+  "usefulness_efficacy_validation_process_and_justification": [
+    {
+      "url": "https://research.google/blog/health-specific-embedding-tools-for-dermatology-and-pathology",
+      "snippet": "Downstream models built using Derm Foundation still require careful evaluation to understand their expected performance in the intended setting."
+    }
+  ]
+}

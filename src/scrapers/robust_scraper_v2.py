@@ -40,6 +40,11 @@ import sqlite3
 from datetime import datetime, timedelta
 from dataclasses import dataclass, asdict
 
+# Import cache system
+import sys
+sys.path.append(str(Path(__file__).parent.parent))
+from utils.cache_system import get_cache
+
 # Third-party imports
 import trafilatura
 from bs4 import BeautifulSoup, Comment
@@ -369,11 +374,33 @@ class MetadataExtractor:
     
     @classmethod
     def _merge_json_ld(cls, target: Dict[str, Any], source: Dict[str, Any]):
-        """Merge JSON-LD data, preferring non-empty values"""
+        """Merge JSON-LD data, preferring non-empty values and avoiding overwriting good data.
+        
+        Args:
+            target: Target dictionary to merge into
+            source: Source dictionary to merge from
+        """
+        if not isinstance(target, dict) or not isinstance(source, dict):
+            return
+            
         fields = ['name', 'description', 'author', 'publisher', 'datePublished', 'dateModified']
         for field in fields:
-            if field in source and source[field] and field not in target:
-                target[field] = source[field]
+            if field not in source:
+                continue
+                
+            source_value = source[field]
+            target_value = target.get(field)
+            
+            # Skip if source value is empty or meaningless
+            if not source_value or (isinstance(source_value, str) and source_value.strip() in ("", "N/A", "Unknown", "TBD")):
+                continue
+                
+            # Only set if target doesn't have a good value already
+            if field not in target or not target_value or (isinstance(target_value, str) and target_value.strip() in ("", "N/A", "Unknown", "TBD")):
+                target[field] = source_value
+                logger.debug(f"JSON-LD merge: Set {field} = {source_value}")
+            else:
+                logger.debug(f"JSON-LD merge: Kept existing {field} = {target_value} (source was {source_value})")
     
     @classmethod
     def extract_patterns(cls, text: str, include_emails: bool = False) -> Dict[str, List[Any]]:
@@ -944,9 +971,17 @@ class RobustWebScraper:
         text = re.sub(r'\s+', ' ', text)
         return text.strip()
     
-    async def extract_content_from_url(self, url: str) -> Dict[str, Any]:
-        """Main content extraction method"""
+    async def extract_content_from_url(self, url: str, model_name: Optional[str] = None) -> Dict[str, Any]:
+        """Main content extraction method with caching"""
         logger.info(f"Extracting content from: {url}")
+        
+        cache = get_cache()
+        
+        # Check cache first
+        cached_result = await cache.get("robust_scraper", url)
+        if cached_result is not None:
+            logger.info(f"Cache HIT for robust scraper: {url}")
+            return cached_result
         
         # Fetch the content
         fetch_result = await self.fetch_with_retry(url)
@@ -968,7 +1003,7 @@ class RobustWebScraper:
         if fetch_result.get('bytes') is not None:
             pdf_result = self._extract_pdf_content(url, fetch_result['bytes'])
             
-            return {
+            result = {
                 'url': url,
                 'final_url': final_url,
                 'status': pdf_result['status'],
@@ -990,6 +1025,19 @@ class RobustWebScraper:
                 'diagnostics': diagnostics,
                 'error': pdf_result.get('error')
             }
+            
+            # Cache the PDF result
+            await cache.set(
+                "robust_scraper",
+                url,
+                result,
+                url=url,
+                model_name=model_name,
+                metadata={"content_type": content_type, "text_length": len(pdf_result.get('text', '')), "type": "pdf"}
+            )
+            
+            logger.info(f"Cache SET for robust scraper: {url} (status: {pdf_result['status']}, type: PDF)")
+            return result
         
         # Handle text content
         html_content = fetch_result.get('text', '')
@@ -1055,7 +1103,7 @@ class RobustWebScraper:
         raw_html_truncated = html_content[:self.config.raw_html_limit] if html_content else None
         raw_html_sha256 = hashlib.sha256(html_content.encode()).hexdigest() if html_content else None
         
-        return {
+        result = {
             'url': url,
             'final_url': final_url,
             'status': 'success',
@@ -1076,6 +1124,144 @@ class RobustWebScraper:
             'diagnostics': diagnostics,
             'error': None
         }
+        
+        # Cache the result
+        await cache.set(
+            "robust_scraper",
+            url,
+            result,
+            url=url,
+            model_name=model_name,
+            metadata={"content_type": content_type, "text_length": len(clean_text), "title": title}
+        )
+        
+        logger.info(f"Cache SET for robust scraper: {url} (status: success, text: {len(clean_text)} chars)")
+        return result
+
+    async def extract_content_with_second_hop(self, url: str, model_name: Optional[str] = None) -> Dict[str, Any]:
+        """
+        Extract content from URL with second-hop section scraping for user inputted URLs only.
+        This method performs deeper content extraction by following relevant internal links.
+        """
+        logger.info(f"Extracting content with second-hop from: {url}")
+        
+        # First, get the main page content
+        main_result = await self.extract_content_from_url(url, model_name)
+        
+        if main_result.get('status') != 'success':
+            return main_result
+        
+        # Extract second-hop content from relevant internal links
+        second_hop_content = await self._extract_second_hop_content(url, main_result)
+        
+        # Combine main content with second-hop content
+        if second_hop_content:
+            main_result['second_hop_content'] = second_hop_content
+            main_result['second_hop_count'] = len(second_hop_content)
+            
+            # Append second-hop text to main content
+            combined_text = main_result.get('clean_text', '')
+            for hop_content in second_hop_content:
+                hop_text = hop_content.get('clean_text', '')
+                if hop_text:
+                    combined_text += f"\n\n--- Section: {hop_content.get('title', 'Additional Content')} ---\n{hop_text}"
+            
+            main_result['clean_text'] = combined_text
+            main_result['total_text_length'] = len(combined_text)
+            
+            logger.info(f"Second-hop extraction completed: {len(second_hop_content)} additional sections")
+        else:
+            main_result['second_hop_content'] = []
+            main_result['second_hop_count'] = 0
+            logger.info("No relevant second-hop content found")
+        
+        return main_result
+
+    async def _extract_second_hop_content(self, base_url: str, main_result: Dict[str, Any]) -> List[Dict[str, Any]]:
+        """
+        Extract content from relevant internal links found on the main page.
+        Focuses on sections that are likely to contain model-related information.
+        """
+        second_hop_content = []
+        
+        # Get internal links from the main page
+        links = main_result.get('links', [])
+        internal_links = []
+        
+        # Filter for internal links that look relevant
+        for link in links:
+            link_url = link.get('url', '')
+            link_text = link.get('text', '').lower()
+            
+            # Only process internal links
+            if not self._is_internal_link(base_url, link_url):
+                continue
+            
+            # Look for relevant section indicators
+            relevant_keywords = [
+                'documentation', 'docs', 'api', 'guide', 'tutorial', 'getting started',
+                'model', 'architecture', 'performance', 'metrics', 'evaluation',
+                'training', 'dataset', 'paper', 'publication', 'research',
+                'clinical', 'medical', 'dermatology', 'skin', 'diagnosis',
+                'about', 'overview', 'features', 'capabilities', 'limitations',
+                'privacy', 'ethics', 'bias', 'fairness', 'transparency'
+            ]
+            
+            # Check if link text or URL contains relevant keywords
+            is_relevant = any(keyword in link_text or keyword in link_url.lower() for keyword in relevant_keywords)
+            
+            if is_relevant:
+                internal_links.append(link_url)
+        
+        # Limit to top 5 most relevant internal links to avoid overwhelming
+        internal_links = internal_links[:5]
+        
+        logger.info(f"Found {len(internal_links)} relevant internal links for second-hop extraction")
+        
+        # Extract content from each relevant internal link
+        for link_url in internal_links:
+            try:
+                logger.info(f"Extracting second-hop content from: {link_url}")
+                hop_result = await self.extract_content_from_url(link_url, None)
+                
+                if hop_result.get('status') == 'success':
+                    # Only include if it has substantial content
+                    hop_text = hop_result.get('clean_text', '')
+                    if len(hop_text.strip()) > 200:  # Minimum content threshold
+                        second_hop_content.append({
+                            'url': link_url,
+                            'title': hop_result.get('title', ''),
+                            'clean_text': hop_text,
+                            'headings': hop_result.get('headings', []),
+                            'meta_description': hop_result.get('meta_description', ''),
+                            'text_length': len(hop_text)
+                        })
+                        logger.info(f"Added second-hop content: {len(hop_text)} chars from {link_url}")
+                    else:
+                        logger.info(f"Skipped second-hop content (too short): {link_url}")
+                else:
+                    logger.info(f"Failed to extract second-hop content from: {link_url}")
+                    
+            except Exception as e:
+                logger.warning(f"Error extracting second-hop content from {link_url}: {e}")
+                continue
+        
+        return second_hop_content
+
+    def _is_internal_link(self, base_url: str, link_url: str) -> bool:
+        """Check if a link is internal to the same domain"""
+        try:
+            from urllib.parse import urlparse
+            base_domain = urlparse(base_url).netloc.lower()
+            link_domain = urlparse(link_url).netloc.lower()
+            
+            # Remove www. prefix for comparison
+            base_domain = base_domain.replace('www.', '')
+            link_domain = link_domain.replace('www.', '')
+            
+            return base_domain == link_domain
+        except Exception:
+            return False
 
 # PubMed and arXiv helper functions (keeping existing functionality with improvements)
 class PubMedClient:

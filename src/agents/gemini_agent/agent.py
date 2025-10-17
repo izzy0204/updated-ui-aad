@@ -4,12 +4,14 @@ from __future__ import annotations
 import asyncio
 import json
 import re
+import hashlib
 from dataclasses import fields as dc_fields
 from typing import Any, Dict, List, Optional, Tuple
 
 from utils.web_search import fetch_many
 from config.config import get_settings
 from core.chai_schema import CHAIModelCard
+from utils.cache_system import get_cache
 from .prompts import PLANNER, EXTRACTOR, VALIDATOR
 from .tools import (
     ddg_search,
@@ -74,30 +76,44 @@ def _gemini_json(gmodel: genai.GenerativeModel, *, prompt: str, system: Optional
     """
     Safe single-turn call that extracts the first JSON object the model returns.
     Keyword-only args prevent accidental positional swaps (fix B).
+    Returns proper error structure to distinguish failures from empty results.
     """
     try:
         if not hasattr(gmodel, "generate_content"):
             # Someone passed a string model id instead of the GenerativeModel object
-            return {}
+            return {"error": "invalid_model_object", "message": "Model object missing generate_content method"}
 
         text = ((system + "\n\n") if system else "") + prompt
         resp = gmodel.generate_content(text)
         out_text = getattr(resp, "text", None) or ""
 
         if not out_text:
-            return {}
+            return {"error": "empty_response", "message": "Model returned no text content"}
 
         # extract_json_block already tolerates ```json fences and stray prose
         obj = extract_json_block(out_text)
-        return obj if isinstance(obj, dict) else {}
-    except Exception:
-        return {}
+        if isinstance(obj, dict):
+            return obj
+        else:
+            return {"error": "json_parse_failed", "message": "Failed to parse JSON from model response", "raw_text": out_text[:200]}
+    except Exception as e:
+        return {"error": "exception", "message": str(e), "exception_type": type(e).__name__}
 
 
 # ----------------------------- Agent steps -----------------------------
 
 def _plan_targets(model, model_hint: str, *, developer: str, seed_context: str = "") -> Dict[str, Any]:
     print(f"DEBUG: _plan_targets called with model_hint={repr(model_hint)}, developer={repr(developer)}")
+    
+    cache = get_cache()
+    
+    # Check cache first
+    cache_key = f"{model_hint}_{developer}"
+    cached_plan = asyncio.run(cache.get("gemini_planning", cache_key))
+    if cached_plan is not None:
+        print(f"DEBUG: Cache HIT for planning: {cache_key}")
+        return cached_plan
+    
     seed_block = f"\n\nSEED CONTEXT (pre-extracted pages):\n{seed_context}\n" if seed_context else ""
 
     guardrails = []
@@ -105,7 +121,7 @@ def _plan_targets(model, model_hint: str, *, developer: str, seed_context: str =
         guardrails.append(
             "DEVELOPER CONSTRAINT:\n"
             f"- The developer/owner of this AI model is **{developer}**.\n"
-            "- Prefer sources on the developer’s official domains (e.g., *.<developer>.com, <model_name.com>, github.com/<developer>, huggingface.co/<developer>) when selecting targets.\n"
+            "- Prefer sources on the developer's official domains (e.g., *.<developer>.com, <model_name.com>, github.com/<developer>, huggingface.co/<developer>) when selecting targets.\n"
         )
 
     guardrails.append(
@@ -127,6 +143,18 @@ def _plan_targets(model, model_hint: str, *, developer: str, seed_context: str =
 
     result = _gemini_json(model, prompt=planner_prompt)
     print(f"DEBUG: _plan_targets result: {type(result)} = {repr(result)[:200]}...")
+    
+    # Cache the result
+    asyncio.run(cache.set(
+        "gemini_planning",
+        cache_key,
+        result,
+        model_name=model_hint,
+        metadata={"developer": developer, "seed_context_length": len(seed_context)},
+        developer=developer
+    ))
+    
+    print(f"DEBUG: Cache SET for planning: {cache_key}")
     return result
 
 async def _gather_targets_async(
@@ -212,6 +240,18 @@ def _extract_fields(
     manifest: str,
     sources_blob: str,
 ) -> Dict[str, Any]:
+    cache = get_cache()
+    
+    # Create cache key from field paths and sources content hash
+    sources_hash = hashlib.sha256(sources_blob.encode()).hexdigest()[:16]
+    cache_key = f"{'_'.join(field_paths)}_{sources_hash}"
+    
+    # Check cache first
+    cached_extraction = asyncio.run(cache.get("gemini_extraction", cache_key))
+    if cached_extraction is not None:
+        print(f"DEBUG: Cache HIT for extraction: {cache_key}")
+        return cached_extraction
+    
     allowed_fields = _CHAI_FIELDS
     prompt = EXTRACTOR.format(
         field_paths=json.dumps(field_paths),
@@ -219,7 +259,55 @@ def _extract_fields(
         manifest=manifest,
         sources=sources_blob,
     )
-    return _gemini_json(gmodel, prompt=prompt) or {}
+    
+    # Try extraction with retry logic
+    max_retries = 2
+    for attempt in range(max_retries + 1):
+        result = _gemini_json(gmodel, prompt=prompt)
+        
+        # Check if this is an error response
+        if "error" in result:
+            error_type = result.get("error", "unknown")
+            error_message = result.get("message", "No message provided")
+            
+            print(f"ERROR: Gemini extraction failed for fields {field_paths} (attempt {attempt + 1}/{max_retries + 1}): {error_type} - {error_message}")
+            
+            if attempt < max_retries:
+                print(f"DEBUG: Retrying extraction for fields {field_paths}...")
+                import time
+                time.sleep(1)  # Brief delay before retry
+                continue
+            else:
+                # Final attempt failed, return proper error structure
+                print(f"ERROR: All extraction attempts failed for fields {field_paths}")
+                error_result = {
+                    "values": {},
+                    "error": error_type,
+                    "error_message": error_message,
+                    "attempts": attempt + 1,
+                    "field_paths": field_paths
+                }
+                # Don't cache errors
+                return error_result
+        else:
+            # Success - break out of retry loop
+            break
+    
+    # Add debugging output
+    print(f"DEBUG: Gemini extraction result for fields {field_paths}: {type(result)} = {repr(result)[:200]}...")
+    
+    # Cache the result (only if successful)
+    asyncio.run(cache.set(
+        "gemini_extraction",
+        cache_key,
+        result,
+        metadata={"field_paths": field_paths, "sources_length": len(sources_blob), "manifest_length": len(manifest)},
+        field_paths=field_paths,
+        sources_hash=sources_hash
+    ))
+    
+    print(f"DEBUG: Cache SET for extraction: {cache_key}")
+    return result
 
 
 def _validate_patch(gmodel: genai.GenerativeModel, model_id: str, state: Dict[str, Any]) -> Dict[str, Any]:
@@ -272,12 +360,123 @@ def _validate_patch(gmodel: genai.GenerativeModel, model_id: str, state: Dict[st
 # ----------------------------- Utilities -----------------------------
 
 def _get_by_path(root: Dict[str, Any], path: str) -> Any:
-    cur: Any = root
-    for k in path.split("."):
-        if not isinstance(cur, dict):
-            return None
-        cur = cur.get(k)
-    return cur
+    """Safely get a value from a nested dictionary by path.
+    
+    Args:
+        root: The root dictionary to search in
+        path: Dot-separated path to the value (e.g., "model.name")
+        
+    Returns:
+        The value at the path, or None if not found or path is invalid
+    """
+    if not isinstance(root, dict) or not path or not isinstance(path, str):
+        return None
+        
+    # Safety check: reject paths that look like prompt text or are malformed
+    if any(indicator in path for indicator in ["CRITICAL REQUIREMENTS", "You MUST", "The JSON MUST", " and end with"]):
+        return None
+        
+    # Additional safety checks for malformed paths
+    if path.strip() == "" or len(path.strip()) < 2:
+        return None
+        
+    # Check for invalid characters that shouldn't be in field paths
+    invalid_chars = ['\n', '\r', '\t', '"', "'", '`', '(', ')', '[', ']', '{', '}']
+    if any(char in path for char in invalid_chars):
+        return None
+    
+    try:
+        cur: Any = root
+        for k in path.split("."):
+            if not isinstance(cur, dict) or k not in cur:
+                return None
+            cur = cur.get(k)
+        return cur
+    except Exception:
+        return None
+
+
+def _is_good_value(value: Any) -> bool:
+    """Check if a value is considered 'good' (non-empty and meaningful).
+    
+    Args:
+        value: The value to check
+        
+    Returns:
+        True if the value is good, False otherwise
+    """
+    if value is None:
+        return False
+    if isinstance(value, str):
+        stripped = value.strip()
+        return stripped and stripped not in ("", "Not specified", "N/A", "Unknown", "TBD", "To be determined")
+    if isinstance(value, (list, dict)):
+        return bool(value)  # Non-empty collections are good
+    if isinstance(value, (int, float)):
+        return True  # All numeric values are considered good
+    return bool(value)  # For other types, truthy values are good
+
+
+def _is_failed_batch(values: Dict[str, Any], evidence: Dict[str, List[Dict[str, str]]]) -> bool:
+    """Check if a batch extraction appears to have failed.
+    
+    Args:
+        values: Extracted values dictionary
+        evidence: Extracted evidence dictionary
+        
+    Returns:
+        True if the batch appears to be a failure, False otherwise
+    """
+    # Check for empty or minimal results
+    if not values and not evidence:
+        return True
+        
+    # Check for suspicious patterns that indicate failure
+    if values:
+        # If all values are empty/None/Not specified, it's likely a failure
+        good_values = sum(1 for v in values.values() if _is_good_value(v))
+        total_values = len(values)
+        if total_values > 0 and good_values == 0:
+            return True
+            
+        # If we have very few good values compared to total, it might be a failure
+        if total_values > 5 and good_values < 2:
+            return True
+    
+    return False
+
+
+def _safe_merge_value(existing: Any, new: Any, field_name: str) -> tuple[Any, bool]:
+    """Safely merge two values, preferring the better one.
+    
+    Args:
+        existing: The existing value
+        new: The new value to potentially merge
+        field_name: Name of the field for logging
+        
+    Returns:
+        Tuple of (merged_value, was_changed)
+    """
+    existing_good = _is_good_value(existing)
+    new_good = _is_good_value(new)
+    
+    if not new_good:
+        # New value is not good, keep existing
+        return existing, False
+        
+    if not existing_good:
+        # Existing value is not good, use new value
+        return new, True
+        
+    # Both values are good - prefer the more specific/detailed one
+    if isinstance(existing, str) and isinstance(new, str):
+        if len(new.strip()) > len(existing.strip()):
+            return new, True
+        else:
+            return existing, False
+    
+    # For other cases, keep existing (conservative approach)
+    return existing, False
 
 
 def _empty_agent_state() -> Dict[str, Any]:
@@ -313,20 +512,39 @@ def _normalize_extractor_output(
     values: Dict[str, str] = {}
     evidence: Dict[str, List[Dict[str, str]]] = {}
 
+    print(f"DEBUG: Normalizing extractor output: {type(raw)} = {repr(raw)[:300]}...")
+    print(f"DEBUG: Want fields: {want_fields}")
+
+    # Check if this is an error response
+    if isinstance(raw, dict) and "error" in raw:
+        error_type = raw.get("error", "unknown")
+        error_message = raw.get("error_message", "No message provided")
+        print(f"ERROR: Normalizing failed extraction - {error_type}: {error_message}")
+        # Return empty values and evidence for error cases
+        return values, evidence
+
     if not isinstance(raw, dict):
+        print(f"DEBUG: Raw is not a dict, type: {type(raw)}")
         if isinstance(raw, str) and len(want_fields) == 1:
             values[want_fields[0]] = raw.strip()
+            print(f"DEBUG: Set single field {want_fields[0]} = {raw.strip()}")
         return values, evidence
 
     # 1) Primary "values" object
     if isinstance(raw.get("values"), dict):
+        print(f"DEBUG: Found 'values' dict with keys: {list(raw['values'].keys())}")
         for k, v in raw["values"].items():
             if isinstance(v, (str, int, float)):
                 values[str(k)] = str(v).strip()
+                print(f"DEBUG: Set value {k} = {str(v).strip()}")
             elif v is None:
-                values[str(k)] = ""
+                values[str(k)] = None
+                print(f"DEBUG: Set value {k} = None (preserved None)")
             elif isinstance(v, list):
                 values[str(k)] = "; ".join(str(x).strip() for x in v if str(x).strip())
+                print(f"DEBUG: Set value {k} = {values[str(k)]} (from list)")
+    else:
+        print(f"DEBUG: No 'values' dict found, raw.get('values') = {raw.get('values')}")
 
     # 2) Single "value" (one-field case)
     if "value" in raw and len(want_fields) == 1 and not values:
@@ -469,46 +687,111 @@ def run(
             cur = _get_by_path(state, path)
             if _is_empty(cur):
                 want.append(path)
+        
+        # If fields empty, prioritize specialized CHAI fields that require external sources
         if not want:
-            want = ["summary", "intended_use_and_workflow", "model_limitations", "model_type"]
+            # Priority order: specialized fields first, then all others
+            specialized_fields = [
+                "regulatory_approval_status_if_applicable",
+                "irb_approval", 
+                "ethical_review_board_oversight",
+                "clinical_trial_if_available",
+                "reimbursement_status_if_applicable",
+                "stakeholders_consulted_during_design_of_solution",
+                "fairness_equity_goal_of_metrics",
+                "fairness_equity_result",
+                "fairness_equity_interpretation",
+                "bias_mitigation_approaches",
+                "skin_tone_diversity",
+                "demographic_representativeness"
+            ]
+            
+            # First, add specialized fields that are empty
+            for field in specialized_fields:
+                cur = _get_by_path(state, field)
+                if _is_empty(cur):
+                    want.append(field)
+            
+            # Then add any other empty fields
+            for field in _CHAI_FIELDS:
+                if field not in specialized_fields:  # Avoid duplicates
+                    cur = _get_by_path(state, field)
+                    if _is_empty(cur):
+                        want.append(field)
+        
+        print(f"DEBUG: Selected fields to extract: {want}")
 
-        # 4) Extract
-        try:
-            resp = _extract_fields(
-                gmodel=gmodel,
-                field_paths=want,
-                manifest=manifest,
-                sources_blob=sources_blob,
-            )
-        except Exception:
-            resp = {}
-
-        values, ev = _normalize_extractor_output(resp, want)
-
-        # Merge values
-        for k, v in values.items():
+        # 4) Extract - Batch fields to avoid overwhelming the model
+        BATCH_SIZE = 15  # Process fields in batches to avoid token limits
+        for i in range(0, len(want), BATCH_SIZE):
+            batch = want[i:i + BATCH_SIZE]
+            print(f"DEBUG: Processing batch {i//BATCH_SIZE + 1}/{(len(want) + BATCH_SIZE - 1)//BATCH_SIZE}: {len(batch)} fields")
+            
             try:
-                if not isinstance(k, str) or not k.strip():
-                    continue
-                if any(x in k for x in ["CRITICAL REQUIREMENTS", "You MUST", "The JSON MUST", " and end with"]):
-                    continue
-                if "." in k:
-                    set_by_path(state, k, v)
-                else:
-                    state[k] = v
+                resp = _extract_fields(
+                    gmodel=gmodel,
+                    field_paths=batch,
+                    manifest=manifest,
+                    sources_blob=sources_blob,
+                )
             except Exception:
-                continue
+                resp = {}
 
-        # Merge evidence
-        for k, lst in ev.items():
-            if not isinstance(lst, list):
+            values, ev = _normalize_extractor_output(resp, batch)
+            
+            print(f"DEBUG: Extracted values from batch: {len(values)} fields")
+            print(f"DEBUG: Extracted evidence from batch: {list(ev.keys())}")
+
+            # Check if this batch appears to be a failure before merging
+            if _is_failed_batch(values, ev):
+                print(f"DEBUG: Detected failed batch - skipping merge to preserve existing data")
                 continue
-            citations.setdefault(k, [])
-            for e in lst:
-                u = e.get("url")
-                sn = e.get("snippet")
-                if u and sn:
-                    citations[k].append({"url": u, "snippet": sn[:240]})
+            
+            # Merge values with safe merge strategy
+            merge_count = 0
+            for k, v in values.items():
+                try:
+                    if not isinstance(k, str) or not k.strip():
+                        continue
+                    if any(x in k for x in ["CRITICAL REQUIREMENTS", "You MUST", "The JSON MUST", " and end with"]):
+                        continue
+                    
+                    # Get existing value
+                    if "." in k:
+                        existing = _get_by_path(state, k)
+                    else:
+                        existing = state.get(k)
+                    
+                    # Use safe merge to determine the best value
+                    merged_value, was_changed = _safe_merge_value(existing, v, k)
+                    
+                    if was_changed:
+                        if "." in k:
+                            set_by_path(state, k, merged_value)
+                            print(f"DEBUG: Updated nested field {k} = {merged_value}")
+                        else:
+                            state[k] = merged_value
+                            print(f"DEBUG: Updated flat field {k} = {merged_value}")
+                        merge_count += 1
+                    else:
+                        print(f"DEBUG: Kept existing value for field {k} = {existing} (new value was {v})")
+                        
+                except Exception as e:
+                    print(f"DEBUG: Failed to merge field {k}: {e}")
+                    continue
+            
+            print(f"DEBUG: Successfully merged {merge_count} fields from batch")
+
+            # Merge evidence
+            for k, lst in ev.items():
+                if not isinstance(lst, list):
+                    continue
+                citations.setdefault(k, [])
+                for e in lst:
+                    u = e.get("url")
+                    sn = e.get("snippet")
+                    if u and sn:
+                        citations[k].append({"url": u, "snippet": sn[:240]})
 
         # 5) Validate → expand targets
         verdict = _validate_patch(gmodel, gemini_model, state) or {}

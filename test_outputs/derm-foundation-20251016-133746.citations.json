@@ -1,0 +1,74 @@
+{
+  "summary": [
+    {
+      "url": "https://developers.google.com/health-ai-developer-foundations/derm-foundation",
+      "snippet": "Derm Foundation is a machine learning model that generates embeddings for dermatology images, enabling efficient AI model development for dermatology image analysis."
+    },
+    {
+      "url": "https://developers.google.com/health-ai-developer-foundations/derm-foundation",
+      "snippet": "The embeddings can be used to efficiently build AI models for dermatology image related tasks, requiring less data and less compute than having to fully train a model without the embeddings or the pretrained model."
+    }
+  ],
+  "intended_use_and_workflow": [
+    {
+      "url": "https://huggingface.co/google/derm-foundation",
+      "snippet": "Derm Foundation can reduce the training data, compute, and technical expertise necessary to develop task-specific models for skin image analysis."
+    },
+    {
+      "url": "https://huggingface.co/google/derm-foundation",
+      "snippet": "Embeddings from the model can be used for a variety of user-defined downstream tasks including, but not limited to:\n- Classifying clinical conditions like psoriasis, melanoma or dermatitis\n- Scoring severity or progression of clinical condi"
+    },
+    {
+      "url": "https://huggingface.co/google/derm-foundation",
+      "snippet": "- Identifying the body part the skin is from\n- Determining image quality for dermatological assessment"
+    }
+  ],
+  "model_type": [
+    {
+      "url": "https://huggingface.co/google/derm-foundation",
+      "snippet": "- Model type: BiT-101x3 CNN (Convolutional Neural Network)"
+    }
+  ],
+  "model_limitations": [
+    {
+      "url": "https://huggingface.co/google/derm-foundation",
+      "snippet": "However, its quality can degrade in extreme conditions, such as photos that are too light or too dark.\nThe SFT (supervised fine-tuned) model was trained data from a limited set of countries (United States, Colombia, Australia, public images"
+    },
+    {
+      "url": "https://huggingface.co/google/derm-foundation",
+      "snippet": "It may not generalize well to data from other countries, patient populations, or image types not used in training."
+    }
+  ],
+  "training_data": [
+    {
+      "url": "https://huggingface.co/google/derm-foundation",
+      "snippet": "The first pre-training stage used contrastive learning to train on a large number of public image-text pairs from the internet. The image component of this pre-trained model was then fine-tuned for condition classification and a couple othe"
+    },
+    {
+      "url": "https://huggingface.co/google/derm-foundation",
+      "snippet": "- SFT (supervised fine-tuned) model: tele-dermatology datasets from the United States and Colombia, a skin cancer dataset from Australia, and additional public images."
+    }
+  ],
+  "validation_test_dataset": [
+    {
+      "url": "https://huggingface.co/google/derm-foundation",
+      "snippet": "Derm Foundation was evaluated for data-efficient accuracy across a range of skin-related classifications tasks. Training a linear classifier on Derm-Foundations embeddings were substantially more performant (10-15% increase in accuracy) tha"
+    }
+  ],
+  "skin_tone_diversity": [
+    {
+      "url": "https://huggingface.co/google/derm-foundation",
+      "snippet": "As with any research, developers should ensure any downstream application is validated to understand performance using data that is appropriately representative of the intended use setting for the specific application (e.g., skin tone/type,"
+    },
+    {
+      "url": "https://arxiv.org/search?query=Derm+Foundation&searchtype=all&abstracts=show&order=-submitted_date&size=50",
+      "snippet": "Sorry, your query for all: Derm Foundation produced no results."
+    }
+  ],
+  "foundation_models_used_in_application_if_applicable": [
+    {
+      "url": "https://research.google/blog/helping-everyone-build-ai-for-healthcare-applications-with-open-foundation-models",
+      "snippet": "The inaugural release of HAI-DEF includes three models focused on supporting development of medical imaging applications:\n- CXR Foundation for chest X-rays\n- Derm Foundation for skin images\n- Path Foundation for digital pathology"
+    }
+  ]
+}

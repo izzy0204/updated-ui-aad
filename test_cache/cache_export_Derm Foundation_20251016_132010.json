@@ -1,0 +1,114 @@
+{
+  "model_name": "Derm Foundation",
+  "export_timestamp": "2025-10-16T13:20:10.894015",
+  "cache_stats": {
+    "total_entries": 20,
+    "hits": 3,
+    "misses": 28,
+    "evictions": 0,
+    "hit_rate": 0.0967741935483871,
+    "last_cleanup": null,
+    "memory_cache_size": 20
+  },
+  "cached_data": {
+    "model_sources": [
+      {
+        "key": "5516b3955b9f614be81f0ce3c23a2165",
+        "url": null,
+        "stage": null,
+        "timestamp": "2025-10-16T13:19:24.136949",
+        "metadata": {
+          "developer": "Google Health",
+          "query_count": 6,
+          "found_count": 12
+        },
+        "data": [
+          {
+            "title": "Derm Foundation Model | Health AI Developer Foundations | Google for ...",
+            "url": "https://developers.google.com/health-ai-developer-foundations/derm-foundation",
+            "description": "DermFoundationis a machine learning (ML) model that produces embeddings based on dermatology images. The embeddings can be used to efficiently build AI models for dermatology image related tasks, requiring less data and less compute than having to fully train a model without the embeddings or the pretrained model.",
+            "type": "web",
+            "priority_score": 5.0
+          },
+          {
+            "title": "Google for Health - What Is Google for Health?",
+            "url": "https://health.google/",
+            "description": "Combining our partners' knowledge and experience,Google'stechnological expertise, and patient insights, we are able to conduct research and work towards advancedhealthsolutions for individuals, caregivers andhealthprofessionals.",
+            "type": "web",
+            "priority_score": 5.0
+          },
+          {
+            "title": "derm-foundation/README.md at master · Google-Health/derm ... - GitHub",
+            "url": "https://github.com/Google-Health/derm-foundation/blob/master/README.md",
+            "description": "DermFoundationis a machine learning (ML) model that produces embeddings based on dermatology images. The embeddings can be used to efficiently build AI models for dermatology image related tasks, requiring less data and less compute than having to fully train a model without the embeddings. As aHealthAI DeveloperFoundationsmodel trained on large scale datasets,DermFoundationhelps ...",
+            "type": "web",
+            "priority_score": 5.0
+          },
+          {
+            "title": "google/derm-foundation · Hugging Face",
+            "url": "https://huggingface.co/google/derm-foundation",
+            "description": "DescriptionDermFoundationis a machine learning model designed to accelerate AI development for skin image analysis for dermatology applications. It is pre-trained on large amounts of labeled skin images to produce 6144 dimensional embeddings that capture dense features relevant for analyzing these images.",
+            "type": "web",
+            "priority_score": 5.0
+          },
+          {
+            "title": "Google Releases Derm Foundation and Path Foundation ... - Maginative",
+            "url": "https://www.maginative.com/article/google-releases-derm-foundation-and-path-foundation-domain-specific-tools-for-dermatology-and-pathology-embeddings",
+            "description": "The release ofDermFoundationand PathFoundationmarks an exciting development in the field of AI-assisted healthcare. By providing researchers with access to these tools,Googleaims to catalyze the development of innovative applications, such as diagnostic models, quality assurance systems, image indexing, and biomarker discovery.",
+            "type": "web",
+            "priority_score": 5.0
+          },
+          {
+            "title": "Get started with Derm Foundation - Google Developers",
+            "url": "https://developers.google.com/health-ai-developer-foundations/derm-foundation/get-started",
+            "description": "Deploy your own online serviceDermFoundationcan be deployed as a highly available and scalable HTTPS endpoint on Vertex AI. The easiest way is through Model Garden. This option is ideal for production-grade, online applications with low latency, high scalability and availability requirements.",
+            "type": "web",
+            "priority_score": 5.0
+          },
+          {
+            "title": "derm-foundation/notebooks/README.md at master · Google-Health/derm ...",
+            "url": "https://github.com/Google-Health/derm-foundation/blob/master/notebooks/README.md",
+            "description": "DermFoundationNotebooks Notebooks in this folder: Quick start with Hugging Face - Example of encoding a dermatology image into an embedding vector by running the model locally from Hugging Face.",
+            "type": "web",
+            "priority_score": 5.0
+          },
+          {
+            "title": "Helping everyone build AI for healthcare applications with open ...",
+            "url": "https://research.google/blog/helping-everyone-build-ai-for-healthcare-applications-with-open-foundation-models",
+            "description": "HealthAI DeveloperFoundations(HAI-DEF) is a new suite of open weight models to help developers more easily build AI models for healthcare applications. The initial launch is focused on imaging applications in radiology, dermatology and pathology.",
+            "type": "web",
+            "priority_score": 5.0
+          },
+          {
+            "title": "Derm Foundation model card | Health AI Developer Foundations | Google ...",
+            "url": "https://developers.google.cn/health-ai-developer-foundations/derm-foundation/model-card",
+            "description": "DescriptionDermFoundationis a machine learning model designed to accelerate AI development for skin image analysis for dermatology applications. It is pre-trained on large amounts of labeled skin images to produce 6144 dimensional embeddings that capture dense features relevant for analyzing these images. As a result,DermFoundation'sembeddings enable the efficient training of AI models ...",
+            "type": "web",
+            "priority_score": 5.0
+          },
+          {
+            "title": "Google Unveils Health AI Developer Foundations: Transforming Healthcare ...",
+            "url": "https://www.mondaylabs.ai/blog/google-unveils-health-ai-developer-foundations-transforming-healthcare-with-ai-powered-innovation",
+            "description": "Googlehas introducedHealthAIDeveloperFoundations(HAI-DEF), offering pre-trainedAImodels for medical imaging, pathology, anddermatology. These models, optimised forGoogleCloud, aim to enhance diagnostics, accelerate workflows, and improve patient care. By enabling faster, more accurate disease detection, HAI-DEF is set to transform medical research and digital healthcare worldwide.",
+            "type": "web",
+            "priority_score": 5.0
+          },
+          {
+            "title": "Foundation Models as Class-Incremental Learners for Dermatological ...",
+            "url": "https://arxiv.org/pdf/2507.14050",
+            "description": "Implementation Details. We evaluate our baselines using two dermatology-based FMs: theGoogleDermmodel [18], a publicly released FM trained on over 400 skin conditions, and PanDerm [33], a large-scale FM pre-trained on millions of clinical and dermoscopic dermatology images.",
+            "type": "web",
+            "priority_score": 5.0
+          },
+          {
+            "title": "Health-specific embedding tools for dermatology and pathology",
+            "url": "https://research.google/blog/health-specific-embedding-tools-for-dermatology-and-pathology",
+            "description": "Googleresearch releases two new research-use-only tools for training medical imaging models for dermatology and pathology, building on its domain-specific embeddings. There's a worldwide shortage of access to medical imaging expert interpretation across specialties including radiology, dermatology and pathology.",
+            "type": "web",
+            "priority_score": 5.0
+          }
+        ]
+      }
+    ]
+  }
+}

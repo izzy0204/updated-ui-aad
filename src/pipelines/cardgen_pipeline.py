@@ -12,6 +12,9 @@ from typing import Dict, Tuple, Optional, Any, List
 # Web discovery (DuckDuckGo) + prefetch (HTML/PDF → text)
 from utils.web_search import discover_and_fetch
 
+# Model card scoring system
+from utils.model_card_scorer import ModelCardScorer, format_score_report, get_score_summary
+
 # Publications finder (Crossref + ArXiv)
 try:
     from utils.enhanced_publication_finder import EnhancedPublicationFinder
@@ -55,6 +58,7 @@ class PipelineOutputs:
     md_path: Optional[Path]
     xml_path: Optional[Path]
     citations_json_path: Optional[Path]
+    scoring_txt: Optional[Path] = None
 
 
 def _slugify(s: str) -> str:
@@ -591,19 +595,25 @@ _FALLBACKS: dict[str, list[str]] = {
 }
 
 
-def _coerce_scalar_or_join(value: Any) -> str:
-    """Join lists to a sentence; pass scalars through; map falsy to empty string."""
+def _coerce_scalar_or_join(value: Any) -> str | None:
+    """Join lists to a sentence; pass scalars through; preserve None."""
     if value is None:
-        return ""
+        return None
     if isinstance(value, list):
         return "; ".join(str(x).strip() for x in value if str(x).strip())
     return str(value)
 
 
-def _map_agent_dump_to_chai(agent_dump: Dict[str, Any]) -> CHAIModelCard:
+def _map_agent_dump_to_chai(agent_dump: Dict[str, Any], *, user_model_name: str = "", user_developer_name: str = "", user_application_url: str = "") -> CHAIModelCard:
     """
     Prefer flat CHAI keys directly. Fall back to your normalization + aliasing map
     for backward compatibility with older agent outputs.
+    
+    Args:
+        agent_dump: Agent output dictionary
+        user_model_name: User-provided model name (takes precedence)
+        user_developer_name: User-provided developer name (takes precedence)
+        user_application_url: User-provided application URL (takes precedence)
     """
     # 0) If the agent already returned CHAI-shaped flat keys, use them (type-safe)
     chai_field_names = {f.name for f in dc_fields(CHAIModelCard)}
@@ -620,7 +630,16 @@ def _map_agent_dump_to_chai(agent_dump: Dict[str, Any]) -> CHAIModelCard:
                 else:
                     setattr(card, k, [str(v).strip()])
             else:
-                setattr(card, k, "" if v is None else str(v).strip())
+                setattr(card, k, None if v is None else str(v).strip())
+        
+        # Override with user input if provided
+        if user_model_name:
+            card.model_name = user_model_name
+        if user_developer_name:
+            card.developer = user_developer_name
+        if user_application_url:
+            card.application_url = user_application_url
+            
         return card
 
     # --- Legacy / mixed keys path (uses your existing normalization & fallbacks) ---
@@ -649,6 +668,14 @@ def _map_agent_dump_to_chai(agent_dump: Dict[str, Any]) -> CHAIModelCard:
                 val = flat[nk]
                 kwargs[chai_field] = _coerce_scalar_or_join(val)
                 break
+
+    # Override with user input if provided
+    if user_model_name:
+        kwargs["model_name"] = user_model_name
+    if user_developer_name:
+        kwargs["developer"] = user_developer_name
+    if user_application_url:
+        kwargs["application_url"] = user_application_url
 
     return CHAIModelCard(**kwargs)
 
@@ -899,7 +926,7 @@ async def _postfill_missing_fields(
     seed_pages: list[dict],
     citations: dict,
     *,
-    max_fields: int = 40,
+    max_fields: int = 74,  # Process all CHAI fields
 ) -> tuple[CHAIModelCard, dict]:
     """
     For any empty CHAI field, ask Gemini to fill it using (seed_pages + citations) as context.
@@ -945,10 +972,108 @@ class CardGenPipeline:
     async def __aexit__(self, exc_type, exc, tb):
         return False
 
+    async def discover_model_sources(self, model_name: str, developer_name: str = "", application_url: str = "") -> Dict[str, Any]:
+        """
+        Discover sources for the model, prioritizing the application URL if provided.
+        """
+        # If application URL is provided, prioritize it with second-hop scraping
+        if application_url:
+            try:
+                # Use second-hop scraper for user inputted URL
+                from scrapers.robust_scraper_v2 import RobustWebScraper
+                scraper = RobustWebScraper()
+                
+                # Extract content with second-hop functionality
+                app_result = await scraper.extract_content_with_second_hop(application_url, model_name)
+                
+                if app_result.get('status') == 'success':
+                    return {
+                        "application_url": application_url,
+                        "application_content": app_result.get("clean_text", ""),
+                        "application_title": app_result.get("title", ""),
+                        "application_metadata": app_result.get("metadata", {}),
+                        "second_hop_content": app_result.get("second_hop_content", []),
+                        "second_hop_count": app_result.get("second_hop_count", 0),
+                        "total_text_length": app_result.get("total_text_length", len(app_result.get("clean_text", ""))),
+                        "priority_source": True,
+                        "model_name": model_name,
+                        "developer_name": developer_name
+                    }
+                else:
+                    # Fallback to regular fetch if second-hop fails
+                    from utils.web_search import fetch_many
+                    app_pages = await fetch_many([application_url])
+                    if app_pages and app_pages[0]:
+                        app_page = app_pages[0]
+                        return {
+                            "application_url": application_url,
+                            "application_content": app_page.get("text", ""),
+                            "priority_source": True,
+                            "model_name": model_name,
+                            "developer_name": developer_name
+                        }
+            except Exception as e:
+                print(f"Warning: Second-hop scraping failed for {application_url}: {e}")
+                # Fallback to regular fetch
+                try:
+                    from utils.web_search import fetch_many
+                    app_pages = await fetch_many([application_url])
+                    if app_pages and app_pages[0]:
+                        app_page = app_pages[0]
+                        return {
+                            "application_url": application_url,
+                            "application_content": app_page.get("text", ""),
+                            "priority_source": True,
+                            "model_name": model_name,
+                            "developer_name": developer_name
+                        }
+                except Exception:
+                    pass
+        
+        # Fall back to regular discovery
+        discovered: List[Dict[str, Any]] = []
+        seed_pages_web: List[Dict[str, Any]] = []
+        if self.use_web_discovery:
+            try:
+                discovered, seed_pages_web = await discover_and_fetch(model_name, developer_name, top_k=5)
+            except Exception:
+                discovered, seed_pages_web = ([], [])
+        
+        return {
+            "discovered": discovered,
+            "seed_pages_web": seed_pages_web,
+            "model_name": model_name,
+            "developer_name": developer_name,
+            "application_url": application_url
+        }
+
+    async def extract_content_from_sources(self, sources: Dict[str, Any]) -> Dict[str, Any]:
+        """
+        Extract content from discovered sources.
+        """
+        # This is a placeholder - in a real implementation, this would extract content
+        # from the sources and return structured data
+        return {
+            "sources": sources,
+            "extracted_content": "Content extraction placeholder"
+        }
+
+    async def generate_chai_model_card(self, model_name: str, extracted_content: Dict[str, Any], developer_name: str = "", application_url: str = "") -> CHAIModelCard:
+        """
+        Generate a CHAI model card using the extracted content and user inputs.
+        """
+        # Use the existing generate_model_card method but with application URL support
+        return await self.generate_model_card(
+            model_name=model_name,
+            developer_name=developer_name,
+            application_url=application_url
+        )
+
     async def generate_model_card(
         self,
         model_name: str,
         developer_name: str = "",
+        application_url: str = "",
         *,
         iters: int = 3,
         coverage_target: float = 0.60,
@@ -969,14 +1094,72 @@ class CardGenPipeline:
         # 0) Discovery (DuckDuckGo) + prefetch top pages (WEB ONLY for first pass)
         discovered: List[Dict[str, Any]] = []
         seed_pages_web: List[Dict[str, Any]] = []
+        
+        # Prioritize application URL if provided with second-hop scraping
+        if application_url:
+            try:
+                # Use second-hop scraper for user inputted URL
+                from scrapers.robust_scraper_v2 import RobustWebScraper
+                scraper = RobustWebScraper()
+                
+                # Extract content with second-hop functionality
+                app_result = await scraper.extract_content_with_second_hop(application_url, model_name)
+                
+                if app_result.get('status') == 'success':
+                    # Add application URL as highest priority source with enhanced content
+                    seed_pages_web.insert(0, {
+                        "url": application_url,
+                        "text": app_result.get("clean_text", ""),
+                        "title": app_result.get("title", ""),
+                        "second_hop_content": app_result.get("second_hop_content", []),
+                        "second_hop_count": app_result.get("second_hop_count", 0),
+                        "total_text_length": app_result.get("total_text_length", len(app_result.get("clean_text", ""))),
+                        "metadata": app_result.get("metadata", {}),
+                        "priority": "user_inputted"
+                    })
+                    print(f"✅ Enhanced application URL with second-hop: {app_result.get('second_hop_count', 0)} additional sections")
+                else:
+                    # Fallback to regular fetch if second-hop fails
+                    from utils.web_search import fetch_many
+                    app_pages = await fetch_many([application_url])
+                    if app_pages and app_pages[0]:
+                        app_page = app_pages[0]
+                        seed_pages_web.insert(0, {
+                            "url": application_url,
+                            "text": app_page.get("text", ""),
+                            "title": app_page.get("title", ""),
+                            "priority": "user_inputted"
+                        })
+            except Exception as e:
+                print(f"Warning: Second-hop scraping failed for {application_url}: {e}")
+                # Fallback to regular fetch
+                try:
+                    from utils.web_search import fetch_many
+                    app_pages = await fetch_many([application_url])
+                    if app_pages and app_pages[0]:
+                        app_page = app_pages[0]
+                        seed_pages_web.insert(0, {
+                            "url": application_url,
+                            "text": app_page.get("text", ""),
+                            "title": app_page.get("title", ""),
+                            "priority": "user_inputted"
+                        })
+                except Exception:
+                    pass
+        
         if self.use_web_discovery:
             try:
-                discovered, seed_pages_web = await discover_and_fetch(model_name, developer_name, top_k=5)
+                discovered, additional_seed_pages = await discover_and_fetch(model_name, developer_name, top_k=5)
+                # Add additional discovered pages (but don't override application URL)
+                seed_pages_web.extend(additional_seed_pages)
             except Exception:
-                discovered, seed_pages_web = ([], [])
+                pass
 
-        # top URLs (bias early targets)
-        top_urls = [s["url"] for s in discovered[:5] if s.get("url")]
+        # top URLs (bias early targets) - prioritize application URL
+        top_urls = []
+        if application_url:
+            top_urls.append(application_url)
+        top_urls.extend([s["url"] for s in discovered[:4] if s.get("url")])  # Take 4 more to keep total at 5
 
         # 1) Run Gemini agent with WEB ONLY seed (no publications/FDA yet)
         try:
@@ -1007,7 +1190,7 @@ class CardGenPipeline:
             agent_dump = getattr(agent_card_like, "__dict__", {}) or {}
 
         # 3) Map nested agent fields → CHAI flat dataclass
-        chai_card = _map_agent_dump_to_chai(agent_dump)
+        chai_card = _map_agent_dump_to_chai(agent_dump, user_model_name=model_name, user_developer_name=developer_name, user_application_url=application_url)
 
         # ---- NOW fetch Publications + FDA (late) and use them for post-fill only ----
         publications: List[Dict[str, Any]] = []
@@ -1044,7 +1227,7 @@ class CardGenPipeline:
                 chai_card=chai_card,
                 seed_pages=seed_pages_post,
                 citations=citations,
-                max_fields=60
+                max_fields=74  # Process all CHAI fields
             )
             postfill_ran = True
         except Exception:
@@ -1084,6 +1267,35 @@ class CardGenPipeline:
             "xml": xml_text,
             "paths": outputs,
         }
+        # Generate scoring report
+        scorer = ModelCardScorer()
+        model_card_dict = chai_card.model_dump() if hasattr(chai_card, 'model_dump') else chai_card.__dict__
+        score = scorer.score_model_card(model_card_dict)
+        
+        # Add scoring information to sources
+        sources["scoring"] = {
+            "completion_percentage": score.completion_percentage,
+            "clinical_usability_score": score.clinical_usability_score,
+            "clinical_usability_level": score.clinical_usability_level.value,
+            "overall_rating": score.overall_rating,
+            "total_fields": score.total_fields,
+            "filled_fields": score.filled_fields,
+            "critical_missing_fields": score.critical_missing_fields,
+            "recommendations_count": len(score.recommendations),
+            "quality_issues_count": len(score.quality_issues)
+        }
+        
+        # Add detailed scoring report to content
+        scoring_report = format_score_report(score)
+        content["scoring_report"] = scoring_report
+        content["scoring_summary"] = get_score_summary(score)
+        
+        # Write scoring report to file if requested
+        if write_files and outputs:
+            scoring_path = outputs.json_path.with_suffix(".scoring.txt")
+            scoring_path.write_text(scoring_report, encoding="utf-8")
+            outputs.scoring_txt = scoring_path
+        
         return chai_card, sources, content
 
     # ------------------------- writers -------------------------
@@ -1155,6 +1367,15 @@ async def _amain():
         if outs.md_path: print(f"- {outs.md_path}")
         if outs.xml_path: print(f"- {outs.xml_path}")
         if outs.citations_json_path: print(f"- {outs.citations_json_path}")
+        if outs.scoring_txt: print(f"- {outs.scoring_txt}")
+        
+        # Show scoring summary
+        if content.get("scoring_summary"):
+            summary = content["scoring_summary"]
+            print(f"\n📊 SCORING SUMMARY:")
+            print(f"   Completion: {summary['completion_percentage']}%")
+            print(f"   Clinical Usability: {summary['clinical_usability_level'].upper()}")
+            print(f"   Overall Rating: {summary['overall_rating']}")
 
 
 def main():

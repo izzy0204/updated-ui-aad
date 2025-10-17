@@ -78,6 +78,13 @@ with col1:
         placeholder="e.g., Google Health, 3Derm, SciBase, DermTech",
         help="Enter the developer/organization name to improve search accuracy and targeting"
     )
+    
+    # Application URL Input - Primary Source
+    application_url = st.text_input(
+        "Application URL (Optional):",
+        placeholder="e.g., https://example.com/model-docs, https://github.com/org/model",
+        help="Enter the main website or documentation URL for this AI application. This source will be prioritized for field filling."
+    )
 
 with col2:
     st.markdown("<br>", unsafe_allow_html=True)  # Add spacing
@@ -105,7 +112,7 @@ with st.expander("What happens when you click 'Generate Model Card'?"):
     """)
 
 # Developer-focused optimization info
-st.info("🎯 **Developer Optimization**: When you specify a developer name, the system runs a targeted search focusing on that developer's official sources instead of a comprehensive search across all platforms. This improves accuracy and reduces processing time.")
+st.info("🎯 **Enhanced Discovery**: When you specify a developer name or application URL, the system prioritizes those sources for more accurate and targeted information extraction. The Application URL will be used as the primary source for field filling.")
 
 # Main generation logic
 if generate_button:
@@ -124,7 +131,7 @@ if generate_button:
                     status_text.text("🔍 Finding information about your model...")
                     progress_bar.progress(25)
                     
-                    sources = await pipeline.discover_model_sources(model_name, developer_name)
+                    sources = await pipeline.discover_model_sources(model_name, developer_name, application_url)
                     
                     # Step 2: Content Extraction
                     status_text.text("📝 Extracting technical details and documentation...")
@@ -136,7 +143,7 @@ if generate_button:
                     status_text.text("🤖 Analyzing with AI and generating comprehensive model card...")
                     progress_bar.progress(75)
                     
-                    chai_card = await pipeline.generate_chai_model_card(model_name, extracted_content, developer_name)
+                    chai_card = await pipeline.generate_chai_model_card(model_name, extracted_content, developer_name, application_url)
                     
                     progress_bar.progress(100)
                     status_text.text("✅ Model card generated successfully!")
@@ -148,9 +155,51 @@ if generate_button:
             
             # Store in session state for output tab (overwrites previous)
             st.session_state.generated_model_card = chai_model_card
+            st.session_state.generated_sources = sources
+            st.session_state.generated_content = extracted_content
             
             # Success message with tab guidance
             st.success("✅ Your model card has been generated! View the complete formatted output in the **Output tab**.")
+            
+            # Show scoring information if available
+            if sources.get("scoring"):
+                scoring = sources["scoring"]
+                st.subheader("📊 Model Card Scoring")
+                
+                # Color-coded scoring display
+                col1, col2, col3 = st.columns(3)
+                
+                with col1:
+                    completion = scoring["completion_percentage"]
+                    if completion >= 75:
+                        st.success(f"🟢 Completion: {completion:.1f}%")
+                    elif completion >= 50:
+                        st.warning(f"🟡 Completion: {completion:.1f}%")
+                    else:
+                        st.error(f"🔴 Completion: {completion:.1f}%")
+                
+                with col2:
+                    clinical_level = scoring["clinical_usability_level"]
+                    if clinical_level == "green":
+                        st.success(f"🟢 Clinical: {clinical_level.upper()}")
+                    elif clinical_level == "yellow":
+                        st.warning(f"🟡 Clinical: {clinical_level.upper()}")
+                    else:
+                        st.error(f"🔴 Clinical: {clinical_level.upper()}")
+                
+                with col3:
+                    st.info(f"📝 Fields: {scoring['filled_fields']}/{scoring['total_fields']}")
+                
+                # Overall rating
+                st.info(f"**Overall Rating:** {scoring['overall_rating']}")
+                
+                # Critical missing fields
+                if scoring.get("critical_missing_fields"):
+                    st.warning(f"**Critical Missing Fields:** {', '.join(scoring['critical_missing_fields'])}")
+                
+                # Recommendations count
+                if scoring.get("recommendations_count", 0) > 0:
+                    st.info(f"**Recommendations:** {scoring['recommendations_count']} improvement suggestions available")
             
             # Quick stats
             st.subheader("📊 Generation Summary")

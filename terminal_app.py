@@ -8,7 +8,7 @@ Terminal-based AI Model Card Generator (updated)
 - Shows where artifacts were written (JSON/MD/XML/Citations)
 
 Run:
-  python terminal_app.py --model-name "DermNetX" --developer "ACME Health"
+  python terminal_app.py --model-name "DermNetX" --developer "ACME Health" --application-url "https://example.com/model-docs"
 """
 
 from __future__ import annotations
@@ -198,6 +198,7 @@ def build_argparser() -> argparse.ArgumentParser:
     p = argparse.ArgumentParser(description="Generate a CHAI model card via Gemini agent (terminal)")
     p.add_argument("--model-name", "-m", required=False, help="Model name (e.g., 'DermNetX')")
     p.add_argument("--developer", "-d", default="", help="Developer/organization name")
+    p.add_argument("--application-url", "-u", default="", help="Application URL (primary source for field filling)")
     p.add_argument("--iters", type=int, default=3, help="Max agent iters")
     p.add_argument("--coverage", type=float, default=0.60, help="Coverage target [0..1]")
     p.add_argument("--finalize", default="not_specified", choices=["not_specified", "none"],
@@ -225,6 +226,7 @@ async def run(args: argparse.Namespace) -> int:
 
     model_name = args.model_name
     developer = args.developer
+    application_url = args.application_url
 
     # Prompt interactively if not provided via flags
     if not model_name:
@@ -242,12 +244,19 @@ async def run(args: argparse.Namespace) -> int:
         except EOFError:
             developer = ""
 
+    if not application_url:
+        try:
+            application_url = input("🌐 Application URL (optional): ").strip()
+        except EOFError:
+            application_url = ""
+
     info("Initializing pipeline...")
     async with CardGenPipeline(out_dir=args.out_dir, use_web_discovery=not args.no_discovery) as pipeline:
         info("Discovering sources and analyzing content (this can take a few minutes)...")
         chai_card, sources, content = await pipeline.generate_model_card(
             model_name=model_name,
             developer_name=developer,
+            application_url=application_url,
             iters=args.iters,
             coverage_target=args.coverage,
             finalize_policy=args.finalize,

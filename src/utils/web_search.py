@@ -22,6 +22,7 @@ from pypdf import PdfReader
 import trafilatura
 
 from utils.net import new_session  # centralized session (certifi CA, proxy-aware, sane timeouts)
+from utils.cache_system import get_cache
 
 logger = logging.getLogger(__name__)
 
@@ -122,9 +123,17 @@ async def _ddg_search_once(session: aiohttp.ClientSession, base_url: str, query:
 
 async def web_search(query: str, max_results: int = 10) -> List[Dict[str, Any]]:
     """
-    DuckDuckGo HTML search (no API key).
+    DuckDuckGo HTML search (no API key) with caching.
     Returns: [{title, url, snippet, source='duckduckgo', rank}, ...]
     """
+    cache = get_cache()
+    
+    # Check cache first
+    cached_results = await cache.get("web_search", query, max_results=max_results)
+    if cached_results is not None:
+        logger.info(f"Cache HIT for web search: {query}")
+        return cached_results[:max_results]
+    
     results: List[Dict[str, Any]] = []
     try:
         async with new_session() as session:
@@ -144,7 +153,19 @@ async def web_search(query: str, max_results: int = 10) -> List[Dict[str, Any]]:
     except Exception as e:
         logger.error("Error in web_search(%r): %s", query, e)
 
-    return results[:max_results]
+    final_results = results[:max_results]
+    
+    # Cache the results
+    await cache.set(
+        "web_search", 
+        query, 
+        final_results,
+        metadata={"max_results": max_results, "query": query},
+        max_results=max_results
+    )
+    
+    logger.info(f"Cache SET for web search: {query} ({len(final_results)} results)")
+    return final_results
 
 
 def is_web_search_available() -> bool:
@@ -178,6 +199,14 @@ def _extract_pdf_text(data: bytes) -> str:
 # ---------- Robust async fetcher (HTML/PDF + retries) ----------
 
 async def _fetch_one(session: aiohttp.ClientSession, url: str, timeout: float = 20.0) -> Dict[str, Any]:
+    cache = get_cache()
+    
+    # Check cache first
+    cached_result = await cache.get("web_fetch", url, timeout=timeout)
+    if cached_result is not None:
+        logger.info(f"Cache HIT for web fetch: {url}")
+        return cached_result
+    
     u = canonical_url(url)
     try:
         async with session.get(u, timeout=timeout, allow_redirects=True) as r:
@@ -195,9 +224,35 @@ async def _fetch_one(session: aiohttp.ClientSession, url: str, timeout: float = 
                 text = _extract_html_text(html, u)
                 kind = "html"
 
-            return {"url": u, "status": r.status, "type": kind, "text": text}
+            result = {"url": u, "status": r.status, "type": kind, "text": text}
+            
+            # Cache the result
+            await cache.set(
+                "web_fetch",
+                url,
+                result,
+                url=url,
+                metadata={"timeout": timeout, "content_type": ct, "status": r.status},
+                timeout=timeout
+            )
+            
+            logger.info(f"Cache SET for web fetch: {url} (status: {r.status}, type: {kind})")
+            return result
+            
     except Exception as e:
-        return {"url": u, "status": 0, "type": "error", "error": str(e), "text": ""}
+        error_result = {"url": u, "status": 0, "type": "error", "error": str(e), "text": ""}
+        
+        # Cache error results too (with shorter TTL)
+        await cache.set(
+            "web_fetch",
+            url,
+            error_result,
+            url=url,
+            metadata={"timeout": timeout, "error": str(e)},
+            timeout=timeout
+        )
+        
+        return error_result
 
 
 async def fetch_many(urls: List[str], *, concurrency: int = 6) -> List[Dict[str, Any]]:
@@ -230,8 +285,17 @@ async def fetch_many(urls: List[str], *, concurrency: int = 6) -> List[Dict[str,
 
 async def discover_model_sources(model_name: str, developer: str = "") -> List[Dict[str, Any]]:
     """
-    Run several targeted queries and return de-duplicated search results.
+    Run several targeted queries and return de-duplicated search results with caching.
     """
+    cache = get_cache()
+    
+    # Check cache first
+    cache_key = f"{model_name}_{developer}"
+    cached_results = await cache.get("model_sources", cache_key)
+    if cached_results is not None:
+        logger.info(f"Cache HIT for model sources: {cache_key}")
+        return cached_results
+    
     # Always include developer when available to make searches more specific
     base_query = f"{developer} {model_name}" if developer else model_name
     
@@ -242,6 +306,16 @@ async def discover_model_sources(model_name: str, developer: str = "") -> List[D
         f"{base_query} paper",
         f"{base_query} AI model",
         f"{base_query} publication",
+        # Specialized CHAI field queries
+        f"{base_query} FDA clearance regulatory approval",
+        f"{base_query} clinical trial validation study",
+        f"{base_query} IRB approval ethics review",
+        f"{base_query} bias analysis fairness metrics",
+        f"{base_query} reimbursement insurance coverage",
+        f"{base_query} stakeholder consultation user research",
+        f"site:pubmed.ncbi.nlm.nih.gov {base_query}",
+        f"site:fda.gov {base_query}",
+        f"site:clinicaltrials.gov {base_query}",
     ]
     
     # If no developer provided, add some fallback queries without developer
@@ -249,6 +323,9 @@ async def discover_model_sources(model_name: str, developer: str = "") -> List[D
         queries.extend([
             f"{model_name} official site",
             f"{model_name} documentation",
+            f"{model_name} FDA clearance regulatory approval",
+            f"{model_name} clinical trial validation study",
+            f"{model_name} IRB approval ethics review",
         ])
     
     seen: set[str] = set()
@@ -268,7 +345,21 @@ async def discover_model_sources(model_name: str, developer: str = "") -> List[D
                 "type": "web",
                 "priority_score": 5.0,
             })
-    return found[:20]
+    
+    final_results = found[:20]
+    
+    # Cache the results
+    await cache.set(
+        "model_sources",
+        cache_key,
+        final_results,
+        model_name=model_name,
+        metadata={"developer": developer, "query_count": len(queries), "found_count": len(found)},
+        developer=developer
+    )
+    
+    logger.info(f"Cache SET for model sources: {cache_key} ({len(final_results)} results)")
+    return final_results
 
 
 async def discover_and_fetch(

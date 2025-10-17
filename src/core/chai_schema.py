@@ -16,6 +16,7 @@ class CHAIModelCard:
     # 1) METADATA
     model_name: str = ""
     developer: str = ""
+    application_url: str = ""
     inquiries_or_to_report_an_issue: str = ""
     release_stage: str = ""
     release_date: str = ""
@@ -119,6 +120,7 @@ class CHAIModelCard:
         meta = ET.SubElement(root, "Metadata")
         ET.SubElement(meta, "ModelName").text = self.model_name
         ET.SubElement(meta, "Developer").text = self.developer
+        ET.SubElement(meta, "ApplicationURL").text = self.application_url
         ET.SubElement(meta, "InquiriesOrToReportAnIssue").text = self.inquiries_or_to_report_an_issue
         ET.SubElement(meta, "ReleaseStage").text = self.release_stage
         ET.SubElement(meta, "ReleaseDate").text = self.release_date
@@ -221,6 +223,7 @@ class CHAIModelCard:
 ## 1) Metadata
 - **Model Name:** {self.model_name or "Not specified"}
 - **Developer:** {self.developer or "Not specified"}
+- **Application URL:** {self.application_url or "Not specified"}
 - **Inquiries or to report an issue:** {self.inquiries_or_to_report_an_issue or "Not specified"}
 - **Release Stage:** {self.release_stage or "Not specified"}
 - **Release Date:** {self.release_date or "Not specified"}
