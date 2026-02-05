@@ -23,13 +23,32 @@ from .tools import (
     set_by_path,
 )
 
-import google.generativeai as genai
+import google.genai as genai
 
 
 # ----------------------------- CHAI fields -----------------------------
 
 _CHAI_FIELDS = [f.name for f in dc_fields(CHAIModelCard) if f.name != "extraction_timestamp"]
 
+# ----------------------------- Numeric Specificity -----------------------------
+_NUMERIC_HINTS = {
+    "dataset.num_images": " images",
+    "dataset.num_patients": " patients",
+    "dataset.num_classes": " classes",
+    "dataset.num_sites": " sites",
+    "evaluation.num_cases": " cases",
+    "training.num_images": " images",
+    "training.epochs": " epochs",
+    "training.steps": "",
+    "evaluation.num_images": " images",
+    "evaluation.num_readers": " readers",
+    "performance.accuracy": "%",
+    "performance.sensitivity": "%",
+    "performance.specificity": "%",
+    "performance.ppv": "%",
+    "performance.npv": "%",
+    "performance.auc": "",  # leave as is (0–1)
+}
 
 # ----------------------------- Seed context -----------------------------
 
@@ -65,26 +84,24 @@ def _prep_seed_context(
 
 # ----------------------------- Client / I/O -----------------------------
 
-def _client_and_model() -> tuple[genai.GenerativeModel, str, float]:
+def _client_and_model() -> tuple[genai.Client, str, float]:
     s = get_settings()
-    genai.configure(api_key=s.google_api_key)
-    model_obj = genai.GenerativeModel(s.gemini_model)
-    return model_obj, s.gemini_model, s.http_timeout
+    client = genai.Client(api_key=s.google_api_key)
+    return client, s.gemini_model, s.http_timeout
 
 
-def _gemini_json(gmodel: genai.GenerativeModel, *, prompt: str, system: Optional[str] = None) -> Dict[str, Any]:
+def _gemini_json(client: genai.Client, model_name: str, *, prompt: str, system: Optional[str] = None) -> Dict[str, Any]:
     """
     Safe single-turn call that extracts the first JSON object the model returns.
     Keyword-only args prevent accidental positional swaps (fix B).
     Returns proper error structure to distinguish failures from empty results.
     """
     try:
-        if not hasattr(gmodel, "generate_content"):
-            # Someone passed a string model id instead of the GenerativeModel object
-            return {"error": "invalid_model_object", "message": "Model object missing generate_content method"}
-
         text = ((system + "\n\n") if system else "") + prompt
-        resp = gmodel.generate_content(text)
+        resp = client.models.generate_content(
+            model=model_name,
+            contents=text
+        )
         out_text = getattr(resp, "text", None) or ""
 
         if not out_text:
@@ -102,7 +119,7 @@ def _gemini_json(gmodel: genai.GenerativeModel, *, prompt: str, system: Optional
 
 # ----------------------------- Agent steps -----------------------------
 
-def _plan_targets(model, model_hint: str, *, developer: str, seed_context: str = "") -> Dict[str, Any]:
+def _plan_targets(client: genai.Client, model_name: str, model_hint: str, *, developer: str, seed_context: str = "") -> Dict[str, Any]:
     print(f"DEBUG: _plan_targets called with model_hint={repr(model_hint)}, developer={repr(developer)}")
     
     cache = get_cache()
@@ -141,7 +158,7 @@ def _plan_targets(model, model_hint: str, *, developer: str, seed_context: str =
         "OUTPUT STRICTLY IN JSON as specified in PLANNER."
     )
 
-    result = _gemini_json(model, prompt=planner_prompt)
+    result = _gemini_json(client, model_name, prompt=planner_prompt)
     print(f"DEBUG: _plan_targets result: {type(result)} = {repr(result)[:200]}...")
     
     # Cache the result
@@ -161,6 +178,8 @@ async def _gather_targets_async(
     targets: List[Dict[str, str]],
     *,
     concurrency: int = 4,
+    model_name: str = "",
+    developer: str = "",
 ) -> Tuple[List[Tuple[str, str]], List[str]]:
     """
     Fetch content for each planned target using the robust fetcher (PDF-aware).
@@ -235,7 +254,8 @@ async def _gather_targets_async(
     return blobs, types
 
 def _extract_fields(
-    gmodel: genai.GenerativeModel,
+    client: genai.Client,
+    model_name: str,
     field_paths: List[str],
     manifest: str,
     sources_blob: str,
@@ -263,7 +283,7 @@ def _extract_fields(
     # Try extraction with retry logic
     max_retries = 2
     for attempt in range(max_retries + 1):
-        result = _gemini_json(gmodel, prompt=prompt)
+        result = _gemini_json(client, model_name, prompt=prompt)
         
         # Check if this is an error response
         if "error" in result:
@@ -310,7 +330,7 @@ def _extract_fields(
     return result
 
 
-def _validate_patch(gmodel: genai.GenerativeModel, model_id: str, state: Dict[str, Any]) -> Dict[str, Any]:
+def _validate_patch(client: genai.Client, model_name: str, model_id: str, state: Dict[str, Any]) -> Dict[str, Any]:
     """
     Ask the VALIDATOR to assess current 'state' and suggest:
       - missing: list of CHAI field names that are absent/empty
@@ -347,7 +367,7 @@ def _validate_patch(gmodel: genai.GenerativeModel, model_id: str, state: Dict[st
     try:
         card_json = json.dumps(state, ensure_ascii=False, indent=2)
         prompt = VALIDATOR + "\n\nCURRENT CARD (partial JSON; may include flat and dotted keys):\n" + card_json
-        out = _gemini_json(gmodel, prompt=prompt) or {}
+        out = _gemini_json(client, model_name, prompt=prompt) or {}
         return {
             "missing": out.get("missing") if isinstance(out.get("missing"), list) else local_missing,
             "weak": out.get("weak") if isinstance(out.get("weak"), list) else [],
@@ -614,30 +634,112 @@ def _normalize_extractor_output(
 
     return values, evidence
 
+def _norm_num_phrase(s: str, unit_hint: str) -> str | None:
+    if not isinstance(s, str) or not s.strip():
+        return None
+    t = s.strip()
+
+    # detect approximation tokens
+    approx = bool(re.search(r"\b(about|around|approx|approximately|roughly|nearly|almost|~)\b", t, re.I))
+
+    # range like "2-3k" or "2 to 3M"
+    m = re.search(r"(\d[\d,]*\.?\d*)\s*([kKmMbB]?)\s*(?:[-–—]|to)\s*(\d[\d,]*\.?\d*)\s*([kKmMbB]?)(\s*%)?", t)
+    if m:
+        def _val(n, abbr):
+            x = float(n.replace(",", ""))
+            f = {"k":1_000, "m":1_000_000, "b":1_000_000_000}.get(abbr.lower(), 1)
+            return x * f
+        lo = _val(m.group(1), m.group(2) or "")
+        hi = _val(m.group(3), m.group(4) or "")
+        pct = bool((m.group(5) or "").strip())
+        def fmt(x):
+            return f"{int(x):,}" if float(x).is_integer() else f"{x:,.2f}"
+        unit = "%" if pct else unit_hint
+        return f"{fmt(lo)}{unit}–{fmt(hi)}{unit}".strip()
+
+    # single like ">= 12%", "~5k", "3.2M"
+    m = re.search(r"([<>]=?|≈?)?\s*(\d[\d,]*\.?\d*)\s*([kKmMbB]?)(\s*%)?", t)
+    if m:
+        bound = (m.group(1) or "").strip()
+        val = float(m.group(2).replace(",", ""))
+        abbr = (m.group(3) or "").lower()
+        pct = bool((m.group(4) or "").strip())
+        mult = {"k":1_000, "m":1_000_000, "b":1_000_000_000}.get(abbr, 1)
+        val *= mult
+        pretty = f"{int(val):,}" if float(val).is_integer() else f"{val:,.2f}"
+        unit = "%" if pct else unit_hint
+        # prefer exact bound if provided; else use ≈ for approximate language
+        prefix = bound if bound else ("≈" if approx else "")
+        return f"{prefix}{pretty}{unit}".strip()
+
+    # no numbers found
+    return None
+
+def _set_by_path_inplace(root: dict, path: str, value: str) -> None:
+    cur = root
+    parts = path.split(".")
+    for p in parts[:-1]:
+        if p not in cur or not isinstance(cur[p], dict):
+            return
+        cur = cur[p]
+    if parts[-1] in cur:
+        cur[parts[-1]] = value
+
+def _normalize_numeric_fields_in_place(state: dict) -> None:
+    """One-pass post-process: convert '~5k images' → '≈5,000 images', etc."""
+    for path, unit in _NUMERIC_HINTS.items():
+        # reuse existing getter
+        v = _get_by_path(state, path)
+        if isinstance(v, str) and v.strip():
+            norm = _norm_num_phrase(v, unit_hint=unit)
+            if norm:
+                _set_by_path_inplace(state, path, norm)
+
+
 
 # ----------------------------- Public API -----------------------------
 
 def run(
     model_hint: str,
-    max_iters: int = 3,
-    coverage_target: float = 0.60,
+    max_iters: int = 5,
+    coverage_target: float = 0.75,
     finalize_policy: str = "not_specified",
     *,
     developer: str = "",
     seed_urls: list[str] | None = None,
     seed_pages: list[dict] | None = None,
 ) -> Tuple[Dict[str, Any], Dict[str, Any]]:
-    gmodel, gemini_model, timeout = _client_and_model()
+    client, gemini_model, timeout = _client_and_model()
 
     state: Dict[str, Any] = _empty_agent_state()
     citations: Dict[str, List[Dict[str, str]]] = {}
+    
+    # Track all implicit sources (URLs included in extraction context)
+    implicit_sources: set[str] = set()
 
     seed_context, seed_urls_from_pages = _prep_seed_context(seed_pages)
     initial_seed_urls = list(seed_urls or []) + seed_urls_from_pages
 
-    plan = _plan_targets(gmodel, model_hint, developer=developer, seed_context=seed_context) or {}
+    plan = _plan_targets(client, gemini_model, model_hint, developer=developer, seed_context=seed_context) or {}
     targets = plan.get("targets", []) or []
     priority = plan.get("fields_priority", []) or []
+    
+    # Extract model name from hint (remove developer if present)
+    model_name = model_hint
+    if developer and developer in model_hint:
+        # Try to extract just the model name
+        parts = model_hint.split("(")
+        if len(parts) > 1:
+            model_name = parts[0].strip()
+        else:
+            model_name = model_hint.replace(developer, "").strip()
+    # If no developer in hint, use the hint as model name
+    if not model_name or model_name == model_hint:
+        # Try to extract from hint format "ModelName (Developer)"
+        if "(" in model_hint and ")" in model_hint:
+            model_name = model_hint.split("(")[0].strip()
+        else:
+            model_name = model_hint
 
     # Prepend explicit seed_urls as web targets
     seen_urls = set()
@@ -659,7 +761,12 @@ def run(
         from concurrent.futures import ThreadPoolExecutor
 
         def _run():
-            return asyncio.run(_gather_targets_async(targets, concurrency=4))
+            return asyncio.run(_gather_targets_async(
+                targets, 
+                concurrency=4,
+                model_name=model_name,
+                developer=developer
+            ))
 
         with ThreadPoolExecutor(max_workers=1) as ex:
             blobs, types = ex.submit(_run).result()
@@ -673,6 +780,11 @@ def run(
                     blobs.append((su, st))
                     types.append("web")
             first_round = False
+
+        # Track implicit sources: all URLs included in extraction context
+        for url, _ in blobs:
+            if url and url.strip():
+                implicit_sources.add(url.strip())
 
         manifest, sources_blob = normalize_sources(blobs, types)
         if seed_context:
@@ -692,12 +804,31 @@ def run(
         if not want:
             # Priority order: specialized fields first, then all others
             specialized_fields = [
+                # Commonly missing critical fields
+                "release_date",
+                "global_availability",
+                "how_to_use",
+                "developer_supplied_warnings",
+                "model_limitations",
+                "training_data",
+                "output_input_data_type",
+                "ongoing_maintenance",
+                "transparency_information",
+                "usefulness_efficacy_result",
+                "safety_reliability_goal_of_metrics",
+                "safety_reliability_result",
+                "safety_reliability_interpretation",
+                "safety_reliability_test_type",
+                "safety_reliability_testing_data_description",
+                "safety_reliability_validation_process_and_justification",
+                # Regulatory and compliance fields
                 "regulatory_approval_status_if_applicable",
                 "irb_approval", 
                 "ethical_review_board_oversight",
                 "clinical_trial_if_available",
                 "reimbursement_status_if_applicable",
                 "stakeholders_consulted_during_design_of_solution",
+                # Fairness and equity fields
                 "fairness_equity_goal_of_metrics",
                 "fairness_equity_result",
                 "fairness_equity_interpretation",
@@ -729,7 +860,8 @@ def run(
             
             try:
                 resp = _extract_fields(
-                    gmodel=gmodel,
+                    client=client,
+                    model_name=gemini_model,
                     field_paths=batch,
                     manifest=manifest,
                     sources_blob=sources_blob,
@@ -794,7 +926,7 @@ def run(
                         citations[k].append({"url": u, "snippet": sn[:240]})
 
         # 5) Validate → expand targets
-        verdict = _validate_patch(gmodel, gemini_model, state) or {}
+        verdict = _validate_patch(client, gemini_model, gemini_model, state) or {}
         missing = verdict.get("missing", []) or []
         weak = verdict.get("weak", []) or []
         next_fetch = verdict.get("next_fetch", []) or []
@@ -815,24 +947,110 @@ def run(
 
         targets = new_targets
 
-        # 6) Stop criteria
+        # 6) Field-specific extraction passes for commonly missing fields
+        # Pass 1: Extract fields that need synthesis from multiple sources
+        commonly_missing_fields = [
+            "release_date", "global_availability", "how_to_use",
+            "developer_supplied_warnings", "model_limitations",
+            "training_data", "output_input_data_type", "ongoing_maintenance",
+            "transparency_information", "usefulness_efficacy_result"
+        ]
+        
+        missing_common_fields = [f for f in commonly_missing_fields if _is_empty(_get_by_path(state, f))]
+        if missing_common_fields and sources_blob:
+            print(f"DEBUG: Field-specific pass 1: Attempting to extract {len(missing_common_fields)} commonly missing fields")
+            try:
+                resp = _extract_fields(
+                    client=client,
+                    model_name=gemini_model,
+                    field_paths=missing_common_fields[:10],  # Limit to 10 at a time
+                    manifest=manifest,
+                    sources_blob=sources_blob,
+                )
+                values, ev = _normalize_extractor_output(resp, missing_common_fields[:10])
+                for k, v in values.items():
+                    if v and _is_empty(_get_by_path(state, k)):
+                        if "." in k:
+                            set_by_path(state, k, v)
+                        else:
+                            state[k] = v
+                        print(f"DEBUG: Field-specific pass filled {k}")
+            except Exception as e:
+                print(f"DEBUG: Field-specific pass 1 failed: {e}")
+        
+        # 7) Stop criteria with adaptive coverage calculation
         total_nonempty = flatten_nonempty(state)
+        
+        # Weight critical fields 2x in coverage calculation
+        critical_fields = [
+            "model_name", "developer", "summary", "intended_use_and_workflow",
+            "model_limitations", "training_data", "usefulness_efficacy_result"
+        ]
+        critical_filled = sum(1 for f in critical_fields if not _is_empty(_get_by_path(state, f)))
+        weighted_coverage = (total_nonempty + critical_filled) / max(50, total_nonempty + critical_filled)
+        
         denom = max(50, total_nonempty)
         coverage = total_nonempty / denom
-        if (not missing and not weak) or coverage >= coverage_target:
+        
+        # Use weighted coverage for stopping decision
+        effective_coverage = max(coverage, weighted_coverage)
+        
+        if (not missing and not weak) or effective_coverage >= coverage_target:
             break
-
+    _normalize_numeric_fields_in_place(state)
     if finalize_policy == "not_specified":
         state = _finalize_not_specified(state)
 
-    return state, citations
+    # Combine implicit + explicit sources with usage metadata
+    # Extract explicit sources from citations
+    explicit_sources: set[str] = set()
+    for field_name, field_citations in citations.items():
+        if not isinstance(field_citations, list):
+            continue
+        for citation in field_citations:
+            if isinstance(citation, dict):
+                url = citation.get("url", "").strip()
+                if url:
+                    explicit_sources.add(url)
+    
+    # Union of all used sources
+    all_used_sources = implicit_sources.union(explicit_sources)
+    
+    # Enhance citations structure with usage metadata
+    # Create a comprehensive sources dict with usage labels
+    enhanced_citations = {
+        "_sources_metadata": {}
+    }
+    
+    # Copy existing field-level citations
+    for field_name, field_citations in citations.items():
+        enhanced_citations[field_name] = field_citations
+    
+    # Add metadata for all sources
+    for url in all_used_sources:
+        if url in explicit_sources and url in implicit_sources:
+            usage = "both"
+            reason = "Included in extraction context and directly cited"
+        elif url in explicit_sources:
+            usage = "explicit"
+            reason = "Directly cited for extracted claims"
+        else:
+            usage = "implicit"
+            reason = "Included in extraction context and informed reasoning but not directly quoted"
+        
+        enhanced_citations["_sources_metadata"][url] = {
+            "usage": usage,
+            "reason": reason
+        }
+    
+    return state, enhanced_citations
 
 
 async def run_async(
     *,
     model_hint: str,
-    max_iters: int = 3,
-    coverage_target: float = 0.60,
+    max_iters: int = 5,
+    coverage_target: float = 0.75,
     finalize_policy: str = "not_specified",
     developer: str = "",
     seed_urls: list[str] | None = None,
