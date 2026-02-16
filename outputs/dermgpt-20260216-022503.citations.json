@@ -1,0 +1,832 @@
+{
+  "_sources_metadata": {
+    "https://pubmed.ncbi.nlm.nih.gov/38754096": {
+      "usage": "both",
+      "reason": "Included in context and directly cited"
+    },
+    "https://derma.jmir.org/2025/1/e74040": {
+      "usage": "both",
+      "reason": "Included in context and directly cited"
+    },
+    "https://dermgpt.org/": {
+      "usage": "both",
+      "reason": "Included in context and directly cited"
+    },
+    "https://www.ovid.com/journals/jaade/fulltext/10.1016/j.jaad.2025.05.791~63908-evaluating-the-performance-of-dermgpt-in-providing": {
+      "usage": "both",
+      "reason": "Included in context and directly cited"
+    },
+    "https://www.jaad.org/article/S0190-9622(25)01529-4/fulltext": {
+      "usage": "implicit",
+      "reason": "Included in context, informed reasoning but not directly quoted"
+    },
+    "https://www.dermgpt.com/about": {
+      "usage": "both",
+      "reason": "Included in context and directly cited"
+    },
+    "https://pmc.ncbi.nlm.nih.gov/articles/PMC12677980": {
+      "usage": "implicit",
+      "reason": "Included in context, informed reasoning but not directly quoted"
+    },
+    "https://ieeexplore.ieee.org/document/11336018": {
+      "usage": "both",
+      "reason": "Included in context and directly cited"
+    }
+  },
+  "ethical_review_board_oversight": [
+    {
+      "url": "https://derma.jmir.org/2025/1/e74040",
+      "snippet": "This study used a voluntary, anonymous survey of physicians and residents. According to institutional and national guidelines, the project did not require institutional review board review because no identifiable information was collected a"
+    }
+  ],
+  "irb_approval": [
+    {
+      "url": "https://derma.jmir.org/2025/1/e74040",
+      "snippet": "According to institutional and national guidelines, the project did not require institutional review board review because no identifiable information was collected and the study posed minimal risk."
+    }
+  ],
+  "demographic_representativeness": [
+    {
+      "url": "https://derma.jmir.org/2025/1/e74040",
+      "snippet": "Of 64 dermatology faculty and 30 residents across the University of California, Irvine, and the University of California, Davis, we received a total of 19 responses, comprising 13 attending physicians and 6 residents or fellows. This corres"
+    }
+  ],
+  "model_name": [
+    {
+      "url": "https://dermgpt.org/",
+      "snippet": "Copyright \u00a9 2023 dermgpt.org - All Rights Reserved."
+    },
+    {
+      "url": "https://derma.jmir.org/2025/1/e74040",
+      "snippet": "DermGPT demonstrated strong potential for improving answer clarity and conciseness in dermatology-related queries"
+    },
+    {
+      "url": "https://ieeexplore.ieee.org/document/11336018",
+      "snippet": "DermGPT: An AI-Driven Chatbot Integrating YOLOv8 and GPT-3.5 for Personalized Dermatology Support and Skin Health Monitoring"
+    },
+    {
+      "url": "https://www.dermgpt.com/about",
+      "snippet": "she founded DermGPT, an AI platform purpose-built for dermatology workflows now used by thousands of dermatologists nationwide."
+    }
+  ],
+  "developer": [
+    {
+      "url": "https://derma.jmir.org/2025/1/e74040",
+      "snippet": "DermGPT [ ], developed under the Palo Alto Medical Foundation, is tailored for dermatology."
+    },
+    {
+      "url": "https://www.dermgpt.com/about",
+      "snippet": "Board-certified dermatologist practicing in Palo Alto, CA, and Chair of the San Francisco Dermatological Society. With an engineering background prior to medicine, she founded DermGPT, an AI platform purpose-built for dermatology workflows "
+    }
+  ],
+  "application_url": [
+    {
+      "url": "https://www.dermgpt.com/about",
+      "snippet": "https://www.dermgpt.com/about"
+    },
+    {
+      "url": "https://derma.jmir.org/2025/1/e74040",
+      "snippet": "DermGPT. 2024. URL: https://dermgpt.com [Accessed 2025-11-17]"
+    }
+  ],
+  "summary": [
+    {
+      "url": "https://derma.jmir.org/2025/1/e74040",
+      "snippet": "DermGPT demonstrated strong potential for improving answer clarity and conciseness in dermatology-related queries, while ChatGPT provided more robust source citations, enhancing trust in evidence-based responses. ... DermGPT [ ], developed "
+    },
+    {
+      "url": "https://pubmed.ncbi.nlm.nih.gov/38754096",
+      "snippet": "DermGPT, and DocsGPT are large language models (LLMs) that are responsive to user prompts. Our project assesses their use in generating dermatologic PEMs at specified reading levels. ... The preservation of meaning analysis revealed that fo"
+    },
+    {
+      "url": "https://ieeexplore.ieee.org/document/11336018",
+      "snippet": "DermGPT: An AI-Driven Chatbot Integrating YOLOv8 and GPT-3.5 for Personalized Dermatology Support and Skin Health Monitoring"
+    },
+    {
+      "url": "https://www.dermgpt.com/about",
+      "snippet": "she founded DermGPT, an AI platform purpose-built for dermatology workflows now used by thousands of dermatologists nationwide."
+    }
+  ],
+  "keywords": [
+    {
+      "url": "https://pubmed.ncbi.nlm.nih.gov/38754096",
+      "snippet": "Keywords: ChatGPT; LLM; LLMs; artificial intelligence; deep learning; derm; dermatologic patient education material; dermatologic patient education materials; dermatologist; dermatologists; dermatology; dermatology resident; dermatology res"
+    }
+  ],
+  "intended_use_and_workflow": [
+    {
+      "url": "https://derma.jmir.org/2025/1/e74040",
+      "snippet": "DermGPT [ ], developed under the Palo Alto Medical Foundation, is tailored for dermatology. Beyond drafting notes and authorizations, it answers dermatology questions using a GPT base model enhanced by a research database. By sourcing answe"
+    },
+    {
+      "url": "https://pubmed.ncbi.nlm.nih.gov/38754096",
+      "snippet": "Our project assesses their use in generating dermatologic PEMs at specified reading levels."
+    },
+    {
+      "url": "https://ieeexplore.ieee.org/document/11336018",
+      "snippet": "DermGPT: An AI-Driven Chatbot Integrating YOLOv8 and GPT-3.5 for Personalized Dermatology Support and Skin Health Monitoring"
+    },
+    {
+      "url": "https://www.dermgpt.com/about",
+      "snippet": "she founded DermGPT, an AI platform purpose-built for dermatology workflows now used by thousands of dermatologists nationwide."
+    }
+  ],
+  "primary_intended_users": [
+    {
+      "url": "https://derma.jmir.org/2025/1/e74040",
+      "snippet": "We are grateful to the dermatology residents, attendings, and fellows at the University of California, Irvine, and University of California, Davis, who took the time to take our survey and make this study possible."
+    },
+    {
+      "url": "https://www.dermgpt.com/about",
+      "snippet": "she founded DermGPT, an AI platform purpose-built for dermatology workflows now used by thousands of dermatologists nationwide."
+    }
+  ],
+  "necessary_knowledge_expertise": [
+    {
+      "url": "https://derma.jmir.org/2025/1/e74040",
+      "snippet": "However, LLMs may \u201challucinate,\u201d producing plausible but incorrect information [ , ], limiting clinical utility. ... 3 questions were excluded because DermGPT issued disclaimers instead of direct answers, recommending consultation with a de"
+    }
+  ],
+  "how_to_use": [
+    {
+      "url": "https://derma.jmir.org/2025/1/e74040",
+      "snippet": "Beyond drafting notes and authorizations, it answers dermatology questions using a GPT base model enhanced by a research database. ... 3 questions were excluded because DermGPT issued disclaimers instead of direct answers, recommending cons"
+    },
+    {
+      "url": "https://pubmed.ncbi.nlm.nih.gov/38754096",
+      "snippet": "We prompted ChatGPT-3.5, GPT-4, DermGPT, and DocsGPT to \"Create a patient education handout about [condition] at a [FKRL]\" to iteratively generate 10 PEMs per condition at unspecified fifth- and seventh-grade FKRLs"
+    }
+  ],
+  "targeted_patient_population": [
+    {
+      "url": "https://pubmed.ncbi.nlm.nih.gov/38754096",
+      "snippet": "Our project assesses their use in generating dermatologic PEMs at specified reading levels. ... The Flesch-Kincaid reading level (FKRL) of current American Academy of Dermatology PEMs was evaluated for 4 common (atopic dermatitis, acne vulg"
+    },
+    {
+      "url": "https://ieeexplore.ieee.org/document/11336018",
+      "snippet": "DermGPT: An AI-Driven Chatbot Integrating YOLOv8 and GPT-3.5 for Personalized Dermatology Support and Skin Health Monitoring"
+    }
+  ],
+  "developer_supplied_warnings": [
+    {
+      "url": "https://derma.jmir.org/2025/1/e74040",
+      "snippet": "However, LLMs may \u201challucinate,\u201d producing plausible but incorrect information [ , ], limiting clinical utility. ... 3 questions were excluded because DermGPT issued disclaimers instead of direct answers, recommending consultation with a de"
+    }
+  ],
+  "model_limitations": [
+    {
+      "url": "https://derma.jmir.org/2025/1/e74040",
+      "snippet": "However, LLMs may \u201challucinate,\u201d producing plausible but incorrect information [ , ], limiting clinical utility."
+    },
+    {
+      "url": "https://derma.jmir.org/2025/1/e74040",
+      "snippet": "However, 3 questions were excluded because DermGPT issued disclaimers instead of direct answers, recommending consultation with a dermatologist or guidelines."
+    },
+    {
+      "url": "https://pubmed.ncbi.nlm.nih.gov/38754096",
+      "snippet": "At the fifth-grade reading level, GPT-4 was better at producing PEMs for both common and rare conditions than ChatGPT-3.5 (P=.001 and P=.01, respectively), DermGPT (P<.001 and P=.03, respectively), and DocsGPT (P<.001 and P=.02, respectivel"
+    }
+  ],
+  "ai_system_facts": [
+    {
+      "url": "https://derma.jmir.org/2025/1/e74040",
+      "snippet": "DermGPT [], developed under the Palo Alto Medical Foundation, is tailored for dermatology. Beyond drafting notes and authorizations, it answers dermatology questions using a GPT base model enhanced by a research database. By sourcing answer"
+    },
+    {
+      "url": "https://ieeexplore.ieee.org/document/11336018",
+      "snippet": "DermGPT: An AI-Driven Chatbot Integrating YOLOv8 and GPT-3.5 for Personalized Dermatology Support and Skin Health Monitoring"
+    },
+    {
+      "url": "https://www.dermgpt.com/about",
+      "snippet": "she founded DermGPT, an AI platform purpose-built for dermatology workflows now used by thousands of dermatologists nationwide."
+    },
+    {
+      "url": "https://www.dermgpt.com/about",
+      "snippet": "Silicon Valley technology leader with 20+ years of experience in enterprise cloud computing and AI. He is the CTO at Pramata and a Technical Advisor to DermGPT."
+    }
+  ],
+  "model_type": [
+    {
+      "url": "https://derma.jmir.org/2025/1/e74040",
+      "snippet": "DermGPT [], developed under the Palo Alto Medical Foundation, is tailored for dermatology. Beyond drafting notes and authorizations, it answers dermatology questions using a GPT base model enhanced by a research database."
+    },
+    {
+      "url": "https://ieeexplore.ieee.org/document/11336018",
+      "snippet": "DermGPT: An AI-Driven Chatbot Integrating YOLOv8 and GPT-3.5 for Personalized Dermatology Support and Skin Health Monitoring"
+    },
+    {
+      "url": "https://www.dermgpt.com/about",
+      "snippet": "she founded DermGPT, an AI platform purpose-built for dermatology workflows now used by thousands of dermatologists nationwide."
+    }
+  ],
+  "interaction_with_other_systems": [
+    {
+      "url": "https://ieeexplore.ieee.org/document/11336018",
+      "snippet": "DermGPT: An AI-Driven Chatbot Integrating YOLOv8 and GPT-3.5 for Personalized Dermatology Support and Skin Health Monitoring"
+    },
+    {
+      "url": "https://derma.jmir.org/2025/1/e74040",
+      "snippet": "it answers dermatology questions using a GPT base model enhanced by a research database."
+    }
+  ],
+  "outcomes_and_output": [
+    {
+      "url": "https://derma.jmir.org/2025/1/e74040",
+      "snippet": "DermGPT demonstrated strong potential for improving answer clarity and conciseness in dermatology-related queries, while ChatGPT provided more robust source citations, enhancing trust in evidence-based responses."
+    },
+    {
+      "url": "https://derma.jmir.org/2025/1/e74040",
+      "snippet": "Beyond drafting notes and authorizations, it answers dermatology questions using a GPT base model enhanced by a research database."
+    },
+    {
+      "url": "https://derma.jmir.org/2025/1/e74040",
+      "snippet": "Overall, DermGPT\u2019s answers (48.1%) were preferred over ChatGPT\u2019s (28.4%); the \u03c72 test was significant with P=.04 (P<.05)."
+    },
+    {
+      "url": "https://pubmed.ncbi.nlm.nih.gov/38754096",
+      "snippet": "Our project assesses their use in generating dermatologic PEMs at specified reading levels."
+    },
+    {
+      "url": "https://pubmed.ncbi.nlm.nih.gov/38754096",
+      "snippet": "The preservation of meaning analysis revealed that for common conditions, DermGPT ranked the highest for overall ease of reading, patient understandability, and accuracy (14.75/15, 98%);"
+    }
+  ],
+  "type_and_value_of_solution_output": [
+    {
+      "url": "https://derma.jmir.org/2025/1/e74040",
+      "snippet": "DermGPT demonstrated strong potential for improving answer clarity and conciseness in dermatology-related queries"
+    },
+    {
+      "url": "https://derma.jmir.org/2025/1/e74040",
+      "snippet": "Beyond drafting notes and authorizations, it answers dermatology questions"
+    },
+    {
+      "url": "https://pubmed.ncbi.nlm.nih.gov/38754096",
+      "snippet": "Our project assesses their use in generating dermatologic PEMs at specified reading levels."
+    },
+    {
+      "url": "https://pubmed.ncbi.nlm.nih.gov/38754096",
+      "snippet": "The preservation of meaning analysis revealed that for common conditions, DermGPT ranked the highest for overall ease of reading, patient understandability, and accuracy (14.75/15, 98%);"
+    }
+  ],
+  "explanation_for_how_an_output_is_generated": [
+    {
+      "url": "https://derma.jmir.org/2025/1/e74040",
+      "snippet": "Large language models (LLMs) like OpenAI\u2019s GPT-4o use transformer architectures with self-attention to process and generate human-like responses. [...] These models predict the next word based on prior context. [...] DermGPT [], developed u"
+    },
+    {
+      "url": "https://ieeexplore.ieee.org/document/11336018",
+      "snippet": "DermGPT: An AI-Driven Chatbot Integrating YOLOv8 and GPT-3.5 for Personalized Dermatology Support and Skin Health Monitoring"
+    }
+  ],
+  "foundation_models_used_in_application_if_applicable": [
+    {
+      "url": "https://derma.jmir.org/2025/1/e74040",
+      "snippet": "it answers dermatology questions using a GPT base model enhanced by a research database."
+    },
+    {
+      "url": "https://ieeexplore.ieee.org/document/11336018",
+      "snippet": "DermGPT: An AI-Driven Chatbot Integrating YOLOv8 and GPT-3.5 for Personalized Dermatology Support and Skin Health Monitoring"
+    }
+  ],
+  "input_data_source": [
+    {
+      "url": "https://derma.jmir.org/2025/1/e74040",
+      "snippet": "it answers dermatology questions using a GPT base model enhanced by a research database."
+    },
+    {
+      "url": "https://derma.jmir.org/2025/1/e74040",
+      "snippet": "Two dermatology residents, CZ and NMG, authored a list of questions posed to each LLM"
+    }
+  ],
+  "output_input_data_type": [
+    {
+      "url": "https://derma.jmir.org/2025/1/e74040",
+      "snippet": "it answers dermatology questions using a GPT base model enhanced by a research database."
+    },
+    {
+      "url": "https://derma.jmir.org/2025/1/e74040",
+      "snippet": "DermGPT demonstrated strong potential for improving answer clarity and conciseness in dermatology-related queries"
+    },
+    {
+      "url": "https://pubmed.ncbi.nlm.nih.gov/38754096",
+      "snippet": "Our project assesses their use in generating dermatologic PEMs at specified reading levels."
+    }
+  ],
+  "development_data_characterization": [
+    {
+      "url": "https://derma.jmir.org/2025/1/e74040",
+      "snippet": "Trained on vast internet data, they can address diverse topics, including dermatology. [...] DermGPT is tailored for dermatology. Beyond drafting notes and authorizations, it answers dermatology questions using a GPT base model enhanced by "
+    }
+  ],
+  "training_data": [
+    {
+      "url": "https://derma.jmir.org/2025/1/e74040",
+      "snippet": "Trained on vast internet data, they can address diverse topics, including dermatology. [...] DermGPT is tailored for dermatology. Beyond drafting notes and authorizations, it answers dermatology questions using a GPT base model enhanced by "
+    }
+  ],
+  "relevance_of_training_data_to_intended_population": [
+    {
+      "url": "https://derma.jmir.org/2025/1/e74040",
+      "snippet": "DermGPT [], developed under the Palo Alto Medical Foundation, is tailored for dermatology. Beyond drafting notes and authorizations, it answers dermatology questions using a GPT base model enhanced by a research database."
+    }
+  ],
+  "transparency_information": [
+    {
+      "url": "https://derma.jmir.org/2025/1/e74040",
+      "snippet": "By sourcing answers from this material and showing citations, DermGPT aims to reduce hallucinations and better support dermatologists [ ]."
+    },
+    {
+      "url": "https://www.dermgpt.com/about",
+      "snippet": "an AI platform purpose-built for dermatology workflows"
+    },
+    {
+      "url": "https://dermgpt.org/",
+      "snippet": "We use cookies to analyze website traffic and optimize your website experience. By accepting our use of cookies, your data will be aggregated with all other user data."
+    }
+  ],
+  "funding_source_of_the_technical_implementation": [
+    {
+      "url": "https://derma.jmir.org/2025/1/e74040",
+      "snippet": "DermGPT [...], developed under the Palo Alto Medical Foundation, is tailored for dermatology."
+    },
+    {
+      "url": "https://www.dermgpt.com/about",
+      "snippet": "Board-certified dermatologist practicing in Palo Alto, CA, and Chair of the San Francisco Dermatological Society. With an engineering background prior to medicine, she founded DermGPT, an AI platform purpose-built for dermatology workflows "
+    }
+  ],
+  "usefulness_efficacy_goal_of_metrics": [
+    {
+      "url": "https://derma.jmir.org/2025/1/e74040",
+      "snippet": "DermGPT demonstrated strong potential for improving answer clarity and conciseness in dermatology-related queries, while ChatGPT provided more robust source citations, enhancing trust in evidence-based responses."
+    },
+    {
+      "url": "https://derma.jmir.org/2025/1/e74040",
+      "snippet": "By sourcing answers from this material and showing citations, DermGPT aims to reduce hallucinations and better support dermatologists [ ]. We compared its responses to those of ChatGPT."
+    },
+    {
+      "url": "https://derma.jmir.org/2025/1/e74040",
+      "snippet": "They were asked to choose their preferred answers based on quality\u2014specifically, which answer they thought would be best suited for patient care or was most accurate."
+    },
+    {
+      "url": "https://pubmed.ncbi.nlm.nih.gov/38754096",
+      "snippet": "Objective: This study aims to assess the ability of select LLMs to generate PEMs for common and rare dermatologic conditions at unspecified and specified reading levels. Further, the study aims to assess the preservation of meaning across s"
+    }
+  ],
+  "usefulness_efficacy_result": [
+    {
+      "url": "https://derma.jmir.org/2025/1/e74040",
+      "snippet": "Overall, DermGPT\u2019s answers (48.1%) were preferred over ChatGPT\u2019s (28.4%); the \u03c72 test was significant with P=.04 (P<.05)."
+    },
+    {
+      "url": "https://derma.jmir.org/2025/1/e74040",
+      "snippet": "In the attending group, DermGPT\u2019s answers were preferred (93/195, 47.7%) over ChatGPT\u2019s (56/195, 28.7%). Likewise, in the resident group, DermGPT\u2019s answers were preferred (44/90, 48.9%) versus ChatGPT (25/90, 27.8%)"
+    },
+    {
+      "url": "https://derma.jmir.org/2025/1/e74040",
+      "snippet": "Overall, ChatGPT references (46%) were preferred over DermGPT (23.5%; \u03c722=1.385; P=.50)."
+    },
+    {
+      "url": "https://derma.jmir.org/2025/1/e74040",
+      "snippet": "DermGPT\u2019s concise and well-phrased responses made it accessible for quick clinical reference. However, 3 questions were excluded because DermGPT issued disclaimers instead of direct answers, recommending consultation with a dermatologist or"
+    },
+    {
+      "url": "https://pubmed.ncbi.nlm.nih.gov/38754096",
+      "snippet": "At the fifth-grade reading level, GPT-4 was better at producing PEMs for both common and rare conditions than ChatGPT-3.5 (P=.001 and P=.01, respectively), DermGPT (P<.001 and P=.03, respectively), and DocsGPT (P<.001 and P=.02, respectivel"
+    },
+    {
+      "url": "https://pubmed.ncbi.nlm.nih.gov/38754096",
+      "snippet": "The preservation of meaning analysis revealed that for common conditions, DermGPT ranked the highest for overall ease of reading, patient understandability, and accuracy (14.75/15, 98%); for rare conditions, handouts generated by GPT-4 rank"
+    }
+  ],
+  "usefulness_efficacy_interpretation": [
+    {
+      "url": "https://derma.jmir.org/2025/1/e74040",
+      "snippet": "DermGPT demonstrated strong potential for improving answer clarity and conciseness in dermatology-related queries, while ChatGPT provided more robust source citations, enhancing trust in evidence-based responses."
+    },
+    {
+      "url": "https://derma.jmir.org/2025/1/e74040",
+      "snippet": "Out of 195 responses, users generally preferred DermGPT\u2019s answers, while ChatGPT was favored for its reference citations (...). These results suggest the potential for a hybrid model that combines both strengths."
+    },
+    {
+      "url": "https://derma.jmir.org/2025/1/e74040",
+      "snippet": "These results highlight the importance of balancing clarity and citation in artificial intelligence\u2013assisted medical tools."
+    },
+    {
+      "url": "https://pubmed.ncbi.nlm.nih.gov/38754096",
+      "snippet": "LLM-produced PEMs may reliably meet seventh-grade FKRLs for select common and rare dermatologic conditions and are easy to read, understandable for patients, and mostly accurate. LLMs may play a role in enhancing health literacy and dissemi"
+    }
+  ],
+  "usefulness_efficacy_test_type": [
+    {
+      "url": "https://derma.jmir.org/2025/1/e74040",
+      "snippet": "We compared its responses to those of ChatGPT.Methods Overview ChatGPT was selected for its popularity and prior evidence of superiority in dermatology-related tasks. A double-blind study found dermatologists preferred ChatGPT over Google\u2019s"
+    },
+    {
+      "url": "https://pubmed.ncbi.nlm.nih.gov/38754096",
+      "snippet": "Assessing the Application of Large Language Models in Generating Dermatologic Patient Education Materials According to Reading Level: Qualitative Study"
+    }
+  ],
+  "usefulness_efficacy_testing_data_description": [
+    {
+      "url": "https://derma.jmir.org/2025/1/e74040",
+      "snippet": "Two dermatology residents, CZ and NMG, authored a list of questions posed to each LLM (...). The survey was distributed to dermatologists at the University of California, Irvine, and the University of California, Davis, via email and QR cod"
+    },
+    {
+      "url": "https://pubmed.ncbi.nlm.nih.gov/38754096",
+      "snippet": "The Flesch-Kincaid reading level (FKRL) of current American Academy of Dermatology PEMs was evaluated for 4 common (atopic dermatitis, acne vulgaris, psoriasis, and herpes zoster) and 4 rare (epidermolysis bullosa, bullous pemphigoid, lamel"
+    }
+  ],
+  "usefulness_efficacy_validation_process_and_justification": [
+    {
+      "url": "https://derma.jmir.org/2025/1/e74040",
+      "snippet": "Two dermatology residents, CZ and NMG, authored a list of questions posed to each LLM (...). The two models\u2019 answers for a given question were paired and assigned as A or B using a computer-generated randomization list. Any identifiable met"
+    },
+    {
+      "url": "https://pubmed.ncbi.nlm.nih.gov/38754096",
+      "snippet": "We prompted ChatGPT-3.5, GPT-4, DermGPT, and DocsGPT to \"Create a patient education handout about [condition] at a [FKRL]\" to iteratively generate 10 PEMs per condition at unspecified fifth- and seventh-grade FKRLs, evaluated with Microsoft"
+    }
+  ],
+  "usefulness_efficacy_auroc_accuracy_etc": [
+    {
+      "url": "https://derma.jmir.org/2025/1/e74040",
+      "snippet": "Overall, DermGPT\u2019s answers (48.1%) were preferred over ChatGPT\u2019s (28.4%); the \u03c72 test was significant with P=.04 (P<.05). (...) Overall, ChatGPT references (46%) were preferred over DermGPT (23.5%; \u03c722=1.385; P=.50)."
+    },
+    {
+      "url": "https://pubmed.ncbi.nlm.nih.gov/38754096",
+      "snippet": "At the fifth-grade reading level, GPT-4 was better at producing PEMs for both common and rare conditions than ChatGPT-3.5 (P=.001 and P=.01, respectively), DermGPT (P<.001 and P=.03, respectively), and DocsGPT (P<.001 and P=.02, respectivel"
+    },
+    {
+      "url": "https://pubmed.ncbi.nlm.nih.gov/38754096",
+      "snippet": "At the seventh-grade reading level, no significant difference was found between ChatGPT-3.5, GPT-4, DocsGPT, or DermGPT in producing PEMs for common conditions (all P>.05);"
+    },
+    {
+      "url": "https://pubmed.ncbi.nlm.nih.gov/38754096",
+      "snippet": "The preservation of meaning analysis revealed that for common conditions, DermGPT ranked the highest for overall ease of reading, patient understandability, and accuracy (14.75/15, 98%); for rare conditions, handouts generated by GPT-4 rank"
+    }
+  ],
+  "evaluation_references_if_available": [
+    {
+      "url": "https://derma.jmir.org/2025/1/e74040",
+      "snippet": "Patel, A. B., Driscoll, W., Lee, C. H., Zachary, C., Golbari, N. M., & Smith, J. (2025). Comparing DermGPT and ChatGPT for Providing Dermatology-Related Answers and Citations: Comparative Study. JMIR Dermatology, 8, e74040. doi:10.2196/7404"
+    },
+    {
+      "url": "https://pubmed.ncbi.nlm.nih.gov/38754096",
+      "snippet": "Lambert, R., Choo, Z.-Y., Gradwohl, K., Schroedl, L., & Ruiz De Luzuriaga, A. (2024). Assessing the Application of Large Language Models in Generating Dermatologic Patient Education Materials According to Reading Level: Qualitative Study. J"
+    },
+    {
+      "url": "https://www.ovid.com/journals/jaade/fulltext/10.1016/j.jaad.2025.05.791~63908-evaluating-the-performance-of-dermgpt-in-providing",
+      "snippet": "63908 Evaluating the Performance of DermGPT in Providing Treatment Options for Common Dermatologic Conditions - Kareem Elhage - Payton Smith - Chandler Johnson - Kareem Elhage - Michael Abrouk - Faranak Kamangar - Wilson Liao Journal of the"
+    }
+  ],
+  "peer_reviewed_publications": [
+    {
+      "url": "https://derma.jmir.org/2025/1/e74040",
+      "snippet": "JMIR Dermatol 2025;8:e74040doi:10.2196/74040"
+    },
+    {
+      "url": "https://pubmed.ncbi.nlm.nih.gov/38754096",
+      "snippet": "Assessing the Application of Large Language Models in Generating Dermatologic Patient Education Materials According to Reading Level: Qualitative Study - PMID: 38754096 - PMCID: PMC11140271 - DOI: 10.2196/55898"
+    },
+    {
+      "url": "https://www.ovid.com/journals/jaade/fulltext/10.1016/j.jaad.2025.05.791~63908-evaluating-the-performance-of-dermgpt-in-providing",
+      "snippet": "Journal of the American Academy of Dermatology 93(3):p AB199-AB199, September 2025. | DOI: 10.1016/j.jaad.2025.05.791"
+    },
+    {
+      "url": "https://ieeexplore.ieee.org/document/11336018",
+      "snippet": "DermGPT: An AI-Driven Chatbot Integrating YOLOv8 and GPT-3.5 for Personalized Dermatology Support and Skin Health Monitoring | IEEE Conference Publication | IEEE Xplore"
+    }
+  ],
+  "postfill.release_stage": [
+    {
+      "url": "https://dermgpt.org/",
+      "snippet": "Sign up to be the first to know about our soft launch events."
+    },
+    {
+      "url": "https://www.dermgpt.com/about",
+      "snippet": "she founded DermGPT, an AI platform purpose-built for dermatology workflows now used by thousands of dermatologists nationwide."
+    }
+  ],
+  "postfill.version": [
+    {
+      "url": "https://derma.jmir.org/2025/1/e74040",
+      "snippet": "DermGPT\u2019s only available model was used."
+    },
+    {
+      "url": "https://dermgpt.org/",
+      "snippet": "Copyright \u00a9 2023 dermgpt.org - All Rights Reserved."
+    },
+    {
+      "url": "https://derma.jmir.org/2025/1/e74040",
+      "snippet": "DermGPT. 2024. URL: https://dermgpt.com [Accessed 2025-11-17]"
+    }
+  ],
+  "postfill.clinical_risk_level": [
+    {
+      "url": "https://derma.jmir.org/2025/1/e74040",
+      "snippet": "However, LLMs may \u201challucinate,\u201d producing plausible but incorrect information [ , ], limiting clinical utility."
+    },
+    {
+      "url": "https://derma.jmir.org/2025/1/e74040",
+      "snippet": "However, 3 questions were excluded because DermGPT issued disclaimers instead of direct answers, recommending consultation with a dermatologist or guidelines."
+    }
+  ],
+  "postfill.exclusion_inclusion_criteria": [
+    {
+      "url": "https://derma.jmir.org/2025/1/e74040",
+      "snippet": "This study used a voluntary, anonymous survey of physicians and residents."
+    },
+    {
+      "url": "https://derma.jmir.org/2025/1/e74040",
+      "snippet": "Of 64 dermatology faculty and 30 residents across the University of California, Irvine, and the University of California, Davis, we received a total of 19 responses, comprising 13 attending physicians and 6 residents or fellows."
+    },
+    {
+      "url": "https://derma.jmir.org/2025/1/e74040",
+      "snippet": "Two dermatology residents, CZ and NMG, authored a list of questions posed to each LLM"
+    },
+    {
+      "url": "https://derma.jmir.org/2025/1/e74040",
+      "snippet": "However, 3 questions were excluded because DermGPT issued disclaimers instead of direct answers, recommending consultation with a dermatologist or guidelines."
+    },
+    {
+      "url": "https://derma.jmir.org/2025/1/e74040",
+      "snippet": "Three questions to which DermGPT did not provide a response were excluded as nonevaluable item pairs."
+    }
+  ],
+  "postfill.dataset_transparency": [
+    {
+      "url": "https://derma.jmir.org/2025/1/e74040",
+      "snippet": "Trained on vast internet data, they can address diverse topics, including dermatology."
+    },
+    {
+      "url": "https://derma.jmir.org/2025/1/e74040",
+      "snippet": "DermGPT [ ], developed under the Palo Alto Medical Foundation, is tailored for dermatology. Beyond drafting notes and authorizations, it answers dermatology questions using a GPT base model enhanced by a research database."
+    },
+    {
+      "url": "https://derma.jmir.org/2025/1/e74040",
+      "snippet": "By sourcing answers from this material and showing citations, DermGPT aims to reduce hallucinations and better support dermatologists [ ]."
+    },
+    {
+      "url": "https://ieeexplore.ieee.org/document/11336018",
+      "snippet": "DermGPT: An AI-Driven Chatbot Integrating YOLOv8 and GPT-3.5 for Personalized Dermatology Support and Skin Health Monitoring"
+    }
+  ],
+  "postfill.validation_test_dataset": [
+    {
+      "url": "https://derma.jmir.org/2025/1/e74040",
+      "snippet": "Two dermatology residents, CZ and NMG, authored a list of questions posed to each LLM (...).\nThe survey was distributed to dermatologists at the University of California, Irvine, and the University of California, Davis, via email and QR cod"
+    },
+    {
+      "url": "https://pubmed.ncbi.nlm.nih.gov/38754096",
+      "snippet": "Our project assesses their use in generating dermatologic PEMs at specified reading levels. ... We prompted ChatGPT-3.5, GPT-4, DermGPT, and DocsGPT to \"Create a patient education handout about [condition] at a [FKRL]\" to iteratively genera"
+    }
+  ],
+  "postfill.timeline_of_data_collection": [
+    {
+      "url": "https://dermgpt.org/",
+      "snippet": "Copyright \u00a9 2023 dermgpt.org - All Rights Reserved.\n...We use cookies to analyze website traffic and optimize your website experience. By accepting our use of cookies, your data will be aggregated with all other user data."
+    },
+    {
+      "url": "https://derma.jmir.org/2025/1/e74040",
+      "snippet": "This study used a voluntary, anonymous survey of physicians and residents. ... submitted 16.Mar.2025;"
+    }
+  ],
+  "postfill.bias_mitigation_approaches": [
+    {
+      "url": "https://derma.jmir.org/2025/1/e74040",
+      "snippet": "By sourcing answers from this material and showing citations, DermGPT aims to reduce hallucinations and better support dermatologists [ ]."
+    }
+  ],
+  "postfill.security_and_compliance_environment_practices_or_accreditations_if_applicable": [
+    {
+      "url": "https://dermgpt.org/",
+      "snippet": "We use cookies to analyze website traffic and optimize your website experience. By accepting our use of cookies, your data will be aggregated with all other user data."
+    }
+  ],
+  "postfill.transparency_intelligibility_and_accountability_mechanisms_if_applicable": [
+    {
+      "url": "https://derma.jmir.org/2025/1/e74040",
+      "snippet": "By sourcing answers from this material and showing citations, DermGPT aims to reduce hallucinations and better support dermatologists [ ]."
+    },
+    {
+      "url": "https://dermgpt.org/",
+      "snippet": "We use cookies to analyze website traffic and optimize your website experience. By accepting our use of cookies, your data will be aggregated with all other user data."
+    }
+  ],
+  "postfill.third_party_information_if_applicable": [
+    {
+      "url": "https://dermgpt.org/",
+      "snippet": "Powered by GoDaddy"
+    },
+    {
+      "url": "https://derma.jmir.org/2025/1/e74040",
+      "snippet": "DermGPT [ ], developed under the Palo Alto Medical Foundation, is tailored for dermatology."
+    },
+    {
+      "url": "https://ieeexplore.ieee.org/document/11336018",
+      "snippet": "DermGPT: An AI-Driven Chatbot Integrating YOLOv8 and GPT-3.5 for Personalized Dermatology Support and Skin Health Monitoring"
+    },
+    {
+      "url": "https://derma.jmir.org/2025/1/e74040",
+      "snippet": "it answers dermatology questions using a GPT base model enhanced by a research database."
+    },
+    {
+      "url": "https://derma.jmir.org/2025/1/e74040",
+      "snippet": "We used the generative AI tool ChatGPT by OpenAI and DermGPT to generate answers and references for our survey, which we analyzed."
+    },
+    {
+      "url": "https://derma.jmir.org/2025/1/e74040",
+      "snippet": "We are grateful to the dermatology residents, attendings, and fellows at the University of California, Irvine, and University of California, Davis, who took the time to take our survey and make this study possible."
+    }
+  ],
+  "postfill.fairness_equity_goal_of_metrics": [
+    {
+      "url": "https://pubmed.ncbi.nlm.nih.gov/38754096",
+      "snippet": "Our project assesses their use in generating dermatologic PEMs at specified reading levels. ... The Flesch-Kincaid reading level (FKRL) of current American Academy of Dermatology PEMs was evaluated for 4 common (atopic dermatitis, acne vulg"
+    },
+    {
+      "url": "https://derma.jmir.org/2025/1/e74040",
+      "snippet": "Our project assesses their use in generating dermatologic PEMs at specified reading levels."
+    },
+    {
+      "url": "https://pubmed.ncbi.nlm.nih.gov/38754096",
+      "snippet": "We prompted ChatGPT-3.5, GPT-4, DermGPT, and DocsGPT to \"Create a patient education handout about [condition] at a [FKRL]\" to iteratively generate 10 PEMs per condition at unspecified fifth- and seventh-grade FKRLs"
+    }
+  ],
+  "postfill.fairness_equity_result": [
+    {
+      "url": "https://derma.jmir.org/2025/1/e74040",
+      "snippet": "Overall, DermGPT\u2019s answers (48.1%) were preferred over ChatGPT\u2019s (28.4%); the \u03c72 test was significant with P=.04 (P<.05). In the attending group, DermGPT\u2019s answers were preferred (93/195, 47.7%) over ChatGPT\u2019s (56/195, 28.7%). Likewise, in "
+    },
+    {
+      "url": "https://derma.jmir.org/2025/1/e74040",
+      "snippet": "Overall, ChatGPT references (46%) were preferred over DermGPT (23.5%; \u03c722=1.385; P=.50). In the attending group, ChatGPT references were also preferred (94/195, 48.2%) over DermGPT (45/195, 23.1%). Likewise, in the resident group, ChatGPT r"
+    },
+    {
+      "url": "https://derma.jmir.org/2025/1/e74040",
+      "snippet": "Our study was constrained by a small rater sample (n=19) and multiple ratings per rater and per question. As a result, P values should be interpreted as exploratory rather than confirmatory. The sample may not represent all dermatology clin"
+    }
+  ],
+  "postfill.fairness_equity_interpretation": [
+    {
+      "url": "https://pubmed.ncbi.nlm.nih.gov/38754096",
+      "snippet": "Our project assesses their use in generating dermatologic PEMs at specified reading levels. ... The Flesch-Kincaid reading level (FKRL) of current American Academy of Dermatology PEMs was evaluated for 4 common (atopic dermatitis, acne vulg"
+    }
+  ],
+  "postfill.fairness_equity_testing_data_description": [
+    {
+      "url": "https://derma.jmir.org/2025/1/e74040",
+      "snippet": "This study used a voluntary, anonymous survey of physicians and residents."
+    },
+    {
+      "url": "https://derma.jmir.org/2025/1/e74040",
+      "snippet": "Of 64 dermatology faculty and 30 residents across the University of California, Irvine, and the University of California, Davis, we received a total of 19 responses, comprising 13 attending physicians and 6 residents or fellows."
+    },
+    {
+      "url": "https://derma.jmir.org/2025/1/e74040",
+      "snippet": "Our study was constrained by a small rater sample (n=19) and multiple ratings per rater and per question. [...] The sample may not represent all dermatology clinicians, limiting generalizability. Subgroup patterns were underpowered."
+    }
+  ],
+  "postfill.safety_reliability_goal_of_metrics": [
+    {
+      "url": "https://derma.jmir.org/2025/1/e74040",
+      "snippet": "By sourcing answers from this material and showing citations, DermGPT aims to reduce hallucinations and better support dermatologists [ ]."
+    },
+    {
+      "url": "https://derma.jmir.org/2025/1/e74040",
+      "snippet": "However, 3 questions were excluded because DermGPT issued disclaimers instead of direct answers, recommending consultation with a dermatologist or guidelines."
+    }
+  ],
+  "postfill.safety_reliability_result": [
+    {
+      "url": "https://derma.jmir.org/2025/1/e74040",
+      "snippet": "Overall, DermGPT\u2019s answers (48.1%) were preferred over ChatGPT\u2019s (28.4%); the \u03c72 test was significant with P=.04 (P<.05)."
+    },
+    {
+      "url": "https://derma.jmir.org/2025/1/e74040",
+      "snippet": "DermGPT\u2019s concise and well-phrased responses made it accessible for quick clinical reference."
+    },
+    {
+      "url": "https://derma.jmir.org/2025/1/e74040",
+      "snippet": "Overall, ChatGPT references (46%) were preferred over DermGPT (23.5%; \u03c722=1.385; P=.50)."
+    },
+    {
+      "url": "https://derma.jmir.org/2025/1/e74040",
+      "snippet": "By sourcing answers from this material and showing citations, DermGPT aims to reduce hallucinations and better support dermatologists [ ]."
+    },
+    {
+      "url": "https://derma.jmir.org/2025/1/e74040",
+      "snippet": "However, 3 questions were excluded because DermGPT issued disclaimers instead of direct answers, recommending consultation with a dermatologist or guidelines."
+    },
+    {
+      "url": "https://derma.jmir.org/2025/1/e74040",
+      "snippet": "Our study was constrained by a small rater sample (n=19) and multiple ratings per rater and per question. As a result, P values should be interpreted as exploratory rather than confirmatory. The sample may not represent all dermatology clin"
+    },
+    {
+      "url": "https://pubmed.ncbi.nlm.nih.gov/38754096",
+      "snippet": "At the fifth-grade reading level, GPT-4 was better at producing PEMs for both common and rare conditions than ChatGPT-3.5 (P=.001 and P=.01, respectively), DermGPT (P<.001 and P=.03, respectively), and DocsGPT (P<.001 and P=.02, respectivel"
+    }
+  ],
+  "postfill.safety_reliability_interpretation": [
+    {
+      "url": "https://derma.jmir.org/2025/1/e74040",
+      "snippet": "However, LLMs may \u201challucinate,\u201d producing plausible but incorrect information [ , ], limiting clinical utility."
+    },
+    {
+      "url": "https://derma.jmir.org/2025/1/e74040",
+      "snippet": "By sourcing answers from this material and showing citations, DermGPT aims to reduce hallucinations and better support dermatologists [ ]."
+    },
+    {
+      "url": "https://derma.jmir.org/2025/1/e74040",
+      "snippet": "However, 3 questions were excluded because DermGPT issued disclaimers instead of direct answers, recommending consultation with a dermatologist or guidelines."
+    },
+    {
+      "url": "https://derma.jmir.org/2025/1/e74040",
+      "snippet": "Overall, DermGPT\u2019s answers (48.1%) were preferred over ChatGPT\u2019s (28.4%); the \u03c72 test was significant with P=.04 (P<.05)."
+    },
+    {
+      "url": "https://derma.jmir.org/2025/1/e74040",
+      "snippet": "Overall, ChatGPT references (46%) were preferred over DermGPT (23.5%; \u03c722=1.385; P=.50)."
+    },
+    {
+      "url": "https://derma.jmir.org/2025/1/e74040",
+      "snippet": "Our study was constrained by a small rater sample (n=19) and multiple ratings per rater and per question. As a result, P values should be interpreted as exploratory rather than confirmatory."
+    }
+  ],
+  "postfill.safety_reliability_test_type": [
+    {
+      "url": "https://derma.jmir.org/2025/1/e74040",
+      "snippet": "We compared its responses to those of ChatGPT. ... Survey takers were informed that both responses were produced by LLMs, but they were blinded to which model produced which response. They were asked to choose their preferred answers based "
+    },
+    {
+      "url": "https://pubmed.ncbi.nlm.nih.gov/38754096",
+      "snippet": "Our project assesses their use in generating dermatologic PEMs at specified reading levels. ... We prompted ChatGPT-3.5, GPT-4, DermGPT, and DocsGPT to \"Create a patient education handout about [condition] at a [FKRL]\" to iteratively genera"
+    }
+  ],
+  "postfill.safety_reliability_testing_data_description": [
+    {
+      "url": "https://derma.jmir.org/2025/1/e74040",
+      "snippet": "Two dermatology residents, CZ and NMG, authored a list of questions posed to each LLM"
+    },
+    {
+      "url": "https://derma.jmir.org/2025/1/e74040",
+      "snippet": "Three questions to which DermGPT did not provide a response were excluded as nonevaluable item pairs."
+    },
+    {
+      "url": "https://derma.jmir.org/2025/1/e74040",
+      "snippet": "The two models\u2019 answers for a given question were paired and assigned as A or B using a computer-generated randomization list. Any identifiable metadata such as formatting was cleared."
+    },
+    {
+      "url": "https://derma.jmir.org/2025/1/e74040",
+      "snippet": "The survey was distributed to dermatologists at the University of California, Irvine, and the University of California, Davis, via email and QR codes."
+    },
+    {
+      "url": "https://derma.jmir.org/2025/1/e74040",
+      "snippet": "Survey takers were informed that both responses were produced by LLMs, but they were blinded to which model produced which response. They were asked to choose their preferred answers based on quality\u2014specifically, which answer they thought "
+    },
+    {
+      "url": "https://derma.jmir.org/2025/1/e74040",
+      "snippet": "The rating options were as follows: - Model A better - Model B better - Equal quality - Both inadequate"
+    },
+    {
+      "url": "https://derma.jmir.org/2025/1/e74040",
+      "snippet": "This study used a voluntary, anonymous survey of physicians and residents. According to institutional and national guidelines, the project did not require institutional review board review because no identifiable information was collected a"
+    },
+    {
+      "url": "https://derma.jmir.org/2025/1/e74040",
+      "snippet": "Of 64 dermatology faculty and 30 residents across the University of California, Irvine, and the University of California, Davis, we received a total of 19 responses, comprising 13 attending physicians and 6 residents or fellows."
+    },
+    {
+      "url": "https://derma.jmir.org/2025/1/e74040",
+      "snippet": "Our study was constrained by a small rater sample (n=19) and multiple ratings per rater and per question. As a result, P values should be interpreted as exploratory rather than confirmatory. The sample may not represent all dermatology clin"
+    }
+  ],
+  "postfill.safety_reliability_validation_process_and_justification": [
+    {
+      "url": "https://derma.jmir.org/2025/1/e74040",
+      "snippet": "DermGPT [ ], developed under the Palo Alto Medical Foundation, is tailored for dermatology. Beyond drafting notes and authorizations, it answers dermatology questions using a GPT base model enhanced by a research database. By sourcing answe"
+    },
+    {
+      "url": "https://derma.jmir.org/2025/1/e74040",
+      "snippet": "Two dermatology residents, CZ and NMG, authored a list of questions posed to each LLM ( ). Three questions to which DermGPT did not provide a response were excluded as nonevaluable item pairs. The two models\u2019 answers for a given question we"
+    },
+    {
+      "url": "https://derma.jmir.org/2025/1/e74040",
+      "snippet": "This study used a voluntary, anonymous survey of physicians and residents. According to institutional and national guidelines, the project did not require institutional review board review because no identifiable information was collected a"
+    },
+    {
+      "url": "https://derma.jmir.org/2025/1/e74040",
+      "snippet": "Of 64 dermatology faculty and 30 residents across the University of California, Irvine, and the University of California, Davis, we received a total of 19 responses, comprising 13 attending physicians and 6 residents or fellows. This corres"
+    },
+    {
+      "url": "https://derma.jmir.org/2025/1/e74040",
+      "snippet": "However, 3 questions were excluded because DermGPT issued disclaimers instead of direct answers, recommending consultation with a dermatologist or guidelines."
+    }
+  ],
+  "postfill.stakeholders_consulted_during_design_of_solution": [
+    {
+      "url": "https://www.dermgpt.com/about",
+      "snippet": "Board-certified dermatologist practicing in Palo Alto, CA, and Chair of the San Francisco Dermatological Society. With an engineering background prior to medicine, she founded DermGPT, an AI platform purpose-built for dermatology workflows"
+    }
+  ]
+}
