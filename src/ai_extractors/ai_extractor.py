@@ -2,13 +2,14 @@
 from __future__ import annotations
 
 import json
+import os
 import re
 import time
 import random
 from typing import Dict, List, Any, Optional
 from datetime import datetime
 
-import google.generativeai as genai
+import google.genai as genai
 from config.config import get_settings
 
 
@@ -135,9 +136,9 @@ class _OpenAIResponse:
         self.choices = [type("Choice", (), {"message": type("Msg", (), {"content": text})()})]
 
 class _OpenAIChatCompletions:
-    def __init__(self, model: genai.GenerativeModel, default_model: str):
-        self._model = model
-        self._model_name = default_model
+    def __init__(self, client: genai.Client, model_name: str):
+        self._client = client
+        self._model_name = model_name
 
     def create(self, model: Optional[str] = None, messages: Optional[List[Dict[str, str]]] = None, **kwargs):
         msgs = messages or []
@@ -155,8 +156,32 @@ class _OpenAIChatCompletions:
                 prompt_parts.append(f"Assistant: {content}")
         
         full_prompt = "\n".join(prompt_parts)
-        resp = self._model.generate_content(full_prompt)
-        text = resp.text if resp.text else ""
+        resp = self._client.models.generate_content(
+            model=self._model_name,
+            contents=full_prompt
+        )
+        
+        # Try multiple ways to get the text from the response (new API structure may vary)
+        text = ""
+        if hasattr(resp, "text") and resp.text:
+            text = resp.text
+        elif hasattr(resp, "output_text") and resp.output_text:
+            text = resp.output_text
+        elif hasattr(resp, "candidates") and resp.candidates:
+            # New API might nest the text in candidates
+            candidate = resp.candidates[0]
+            if hasattr(candidate, "content"):
+                if hasattr(candidate.content, "parts") and candidate.content.parts:
+                    text = candidate.content.parts[0].text or ""
+                elif hasattr(candidate.content, "text"):
+                    text = candidate.content.text or ""
+        elif hasattr(resp, "content"):
+            # Alternative structure
+            if hasattr(resp.content, "parts") and resp.content.parts:
+                text = resp.content.parts[0].text or ""
+            elif hasattr(resp.content, "text"):
+                text = resp.content.text or ""
+        
         return _OpenAIResponse(text)
 
 class _OpenAIChat:
@@ -164,8 +189,8 @@ class _OpenAIChat:
         self.completions = comps
 
 class _OpenAICompatClient:
-    def __init__(self, model: genai.GenerativeModel, default_model: str):
-        self.chat = _OpenAIChat(_OpenAIChatCompletions(model, default_model))
+    def __init__(self, client: genai.Client, default_model: str):
+        self.chat = _OpenAIChat(_OpenAIChatCompletions(client, default_model))
 
 
 # --------------------------- Main Extractor ---------------------------
@@ -180,13 +205,17 @@ class AIContentExtractor:
         "version": "version",
     }
 
-    def __init__(self, model: Optional[genai.GenerativeModel] = None):
+    def __init__(self, client: Optional[genai.Client] = None):
         s = get_settings()
-        if model is None:
-            genai.configure(api_key=s.google_api_key)
-            self._model = genai.GenerativeModel(s.gemini_model)
+        if client is None:
+            # Explicitly use GEMINI_API_KEY to avoid conflict with GOOGLE_API_KEY
+            api_key = os.getenv("GEMINI_API_KEY") or s.google_api_key
+            if not api_key:
+                raise ValueError("GEMINI_API_KEY environment variable is required")
+            self._client = genai.Client(api_key=api_key)
         else:
-            self._model = model
+            self._client = client
+        self._model_name = s.gemini_model
         self._temp = s.gemini_temperature
         self._timeout = s.http_timeout
         # pricing/limits/verbosity from centralized config
@@ -196,7 +225,7 @@ class AIContentExtractor:
         self.verbose = bool(s.extractor_verbose)
 
         # legacy-compatible handle (cardgen_pipeline uses this)
-        self.client = _OpenAICompatClient(self._model, self._model_name)
+        self.client = _OpenAICompatClient(self._client, self._model_name)
 
         self.tracer = TracingLogger()
         self.rate_limit_hit = False
@@ -224,7 +253,7 @@ class AIContentExtractor:
     def _note_skip(self, op: str, content_len: int, reason: str):
         self.tracer.log_call(
             operation=op,
-            model=self._model,
+            model=self._model_name,
             prompt_tokens=0,
             completion_tokens=0,
             response_time=0.0,
@@ -277,22 +306,52 @@ class AIContentExtractor:
 
         t0 = time.time()
         try:
-            msgs: List[Dict[str, str]] = []
+            # Build prompt from messages
+            prompt_parts = []
             if sys_prompt:
-                msgs.append({"role": "system", "content": sys_prompt})
+                prompt_parts.append(f"System: {sys_prompt}")
             up = f"{user_prompt}\n\nReturn ONLY valid JSON. No prose."
-            msgs.append({"role": "user", "content": up})
+            prompt_parts.append(f"User: {up}")
+            full_prompt = "\n".join(prompt_parts)
 
-            resp = self._model.generate_content(msgs)
+            resp = self._client.models.generate_content(
+                model=self._model_name,
+                contents=full_prompt
+            )
             dt = time.time() - t0
-            text = resp.text if resp.text else "{}"
+            
+            # Try multiple ways to get the text from the response (new API structure may vary)
+            text = ""
+            if hasattr(resp, "text") and resp.text:
+                text = resp.text
+            elif hasattr(resp, "output_text") and resp.output_text:
+                text = resp.output_text
+            elif hasattr(resp, "candidates") and resp.candidates:
+                # New API might nest the text in candidates
+                candidate = resp.candidates[0]
+                if hasattr(candidate, "content"):
+                    if hasattr(candidate.content, "parts") and candidate.content.parts:
+                        text = candidate.content.parts[0].text or ""
+                    elif hasattr(candidate.content, "text"):
+                        text = candidate.content.text or ""
+            elif hasattr(resp, "content"):
+                # Alternative structure
+                if hasattr(resp.content, "parts") and resp.content.parts:
+                    text = resp.content.parts[0].text or ""
+                elif hasattr(resp.content, "text"):
+                    text = resp.content.text or ""
+            
+            if not text:
+                text = "{}"
+                if self.verbose:
+                    print(f"DEBUG: Empty response from API. Response type: {type(resp)}, attributes: {[a for a in dir(resp) if not a.startswith('_')]}")
 
             prompt_tokens = self._estimate_tokens(up)
             completion_tokens = self._estimate_tokens(text)
 
             self.tracer.log_call(
                 operation=op_name,
-                model=self._model,
+                model=self._model_name,
                 prompt_tokens=prompt_tokens,
                 completion_tokens=completion_tokens,
                 response_time=dt,
@@ -307,7 +366,7 @@ class AIContentExtractor:
         except Exception as e:
             self.tracer.log_call(
                 operation=op_name,
-                model=self._model,
+                model=self._model_name,
                 prompt_tokens=0,
                 completion_tokens=0,
                 response_time=0.0,

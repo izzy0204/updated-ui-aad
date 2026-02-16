@@ -1,0 +1,99 @@
+============================================================
+📊 MODEL CARD SCORING REPORT
+============================================================
+
+🎯 OVERALL SCORES:
+   Field Completion: 4.1% (3/73 fields)
+   Clinical Usability: 0.00 (RED)
+   Overall Rating: 🔴 POOR - Not ready for clinical use
+
+🔴 CLINICAL USABILITY: RED
+
+📋 CATEGORY BREAKDOWN:
+   Summary:
+     Completion: 0.0%
+     Quality: 0.00
+     Clinical Relevance: 0.00
+   Intended Use And Workflow:
+     Completion: 0.0%
+     Quality: 0.00
+     Clinical Relevance: 0.00
+   Model Limitations:
+     Completion: 0.0%
+     Quality: 0.00
+     Clinical Relevance: 0.00
+   Model Type:
+     Completion: 0.0%
+     Quality: 0.00
+     Clinical Relevance: 0.00
+   Training Data:
+     Completion: 0.0%
+     Quality: 0.00
+     Clinical Relevance: 0.00
+   Validation Test Dataset:
+     Completion: 0.0%
+     Quality: 0.00
+     Clinical Relevance: 0.00
+   Skin Tone Diversity:
+     Completion: 0.0%
+     Quality: 0.00
+     Clinical Relevance: 0.00
+   Metadata:
+     Completion: 4.5%
+     Quality: 0.00
+     Clinical Relevance: 0.03
+
+🚨 CRITICAL MISSING FIELDS:
+   • Summary
+   • Intended Use And Workflow
+   • Model Limitations
+   • Model Type
+   • Training Data
+   • Validation Test Dataset
+   • Skin Tone Diversity
+   • Foundation Models Used In Application If Applicable
+   • Uses
+   • Warnings
+
+⚠️  QUALITY ISSUES:
+   • Low quality content in summary
+   • summary: Field is empty or not specified
+   • Low quality content in intended_use_and_workflow
+   • intended_use_and_workflow: Field is empty or not specified
+   • Low quality content in model_limitations
+   • model_limitations: Field is empty or not specified
+   • Low quality content in model_type
+   • model_type: Field is empty or not specified
+   • Low quality content in training_data
+   • training_data: Field is empty or not specified
+   ... and 133 more issues
+
+💡 RECOMMENDATIONS:
+   1. 🔴 CRITICAL: Less than 50% of fields are filled. Focus on completing basic model information first.
+   2. 🔴 CRITICAL: Low clinical relevance. Add clinical terminology, validation data, and safety information.
+   3. 📝 Complete Summary section with detailed information
+   4. 🏥 Add clinical context to Summary section
+   5. 📝 Complete Intended Use And Workflow section with detailed information
+   6. 🏥 Add clinical context to Intended Use And Workflow section
+   7. 📝 Complete Model Limitations section with detailed information
+   8. 🏥 Add clinical context to Model Limitations section
+   9. 📝 Complete Model Type section with detailed information
+   10. 🏥 Add clinical context to Model Type section
+   11. 📝 Complete Training Data section with detailed information
+   12. 🏥 Add clinical context to Training Data section
+   13. 📝 Complete Validation Test Dataset section with detailed information
+   14. 🏥 Add clinical context to Validation Test Dataset section
+   15. 📝 Complete Skin Tone Diversity section with detailed information
+   16. 🏥 Add clinical context to Skin Tone Diversity section
+   17. 📝 Complete Foundation Models Used In Application If Applicable section with detailed information
+   18. 🏥 Add clinical context to Foundation Models Used In Application If Applicable section
+   19. 📝 Complete Uses section with detailed information
+   20. 🏥 Add clinical context to Uses section
+   21. 📝 Complete Warnings section with detailed information
+   22. 🏥 Add clinical context to Warnings section
+   23. 📝 Complete Trust section with detailed information
+   24. 🏥 Add clinical context to Trust section
+   25. 📝 Complete Metadata section with detailed information
+   26. 🏥 Add clinical context to Metadata section
+
+============================================================

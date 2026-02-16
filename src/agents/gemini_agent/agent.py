@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import asyncio
 import json
+import os
 import re
 import hashlib
 from dataclasses import fields as dc_fields
@@ -86,7 +87,11 @@ def _prep_seed_context(
 
 def _client_and_model() -> tuple[genai.Client, str, float]:
     s = get_settings()
-    client = genai.Client(api_key=s.google_api_key)
+    # Explicitly use GEMINI_API_KEY to avoid conflict with GOOGLE_API_KEY
+    api_key = os.getenv("GEMINI_API_KEY") or s.google_api_key
+    if not api_key:
+        raise ValueError("GEMINI_API_KEY environment variable is required")
+    client = genai.Client(api_key=api_key)
     return client, s.gemini_model, s.http_timeout
 
 
@@ -102,10 +107,34 @@ def _gemini_json(client: genai.Client, model_name: str, *, prompt: str, system: 
             model=model_name,
             contents=text
         )
-        out_text = getattr(resp, "text", None) or ""
-
+        
+        # Try multiple ways to get the text from the response (new API structure may vary)
+        out_text = ""
+        if hasattr(resp, "text") and resp.text:
+            out_text = resp.text
+        elif hasattr(resp, "output_text") and resp.output_text:
+            out_text = resp.output_text
+        elif hasattr(resp, "candidates") and resp.candidates:
+            # New API might nest the text in candidates
+            candidate = resp.candidates[0]
+            if hasattr(candidate, "content"):
+                if hasattr(candidate.content, "parts") and candidate.content.parts:
+                    out_text = candidate.content.parts[0].text or ""
+                elif hasattr(candidate.content, "text"):
+                    out_text = candidate.content.text or ""
+        elif hasattr(resp, "content"):
+            # Alternative structure
+            if hasattr(resp.content, "parts") and resp.content.parts:
+                out_text = resp.content.parts[0].text or ""
+            elif hasattr(resp.content, "text"):
+                out_text = resp.content.text or ""
+        
+        # Debug: print response structure if empty
         if not out_text:
-            return {"error": "empty_response", "message": "Model returned no text content"}
+            print(f"DEBUG: Empty response. Response type: {type(resp)}, attributes: {[a for a in dir(resp) if not a.startswith('_')]}")
+            if hasattr(resp, "candidates"):
+                print(f"DEBUG: Candidates: {resp.candidates}")
+            return {"error": "empty_response", "message": "Model returned no text content", "response_type": str(type(resp))}
 
         # extract_json_block already tolerates ```json fences and stray prose
         obj = extract_json_block(out_text)

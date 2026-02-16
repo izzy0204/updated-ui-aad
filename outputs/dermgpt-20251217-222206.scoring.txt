@@ -1,0 +1,89 @@
+============================================================
+📊 MODEL CARD SCORING REPORT
+============================================================
+
+🎯 OVERALL SCORES:
+   Field Completion: 42.5% (31/73 fields)
+   Clinical Usability: 0.09 (RED)
+   Overall Rating: 🔴 POOR - Not ready for clinical use
+
+🔴 CLINICAL USABILITY: RED
+
+📋 CATEGORY BREAKDOWN:
+   Summary:
+     Completion: 100.0%
+     Quality: 0.37
+     Clinical Relevance: 0.16
+   Intended Use And Workflow:
+     Completion: 100.0%
+     Quality: 0.52
+     Clinical Relevance: 0.32
+   Model Limitations:
+     Completion: 100.0%
+     Quality: 0.35
+     Clinical Relevance: 0.08
+   Model Type:
+     Completion: 0.0%
+     Quality: 0.00
+     Clinical Relevance: 0.00
+   Training Data:
+     Completion: 100.0%
+     Quality: 0.16
+     Clinical Relevance: 0.08
+   Validation Test Dataset:
+     Completion: 0.0%
+     Quality: 0.00
+     Clinical Relevance: 0.00
+   Skin Tone Diversity:
+     Completion: 100.0%
+     Quality: 0.20
+     Clinical Relevance: 0.16
+   Metadata:
+     Completion: 39.4%
+     Quality: 0.09
+     Clinical Relevance: 0.20
+
+🚨 CRITICAL MISSING FIELDS:
+   • Model Type
+   • Validation Test Dataset
+   • Foundation Models Used In Application If Applicable
+   • Uses
+   • Warnings
+
+⚠️  QUALITY ISSUES:
+   • summary: Missing required elements: clinical_purpose, key_capabilities, target_population
+   • intended_use_and_workflow: Missing required elements: clinical_indication, workflow, target_users
+   • model_limitations: Missing required elements: clinical_limitations, safety_considerations, contraindications
+   • Low quality content in model_type
+   • model_type: Missing required elements: architecture, modality, clinical_domain
+   • Low quality content in training_data
+   • training_data: Missing required elements: data_source, data_quality, bias_considerations
+   • Low quality content in validation_test_dataset
+   • validation_test_dataset: Field is empty or not specified
+   • Low quality content in skin_tone_diversity
+   ... and 97 more issues
+
+💡 RECOMMENDATIONS:
+   1. 🔴 CRITICAL: Less than 50% of fields are filled. Focus on completing basic model information first.
+   2. 🔴 CRITICAL: Low clinical relevance. Add clinical terminology, validation data, and safety information.
+   3. 🏥 Add clinical context to Summary section
+   4. 🏥 Add clinical context to Intended Use And Workflow section
+   5. 🏥 Add clinical context to Model Limitations section
+   6. 📝 Complete Model Type section with detailed information
+   7. 🏥 Add clinical context to Model Type section
+   8. 🏥 Add clinical context to Training Data section
+   9. 📝 Complete Validation Test Dataset section with detailed information
+   10. 🏥 Add clinical context to Validation Test Dataset section
+   11. 🏥 Add clinical context to Skin Tone Diversity section
+   12. 📝 Complete Foundation Models Used In Application If Applicable section with detailed information
+   13. 🏥 Add clinical context to Foundation Models Used In Application If Applicable section
+   14. 📝 Complete Uses section with detailed information
+   15. 🏥 Add clinical context to Uses section
+   16. 📝 Complete Warnings section with detailed information
+   17. 🏥 Add clinical context to Warnings section
+   18. 📝 Complete Trust section with detailed information
+   19. 🏥 Add clinical context to Trust section
+   20. 📝 Complete Metadata section with detailed information
+   21. 🏥 Add clinical context to Metadata section
+
+============================================================

@@ -198,7 +198,7 @@ def _extract_pdf_text(data: bytes) -> str:
 
 # ---------- Robust async fetcher (HTML/PDF + retries) ----------
 
-async def _fetch_one(session: aiohttp.ClientSession, url: str, timeout: float = 20.0) -> Dict[str, Any]:
+async def _fetch_one(session: aiohttp.ClientSession, url: str, timeout: float = 20.0, use_selenium_fallback: bool = True) -> Dict[str, Any]:
     cache = get_cache()
     
     # Check cache first
@@ -223,6 +223,24 @@ async def _fetch_one(session: aiohttp.ClientSession, url: str, timeout: float = 
                     html = raw.decode("utf-8", errors="ignore")
                 text = _extract_html_text(html, u)
                 kind = "html"
+                
+                # Check if we need Selenium fallback for JavaScript-rendered content
+                if use_selenium_fallback and kind == "html" and len(text.strip()) < 200:
+                    # Try Selenium if content seems too short (might be JS-rendered)
+                    try:
+                        from scrapers.selenium_scraper import scrape_with_selenium, SELENIUM_AVAILABLE
+                        if SELENIUM_AVAILABLE:
+                            logger.info(f"Trying Selenium fallback for {u} (content too short: {len(text)} chars)")
+                            selenium_result = await scrape_with_selenium(u, headless=True, wait_for_content=True)
+                            if selenium_result.get('status') == 'success':
+                                selenium_text = selenium_result.get('clean_text', '')
+                                if len(selenium_text.strip()) > len(text.strip()):
+                                    text = selenium_text
+                                    logger.info(f"Selenium improved content for {u} ({len(text)} vs {len(selenium_text)} chars)")
+                    except ImportError:
+                        pass  # Selenium not available, continue with static content
+                    except Exception as e:
+                        logger.debug(f"Selenium fallback failed for {u}: {e}")
 
             result = {"url": u, "status": r.status, "type": kind, "text": text}
             
@@ -255,7 +273,7 @@ async def _fetch_one(session: aiohttp.ClientSession, url: str, timeout: float = 
         return error_result
 
 
-async def fetch_many(urls: List[str], *, concurrency: int = 6) -> List[Dict[str, Any]]:
+async def fetch_many(urls: List[str], *, concurrency: int = 6, timeout: float = 20.0) -> List[Dict[str, Any]]:
     """
     Fetch a list of URLs with retries + backoff.
     Returns: [{url, status, type: 'html'|'pdf'|'error', text, error?}, ...]
@@ -271,7 +289,7 @@ async def fetch_many(urls: List[str], *, concurrency: int = 6) -> List[Dict[str,
                 res: Dict[str, Any] = {}
                 # naive retry on transient statuses
                 for attempt in range(3):
-                    res = await _fetch_one(session, u)
+                    res = await _fetch_one(session, u, timeout=timeout)
                     if res.get("status", 0) in (0, 408, 429, 500, 502, 503, 504):
                         await asyncio.sleep(0.6 * (2 ** attempt))
                         continue
@@ -283,9 +301,46 @@ async def fetch_many(urls: List[str], *, concurrency: int = 6) -> List[Dict[str,
 
 # ---------- Discovery helpers (queries + fetch) ----------
 
+def _score_source_quality(source: Dict[str, Any], model_name: str, developer: str = "") -> float:
+    """Score source quality based on relevance, official status, and content indicators."""
+    score = 0.0
+    title = (source.get("title") or "").lower()
+    url = (source.get("url") or "").lower()
+    description = (source.get("description") or "").lower()
+    
+    # Official status indicators (high weight)
+    official_indicators = ['official', 'homepage', 'main site', 'product page', 'company']
+    if any(indicator in title or indicator in url for indicator in official_indicators):
+        score += 0.4
+    
+    # Documentation indicators
+    doc_indicators = ['documentation', 'docs', 'guide', 'tutorial', 'help']
+    if any(indicator in title or indicator in url for indicator in doc_indicators):
+        score += 0.3
+    
+    # Relevance to model name
+    model_lower = model_name.lower()
+    if model_lower in title or model_lower in description:
+        score += 0.2
+    
+    # Developer relevance
+    if developer:
+        dev_lower = developer.lower()
+        if dev_lower in title or dev_lower in description:
+            score += 0.1
+    
+    # Domain quality
+    trusted_domains = ['edu', 'gov', 'org', 'pubmed', 'arxiv', 'github']
+    if any(domain in url for domain in trusted_domains):
+        score += 0.1
+    
+    return min(1.0, score)
+
+
 async def discover_model_sources(model_name: str, developer: str = "") -> List[Dict[str, Any]]:
     """
     Run several targeted queries and return de-duplicated search results with caching.
+    Includes source quality scoring.
     """
     cache = get_cache()
     
@@ -306,6 +361,17 @@ async def discover_model_sources(model_name: str, developer: str = "") -> List[D
         f"{base_query} paper",
         f"{base_query} AI model",
         f"{base_query} publication",
+        # Enhanced queries for missing fields
+        f"{base_query} release date launch announcement",
+        f"{base_query} version history changelog",
+        f"{base_query} how to use tutorial guide",
+        f"{base_query} limitations warnings contraindications",
+        f"{base_query} training data dataset",
+        f"{base_query} bias mitigation fairness equity",
+        f"{base_query} safety reliability metrics",
+        f"{base_query} time savings efficiency metrics",
+        f"{base_query} user count adoption statistics",
+        f"{base_query} maintenance updates",
         # Specialized CHAI field queries
         f"{base_query} FDA clearance regulatory approval",
         f"{base_query} clinical trial validation study",
@@ -313,9 +379,13 @@ async def discover_model_sources(model_name: str, developer: str = "") -> List[D
         f"{base_query} bias analysis fairness metrics",
         f"{base_query} reimbursement insurance coverage",
         f"{base_query} stakeholder consultation user research",
+        # Domain-specific searches
         f"site:pubmed.ncbi.nlm.nih.gov {base_query}",
         f"site:fda.gov {base_query}",
         f"site:clinicaltrials.gov {base_query}",
+        f"site:github.com {base_query}",
+        f"site:arxiv.org {base_query}",
+        f"site:researchgate.net {base_query}",
     ]
     
     # If no developer provided, add some fallback queries without developer
@@ -338,15 +408,23 @@ async def discover_model_sources(model_name: str, developer: str = "") -> List[D
             if not url or url in seen:
                 continue
             seen.add(url)
-            found.append({
+            source = {
                 "title": (h or {}).get("title", ""),
                 "url": url,
                 "description": (h or {}).get("snippet", ""),
                 "type": "web",
                 "priority_score": 5.0,
-            })
+            }
+            # Add quality score
+            quality_score = _score_source_quality(source, model_name, developer)
+            source["quality_score"] = quality_score
+            # Adjust priority_score based on quality
+            source["priority_score"] = 5.0 + (quality_score * 5.0)  # Scale to 5.0-10.0
+            found.append(source)
     
-    final_results = found[:20]
+    # Sort by priority_score (quality-weighted) and take top results
+    found.sort(key=lambda x: x.get("priority_score", 5.0), reverse=True)
+    final_results = found[:25]  # Take more to allow for quality filtering
     
     # Cache the results
     await cache.set(

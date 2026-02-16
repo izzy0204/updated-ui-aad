@@ -971,6 +971,96 @@ class RobustWebScraper:
         text = re.sub(r'\s+', ' ', text)
         return text.strip()
     
+    def _detect_js_indicators(self, html: str) -> bool:
+        """
+        Detect if page likely requires JavaScript.
+        
+        Args:
+            html: Raw HTML content
+        
+        Returns:
+            True if JavaScript is likely required
+        """
+        indicators = [
+            '<noscript>',
+            'Enable JavaScript',
+            'JavaScript is required',
+            'Please enable JavaScript',
+            'react-root',
+            'ng-app',
+            'data-reactroot',
+            '__NEXT_DATA__',
+            'window.__INITIAL_STATE__',
+            'application/json" id="__NEXT_DATA__',
+        ]
+        
+        html_lower = html.lower()
+        for indicator in indicators:
+            if indicator.lower() in html_lower:
+                return True
+        
+        # Check if body is mostly empty
+        try:
+            soup = BeautifulSoup(html, 'html.parser')
+            body = soup.find('body')
+            if body:
+                body_text = body.get_text(strip=True)
+                if len(body_text) < 200:  # Very little content suggests JS rendering
+                    return True
+        except Exception:
+            pass
+        
+        return False
+    
+    async def _try_selenium_fallback(self, url: str, model_name: Optional[str] = None) -> Optional[Dict[str, Any]]:
+        """
+        Try to extract content using Selenium as a fallback for JavaScript-rendered pages.
+        
+        Args:
+            url: URL to scrape
+            model_name: Optional model name for caching
+        
+        Returns:
+            Dictionary with extracted content or None if Selenium is not available or fails
+        """
+        try:
+            from scrapers.selenium_scraper import scrape_with_selenium, SELENIUM_AVAILABLE
+            
+            if not SELENIUM_AVAILABLE:
+                logger.debug(f"Selenium not available for {url}")
+                return None
+            
+            logger.info(f"Attempting Selenium fallback for {url}")
+            result = await scrape_with_selenium(url, headless=True, wait_for_content=True)
+            
+            if result.get('status') == 'success':
+                # Convert Selenium result format to match robust_scraper format
+                return {
+                    'url': url,
+                    'final_url': url,
+                    'status': 'success',
+                    'content_type': 'text/html',
+                    'title': result.get('title', ''),
+                    'meta_description': result.get('meta_description', ''),
+                    'headings': result.get('headings', []),
+                    'links': result.get('links', []),
+                    'images': result.get('images', []),
+                    'tables': result.get('tables', []),
+                    'clean_text': result.get('clean_text', ''),
+                    'metadata': result.get('metadata', {}),
+                    'diagnostics': result.get('diagnostics', {})
+                }
+            else:
+                logger.warning(f"Selenium fallback failed for {url}: {result.get('error', 'Unknown error')}")
+                return None
+                
+        except ImportError:
+            logger.debug(f"Selenium scraper module not available for {url}")
+            return None
+        except Exception as e:
+            logger.warning(f"Error in Selenium fallback for {url}: {e}")
+            return None
+    
     async def extract_content_from_url(self, url: str, model_name: Optional[str] = None) -> Dict[str, Any]:
         """Main content extraction method with caching"""
         logger.info(f"Extracting content from: {url}")
@@ -1094,6 +1184,30 @@ class RobustWebScraper:
         # Extract main content
         clean_text = self._find_main_content(soup)
         clean_text = self._normalize_text(clean_text)
+        
+        # Check if we need Selenium for JavaScript-rendered content
+        # If content is too short or has JS indicators, try Selenium fallback
+        needs_selenium = (
+            len(clean_text.strip()) < 500 or  # Increased threshold from 200 to 500
+            self._detect_js_indicators(html_content) or
+            'dermgpt.com' in url.lower() or  # Force Selenium for known JS-heavy sites
+            any(domain in url.lower() for domain in ['react', 'vue', 'angular', 'next.js', 'spa'])
+        )
+        
+        if needs_selenium:
+            selenium_result = await self._try_selenium_fallback(url, model_name)
+            if selenium_result and selenium_result.get('status') == 'success':
+                selenium_text = selenium_result.get('clean_text', '')
+                if len(selenium_text.strip()) > len(clean_text.strip()):
+                    # Selenium got better content, use it
+                    logger.info(f"Using Selenium content for {url} ({len(selenium_text)} vs {len(clean_text)} chars)")
+                    clean_text = selenium_text
+                    # Merge metadata from Selenium
+                    selenium_metadata = selenium_result.get('metadata', {})
+                    if selenium_metadata:
+                        json_ld.update(selenium_metadata.get('json_ld', {}))
+                    diagnostics['selenium_fallback_used'] = True
+                    diagnostics['selenium_content_length'] = len(selenium_text)
         
         # Extract metadata
         json_ld = MetadataExtractor.extract_json_ld(soup)

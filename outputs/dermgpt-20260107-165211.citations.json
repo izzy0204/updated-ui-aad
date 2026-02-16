@@ -1,0 +1,326 @@
+{
+  "_sources_metadata": {
+    "https://www.medpagetoday.com/video-coverage/atopic-derm-future-focus/107750": {
+      "usage": "both",
+      "reason": "Included in extraction context and directly cited"
+    },
+    "https://assets.bmctoday.net/practicaldermatology/pdfs/PD1123_Digital Practice.pdf": {
+      "usage": "both",
+      "reason": "Included in extraction context and directly cited"
+    },
+    "https://www.sfderm.org/projects-3": {
+      "usage": "implicit",
+      "reason": "Included in extraction context and informed reasoning but not directly quoted"
+    },
+    "https://about.me/farakamangar": {
+      "usage": "implicit",
+      "reason": "Included in extraction context and informed reasoning but not directly quoted"
+    }
+  },
+  "model_name": [
+    {
+      "url": "https://www.medpagetoday.com/video-coverage/atopic-derm-future-focus/107750",
+      "snippet": "DermGPT, was recently unveiled at a limited press briefing."
+    },
+    {
+      "url": "https://assets.bmctoday.net/practicaldermatology/pdfs/PD1123_Digital Practice.pdf",
+      "snippet": "DermGPT, a new AI (artificial intelligence)-powered \ntool for improving clinic productivity, was recently \nunveiled at a limited press briefing."
+    }
+  ],
+  "developer": [
+    {
+      "url": "https://www.medpagetoday.com/video-coverage/atopic-derm-future-focus/107750",
+      "snippet": "Developed by Faranak \"Fara\" Kamangar, MD, a board-certified dermatologist based in Palo Alto, California, DermGPT aims to streamline clinical tasks, improve access to dermatologic data, and help save time for physicians."
+    },
+    {
+      "url": "https://assets.bmctoday.net/practicaldermatology/pdfs/PD1123_Digital Practice.pdf",
+      "snippet": "Developed by \nFaranak\u00a0\u201cFara\u201d Kamangar, MD, a board-certified dermatolo-\ngist based in Palo Alto, CA, DermGPT aims to improve clini-\ncal efficiency."
+    }
+  ],
+  "application_url": [
+    {
+      "url": "https://www.medpagetoday.com/video-coverage/atopic-derm-future-focus/107750",
+      "snippet": "DermGPT is the site, www.dermgpt.com and for dermatologists it's actually free to use, so they can sign up and there's no cost associated with it."
+    }
+  ],
+  "summary": [
+    {
+      "url": "https://www.medpagetoday.com/video-coverage/atopic-derm-future-focus/107750",
+      "snippet": "DermGPT, was recently unveiled at a limited press briefing. Developed by Faranak \"Fara\" Kamangar, MD...DermGPT aims to streamline clinical tasks, improve access to dermatologic data, and help save time for physicians."
+    },
+    {
+      "url": "https://assets.bmctoday.net/practicaldermatology/pdfs/PD1123_Digital Practice.pdf",
+      "snippet": "DermGPT, a new AI (artificial intelligence)-powered tool for improving clinic productivity, was recently unveiled at a limited press briefing...DermGPT aims to improve clinical efficiency."
+    },
+    {
+      "url": "https://www.medpagetoday.com/video-coverage/atopic-derm-future-focus/107750",
+      "snippet": "DermGPT is an AI chatbot and it's built on more than 3,000 peer-reviewed articles."
+    },
+    {
+      "url": "https://www.medpagetoday.com/video-coverage/atopic-derm-future-focus/107750",
+      "snippet": "DermGPT is the site, www.dermgpt.com and for dermatologists it's actually free to use, so they can sign up and there's no cost associated with it."
+    }
+  ],
+  "keywords": [
+    {
+      "url": "https://www.medpagetoday.com/video-coverage/atopic-derm-future-focus/107750",
+      "snippet": "DermGPT is an AI chatbot and it's built on more than 3,000 peer-reviewed articles."
+    },
+    {
+      "url": "https://assets.bmctoday.net/practicaldermatology/pdfs/PD1123_Digital Practice.pdf",
+      "snippet": "DermGPT allows dermatologists to ask questions in natural language and receive relevant, helpful answers"
+    },
+    {
+      "url": "https://assets.bmctoday.net/practicaldermatology/pdfs/PD1123_Digital Practice.pdf",
+      "snippet": "AI (artificial intelligence)-powered tool for improving clinic productivity"
+    },
+    {
+      "url": "https://www.medpagetoday.com/video-coverage/atopic-derm-future-focus/107750",
+      "snippet": "Prior authorizations, denial letters, residents are using it to study for boards, patient education handouts, pretty much anything where you want some [dermatology] verbiage to be created."
+    },
+    {
+      "url": "https://assets.bmctoday.net/practicaldermatology/pdfs/PD1123_Digital Practice.pdf",
+      "snippet": "DermGPT aims to assist with the following common tasks in a dermatological practice setting:\n\u2022  Provide healthcare providers a quick reference for medication options, dosing, and interactions."
+    },
+    {
+      "url": "https://assets.bmctoday.net/practicaldermatology/pdfs/PD1123_Digital Practice.pdf",
+      "snippet": "Summarize diagnosis and treatment guidelines for complex cases."
+    },
+    {
+      "url": "https://assets.bmctoday.net/practicaldermatology/pdfs/PD1123_Digital Practice.pdf",
+      "snippet": "Provide informed consent language regarding procedures and telehealth consults."
+    }
+  ],
+  "intended_use_and_workflow": [
+    {
+      "url": "https://assets.bmctoday.net/practicaldermatology/pdfs/PD1123_Digital Practice.pdf",
+      "snippet": "There are multiple use cases for a der- matology chatbot that is powered with vast dermatology peer-reviewed knowledge. A physician might use DermGPT to look up dermatology information including diagnoses, treatments, and prior authorizatio"
+    },
+    {
+      "url": "https://assets.bmctoday.net/practicaldermatology/pdfs/PD1123_Digital Practice.pdf",
+      "snippet": "They can also use DermGPT for patient management and shared decision- making tools such as patient educational handouts and pre- scription programs. A dermatologist may also find it helpful to answer patient inquiries such as health online "
+    },
+    {
+      "url": "https://assets.bmctoday.net/practicaldermatology/pdfs/PD1123_Digital Practice.pdf",
+      "snippet": "DermGPT aims to assist with the following common tasks in a dermatological practice setting:\n\u2022  Provide healthcare providers a quick reference for medication options, dosing, and interactions.\n\u2022 Summarize diagnosis and treatment guidelines "
+    },
+    {
+      "url": "https://assets.bmctoday.net/practicaldermatology/pdfs/PD1123_Digital Practice.pdf",
+      "snippet": "Suggest appropriate labs, imaging, and procedures for diagnostic workups.\n\u2022 Automate documentation such as visit notes, orders, and prescriptions.\n\u2022 Ask questions about diagnoses.\n\u2022 Write insurance authorization letters.\n\u2022 Create patient ha"
+    },
+    {
+      "url": "https://assets.bmctoday.net/practicaldermatology/pdfs/PD1123_Digital Practice.pdf",
+      "snippet": "Summarize a provider\u2019s medical notes.\n\u2022 Assist with study guides for Board Exams.\n\u2022 Provide informed consent language regarding proce- dures and telehealth consults."
+    }
+  ],
+  "primary_intended_users": [
+    {
+      "url": "https://assets.bmctoday.net/practicaldermatology/pdfs/PD1123_Digital Practice.pdf",
+      "snippet": "Dermatology providers and staff--RNs, MAs, and ancillary staff--can all utilize this trusted source of information to help serve a patient."
+    }
+  ],
+  "how_to_use": [
+    {
+      "url": "https://assets.bmctoday.net/practicaldermatology/pdfs/PD1123_Digital Practice.pdf",
+      "snippet": "DermGPT allows dermatologists to ask questions in natural language and receive relevant, helpful answers, just like they would with real-life colleague"
+    },
+    {
+      "url": "https://www.medpagetoday.com/video-coverage/atopic-derm-future-focus/107750",
+      "snippet": "DermGPT is the site, www.dermgpt.com and for dermatologists it's actually free to use, so they can sign up and there's no cost associated with it."
+    },
+    {
+      "url": "https://assets.bmctoday.net/practicaldermatology/pdfs/PD1123_Digital Practice.pdf",
+      "snippet": "We use it to look up information quickly to answer clinical queries, look up data, answer patient questions, and\u00a0access handouts."
+    }
+  ],
+  "targeted_patient_population": [
+    {
+      "url": "https://www.medpagetoday.com/video-coverage/atopic-derm-future-focus/107750",
+      "snippet": "I see a lot of inflammatory skin disease in my practice."
+    }
+  ],
+  "developer_supplied_warnings": [
+    {
+      "url": "https://assets.bmctoday.net/practicaldermatology/pdfs/PD1123_Digital Practice.pdf",
+      "snippet": "The con of any AI tool is that it is not a human, nor is it trying to be...DermGPT is most powerful when paired with a dermatology provider or staff who can complement its skills with their higher-level creative problem-solving."
+    },
+    {
+      "url": "https://assets.bmctoday.net/practicaldermatology/pdfs/PD1123_Digital Practice.pdf",
+      "snippet": "DermGPT does not replace medical care or decision-mak - ing, it should not be used as a stand-alone decision maker, but as an assistant."
+    }
+  ],
+  "model_limitations": [
+    {
+      "url": "https://assets.bmctoday.net/practicaldermatology/pdfs/PD1123_Digital Practice.pdf",
+      "snippet": "The con of any AI tool is that it is not a human, nor is it trying to be. AI tools excel in efficient and data-driven tasks. They lack human creativity, intuition, and the ability to think outside the box. So, like all AI tools, DermGPT is "
+    },
+    {
+      "url": "https://assets.bmctoday.net/practicaldermatology/pdfs/PD1123_Digital Practice.pdf",
+      "snippet": "DermGPT does not replace medical care or decision-mak - ing, it should not be used as a stand-alone decision maker, but as an assistant."
+    }
+  ],
+  "ai_system_facts": [
+    {
+      "url": "https://www.medpagetoday.com/video-coverage/atopic-derm-future-focus/107750",
+      "snippet": "DermGPT is an AI chatbot and it's built on more than 3,000 peer-reviewed articles."
+    },
+    {
+      "url": "https://assets.bmctoday.net/practicaldermatology/pdfs/PD1123_Digital Practice.pdf",
+      "snippet": "DermGPT, a new AI (artificial intelligence)-powered \ntool for improving clinic productivity, was recently \nunveiled at a limited press briefing. The first-ever dermatol-\nogy chatbot is powered by proven, curated AI. Developed by \nFaranak \u201cF"
+    },
+    {
+      "url": "https://www.medpagetoday.com/video-coverage/atopic-derm-future-focus/107750",
+      "snippet": "DermGPT aims to streamline clinical tasks, improve access to dermatologic data, and help save time for physicians."
+    },
+    {
+      "url": "https://assets.bmctoday.net/practicaldermatology/pdfs/PD1123_Digital Practice.pdf",
+      "snippet": "DermGPT is different and is the first language-based model."
+    },
+    {
+      "url": "https://www.medpagetoday.com/video-coverage/atopic-derm-future-focus/107750",
+      "snippet": "Prior authorizations, denial letters, residents are using it to study for boards, patient education handouts, pretty much anything where you want some [dermatology] verbiage to be created."
+    },
+    {
+      "url": "https://www.medpagetoday.com/video-coverage/atopic-derm-future-focus/107750",
+      "snippet": "DermGPT is the site, www.dermgpt.com and for dermatologists it's actually free to use, so they can sign up and there's no cost associated with it."
+    },
+    {
+      "url": "https://assets.bmctoday.net/practicaldermatology/pdfs/PD1123_Digital Practice.pdf",
+      "snippet": "It is also continuously updated and \nimproved (unlike ChatGPT which hasn\u2019t been connected \nto the Internet since September 2021) and will remain the \nmost updated source of material."
+    }
+  ],
+  "model_type": [
+    {
+      "url": "https://www.medpagetoday.com/video-coverage/atopic-derm-future-focus/107750",
+      "snippet": "DermGPT is an AI chatbot"
+    },
+    {
+      "url": "https://assets.bmctoday.net/practicaldermatology/pdfs/PD1123_Digital Practice.pdf",
+      "snippet": "DermGPT is different and is the first language-based model."
+    }
+  ],
+  "interaction_with_other_systems": [
+    {
+      "url": "https://assets.bmctoday.net/practicaldermatology/pdfs/PD1123_Digital Practice.pdf",
+      "snippet": "By integrating with existing EHR systems, \nDermGPT can streamline documentation and facilitate \nseamless information exchange."
+    }
+  ],
+  "outcomes_and_output": [
+    {
+      "url": "https://assets.bmctoday.net/practicaldermatology/pdfs/PD1123_Digital Practice.pdf",
+      "snippet": "DermGPT aims to improve clini- cal efficiency."
+    },
+    {
+      "url": "https://www.medpagetoday.com/video-coverage/atopic-derm-future-focus/107750",
+      "snippet": "DermGPT aims to streamline clinical tasks, improve access to dermatologic data, and help save time for physicians."
+    },
+    {
+      "url": "https://assets.bmctoday.net/practicaldermatology/pdfs/PD1123_Digital Practice.pdf",
+      "snippet": "DermGPT aims to assist with the following common tasks \nin a dermatological practice setting:\n\u2022  Provide healthcare providers a quick reference for \nmedication options, dosing, and interactions.\n\u2022 Summarize diagnosis and treatment guideline"
+    }
+  ],
+  "type_and_value_of_solution_output": [
+    {
+      "url": "https://assets.bmctoday.net/practicaldermatology/pdfs/PD1123_Digital Practice.pdf",
+      "snippet": "A physician might use DermGPT \nto look up dermatology information including diagnoses, \ntreatments, and prior authorization criteria. They can also \nuse DermGPT for patient management and shared decision-\nmaking tools such as patient educat"
+    }
+  ],
+  "explanation_for_how_an_output_is_generated": [
+    {
+      "url": "https://assets.bmctoday.net/practicaldermatology/pdfs/PD1123_Digital Practice.pdf",
+      "snippet": "\u201cInstead of someone using ChatGPT where the informa- tion may not be scientifically sound or sourced from peer- reviewed medical journals, DermGPT only pulls from trust- ed, physician-approved sources,\u201d she explained."
+    },
+    {
+      "url": "https://www.medpagetoday.com/video-coverage/atopic-derm-future-focus/107750",
+      "snippet": "DermGPT is an AI chatbot and it's built on more than 3,000 peer-reviewed articles."
+    }
+  ],
+  "input_data_source": [
+    {
+      "url": "https://assets.bmctoday.net/practicaldermatology/pdfs/PD1123_Digital Practice.pdf",
+      "snippet": "There are multiple use cases for a der- matology chatbot that is powered with vast dermatology peer-reviewed knowledge."
+    }
+  ],
+  "development_data_characterization": [
+    {
+      "url": "https://www.medpagetoday.com/video-coverage/atopic-derm-future-focus/107750",
+      "snippet": "DermGPT is an AI chatbot and it's built on more than 3,000 peer-reviewed articles."
+    }
+  ],
+  "dataset_transparency": [
+    {
+      "url": "https://assets.bmctoday.net/practicaldermatology/pdfs/PD1123_Digital Practice.pdf",
+      "snippet": "Dr. Kamangar built DermGPT to be unique in the world of large language models because of its proprietary database.\n\u201cInstead of someone using ChatGPT where the informa-\ntion may not be scientifically sound or sourced from peer-"
+    },
+    {
+      "url": "https://assets.bmctoday.net/practicaldermatology/pdfs/PD1123_Digital Practice.pdf",
+      "snippet": "reviewed medical journals, DermGPT only pulls from trust-\ned, physician-approved sources,\u201d she explained.\n\nWhat are the pros and cons of the app?\nDr. Kamangar: It is also continuously updated and \nimproved"
+    },
+    {
+      "url": "https://www.medpagetoday.com/video-coverage/atopic-derm-future-focus/107750",
+      "snippet": "DermGPT is an AI chatbot and it's built on more than 3,000 peer-reviewed articles. So similar to the other learned language models, if you ask it a question, it's going to be more specific and reliable because it's pulling in from our data "
+    }
+  ],
+  "ongoing_maintenance": [
+    {
+      "url": "https://assets.bmctoday.net/practicaldermatology/pdfs/PD1123_Digital Practice.pdf",
+      "snippet": "What are the pros and cons of the app?\nDr. Kamangar: It is also continuously updated and \nimproved (unlike ChatGPT which hasn\u2019t been connected \nto the Internet since September 2021) and will remain the \nmost updated source of material."
+    }
+  ],
+  "transparency_information": [
+    {
+      "url": "https://assets.bmctoday.net/practicaldermatology/pdfs/PD1123_Digital Practice.pdf",
+      "snippet": "\u201cDermGPT allows dermatologists to ask questions in natu-\nral language and receive relevant, helpful answers, just like \nthey would with real-life colleague,\u201d Dr. Kamangar said."
+    },
+    {
+      "url": "https://www.medpagetoday.com/video-coverage/atopic-derm-future-focus/107750",
+      "snippet": "DermGPT is an AI chatbot and it's built on more than 3,000 peer-reviewed articles. So similar to the other learned language models, if you ask it a question, it's going to be more specific and reliable because it's pulling in from our data "
+    }
+  ],
+  "usefulness_efficacy_goal_of_metrics": [
+    {
+      "url": "https://assets.bmctoday.net/practicaldermatology/pdfs/PD1123_Digital Practice.pdf",
+      "snippet": "My main driver was \nto improve patient care and streamline dermatology prac-\ntices by assisting with our ever-increasing clinical tasks and \nmaking dermatology information ready at our fingertips"
+    },
+    {
+      "url": "https://assets.bmctoday.net/practicaldermatology/pdfs/PD1123_Digital Practice.pdf",
+      "snippet": "DermGPT aims to assist with the following common tasks \nin a dermatological practice setting:\n\u2022  Provide healthcare providers a quick reference for \nmedication options, dosing, and interactions.\n\u2022 Summarize diagnosis and"
+    }
+  ],
+  "usefulness_efficacy_interpretation": [
+    {
+      "url": "https://assets.bmctoday.net/practicaldermatology/pdfs/PD1123_Digital Practice.pdf",
+      "snippet": "DermGPT allows dermatologists to ask questions in natu-\nral language and receive relevant, helpful answers, just like \nthey would with real-life colleague,\u201d Dr. Kamangar said. \u201cWith \nthe growing volume of medical informat"
+    },
+    {
+      "url": "https://www.medpagetoday.com/video-coverage/atopic-derm-future-focus/107750",
+      "snippet": "it's been used for lots of use cases now. Prior authorizations, denial letters, residents are using it to study for boards, patient education handouts, pretty much anything where you want some [dermatology] verbiage to be created"
+    }
+  ],
+  "usefulness_efficacy_testing_data_description": [
+    {
+      "url": "https://www.medpagetoday.com/video-coverage/atopic-derm-future-focus/107750",
+      "snippet": "DermGPT is an AI chatbot and it's built on more than 3,000 peer-reviewed articles. So similar to the other learned language models, if you ask it a question, it's going to be more specific and reliable becaus"
+    },
+    {
+      "url": "https://assets.bmctoday.net/practicaldermatology/pdfs/PD1123_Digital Practice.pdf",
+      "snippet": "Instead of someone using ChatGPT where the informa-\ntion may not be scientifically sound or sourced from peer-\nreviewed medical journals, DermGPT only pulls from trust-\ned, physician-approved sources,\u201d she explained"
+    }
+  ],
+  "patient_consent_or_disclosure_required_or_suggested": [
+    {
+      "url": "https://assets.bmctoday.net/practicaldermatology/pdfs/PD1123_Digital Practice.pdf",
+      "snippet": "Provide informed consent language regarding proce-\ndures and telehealth consults. n"
+    }
+  ],
+  "training_data": [
+    {
+      "url": "https://www.medpagetoday.com/video-coverage/atopic-derm-future-focus/107750",
+      "snippet": "DermGPT is an AI chatbot and it's built on more than 3,000 peer-reviewed articles."
+    },
+    {
+      "url": "https://assets.bmctoday.net/practicaldermatology/pdfs/PD1123_Digital Practice.pdf",
+      "snippet": "Dr. Kamangar built DermGPT to be unique in the world of \nlarge language models because of its proprietary database. \n\u201cInstead of someone using ChatGPT where the informa-\ntion may not be scientifically sound or sourced from peer-"
+    }
+  ]
+}

@@ -95,13 +95,38 @@ def normalize_sources(blobs: List[Tuple[str, str]], types: List[str]) -> Tuple[s
 
     manifest_lines = []
     body_lines = []
+    
+    # Truncate per-source instead of globally to ensure fair distribution
+    # Allow more characters per source, with higher overall limit
+    max_chars_per_source = 20000  # Increased per-source limit
+    max_total_body_chars = 80000  # Increased overall limit (was 45000)
+    
+    total_chars = 0
     for s in sources:
         manifest_lines.append(f"[SOURCE {s.id}] {s.type} {s.url}")
-        body_lines.append(f"[SOURCE {s.id}] {s.url}\\n{s.text}\\n---")
+        
+        # Truncate individual source if needed
+        source_text = s.text
+        if len(source_text) > max_chars_per_source:
+            source_text = source_text[:max_chars_per_source] + "... [truncated]"
+        
+        source_block = f"[SOURCE {s.id}] {s.url}\\n{source_text}\\n---"
+        
+        # Only add if we haven't exceeded total limit
+        if total_chars + len(source_block) <= max_total_body_chars:
+            body_lines.append(source_block)
+            total_chars += len(source_block)
+        else:
+            # If adding this would exceed limit, truncate it to fit remaining space
+            remaining = max_total_body_chars - total_chars
+            if remaining > 100:  # Only add if there's meaningful space left
+                truncated_block = source_block[:remaining] + "... [truncated due to total limit]"
+                body_lines.append(truncated_block)
+            break
+    
     manifest = "\\n".join(manifest_lines)
     body = "\\n".join(body_lines)
-    # truncate giant payloads (~45k chars safety)
-    return manifest[:8000], body[:45000]
+    return manifest[:8000], body
 
 # ---------- JSON helpers ----------
 def extract_json_block(s: str) -> Dict[str, Any]:

@@ -199,8 +199,8 @@ def build_argparser() -> argparse.ArgumentParser:
     p.add_argument("--model-name", "-m", required=False, help="Model name (e.g., 'DermNetX')")
     p.add_argument("--developer", "-d", default="", help="Developer/organization name")
     p.add_argument("--application-url", "-u", default="", help="Application URL (primary source for field filling)")
-    p.add_argument("--iters", type=int, default=3, help="Max agent iters")
-    p.add_argument("--coverage", type=float, default=0.60, help="Coverage target [0..1]")
+    p.add_argument("--iters", type=int, default=5, help="Max agent iters")
+    p.add_argument("--coverage", type=float, default=0.75, help="Coverage target [0..1]")
     p.add_argument("--finalize", default="not_specified", choices=["not_specified", "none"],
                    help="Finalize policy for missing fields")
     p.add_argument("--out-dir", default="outputs", help="Artifacts output directory")

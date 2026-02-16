@@ -1,5 +1,5 @@
 from dataclasses import dataclass, field
-from typing import Dict, List
+from typing import Dict, List, Optional
 import json
 import xml.etree.ElementTree as ET
 from datetime import datetime
@@ -216,7 +216,7 @@ class CHAIModelCard:
 
         return ET.tostring(root, encoding="unicode")
 
-    def to_markdown(self) -> str:
+    def to_markdown(self, citations: Optional[Dict[str, List[Dict[str, str]]]] = None) -> str:
         """Export model card to Markdown format (covers all required fields)."""
         md = f"""# {self.model_name or "Unnamed Model"} — CHAI Model Card (v0.3)
 
@@ -310,8 +310,70 @@ class CHAIModelCard:
 - **Peer-Reviewed Publication(s):** {self.peer_reviewed_publications or "Not specified"}
 - **Reimbursement status, if applicable:** {self.reimbursement_status_if_applicable or "Not specified"}
 - **Stakeholders consulted during design of solution:** {self.stakeholders_consulted_during_design_of_solution or "Not specified"}
-
----
-*Generated on {self.extraction_timestamp} (CHAI Schema v0.3)*
 """
+
+        # Add sources section if citations are provided
+        if citations:
+            md += "\n## References\n"
+            
+            # Extract sources metadata if available (new format with implicit/explicit tracking)
+            sources_metadata = citations.get("_sources_metadata", {})
+            
+            # Collect all unique URLs across all fields (explicit citations) for fallback
+            seen_urls = set()
+            explicit_urls = []
+            
+            for field_name, field_citations in citations.items():
+                # Skip metadata key
+                if field_name == "_sources_metadata":
+                    continue
+                if not isinstance(field_citations, list):
+                    continue
+                for citation in field_citations:
+                    if not isinstance(citation, dict):
+                        continue
+                    url = citation.get("url", "").strip()
+                    
+                    if url and url not in seen_urls:
+                        seen_urls.add(url)
+                        explicit_urls.append(url)
+            
+            # If we have metadata, use it to show all sources (implicit + explicit)
+            if sources_metadata:
+                all_sources = list(sources_metadata.keys())
+                # Normalize URLs to avoid duplicates (decode %20 to space, etc.)
+                import urllib.parse
+                normalized_sources = {}
+                for url in all_sources:
+                    # Normalize by decoding and re-encoding to handle variations
+                    try:
+                        decoded = urllib.parse.unquote(url)
+                        normalized = urllib.parse.quote(decoded, safe='/:?=&')
+                        # Use the normalized version as key, but keep original for display
+                        if normalized not in normalized_sources:
+                            normalized_sources[normalized] = url
+                    except Exception:
+                        # If normalization fails, use original
+                        if url not in normalized_sources:
+                            normalized_sources[url] = url
+                
+                # Get unique sources (using normalized keys)
+                unique_sources = list(normalized_sources.values())
+                unique_sources.sort()
+                
+                if unique_sources:
+                    source_lines = "\n".join([f"[{i}] {url}" for i, url in enumerate(unique_sources, 1)])
+                    md += source_lines + "\n"
+                else:
+                    md += "No sources available.\n"
+            else:
+                # Fallback to old format if metadata not available
+                explicit_urls.sort()
+                if explicit_urls:
+                    source_lines = "\n".join([f"[{i}] {url}" for i, url in enumerate(explicit_urls, 1)])
+                    md += source_lines + "\n"
+                else:
+                    md += "No sources available.\n"
+
+        md += f"\n---\n*Generated on {self.extraction_timestamp} (CHAI Schema v0.3)*\n"
         return md

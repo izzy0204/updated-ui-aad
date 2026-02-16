@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import asyncio
 import json
+import os
 import re
 from dataclasses import dataclass, fields as dc_fields, is_dataclass
 from datetime import datetime
@@ -40,7 +41,7 @@ from agents.gemini_agent.agent import run_async as gemini_run_async
 
 # Optional: direct Gemini access for post-fill (safe no-op if absent)
 try:
-    import google.generativeai as _genai
+    import google.genai as _genai
     from config.config import get_settings as _get_settings
     _HAS_GENAI = True
 except Exception:
@@ -764,28 +765,31 @@ def _collect_empty_chai_fields(card: CHAIModelCard) -> list[str]:
     return empties
 
 
-def _build_context_block(seed_pages: list[dict], citations: dict, max_chars: int = 24000) -> str:
+def _build_context_block(seed_pages: list[dict], citations: dict, max_chars: int = 40000) -> str:
     """
     Build a compact text blob from seed_pages + citations for Gemini post-fill.
     """
     parts: list[str] = []
     # Seed pages first (highest signal, already pre-cleaned)
-    for i, p in enumerate(seed_pages[:12], 1):
+    for i, p in enumerate(seed_pages[:20], 1):
         u = (p.get("url") or "").strip()
         t = (p.get("text") or "").strip()
         if not u or not t:
             continue
         parts.append(f"[SEED {i}] {u}\n{t}\n")
-    # Then citations snippets we already gathered
-    if isinstance(citations, dict):
-        for k, lst in list(citations.items())[:20]:
-            if not isinstance(lst, list):
-                continue
-            for j, ev in enumerate(lst[:3], 1):
-                u = (ev.get("url") or "").strip()
-                snip = (ev.get("snippet") or "").strip()
-                if u and snip:
-                    parts.append(f"[EVIDENCE {k} #{j}] {u}\n{snip}\n")
+        # Then citations snippets we already gathered
+        if isinstance(citations, dict):
+            for k, lst in list(citations.items())[:30]:
+                # Skip metadata key
+                if k == "_sources_metadata":
+                    continue
+                if not isinstance(lst, list):
+                    continue
+                for j, ev in enumerate(lst[:3], 1):
+                    u = (ev.get("url") or "").strip()
+                    snip = (ev.get("snippet") or "").strip()
+                    if u and snip:
+                        parts.append(f"[EVIDENCE {k} #{j}] {u}\n{snip}\n")
 
     blob = "\n".join(parts).strip()
     if len(blob) > max_chars:
@@ -801,7 +805,11 @@ def _postfill_client():
         if not _HAS_GENAI or _genai is None or _get_settings is None:
             return None, "", 0.0
         s = _get_settings()
-        client = _genai.Client(api_key=s.google_api_key)
+        # Explicitly use GEMINI_API_KEY to avoid conflict with GOOGLE_API_KEY
+        api_key = os.getenv("GEMINI_API_KEY") or s.google_api_key
+        if not api_key:
+            return None, "", 0.0
+        client = _genai.Client(api_key=api_key)
         return client, s.gemini_model, getattr(s, "http_timeout", 20.0)
     except Exception:
         return None, "", 0.0
@@ -810,6 +818,26 @@ def _postfill_client():
 
 import json, re
 from typing import List, Dict, Tuple
+
+def _get_field_specific_guidance(field_name: str) -> str:
+    """Get field-specific extraction guidance for post-fill."""
+    guidance_map = {
+        "release_date": "Look for dates in press releases, announcements, blog posts. Format: YYYY-MM-DD or 'Month Day, Year'",
+        "global_availability": "Look for geographic information, country lists, regional availability statements",
+        "how_to_use": "Look for tutorials, guides, documentation, getting started pages, user manuals",
+        "developer_supplied_warnings": "Look for warnings, cautions, disclaimers, terms of service, safety pages",
+        "model_limitations": "Look for limitations sections, constraints, 'does not' statements, restriction lists",
+        "training_data": "Look for dataset descriptions, training corpus information, data collection details",
+        "output_input_data_type": "Look for API documentation, technical specs, input/output format descriptions",
+        "ongoing_maintenance": "Look for version history, changelogs, update schedules, maintenance policies",
+        "transparency_information": "Look for transparency reports, disclosure statements, open source information",
+        "usefulness_efficacy_result": "Look for performance metrics, time savings data, efficiency studies, validation results",
+        "safety_reliability_goal_of_metrics": "Look for safety objectives, reliability targets, risk mitigation goals",
+        "safety_reliability_result": "Look for safety metrics, reliability data, validation studies, error rates",
+        "safety_reliability_interpretation": "Look for safety analysis, risk assessments, reliability evaluations",
+    }
+    return guidance_map.get(field_name, "Extract all relevant information from the context.")
+
 
 def _postfill_one_field(client, model: str, field_name: str, context_block: str) -> tuple[str, list[dict]]:
     """
@@ -828,13 +856,24 @@ def _postfill_one_field(client, model: str, field_name: str, context_block: str)
         "Use the provided context; do not fabricate URLs."
     )
 
+    field_guidance = _get_field_specific_guidance(field_name)
+    
     prompt = f"""
 Fill the following CHAI model card field using only the context below.
 
 FIELD: {field_name}
 
+FIELD-SPECIFIC GUIDANCE:
+{field_guidance}
+
 CONTEXT (seed pages and prior evidence):
 {context_block}
+
+CRITICAL: 
+- If the information is not in the context, return empty string for value
+- Do NOT fabricate information
+- Extract exact quotes when possible
+- Include specific details: dates, numbers, metrics
 
 Respond as JSON:
 {{
@@ -921,12 +960,35 @@ Respond as JSON:
 
 
 
+async def _postfill_one_critical_field(
+    chai_card: CHAIModelCard,
+    field_name: str,
+    seed_pages: list[dict],
+    citations: dict,
+) -> tuple[CHAIModelCard, dict]:
+    """Post-fill a single critical field with enhanced context."""
+    client, model, _timeout = _postfill_client()
+    if client is None or not model:
+        return chai_card, citations
+    
+    context_block = _build_context_block(seed_pages, citations, max_chars=50000)
+    val, ev = _postfill_one_field(client, model, field_name, context_block)
+    
+    if val:
+        setattr(chai_card, field_name, val)
+        if ev:
+            citations[f"postfill.{field_name}"] = ev
+    
+    return chai_card, citations
+
+
 async def _postfill_missing_fields(
     chai_card: CHAIModelCard,
     seed_pages: list[dict],
     citations: dict,
     *,
     max_fields: int = 74,  # Process all CHAI fields
+    pass_name: str = "default",
 ) -> tuple[CHAIModelCard, dict]:
     """
     For any empty CHAI field, ask Gemini to fill it using (seed_pages + citations) as context.
@@ -1075,12 +1137,15 @@ class CardGenPipeline:
         developer_name: str = "",
         application_url: str = "",
         *,
-        iters: int = 3,
-        coverage_target: float = 0.60,
+        iters: int = 5,
+        coverage_target: float = 0.75,
         finalize_policy: str = "not_specified",  # or "none"
         write_files: bool = True,
         file_prefix: str | None = None,
     ) -> Tuple[CHAIModelCard, Dict, Dict]:
+        """
+        Generate model card with adaptive iteration count based on initial completeness.
+        """
         """
         Returns:
           - chai_card: CHAIModelCard (flat dataclass)
@@ -1149,7 +1214,7 @@ class CardGenPipeline:
         
         if self.use_web_discovery:
             try:
-                discovered, additional_seed_pages = await discover_and_fetch(model_name, developer_name, top_k=5)
+                discovered, additional_seed_pages = await discover_and_fetch(model_name, developer_name, top_k=10)
                 # Add additional discovered pages (but don't override application URL)
                 seed_pages_web.extend(additional_seed_pages)
             except Exception:
@@ -1162,10 +1227,18 @@ class CardGenPipeline:
         top_urls.extend([s["url"] for s in discovered[:4] if s.get("url")])  # Take 4 more to keep total at 5
 
         # 1) Run Gemini agent with WEB ONLY seed (no publications/FDA yet)
+        # Adaptive iteration: Adjust based on initial completeness estimate
+        # If we have many sources, we may need more iterations
+        estimated_iters = iters
+        if len(seed_pages_web) > 8 or len(discovered) > 15:
+            # More sources available, allow more iterations to process them
+            estimated_iters = min(iters + 2, 8)  # Cap at 8 iterations
+            print(f"📊 Adaptive iteration: Increased to {estimated_iters} iterations based on source count")
+        
         try:
             agent_card_like, citations = await gemini_run_async(
                 model_hint=model_hint,
-                max_iters=iters,
+                max_iters=estimated_iters,
                 coverage_target=coverage_target,
                 finalize_policy=finalize_policy,
                 developer=developer_name,
@@ -1175,7 +1248,7 @@ class CardGenPipeline:
         except TypeError:
             agent_card_like, citations = await gemini_run_async(
                 model_hint=model_hint,
-                max_iters=iters,
+                max_iters=estimated_iters,
                 coverage_target=coverage_target,
                 finalize_policy=finalize_policy,
                 developer=developer_name,
@@ -1220,22 +1293,50 @@ class CardGenPipeline:
                 seen_urls.add(u)
                 seed_pages_post.append({"url": u, "text": t})
 
-        # 3.5) Post-fill: have Gemini fill remaining blanks using the expanded context
+        # 3.5) Multi-pass Post-fill: have Gemini fill remaining blanks using the expanded context
         postfill_ran = False
         try:
+            # Pass 1: Fill from seed_pages (high confidence sources)
             chai_card, citations = await _postfill_missing_fields(
                 chai_card=chai_card,
                 seed_pages=seed_pages_post,
                 citations=citations,
-                max_fields=74  # Process all CHAI fields
+                max_fields=74,  # Process all CHAI fields
+                pass_name="seed_pages"
             )
+            
+            # Pass 2: Fill from citations (medium confidence)
+            chai_card, citations = await _postfill_missing_fields(
+                chai_card=chai_card,
+                seed_pages=[],  # Use only citations in this pass
+                citations=citations,
+                max_fields=74,
+                pass_name="citations"
+            )
+            
+            # Pass 3: Targeted fill for critical missing fields
+            critical_missing = [
+                "release_date", "global_availability", "how_to_use",
+                "developer_supplied_warnings", "model_limitations",
+                "training_data", "usefulness_efficacy_result"
+            ]
+            for field in critical_missing:
+                if not getattr(chai_card, field, None) or not str(getattr(chai_card, field, "")).strip():
+                    chai_card, citations = await _postfill_one_critical_field(
+                        chai_card=chai_card,
+                        field_name=field,
+                        seed_pages=seed_pages_post,
+                        citations=citations
+                    )
+            
             postfill_ran = True
-        except Exception:
+        except Exception as e:
+            print(f"Warning: Post-fill failed: {e}")
             postfill_ran = False  # safe failure; continue
 
         # 4) Build artifacts
         json_text = chai_card.to_json()
-        md_text = chai_card.to_markdown()
+        md_text = chai_card.to_markdown(citations=citations)
         xml_text = chai_card.to_xml()
 
         outputs: Optional[PipelineOutputs] = None

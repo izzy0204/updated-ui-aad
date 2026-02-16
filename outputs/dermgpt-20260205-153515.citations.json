@@ -1,0 +1,44 @@
+{
+  "_sources_metadata": {
+    "https://www.dermgpt.com/": {
+      "usage": "implicit",
+      "reason": "Included in extraction context and informed reasoning but not directly quoted"
+    },
+    "https://www.medpagetoday.com/video-coverage/atopic-derm-future-focus/107750": {
+      "usage": "implicit",
+      "reason": "Included in extraction context and informed reasoning but not directly quoted"
+    },
+    "https://www.sfderm.org/projects-3": {
+      "usage": "implicit",
+      "reason": "Included in extraction context and informed reasoning but not directly quoted"
+    },
+    "https://duckduckgo.com/feedback.html": {
+      "usage": "implicit",
+      "reason": "Included in extraction context and informed reasoning but not directly quoted"
+    },
+    "https://practicaldermatology.com/topics/practice-management/ai-based-dermgpt-focuses-on-improved-clinic-productivity/23990": {
+      "usage": "implicit",
+      "reason": "Included in extraction context and informed reasoning but not directly quoted"
+    },
+    "https://www.mdedge.com/cutis/article/268568/dermgpt-can-help-improve-your-office-productivity": {
+      "usage": "implicit",
+      "reason": "Included in extraction context and informed reasoning but not directly quoted"
+    },
+    "https://www.youtube.com/watch?v=Svyk_5Aee-Y": {
+      "usage": "implicit",
+      "reason": "Included in extraction context and informed reasoning but not directly quoted"
+    },
+    "https://about.me/farakamangar": {
+      "usage": "implicit",
+      "reason": "Included in extraction context and informed reasoning but not directly quoted"
+    },
+    "https://assets.bmctoday.net/practicaldermatology/pdfs/PD1123_Digital Practice.pdf": {
+      "usage": "implicit",
+      "reason": "Included in extraction context and informed reasoning but not directly quoted"
+    },
+    "https://www.youtube.com/watch?v=0tHMqy1Rui8": {
+      "usage": "implicit",
+      "reason": "Included in extraction context and informed reasoning but not directly quoted"
+    }
+  }
+}

@@ -100,7 +100,7 @@ streamlit run src/core/app.py --server.port 5000
 The application uses environment variables for configuration:
 
 - `GEMINI_API_KEY`: Required for AI-powered content analysis
-- `GEMINI_MODEL`: Model to use (default: "gemini-1.5-pro")
+- `GEMINI_MODEL`: Model to use (default: "gemini-2.5-pro")
 - `GEMINI_TEMPERATURE`: Temperature setting (default: 0.2)
 
 ## 📖 Usage

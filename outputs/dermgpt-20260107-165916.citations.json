@@ -1,0 +1,224 @@
+{
+  "_sources_metadata": {
+    "https://www.kamanbiotech.com/dr-faranak": {
+      "usage": "both",
+      "reason": "Included in extraction context and directly cited"
+    },
+    "https://www.linkedin.com/in/dr-faranak-kamangar-md-b7a40579": {
+      "usage": "implicit",
+      "reason": "Included in extraction context and informed reasoning but not directly quoted"
+    },
+    "https://www.dermgpt.com/": {
+      "usage": "both",
+      "reason": "Included in extraction context and directly cited"
+    },
+    "https://www.learnskin.com/authors/Faranak-Kamangar": {
+      "usage": "both",
+      "reason": "Included in extraction context and directly cited"
+    },
+    "https://www.sutterhealth.org/find-provider/dr-faranak-kamangar-1046235464": {
+      "usage": "implicit",
+      "reason": "Included in extraction context and informed reasoning but not directly quoted"
+    }
+  },
+  "model_name": [
+    {
+      "url": "https://www.dermgpt.com/",
+      "snippet": "Why DermGPT\nUnlock powerful AI to assist you in your practice"
+    },
+    {
+      "url": "https://www.learnskin.com/authors/Faranak-Kamangar",
+      "snippet": "Dr. Kamangar founded DermGPT, an innovative, first-of-its-kind AI tool that curates answers from more than 60,000 peer reviewed journals to help\ndermatologists improve clinical efficiency through practical colleague-like answers."
+    }
+  ],
+  "developer": [
+    {
+      "url": "https://www.learnskin.com/authors/Faranak-Kamangar",
+      "snippet": "Dr. Faranak Kamangar is a Silicon Valley-based board-certified dermatologist, engineer, and thought leader in the healthtech field. In her Palo Alto practice, she is dedicated to removing barriers for patients and physicians alike."
+    },
+    {
+      "url": "https://www.learnskin.com/authors/Faranak-Kamangar",
+      "snippet": "Dr. Kamangar founded DermGPT, an innovative, first-of-its-kind AI tool that curates answers from more than 60,000 peer reviewed journals to help\ndermatologists improve clinical efficiency through practical colleague-like answers."
+    },
+    {
+      "url": "https://www.kamanbiotech.com/dr-faranak",
+      "snippet": "Dr. Kamangar is a board certified Dermatologist practicing in Palo Alto, California and is the Chief Medical Officer at KAMAN Biotech."
+    }
+  ],
+  "application_url": [
+    {
+      "url": "https://www.dermgpt.com/",
+      "snippet": "Trusted by 4,000+ dermatologists. Experience cutting-edge AI that delivers speed, accuracy, and reliability\u2014like having your most trusted colleague by\nyour side."
+    }
+  ],
+  "summary": [
+    {
+      "url": "https://www.learnskin.com/authors/Faranak-Kamangar",
+      "snippet": "Dr. Kamangar founded DermGPT, an innovative, first-of-its-kind AI tool that curates answers from more than 60,000 peer reviewed journals to help\ndermatologists improve clinical efficiency through practical colleague-like answers."
+    },
+    {
+      "url": "https://www.dermgpt.com/",
+      "snippet": "Trusted by 4,000+ dermatologists. Experience cutting-edge AI that delivers speed, accuracy, and reliability\u2014like having your most trusted colleague by\nyour side."
+    },
+    {
+      "url": "https://www.dermgpt.com/",
+      "snippet": "Expanding to support diagnostics, treatment planning, and patient management."
+    }
+  ],
+  "keywords": [
+    {
+      "url": "https://www.dermgpt.com/",
+      "snippet": "Prior Authorization Suite\nAI-powered documentation tailored to payer requirements reduces approval times and increases success rates."
+    },
+    {
+      "url": "https://www.dermgpt.com/",
+      "snippet": "Expanding to support diagnostics, treatment planning, and patient management."
+    }
+  ],
+  "intended_use_and_workflow": [
+    {
+      "url": "https://www.dermgpt.com/",
+      "snippet": "Unlock powerful AI to assist you in your practice\nInstant answers\nTechnology that doesn't slow the pace of your practice.\nSmarter Decisions\nValidate diagnosis and make confident calls backed by evidence."
+    },
+    {
+      "url": "https://www.dermgpt.com/",
+      "snippet": "Prior Authorization Suite\nAI-powered documentation tailored to payer requirements reduces approval times and increases success rates."
+    }
+  ],
+  "primary_intended_users": [
+    {
+      "url": "https://www.dermgpt.com/",
+      "snippet": "Trusted by 4,000+ dermatologists."
+    },
+    {
+      "url": "https://www.learnskin.com/authors/Faranak-Kamangar",
+      "snippet": "Dr. Kamangar founded DermGPT, an innovative, first-of-its-kind AI tool that curates answers from more than 60,000 peer reviewed journals to help\ndermatologists improve clinical efficiency through practical colleague-like answers."
+    }
+  ],
+  "necessary_knowledge_expertise": [
+    {
+      "url": "https://www.learnskin.com/authors/Faranak-Kamangar",
+      "snippet": "Dr. Kamangar founded DermGPT, an innovative, first-of-its-kind AI tool that curates answers from more than 60,000 peer reviewed journals to help\ndermatologists improve clinical efficiency through practical colleague-like answers."
+    },
+    {
+      "url": "https://www.dermgpt.com/",
+      "snippet": "Trusted by 4,000+ dermatologists."
+    }
+  ],
+  "targeted_patient_population": [
+    {
+      "url": "https://www.learnskin.com/authors/Faranak-Kamangar",
+      "snippet": "Delve into dermatology diseases with new approaches from conventional to complementary care."
+    },
+    {
+      "url": "https://www.kamanbiotech.com/dr-faranak",
+      "snippet": "Dr. Kamangar is committed to focusing her efforts in bringing these therapies to all patients that suffer from dermatologic conditions."
+    }
+  ],
+  "ai_system_facts": [
+    {
+      "url": "https://www.learnskin.com/authors/Faranak-Kamangar",
+      "snippet": "Dr. Kamangar founded DermGPT, an innovative, first-of-its-kind AI tool that curates answers from more than 60,000 peer reviewed journals to help\ndermatologists improve clinical efficiency through practical colleague-like answers."
+    },
+    {
+      "url": "https://www.dermgpt.com/",
+      "snippet": "Trusted by 4,000+ dermatologists. Experience cutting-edge AI that delivers speed, accuracy, and reliability\u2014like having your most trusted colleague by\nyour side."
+    }
+  ],
+  "model_type": [
+    {
+      "url": "https://www.dermgpt.com/",
+      "snippet": "AI agents that think and act independently, just like trusted team members."
+    },
+    {
+      "url": "https://www.learnskin.com/authors/Faranak-Kamangar",
+      "snippet": "Dr. Kamangar founded DermGPT, an innovative, first-of-its-kind AI tool that curates answers from more than 60,000 peer reviewed journals to help\ndermatologists improve clinical efficiency through practical colleague-like answers."
+    }
+  ],
+  "outcomes_and_output": [
+    {
+      "url": "https://www.dermgpt.com/",
+      "snippet": "Unlock powerful AI to assist you in your practice\nInstant answers\nTechnology that doesn't slow the pace of your practice.\nSmarter Decisions\nValidate diagnosis and make confident calls backed by evidence."
+    },
+    {
+      "url": "https://www.dermgpt.com/",
+      "snippet": "DermGPT reduced my administrative burden significantly. More time with patients, less time on paperwork\u2014exactly what I needed."
+    },
+    {
+      "url": "https://www.dermgpt.com/",
+      "snippet": "DermGPT cut my diagnostic research time from 20 minutes to 2 minutes. It's like having a dermatology expert thinking alongside me."
+    }
+  ],
+  "type_and_value_of_solution_output": [
+    {
+      "url": "https://www.dermgpt.com/",
+      "snippet": "AI-powered documentation tailored to payer requirements reduces approval times and increases success rates."
+    },
+    {
+      "url": "https://www.dermgpt.com/",
+      "snippet": "Experience cutting-edge AI that delivers speed, accuracy, and reliability\u2014like having your most trusted colleague by\nyour side."
+    }
+  ],
+  "explanation_for_how_an_output_is_generated": [
+    {
+      "url": "https://www.learnskin.com/authors/Faranak-Kamangar",
+      "snippet": "Dr. Kamangar founded DermGPT, an innovative, first-of-its-kind AI tool that curates answers from more than 60,000 peer reviewed journals to help\ndermatologists improve clinical efficiency through practical colleague-like answers."
+    },
+    {
+      "url": "https://www.dermgpt.com/",
+      "snippet": "Premium Access\n60,000 peer-reviewed dermatology articles."
+    }
+  ],
+  "input_data_source": [
+    {
+      "url": "https://www.dermgpt.com/",
+      "snippet": "Premium Access\n60,000 peer-reviewed dermatology articles."
+    },
+    {
+      "url": "https://www.learnskin.com/authors/Faranak-Kamangar",
+      "snippet": "AI tool that curates answers from more than 60,000 peer reviewed journals to help\ndermatologists improve clinical efficiency through practical colleague-like answers."
+    }
+  ],
+  "usefulness_efficacy_goal_of_metrics": [
+    {
+      "url": "https://www.learnskin.com/authors/Faranak-Kamangar",
+      "snippet": "Dr. Kamangar founded DermGPT, an innovative, first-of-its-kind AI tool that curates answers from more than 60,000 peer reviewed journals to help\ndermatologists improve clinical efficiency through practical colleague-like answers."
+    },
+    {
+      "url": "https://www.dermgpt.com/",
+      "snippet": "Trusted by 4,000+ dermatologists. Experience cutting-edge AI that delivers speed, accuracy, and reliability\u2014like having your most trusted colleague by\nyour side."
+    },
+    {
+      "url": "https://www.dermgpt.com/",
+      "snippet": "Smarter Decisions\nValidate diagnosis and make confident calls backed by evidence."
+    },
+    {
+      "url": "https://www.dermgpt.com/",
+      "snippet": "DermGPT reduced my administrative burden significantly. More time with patients, less time on paperwork\u2014exactly what I needed."
+    },
+    {
+      "url": "https://www.dermgpt.com/",
+      "snippet": "DermGPT cut my diagnostic research time from 20 minutes to 2 minutes. It's like having a dermatology expert thinking alongside me."
+    }
+  ],
+  "usefulness_efficacy_result": [
+    {
+      "url": "https://www.dermgpt.com/",
+      "snippet": "DermGPT reduced my administrative burden significantly."
+    },
+    {
+      "url": "https://www.dermgpt.com/",
+      "snippet": "DermGPT cut my diagnostic research time from 20 minutes to 2 minutes."
+    }
+  ],
+  "usefulness_efficacy_interpretation": [
+    {
+      "url": "https://www.dermgpt.com/",
+      "snippet": "More time with patients, less time on paperwork\u2014exactly what I needed."
+    },
+    {
+      "url": "https://www.dermgpt.com/",
+      "snippet": "It's like having a dermatology expert thinking alongside me."
+    }
+  ]
+}

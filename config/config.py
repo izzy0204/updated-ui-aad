@@ -10,7 +10,7 @@ load_dotenv()
 class Settings:
     # --- Gemini Model & API ---
     google_api_key: str = os.getenv("GEMINI_API_KEY", "")
-    gemini_model: str = os.getenv("GEMINI_MODEL", "gemini-2.0-flash-exp")
+    gemini_model: str = os.getenv("GEMINI_MODEL", "gemini-2.5-pro")
     gemini_temperature: float = float(os.getenv("GEMINI_TEMPERATURE", "0.2"))
     http_timeout: float = float(os.getenv("HTTP_TIMEOUT", "30"))
 
