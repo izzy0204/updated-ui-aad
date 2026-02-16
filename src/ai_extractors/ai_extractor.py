@@ -10,6 +10,7 @@ from typing import Dict, List, Any, Optional
 from datetime import datetime
 
 import google.genai as genai
+from google.genai import types as genai_types
 from config.config import get_settings
 
 
@@ -139,11 +140,19 @@ class _OpenAIChatCompletions:
     def __init__(self, client: genai.Client, model_name: str):
         self._client = client
         self._model_name = model_name
+        # Build thinking config
+        s = get_settings()
+        self._config = genai_types.GenerateContentConfig(
+            temperature=s.gemini_temperature,
+            thinking_config=genai_types.ThinkingConfig(
+                include_thoughts=s.gemini_include_thoughts,
+                thinking_budget=s.gemini_thinking_budget,
+            ),
+        )
 
     def create(self, model: Optional[str] = None, messages: Optional[List[Dict[str, str]]] = None, **kwargs):
         msgs = messages or []
-        
-        # Convert messages to prompt
+
         prompt_parts = []
         for msg in msgs:
             role = msg.get('role', 'user')
@@ -154,34 +163,31 @@ class _OpenAIChatCompletions:
                 prompt_parts.append(f"User: {content}")
             elif role == 'assistant':
                 prompt_parts.append(f"Assistant: {content}")
-        
+
         full_prompt = "\n".join(prompt_parts)
         resp = self._client.models.generate_content(
             model=self._model_name,
-            contents=full_prompt
+            contents=full_prompt,
+            config=self._config,
         )
-        
-        # Try multiple ways to get the text from the response (new API structure may vary)
+
+        # Extract text, skipping thought parts
         text = ""
-        if hasattr(resp, "text") and resp.text:
-            text = resp.text
-        elif hasattr(resp, "output_text") and resp.output_text:
-            text = resp.output_text
-        elif hasattr(resp, "candidates") and resp.candidates:
-            # New API might nest the text in candidates
+        if hasattr(resp, "candidates") and resp.candidates:
             candidate = resp.candidates[0]
-            if hasattr(candidate, "content"):
-                if hasattr(candidate.content, "parts") and candidate.content.parts:
-                    text = candidate.content.parts[0].text or ""
-                elif hasattr(candidate.content, "text"):
-                    text = candidate.content.text or ""
-        elif hasattr(resp, "content"):
-            # Alternative structure
-            if hasattr(resp.content, "parts") and resp.content.parts:
-                text = resp.content.parts[0].text or ""
-            elif hasattr(resp.content, "text"):
-                text = resp.content.text or ""
-        
+            if hasattr(candidate, "content") and hasattr(candidate.content, "parts") and candidate.content.parts:
+                for part in candidate.content.parts:
+                    if hasattr(part, "thought") and part.thought:
+                        continue
+                    if hasattr(part, "text") and part.text:
+                        text = part.text
+                        break
+        if not text:
+            if hasattr(resp, "text") and resp.text:
+                text = resp.text
+            elif hasattr(resp, "output_text") and resp.output_text:
+                text = resp.output_text
+
         return _OpenAIResponse(text)
 
 class _OpenAIChat:
@@ -218,6 +224,14 @@ class AIContentExtractor:
         self._model_name = s.gemini_model
         self._temp = s.gemini_temperature
         self._timeout = s.http_timeout
+        # Build thinking config for Gemini 2.5 Flash
+        self._thinking_config = genai_types.GenerateContentConfig(
+            temperature=s.gemini_temperature,
+            thinking_config=genai_types.ThinkingConfig(
+                include_thoughts=s.gemini_include_thoughts,
+                thinking_budget=s.gemini_thinking_budget,
+            ),
+        )
         # pricing/limits/verbosity from centralized config
         self._input_cost_per_1k = s.input_cost_per_1k
         self._output_cost_per_1k = s.output_cost_per_1k
@@ -233,7 +247,7 @@ class AIContentExtractor:
         self.block_until = 0
 
         if self.verbose:
-            print("🔍 AI Content Extractor (Gemini) initialized with tracing enabled")
+            print(f"🔍 AI Content Extractor (Gemini 2.5 Flash + Thinking) initialized")
 
     # ---------------- state helpers ----------------
 
@@ -316,30 +330,27 @@ class AIContentExtractor:
 
             resp = self._client.models.generate_content(
                 model=self._model_name,
-                contents=full_prompt
+                contents=full_prompt,
+                config=self._thinking_config,
             )
             dt = time.time() - t0
-            
-            # Try multiple ways to get the text from the response (new API structure may vary)
+
+            # Extract text, skipping thought parts (Gemini 2.5 Flash Thinking)
             text = ""
-            if hasattr(resp, "text") and resp.text:
-                text = resp.text
-            elif hasattr(resp, "output_text") and resp.output_text:
-                text = resp.output_text
-            elif hasattr(resp, "candidates") and resp.candidates:
-                # New API might nest the text in candidates
+            if hasattr(resp, "candidates") and resp.candidates:
                 candidate = resp.candidates[0]
-                if hasattr(candidate, "content"):
-                    if hasattr(candidate.content, "parts") and candidate.content.parts:
-                        text = candidate.content.parts[0].text or ""
-                    elif hasattr(candidate.content, "text"):
-                        text = candidate.content.text or ""
-            elif hasattr(resp, "content"):
-                # Alternative structure
-                if hasattr(resp.content, "parts") and resp.content.parts:
-                    text = resp.content.parts[0].text or ""
-                elif hasattr(resp.content, "text"):
-                    text = resp.content.text or ""
+                if hasattr(candidate, "content") and hasattr(candidate.content, "parts") and candidate.content.parts:
+                    for part in candidate.content.parts:
+                        if hasattr(part, "thought") and part.thought:
+                            continue  # skip thought parts
+                        if hasattr(part, "text") and part.text:
+                            text = part.text
+                            break
+            if not text:
+                if hasattr(resp, "text") and resp.text:
+                    text = resp.text
+                elif hasattr(resp, "output_text") and resp.output_text:
+                    text = resp.output_text
             
             if not text:
                 text = "{}"

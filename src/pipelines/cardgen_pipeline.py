@@ -42,11 +42,13 @@ from agents.gemini_agent.agent import run_async as gemini_run_async
 # Optional: direct Gemini access for post-fill (safe no-op if absent)
 try:
     import google.genai as _genai
+    from google.genai import types as _genai_types
     from config.config import get_settings as _get_settings
     _HAS_GENAI = True
 except Exception:
     _HAS_GENAI = False
     _genai = None  # type: ignore
+    _genai_types = None  # type: ignore
     _get_settings = None  # type: ignore
 
 
@@ -799,20 +801,27 @@ def _build_context_block(seed_pages: list[dict], citations: dict, max_chars: int
 
 def _postfill_client():
     """
-    Returns (client, model, timeout). Safe no-op if genai/settings are unavailable.
+    Returns (client, model, config). Safe no-op if genai/settings are unavailable.
+    The config includes ThinkingConfig for Gemini 2.5 Flash.
     """
     try:
-        if not _HAS_GENAI or _genai is None or _get_settings is None:
-            return None, "", 0.0
+        if not _HAS_GENAI or _genai is None or _get_settings is None or _genai_types is None:
+            return None, "", None
         s = _get_settings()
-        # Explicitly use GEMINI_API_KEY to avoid conflict with GOOGLE_API_KEY
         api_key = os.getenv("GEMINI_API_KEY") or s.google_api_key
         if not api_key:
-            return None, "", 0.0
+            return None, "", None
         client = _genai.Client(api_key=api_key)
-        return client, s.gemini_model, getattr(s, "http_timeout", 20.0)
+        config = _genai_types.GenerateContentConfig(
+            temperature=s.gemini_temperature,
+            thinking_config=_genai_types.ThinkingConfig(
+                include_thoughts=s.gemini_include_thoughts,
+                thinking_budget=s.gemini_thinking_budget,
+            ),
+        )
+        return client, s.gemini_model, config
     except Exception:
-        return None, "", 0.0
+        return None, "", None
 
 
 
@@ -839,7 +848,7 @@ def _get_field_specific_guidance(field_name: str) -> str:
     return guidance_map.get(field_name, "Extract all relevant information from the context.")
 
 
-def _postfill_one_field(client, model: str, field_name: str, context_block: str) -> tuple[str, list[dict]]:
+async def _postfill_one_field(client, model: str, field_name: str, context_block: str, config=None) -> tuple[str, list[dict]]:
     """
     Ask Gemini to fill exactly one CHAI field. Returns (value, evidence_list).
     Evidence list items: {url, snippet}
@@ -883,9 +892,25 @@ Respond as JSON:
 """.strip()
 
     try:
-        text = system + "\n\n" + prompt
-        resp = client.models.generate_content(model=model, contents=text)
-        raw = getattr(resp, "text", None) or getattr(resp, "output_text", None) or ""
+        text_content = system + "\n\n" + prompt
+        resp = await client.aio.models.generate_content(
+            model=model,
+            contents=text_content,
+            config=config,
+        )
+        # Extract text, skipping thought parts
+        raw = ""
+        if hasattr(resp, "candidates") and resp.candidates:
+            candidate = resp.candidates[0]
+            if hasattr(candidate, "content") and hasattr(candidate.content, "parts"):
+                for part in candidate.content.parts:
+                    if hasattr(part, "thought") and part.thought:
+                        continue
+                    if hasattr(part, "text") and part.text:
+                        raw = part.text
+                        break
+        if not raw:
+            raw = getattr(resp, "text", None) or getattr(resp, "output_text", None) or ""
 
         # lenient JSON block recovery
         m = re.search(r"\{[\s\S]*\}", raw)
@@ -967,12 +992,12 @@ async def _postfill_one_critical_field(
     citations: dict,
 ) -> tuple[CHAIModelCard, dict]:
     """Post-fill a single critical field with enhanced context."""
-    client, model, _timeout = _postfill_client()
+    client, model, config = _postfill_client()
     if client is None or not model:
         return chai_card, citations
     
     context_block = _build_context_block(seed_pages, citations, max_chars=50000)
-    val, ev = _postfill_one_field(client, model, field_name, context_block)
+    val, ev = await _postfill_one_field(client, model, field_name, context_block, config=config)
     
     if val:
         setattr(chai_card, field_name, val)
@@ -998,14 +1023,14 @@ async def _postfill_missing_fields(
     if not empty_fields:
         return chai_card, citations
 
-    client, model, _timeout = _postfill_client()
+    client, model, config = _postfill_client()
     if client is None or not model:
         return chai_card, citations
 
     context_block = _build_context_block(seed_pages, citations)
 
     for fname in empty_fields:
-        val, ev = _postfill_one_field(client, model, fname, context_block)
+        val, ev = await _postfill_one_field(client, model, fname, context_block, config=config)
         if val:
             setattr(chai_card, fname, val)
             if ev:
