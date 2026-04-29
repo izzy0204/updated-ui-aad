@@ -1,10 +1,3 @@
-import sys
-from pathlib import Path
-
-# Add the project root (3 levels up from src/core/app.py) to the path
-root = Path(__file__).resolve().parent.parent.parent
-if str(root) not in sys.path:
-    sys.path.append(str(root))
 
 """
 DERMATOLOGY AI MODEL CARD GENERATOR - MAIN STREAMLIT APPLICATION
@@ -34,11 +27,20 @@ USAGE:
 Run with: streamlit run app.py --server.port 5000
 Navigate between Main tab (generation) and Output tab (results)
 """
-import sys
 import os
+import sys
+from pathlib import Path
 
-# This tells Python to look in the main folder for your modules
-sys.path.append(os.path.join(os.path.dirname(__file__), "../../"))
+# help
+current_file = Path(__file__).resolve()
+core_dir = current_file.parent         # src/core/
+src_dir = core_dir.parent              # src/
+repo_root = src_dir.parent             # /mount/src/aad-model-card-generator/
+
+for path in [str(repo_root), str(src_dir)]:
+    if path not in sys.path:
+        sys.path.insert(0, path)
+# help
 
 import streamlit as st
 import asyncio
