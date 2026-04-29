@@ -26,6 +26,11 @@ USAGE:
 Run with: streamlit run app.py --server.port 5000
 Navigate between Main tab (generation) and Output tab (results)
 """
+import sys
+import os
+
+# This tells Python to look in the main folder for your modules
+sys.path.append(os.path.join(os.path.dirname(__file__), "../../"))
 
 import streamlit as st
 import asyncio

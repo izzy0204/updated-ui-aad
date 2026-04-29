@@ -1,0 +1,19 @@
+[project]
+name = "aad-model-card-generator"
+version = "0.1.0"
+description = "AI Model Card Generator"
+dependencies = [
+    "streamlit",
+    "google-genai",
+    "python-dotenv",
+    "google-api-python-client",
+    "google-auth",
+    "google-auth-httplib2",
+    "requests",
+    "trafilatura",
+    "selenium",
+    "webdriver-manager"
+]
+
+[tool.uv]
+package = false
