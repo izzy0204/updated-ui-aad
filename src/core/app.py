@@ -1,3 +1,11 @@
+import sys
+from pathlib import Path
+
+# Add the project root (3 levels up from src/core/app.py) to the path
+root = Path(__file__).resolve().parent.parent.parent
+if str(root) not in sys.path:
+    sys.path.append(str(root))
+
 """
 DERMATOLOGY AI MODEL CARD GENERATOR - MAIN STREAMLIT APPLICATION
 
