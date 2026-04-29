@@ -25,7 +25,7 @@ from scrapers.robust_scraper_v2 import RobustWebScraper
 
 async def test_web_search_caching():
     """Test web search caching"""
-    print("🔍 Testing Web Search Caching...")
+    print(" Testing Web Search Caching...")
     
     cache = get_cache()
     
@@ -44,15 +44,15 @@ async def test_web_search_caching():
         # Check if results were cached
         cached_results = await cache.get("web_search", query, max_results=5)
         if cached_results:
-            print(f"    ✅ Results cached successfully")
+            print(f"     Results cached successfully")
         else:
-            print(f"    ❌ Results not cached")
+            print(f"     Results not cached")
     
     print()
 
 async def test_model_sources_caching():
     """Test model sources discovery caching"""
-    print("🔍 Testing Model Sources Caching...")
+    print(" Testing Model Sources Caching...")
     
     cache = get_cache()
     
@@ -72,15 +72,15 @@ async def test_model_sources_caching():
     cache_key = f"{model_name}_{developer}"
     cached_sources = await cache.get("model_sources", cache_key)
     if cached_sources:
-        print(f"    ✅ Sources cached successfully")
+        print(f"     Sources cached successfully")
     else:
-        print(f"    ❌ Sources not cached")
+        print(f"     Sources not cached")
     
     print()
 
 async def test_robust_scraper_caching():
     """Test robust scraper caching"""
-    print("🔍 Testing Robust Scraper Caching...")
+    print(" Testing Robust Scraper Caching...")
     
     cache = get_cache()
     scraper = RobustWebScraper()
@@ -102,15 +102,15 @@ async def test_robust_scraper_caching():
         # Check if result was cached
         cached_result = await cache.get("robust_scraper", url)
         if cached_result:
-            print(f"    ✅ Result cached successfully")
+            print(f"     Result cached successfully")
         else:
-            print(f"    ❌ Result not cached")
+            print(f"     Result not cached")
     
     print()
 
 async def test_gemini_agent_caching():
     """Test Gemini agent caching"""
-    print("🔍 Testing Gemini Agent Caching...")
+    print(" Testing Gemini Agent Caching...")
     
     cache = get_cache()
     
@@ -136,25 +136,25 @@ async def test_gemini_agent_caching():
         cache_key = f"{model_name} ({developer})_{developer}"
         cached_plan = await cache.get("gemini_planning", cache_key)
         if cached_plan:
-            print(f"    ✅ Planning cached successfully")
+            print(f"     Planning cached successfully")
         else:
-            print(f"    ❌ Planning not cached")
+            print(f"     Planning not cached")
         
         # Check if extractions were cached
         extraction_entries = await cache.inspect_by_source("gemini_extraction")
         if extraction_entries:
-            print(f"    ✅ {len(extraction_entries)} extractions cached")
+            print(f"     {len(extraction_entries)} extractions cached")
         else:
-            print(f"    ❌ No extractions cached")
+            print(f"     No extractions cached")
             
     except Exception as e:
-        print(f"    ❌ Agent failed: {e}")
+        print(f"     Agent failed: {e}")
     
     print()
 
 async def test_cache_inspection():
     """Test cache inspection capabilities"""
-    print("🔍 Testing Cache Inspection...")
+    print(" Testing Cache Inspection...")
     
     cache = get_cache()
     
@@ -179,7 +179,7 @@ async def test_cache_inspection():
 
 async def test_cache_export():
     """Test cache export functionality"""
-    print("🔍 Testing Cache Export...")
+    print(" Testing Cache Export...")
     
     cache = get_cache()
     
@@ -187,26 +187,26 @@ async def test_cache_export():
     
     try:
         export_file = await cache.export_cache_data(model_name)
-        print(f"  ✅ Export completed: {export_file}")
+        print(f"   Export completed: {export_file}")
         
         # Check file size
         file_size_kb = export_file.stat().st_size / 1024
-        print(f"  📁 Export file size: {file_size_kb:.1f} KB")
+        print(f"   Export file size: {file_size_kb:.1f} KB")
         
     except Exception as e:
-        print(f"  ❌ Export failed: {e}")
+        print(f"   Export failed: {e}")
     
     print()
 
 async def main():
     """Main test function"""
-    print("🚀 TESTING CACHING SYSTEM FOR DERM FOUNDATION MODEL")
+    print(" TESTING CACHING SYSTEM FOR DERM FOUNDATION MODEL")
     print("=" * 60)
     print()
     
     # Use cache context to ensure clean state
     async with cache_context("test_cache") as cache:
-        print(f"📁 Using cache directory: {cache.cache_dir}")
+        print(f" Using cache directory: {cache.cache_dir}")
         print()
         
         # Run all tests
@@ -217,12 +217,12 @@ async def main():
         await test_cache_inspection()
         await test_cache_export()
         
-        print("✅ ALL TESTS COMPLETED")
+        print(" ALL TESTS COMPLETED")
         print()
         
         # Final cache stats
         final_stats = await cache.get_stats()
-        print("📊 FINAL CACHE STATISTICS:")
+        print(" FINAL CACHE STATISTICS:")
         print(f"  Total entries: {final_stats['total_entries']}")
         print(f"  Cache hits: {final_stats['hits']}")
         print(f"  Cache misses: {final_stats['misses']}")
@@ -230,7 +230,7 @@ async def main():
         print(f"  Memory cache size: {final_stats['memory_cache_size']}")
         
         print()
-        print("💡 NEXT STEPS:")
+        print(" NEXT STEPS:")
         print("1. Use cache_inspector.py to inspect cached data:")
         print("   python cache_inspector.py --model 'Derm Foundation' --developer 'Google Health'")
         print("2. Export cache data for analysis:")

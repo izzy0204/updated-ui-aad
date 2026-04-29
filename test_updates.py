@@ -22,9 +22,9 @@ from dotenv import load_dotenv
 load_dotenv(Path(__file__).parent / ".env")
 
 # ── pretty helpers ──────────────────────────────────────────────
-PASS = "✅ PASS"
-FAIL = "❌ FAIL"
-WARN = "⚠️  WARN"
+PASS = " PASS"
+FAIL = " FAIL"
+WARN = "  WARN"
 _results = []
 
 def record(name, ok, detail="", warn=False):
@@ -46,9 +46,9 @@ def summary():
     f = len(_results) - p
     print(f"\n  Total {len(_results)}  |  Passed {p}  |  Failed {f}")
     if f:
-        print("\n❌ Some tests failed — see above.")
+        print("\n Some tests failed — see above.")
     else:
-        print("\n🎉 ALL TESTS PASSED!")
+        print("\n ALL TESTS PASSED!")
     return 1 if f else 0
 
 # ================================================================
@@ -297,7 +297,7 @@ def run_pipeline_tests():
 
     # 3h  Gemini quota status check
     section("GEMINI QUOTA STATUS")
-    print("  ⚠️  Your Gemini free-tier daily quota is EXHAUSTED.")
+    print("    Your Gemini free-tier daily quota is EXHAUSTED.")
     print("     Every API call returns 429 RESOURCE_EXHAUSTED (limit: 0).")
     print("     This is why end-to-end pipeline runs produce blank cards right now.")
     print("     → Wait for quota to reset (midnight PT) or upgrade to a paid plan.")
@@ -306,7 +306,7 @@ def run_pipeline_tests():
 
 # ================================================================
 print()
-print("🧪 MODEL CARD GENERATOR — FAST VALIDATION TESTS")
+print(" MODEL CARD GENERATOR — FAST VALIDATION TESTS")
 print("=" * 60)
 
 run_gemini_tests()

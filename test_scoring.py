@@ -22,19 +22,19 @@ from core.chai_schema import CHAIModelCard
 
 async def test_scoring_system():
     """Test the scoring system with Derm Foundation model"""
-    print("🚀 TESTING MODEL CARD SCORING SYSTEM")
+    print(" TESTING MODEL CARD SCORING SYSTEM")
     print("=" * 60)
     print()
     
     model_name = "Derm Foundation"
     developer_name = "Google Health"
     
-    print(f"📋 Testing with: {model_name} ({developer_name})")
+    print(f" Testing with: {model_name} ({developer_name})")
     print()
     
     # Initialize pipeline
     async with CardGenPipeline(out_dir="test_outputs") as pipeline:
-        print("🔧 Generating model card...")
+        print(" Generating model card...")
         
         try:
             # Generate model card with scoring
@@ -46,14 +46,14 @@ async def test_scoring_system():
                 write_files=True
             )
             
-            print("✅ Model card generated successfully!")
+            print(" Model card generated successfully!")
             print()
             
             # Display scoring information
             if sources.get("scoring"):
                 scoring = sources["scoring"]
                 
-                print("📊 SCORING RESULTS:")
+                print(" SCORING RESULTS:")
                 print("-" * 40)
                 print(f"Field Completion: {scoring['completion_percentage']:.1f}%")
                 print(f"Clinical Usability Score: {scoring['clinical_usability_score']:.3f}")
@@ -71,13 +71,13 @@ async def test_scoring_system():
             
             # Display detailed scoring report
             if content.get("scoring_report"):
-                print("📋 DETAILED SCORING REPORT:")
+                print(" DETAILED SCORING REPORT:")
                 print("=" * 60)
                 print(content["scoring_report"])
                 print()
             
             # Test individual field scoring
-            print("🔍 TESTING INDIVIDUAL FIELD SCORING:")
+            print(" TESTING INDIVIDUAL FIELD SCORING:")
             print("-" * 40)
             
             scorer = ModelCardScorer()
@@ -105,7 +105,7 @@ async def test_scoring_system():
             # Show file outputs
             if content.get("paths"):
                 paths = content["paths"]
-                print("📁 GENERATED FILES:")
+                print(" GENERATED FILES:")
                 print("-" * 20)
                 if paths.json_path:
                     print(f"JSON: {paths.json_path}")
@@ -117,16 +117,16 @@ async def test_scoring_system():
                     print(f"Scoring Report: {paths.scoring_txt}")
                 print()
             
-            print("✅ SCORING SYSTEM TEST COMPLETED SUCCESSFULLY!")
+            print(" SCORING SYSTEM TEST COMPLETED SUCCESSFULLY!")
             
         except Exception as e:
-            print(f"❌ Error during testing: {e}")
+            print(f" Error during testing: {e}")
             import traceback
             traceback.print_exc()
 
 async def test_scoring_with_sample_data():
     """Test scoring with sample model card data"""
-    print("\n🧪 TESTING WITH SAMPLE DATA")
+    print("\n TESTING WITH SAMPLE DATA")
     print("=" * 40)
     
     # Create sample model card data
@@ -146,13 +146,13 @@ async def test_scoring_with_sample_data():
     scorer = ModelCardScorer()
     score = scorer.score_model_card(sample_data)
     
-    print("📊 SAMPLE DATA SCORING:")
+    print(" SAMPLE DATA SCORING:")
     print(f"Completion: {score.completion_percentage:.1f}%")
     print(f"Clinical Usability: {score.clinical_usability_score:.3f} ({score.clinical_usability_level.value.upper()})")
     print(f"Overall Rating: {score.overall_rating}")
     print()
     
-    print("💡 RECOMMENDATIONS:")
+    print(" RECOMMENDATIONS:")
     for i, rec in enumerate(score.recommendations[:5], 1):  # Show first 5
         print(f"{i}. {rec}")
     print()
@@ -162,18 +162,18 @@ async def main():
     await test_scoring_system()
     await test_scoring_with_sample_data()
     
-    print("🎯 SCORING SYSTEM FEATURES TESTED:")
-    print("✅ Field completion percentage calculation")
-    print("✅ Clinical usability scoring")
-    print("✅ Color-coded ratings (red/yellow/green)")
-    print("✅ Detailed scoring breakdown")
-    print("✅ Recommendations generation")
-    print("✅ Critical missing field identification")
-    print("✅ Quality issue detection")
-    print("✅ Integration with model card pipeline")
-    print("✅ File output generation")
+    print(" SCORING SYSTEM FEATURES TESTED:")
+    print(" Field completion percentage calculation")
+    print(" Clinical usability scoring")
+    print(" Color-coded ratings (red/yellow/green)")
+    print(" Detailed scoring breakdown")
+    print(" Recommendations generation")
+    print(" Critical missing field identification")
+    print(" Quality issue detection")
+    print(" Integration with model card pipeline")
+    print(" File output generation")
     print()
-    print("🚀 The scoring system is ready for production use!")
+    print(" The scoring system is ready for production use!")
 
 if __name__ == "__main__":
     asyncio.run(main())

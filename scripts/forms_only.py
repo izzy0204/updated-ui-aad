@@ -255,7 +255,7 @@ def main():
     input_path = Path(args.input_path)
     out_dir = Path(args.out_dir)
 
-    print("📄 Loading intake form…")
+    print(" Loading intake form…")
     df = load_sheet(input_path, sheet=args.sheet)
 
     rows = process_rows(
@@ -268,10 +268,10 @@ def main():
     )
 
     if not rows:
-        print("⚠️  No eligible rows found (did you mean to pass --all?).")
+        print("  No eligible rows found (did you mean to pass --all?).")
         return
 
-    print(f"✅ Found {len(rows)} eligible request(s). Writing cards to {out_dir} …")
+    print(f" Found {len(rows)} eligible request(s). Writing cards to {out_dir} …")
     for r in rows:
         model_name = r["model_name"]
         developer = r["developer"]
@@ -286,7 +286,7 @@ def main():
         print(f"\n→ {model_name}  (developer: {developer or '—'}, contact: {email or '—'})")
         write_artifacts(card, out_dir, base)
 
-    print("\n🎉 Done.")
+    print("\n Done.")
 
 if __name__ == "__main__":
     main()

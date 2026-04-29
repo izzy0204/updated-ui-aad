@@ -430,27 +430,27 @@ class ModelCardScorer:
         
         # Overall completion recommendations
         if completion_percentage < 50:
-            recommendations.append("🔴 CRITICAL: Less than 50% of fields are filled. Focus on completing basic model information first.")
+            recommendations.append("[CRITICAL] Less than 50% of fields are filled. Focus on completing basic model information first.")
         elif completion_percentage < 75:
-            recommendations.append("🟡 MODERATE: Model card is partially complete. Add missing field details to improve usability.")
+            recommendations.append("[MODERATE] Model card is partially complete. Add missing field details to improve usability.")
         else:
-            recommendations.append("🟢 GOOD: Model card has good field completion. Focus on improving content quality.")
+            recommendations.append("[GOOD] Model card has good field completion. Focus on improving content quality.")
         
         # Clinical usability recommendations
         if clinical_score < 0.3:
-            recommendations.append("🔴 CRITICAL: Low clinical relevance. Add clinical terminology, validation data, and safety information.")
+            recommendations.append("[CRITICAL] Low clinical relevance. Add clinical terminology, validation data, and safety information.")
         elif clinical_score < 0.6:
-            recommendations.append("🟡 MODERATE: Moderate clinical relevance. Enhance clinical details and validation information.")
+            recommendations.append("[MODERATE] Moderate clinical relevance. Enhance clinical details and validation information.")
         else:
-            recommendations.append("🟢 GOOD: High clinical relevance. Consider adding more specific clinical use cases.")
+            recommendations.append("[GOOD] High clinical relevance. Consider adding more specific clinical use cases.")
         
         # Category-specific recommendations
         for category_name, category_score in category_scores.items():
             if category_score.completion_percentage < 50:
-                recommendations.append(f"📝 Complete {category_name.replace('_', ' ').title()} section with detailed information")
+                recommendations.append(f"Complete {category_name.replace('_', ' ').title()} section with detailed information")
             
             if category_score.clinical_relevance < 0.4:
-                recommendations.append(f"🏥 Add clinical context to {category_name.replace('_', ' ').title()} section")
+                recommendations.append(f"Add clinical context to {category_name.replace('_', ' ').title()} section")
         
         return recommendations
     
@@ -485,13 +485,13 @@ class ModelCardScorer:
         combined_score = (completion_percentage / 100) * 0.4 + clinical_score * 0.6
         
         if combined_score >= 0.8:
-            return "🟢 EXCELLENT - Ready for clinical use"
+            return "EXCELLENT - Ready for clinical use"
         elif combined_score >= 0.6:
-            return "🟡 GOOD - Suitable with minor improvements"
+            return "GOOD - Suitable with minor improvements"
         elif combined_score >= 0.4:
-            return "🟡 FAIR - Needs significant improvements"
+            return "FAIR - Needs significant improvements"
         else:
-            return "🔴 POOR - Not ready for clinical use"
+            return "POOR - Not ready for clinical use"
 
 def format_score_report(score: ModelCardScore) -> str:
     """Format a comprehensive score report"""
@@ -499,21 +499,23 @@ def format_score_report(score: ModelCardScore) -> str:
     
     # Header
     report.append("=" * 60)
-    report.append("📊 MODEL CARD SCORING REPORT")
+    report.append("MODEL CARD SCORING REPORT")
     report.append("=" * 60)
     
     # Overall scores
-    report.append(f"\n🎯 OVERALL SCORES:")
+    report.append("\nOVERALL SCORES:")
     report.append(f"   Field Completion: {score.completion_percentage:.1f}% ({score.filled_fields}/{score.total_fields} fields)")
     report.append(f"   Clinical Usability: {score.clinical_usability_score:.2f} ({score.clinical_usability_level.value.upper()})")
     report.append(f"   Overall Rating: {score.overall_rating}")
     
     # Color-coded summary
-    color_emoji = {"red": "🔴", "yellow": "🟡", "green": "🟢"}
-    report.append(f"\n{color_emoji[score.clinical_usability_level.value]} CLINICAL USABILITY: {score.clinical_usability_level.value.upper()}")
+    level_tag = {"red": "[RED]", "yellow": "[YELLOW]", "green": "[GREEN]"}.get(
+        score.clinical_usability_level.value, ""
+    )
+    report.append(f"\n{level_tag} CLINICAL USABILITY: {score.clinical_usability_level.value.upper()}")
     
     # Category breakdown
-    report.append(f"\n📋 CATEGORY BREAKDOWN:")
+    report.append("\nCATEGORY BREAKDOWN:")
     for category_name, category_score in score.category_scores.items():
         if category_score.fields:  # Only show categories with fields
             report.append(f"   {category_name.replace('_', ' ').title()}:")
@@ -523,20 +525,20 @@ def format_score_report(score: ModelCardScore) -> str:
     
     # Critical issues
     if score.critical_missing_fields:
-        report.append(f"\n🚨 CRITICAL MISSING FIELDS:")
+        report.append("\nCRITICAL MISSING FIELDS:")
         for field in score.critical_missing_fields:
             report.append(f"   • {field}")
     
     # Quality issues
     if score.quality_issues:
-        report.append(f"\n⚠️  QUALITY ISSUES:")
+        report.append("\nQUALITY ISSUES:")
         for issue in score.quality_issues[:10]:  # Limit to top 10 issues
             report.append(f"   • {issue}")
         if len(score.quality_issues) > 10:
             report.append(f"   ... and {len(score.quality_issues) - 10} more issues")
     
     # Recommendations
-    report.append(f"\n💡 RECOMMENDATIONS:")
+    report.append("\nRECOMMENDATIONS:")
     for i, rec in enumerate(score.recommendations, 1):
         report.append(f"   {i}. {rec}")
     

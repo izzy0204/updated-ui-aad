@@ -242,15 +242,15 @@ class FieldCitation:
         # Overall assessment
         if high_priority >= total_sources * 0.4:
             reliability_level = "High"
-            color = "🟢"
+            badge = "[high confidence]"
         elif high_priority >= total_sources * 0.2:
             reliability_level = "Medium"
-            color = "🟡"
+            badge = "[moderate confidence]"
         else:
             reliability_level = "Lower"
-            color = "🟠"
+            badge = "[lower confidence]"
         
-        assessment.append(f"\n**Overall Reliability**: {color} {reliability_level}")
+        assessment.append(f"\n**Overall Reliability**: {badge} {reliability_level}")
         
         return "\n".join(assessment)
     

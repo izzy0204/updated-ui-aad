@@ -3,7 +3,7 @@ import os
 from dotenv import load_dotenv
 from dataclasses import dataclass
 
-# ✅ Load .env one time only
+#  Load .env one time only
 load_dotenv()
 
 @dataclass
@@ -37,5 +37,5 @@ def get_settings() -> Settings:
 
 def warn_if_missing(name: str, value: str):
     if not value:
-        print(f"⚠️ Warning: {name} is not set. Continuing without it.")
+        print(f"Warning: {name} is not set. Continuing without it.")
     return value

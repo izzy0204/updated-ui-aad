@@ -10,25 +10,25 @@ import sys
 
 def show_menu():
     """Show application options"""
-    print("🏥 AI MODEL CARD GENERATOR")
+    print(" AI MODEL CARD GENERATOR")
     print("=" * 40)
     print("Choose how to run the application:")
     print()
-    print("1. 🌐 Web Interface (Streamlit)")
-    print("2. 💻 Terminal Interface")
-    print("3. ❌ Exit")
+    print("1.  Web Interface (Streamlit)")
+    print("2.  Terminal Interface")
+    print("3.  Exit")
     print()
 
 def run_web_interface():
     """Run the Streamlit web interface"""
-    print("🌐 Starting web interface...")
+    print(" Starting web interface...")
     print("   URL: http://localhost:5000")
     print("   Press Ctrl+C to stop")
     print()
     
     # Check if GEMINI_API_KEY is set
     if not os.environ.get("GEMINI_API_KEY"):
-        print("⚠️  WARNING: GEMINI_API_KEY environment variable is not set!")
+        print("  WARNING: GEMINI_API_KEY environment variable is not set!")
         print("   The application will fail without this API key.")
         print("   Set it with: export GEMINI_API_KEY='your_key_here'")
         print()
@@ -43,7 +43,7 @@ def run_web_interface():
 
 def run_terminal_interface():
     """Run the terminal interface"""
-    print("💻 Starting terminal interface...")
+    print(" Starting terminal interface...")
     print()
     subprocess.run([sys.executable, "terminal_app.py"])
 
@@ -59,8 +59,8 @@ if __name__ == "__main__":
             run_terminal_interface()
             break
         elif choice == "3":
-            print("👋 Goodbye!")
+            print(" Goodbye!")
             break
         else:
-            print("❌ Invalid choice. Please enter 1, 2, or 3.")
+            print(" Invalid choice. Please enter 1, 2, or 3.")
             print()

@@ -11,13 +11,16 @@ from __future__ import annotations
 
 import asyncio
 import logging
+import os
 import re
 from io import BytesIO
+from pathlib import Path
 from typing import Dict, List, Any, Optional, Tuple
 from urllib.parse import urlsplit, urlunsplit, parse_qsl, urlencode, unquote
 
 import aiohttp
 from bs4 import BeautifulSoup
+from dotenv import load_dotenv
 from pypdf import PdfReader
 import trafilatura
 
@@ -25,6 +28,24 @@ from utils.net import new_session  # centralized session (certifi CA, proxy-awar
 from utils.cache_system import get_cache
 
 logger = logging.getLogger(__name__)
+
+# OAuth scopes for Google service-account auth (Custom Search via googleapiclient).
+# Can be overridden with GOOGLE_CSE_SCOPES="scope1,scope2".
+DEFAULT_GOOGLE_OAUTH_SCOPES = ("https://www.googleapis.com/auth/cloud-platform",)
+
+
+def _project_root() -> Path:
+    """Repo root (parent of ``src/``). ``web_search`` lives at ``src/utils/web_search.py``."""
+    return Path(__file__).resolve().parent.parent.parent
+
+
+def _bootstrap_dotenv() -> None:
+    """Load ``.env`` from project root, then current working directory (python-dotenv)."""
+    load_dotenv(_project_root() / ".env")
+    load_dotenv()
+
+
+_bootstrap_dotenv()
 
 # ---------- URL normalization ----------
 
@@ -66,10 +87,189 @@ def canonical_url(url: str) -> str:
 
 
 
-# ---------- Search (DuckDuckGo HTML) ----------
+# ---------- Search (Google CSE + DuckDuckGo HTML) ----------
 
 _DDG_PRIMARY = "https://duckduckgo.com/html/"
 _DDG_FALLBACK = "https://html.duckduckgo.com/html/"
+_GOOGLE_CSE_ENDPOINT = "https://www.googleapis.com/customsearch/v1"
+
+
+def _src_dir() -> Path:
+    """Directory containing this package (…/src)."""
+    return Path(__file__).resolve().parent.parent
+
+
+def _default_service_account_key_path() -> Path:
+    """Default: src/service-account-key.secret.json (next to utils/)."""
+    return _src_dir() / "service-account-key.secret.json"
+
+
+def _strip_env_quotes(value: str) -> str:
+    v = (value or "").strip()
+    if len(v) >= 2 and v[0] == v[-1] and v[0] in "'\"":
+        return v[1:-1].strip()
+    return v
+
+
+def _resolved_service_account_key_path() -> Optional[Path]:
+    """
+    Path to the JSON key file.
+    Set GOOGLE_CSE_SERVICE_ACCOUNT_FILE to override the default location.
+    Relative paths are resolved against the project root (not the current working directory).
+    """
+    override = _strip_env_quotes(os.environ.get("GOOGLE_CSE_SERVICE_ACCOUNT_FILE") or "")
+    if override:
+        p = Path(override).expanduser()
+        if not p.is_absolute():
+            p = (_project_root() / p).resolve()
+        return p if p.is_file() else None
+    p = _default_service_account_key_path()
+    return p if p.is_file() else None
+
+
+def _google_cse_cx() -> str:
+    """Programmable Search Engine ID (cx)."""
+    return _strip_env_quotes(os.environ.get("GOOGLE_CSE_CX") or "")
+
+
+def _google_cse_api_key() -> str:
+    """Optional API key (alternative to service account)."""
+    return _strip_env_quotes(os.environ.get("GOOGLE_CSE_API_KEY") or "")
+
+
+def _google_search_provider_id() -> str:
+    """Stable id for cache keys: which backend + auth mode is active."""
+    if _resolved_service_account_key_path() and _google_cse_cx():
+        return "google_cse_sa"
+    if _google_cse_api_key() and _google_cse_cx():
+        return "google_cse_key"
+    return "duckduckgo"
+
+
+def _google_cse_configured() -> bool:
+    return _google_search_provider_id() != "duckduckgo"
+
+
+def _google_cse_search_service_account_sync(query: str, max_results: int, key_path: Path, cx: str) -> List[Dict[str, Any]]:
+    """Synchronous Google Custom Search using a service account (googleapiclient)."""
+    try:
+        from google.oauth2 import service_account
+        from googleapiclient.discovery import build
+    except ImportError as e:
+        logger.warning("Google CSE (service account) skipped: install google-api-python-client and google-auth (%s)", e)
+        return []
+
+    results: List[Dict[str, Any]] = []
+    try:
+        # IMPORTANT: Without explicit scopes, Google OAuth may error with invalid_scope.
+        scopes_env = _strip_env_quotes(os.environ.get("GOOGLE_CSE_SCOPES") or "").strip()
+        scopes = tuple(s.strip() for s in scopes_env.split(",") if s.strip()) if scopes_env else DEFAULT_GOOGLE_OAUTH_SCOPES
+
+        credentials = service_account.Credentials.from_service_account_file(
+            str(key_path),
+            scopes=list(scopes),
+        )
+        service = build("customsearch", "v1", credentials=credentials, cache_discovery=False)
+        num = max(1, min(10, int(max_results or 10)))
+        res = service.cse().list(q=query, cx=cx, num=num).execute()
+    except Exception as e:
+        logger.warning("Google CSE (service account) failed for %r: %s", query, e)
+        return []
+
+    items = res.get("items") if isinstance(res, dict) else None
+    if not isinstance(items, list):
+        return []
+
+    rank = 0
+    seen: set[str] = set()
+    for it in items:
+        if not isinstance(it, dict):
+            continue
+        title = (it.get("title") or "").strip()
+        href = canonical_url((it.get("link") or "").strip())
+        snippet = (it.get("snippet") or "").strip()
+        if not href or href in seen:
+            continue
+        seen.add(href)
+        rank += 1
+        results.append(
+            {
+                "title": title,
+                "url": href,
+                "snippet": snippet,
+                "source": "google_cse",
+                "rank": rank,
+            }
+        )
+    return results[:max_results]
+
+
+async def _google_cse_search_api_key(query: str, max_results: int, api_key: str, cx: str) -> List[Dict[str, Any]]:
+    """REST call with API key (no service account)."""
+    num = max(1, min(10, int(max_results or 10)))
+    params = {"key": api_key, "cx": cx, "q": query, "num": num}
+    results: List[Dict[str, Any]] = []
+    try:
+        async with new_session() as session:
+            async with session.get(_GOOGLE_CSE_ENDPOINT, params=params) as r:
+                if r.status != 200:
+                    body = await r.text()
+                    logger.warning("Google CSE (API key) returned %s for %r: %s", r.status, query, body[:300])
+                    return []
+                payload = await r.json()
+    except Exception as e:
+        logger.error("Google CSE (API key) error for %r: %s", query, e)
+        return []
+
+    items = payload.get("items") if isinstance(payload, dict) else None
+    if not isinstance(items, list):
+        return []
+
+    rank = 0
+    seen: set[str] = set()
+    for it in items:
+        if not isinstance(it, dict):
+            continue
+        title = (it.get("title") or "").strip()
+        href = canonical_url((it.get("link") or "").strip())
+        snippet = (it.get("snippet") or "").strip()
+        if not href or href in seen:
+            continue
+        seen.add(href)
+        rank += 1
+        results.append(
+            {
+                "title": title,
+                "url": href,
+                "snippet": snippet,
+                "source": "google_cse",
+                "rank": rank,
+            }
+        )
+    return results[:max_results]
+
+
+async def _run_google_cse(query: str, max_results: int) -> List[Dict[str, Any]]:
+    """Dispatch Google CSE: prefer service account file + cx, else API key + cx."""
+    cx = _google_cse_cx()
+    if not cx:
+        return []
+
+    sa_path = _resolved_service_account_key_path()
+    if sa_path is not None:
+        return await asyncio.to_thread(
+            _google_cse_search_service_account_sync,
+            query,
+            max_results,
+            sa_path,
+            cx,
+        )
+
+    api_key = _google_cse_api_key()
+    if api_key:
+        return await _google_cse_search_api_key(query, max_results, api_key, cx)
+
+    return []
 
 async def _ddg_search_once(session: aiohttp.ClientSession, base_url: str, query: str) -> List[Dict[str, Any]]:
     results: List[Dict[str, Any]] = []
@@ -123,48 +323,77 @@ async def _ddg_search_once(session: aiohttp.ClientSession, base_url: str, query:
 
 async def web_search(query: str, max_results: int = 10) -> List[Dict[str, Any]]:
     """
-    DuckDuckGo HTML search (no API key) with caching.
-    Returns: [{title, url, snippet, source='duckduckgo', rank}, ...]
+    Web search with caching.
+
+    If Google Custom Search is configured (service account JSON + GOOGLE_CSE_CX,
+    or GOOGLE_CSE_API_KEY + GOOGLE_CSE_CX), uses Google; otherwise DuckDuckGo HTML.
+
+    Returns: [{title, url, snippet, source='google_cse'|'duckduckgo', rank}, ...]
     """
     cache = get_cache()
-    
-    # Check cache first
-    cached_results = await cache.get("web_search", query, max_results=max_results)
-    if cached_results is not None:
-        logger.info(f"Cache HIT for web search: {query}")
-        return cached_results[:max_results]
-    
-    results: List[Dict[str, Any]] = []
-    try:
-        async with new_session() as session:
-            # Try primary (main domain) first; fallback to html subdomain if needed
-            try:
-                results = await _ddg_search_once(session, _DDG_PRIMARY, query)
-            except Exception as e:
-                logger.warning("DDG primary failed (%s). Trying fallback…", e)
-                results = []
+    configured = _google_search_provider_id()
 
-            if not results:
+    # Cache lookup: try Google auth mode first (if configured), then DuckDuckGo.
+    probes: List[str] = []
+    if configured != "duckduckgo":
+        probes.append(configured)
+    if "duckduckgo" not in probes:
+        probes.append("duckduckgo")
+
+    for probe in probes:
+        cached_results = await cache.get(
+            "web_search", query, max_results=max_results, provider=probe
+        )
+        if cached_results is not None:
+            logger.info(f"Cache HIT for web search: {query}")
+            return cached_results[:max_results]
+
+    results: List[Dict[str, Any]] = []
+    effective_provider = configured
+    if configured != "duckduckgo":
+        results = await _run_google_cse(query, max_results=max_results)
+
+    if not results:
+        effective_provider = "duckduckgo"
+        try:
+            async with new_session() as session:
                 try:
-                    results = await _ddg_search_once(session, _DDG_FALLBACK, query)
+                    results = await _ddg_search_once(session, _DDG_PRIMARY, query)
                 except Exception as e:
-                    logger.error("DDG fallback failed for %r: %s", query, e)
+                    logger.warning("DDG primary failed (%s). Trying fallback…", e)
                     results = []
-    except Exception as e:
-        logger.error("Error in web_search(%r): %s", query, e)
+
+                if not results:
+                    try:
+                        results = await _ddg_search_once(session, _DDG_FALLBACK, query)
+                    except Exception as e:
+                        logger.error("DDG fallback failed for %r: %s", query, e)
+                        results = []
+        except Exception as e:
+            logger.error("Error in web_search(%r): %s", query, e)
 
     final_results = results[:max_results]
-    
-    # Cache the results
+
     await cache.set(
-        "web_search", 
-        query, 
+        "web_search",
+        query,
         final_results,
-        metadata={"max_results": max_results, "query": query},
-        max_results=max_results
+        metadata={
+            "max_results": max_results,
+            "query": query,
+            "provider": effective_provider,
+            "configured_provider": configured,
+        },
+        max_results=max_results,
+        provider=effective_provider,
     )
-    
-    logger.info(f"Cache SET for web search: {query} ({len(final_results)} results)")
+
+    logger.info(
+        "Cache SET for web search: %s (%s results) via %s",
+        query,
+        len(final_results),
+        effective_provider,
+    )
     return final_results
 
 
@@ -173,7 +402,13 @@ def is_web_search_available() -> bool:
 
 
 def get_web_search_providers() -> List[str]:
-    return ["duckduckgo"]
+    providers = ["duckduckgo"]
+    pid = _google_search_provider_id()
+    if pid == "google_cse_sa":
+        providers.insert(0, "google_cse_service_account")
+    elif pid == "google_cse_key":
+        providers.insert(0, "google_cse_api_key")
+    return providers
 
 
 # ---------- Extraction helpers ----------
@@ -198,7 +433,12 @@ def _extract_pdf_text(data: bytes) -> str:
 
 # ---------- Robust async fetcher (HTML/PDF + retries) ----------
 
-async def _fetch_one(session: aiohttp.ClientSession, url: str, timeout: float = 20.0, use_selenium_fallback: bool = True) -> Dict[str, Any]:
+def _selenium_enabled() -> bool:
+    v = _strip_env_quotes(os.environ.get("ENABLE_SELENIUM") or "").strip().lower()
+    return v in {"1", "true", "yes", "y", "on"}
+
+
+async def _fetch_one(session: aiohttp.ClientSession, url: str, timeout: float = 20.0, use_selenium_fallback: bool = False) -> Dict[str, Any]:
     cache = get_cache()
     
     # Check cache first
@@ -225,7 +465,7 @@ async def _fetch_one(session: aiohttp.ClientSession, url: str, timeout: float = 
                 kind = "html"
                 
                 # Check if we need Selenium fallback for JavaScript-rendered content
-                if use_selenium_fallback and kind == "html" and len(text.strip()) < 200:
+                if (use_selenium_fallback or _selenium_enabled()) and kind == "html" and len(text.strip()) < 200:
                     # Try Selenium if content seems too short (might be JS-rendered)
                     try:
                         from scrapers.selenium_scraper import scrape_with_selenium, SELENIUM_AVAILABLE

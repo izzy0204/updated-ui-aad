@@ -20,8 +20,14 @@ from pathlib import Path
 import argparse
 from typing import Any, Optional
 
-# Add src/ to the path so local packages import cleanly
+from dotenv import load_dotenv
+
+# Load .env from repo root before importing pipeline / web_search.
 CURRENT_DIR = Path(__file__).parent
+load_dotenv(CURRENT_DIR / ".env")
+load_dotenv()
+
+# Add src/ to the path so local packages import cleanly
 SRC_DIR = CURRENT_DIR / "src"
 if str(SRC_DIR) not in sys.path:
     sys.path.insert(0, str(SRC_DIR))
@@ -34,25 +40,25 @@ from core.chai_schema import CHAIModelCard           # noqa: E402
 
 def print_header() -> None:
     print("=" * 60)
-    print("🏥 AI MODEL CARD GENERATOR — TERMINAL")
+    print("AI MODEL CARD GENERATOR — TERMINAL")
     print("=" * 60)
     print("Generate CHAI-aligned model cards for dermatology AI models.\n")
 
 
 def ok(msg: str) -> None:
-    print(f"✅ {msg}")
+    print(f"[OK] {msg}")
 
 
 def info(msg: str) -> None:
-    print(f"⏳ {msg}")
+    print(f"[...] {msg}")
 
 
 def warn(msg: str) -> None:
-    print(f"⚠️  {msg}")
+    print(f"[WARN] {msg}")
 
 
 def err(msg: str) -> None:
-    print(f"❌ {msg}")
+    print(f"[ERROR] {msg}")
 
 
 # ----------------------------- Content helpers -----------------------------
@@ -77,14 +83,14 @@ def _print_if(value: str, title: str) -> None:
 def print_card_summary(card: CHAIModelCard) -> None:
     """Pretty-print a concise summary using common CHAI fields (safe if missing)."""
     print("\n" + "=" * 60)
-    print("📋 GENERATED MODEL CARD (summary)")
+    print("GENERATED MODEL CARD (summary)")
     print("=" * 60)
 
     # Headline
     model_name = _safe_get(card, "model_name", "Unknown model")
     developer = _safe_get(card, "developer", "Not specified")
-    print(f"\n🤖 Model: {model_name}")
-    print(f"🏢 Developer: {developer}")
+    print(f"\nModel: {model_name}")
+    print(f"Developer: {developer}")
 
     # Metadata
     version = _safe_get(card, "version")
@@ -97,7 +103,7 @@ def print_card_summary(card: CHAIModelCard) -> None:
     # Summary
     summary = _safe_get(card, "summary")
     if summary:
-        print("\n📝 Summary:")
+        print("\nSummary:")
         print("   " + summary.replace("\n", "\n   "))
 
     # Use & workflow
@@ -105,7 +111,7 @@ def print_card_summary(card: CHAIModelCard) -> None:
     primary_users = _safe_get(card, "primary_intended_users")
     how_to_use = _safe_get(card, "how_to_use")
     if intended_use or primary_users or how_to_use:
-        print("\n🎯 Intended Use:")
+        print("\nIntended Use:")
         _print_if(intended_use, "Workflow")
         _print_if(primary_users, "Primary Users")
         _print_if(how_to_use, "How to Use")
@@ -128,7 +134,7 @@ def print_card_summary(card: CHAIModelCard) -> None:
     limitations = _safe_get(card, "model_limitations")
     clinical_risk = _safe_get(card, "clinical_risk_level")
     if limitations or clinical_risk:
-        print("\n⚠️  Limitations & Risk:")
+        print("\nLimitations & Risk:")
         _print_if(limitations, "Limitations")
         _print_if(clinical_risk, "Clinical Risk Level")
 
@@ -136,7 +142,7 @@ def print_card_summary(card: CHAIModelCard) -> None:
 def print_sources_summary(sources: dict) -> None:
     """Show a small digest of discovery + enrichment."""
     print("\n" + "=" * 60)
-    print("📚 SOURCES / DISCOVERY")
+    print("SOURCES / DISCOVERY")
     print("=" * 60)
 
     web = (sources or {}).get("web_search", {})
@@ -147,14 +153,14 @@ def print_sources_summary(sources: dict) -> None:
     discovered = web.get("discovered", []) or []
     top_urls = web.get("top_urls", []) or []
 
-    print(f"\n🔎 Web discovery results: {len(discovered)}")
+    print(f"\nWeb discovery results: {len(discovered)}")
     if top_urls:
         print("   Top URLs used:")
         for u in top_urls[:5]:
             print(f"   • {u}")
 
     if pubs:
-        print(f"\n📄 Publications collected: {len(pubs)} (Crossref + ArXiv)")
+        print(f"\nPublications collected: {len(pubs)} (Crossref + ArXiv)")
         for p in pubs[:3]:
             title = (p.get("title") or "").strip() or "Untitled"
             journal = (p.get("journal") or p.get("type") or "").strip()
@@ -164,14 +170,14 @@ def print_sources_summary(sources: dict) -> None:
                 print(f"     {url}")
 
     if fda:
-        print(f"\n🏛️ FDA 510(k) matches: {len(fda)}")
+        print(f"\nFDA 510(k) matches: {len(fda)}")
         for r in fda[:3]:
             kn = (r.get("k_number") or r.get("kNumber") or "").strip()
             dec = (r.get("decision") or r.get("decision_date") or "").strip()
             app = (r.get("applicant") or r.get("applicant_name") or "").strip()
             print(f"   • {kn} — decision: {dec} — applicant: {app}")
 
-    print(f"\n🧩 Post-fill pass ran: {bool(postfill.get('ran'))}")
+    print(f"\nPost-fill pass ran: {bool(postfill.get('ran'))}")
 
 
 def print_artifacts(paths: Optional[Any]) -> None:
@@ -180,7 +186,7 @@ def print_artifacts(paths: Optional[Any]) -> None:
         warn("No artifacts written (write_files=False).")
         return
     print("\n" + "=" * 60)
-    print("💾 ARTIFACTS")
+    print("ARTIFACTS")
     print("=" * 60)
     if getattr(paths, "json_path", None):
         print(f"   JSON:      {paths.json_path}")
@@ -190,6 +196,47 @@ def print_artifacts(paths: Optional[Any]) -> None:
         print(f"   XML:       {paths.xml_path}")
     if getattr(paths, "citations_json_path", None):
         print(f"   Citations: {paths.citations_json_path}")
+    if getattr(paths, "scoring_txt", None):
+        print(f"   Scoring:   {paths.scoring_txt}")
+
+
+def print_scoring_summary(sources: dict, paths: Optional[Any]) -> None:
+    """Display model card scoring summary."""
+    scoring = (sources or {}).get("scoring")
+    if not scoring:
+        return
+    
+    print("\n" + "=" * 60)
+    print("MODEL CARD SCORING")
+    print("=" * 60)
+    
+    completion = scoring.get("completion_percentage", 0)
+    usability_level = scoring.get("clinical_usability_level", "unknown").upper()
+    overall_rating = scoring.get("overall_rating", "N/A")
+    filled = scoring.get("filled_fields", 0)
+    total = scoring.get("total_fields", 0)
+    
+    print(f"\n   Field Completion: {completion}% ({filled}/{total} fields)")
+    print(f"   Clinical Usability: {usability_level}")
+    print(f"   Overall Rating: {overall_rating}")
+    
+    critical_missing = scoring.get("critical_missing_fields", [])
+    if critical_missing:
+        print(f"\n     Critical Missing Fields ({len(critical_missing)}):")
+        for field in critical_missing[:5]:  # Show first 5
+            print(f"      • {field}")
+        if len(critical_missing) > 5:
+            print(f"      ... and {len(critical_missing) - 5} more")
+    
+    recommendations_count = scoring.get("recommendations_count", 0)
+    quality_issues_count = scoring.get("quality_issues_count", 0)
+    
+    if recommendations_count or quality_issues_count:
+        print(f"\n    Recommendations: {recommendations_count}")
+        print(f"     Quality Issues: {quality_issues_count}")
+    
+    if paths and getattr(paths, "scoring_txt", None):
+        print(f"\n    Full report: {paths.scoring_txt}")
 
 
 # ----------------------------- CLI / main -----------------------------
@@ -231,7 +278,7 @@ async def run(args: argparse.Namespace) -> int:
     # Prompt interactively if not provided via flags
     if not model_name:
         try:
-            model_name = input("🤖 Model Name: ").strip()
+            model_name = input("Model Name: ").strip()
         except EOFError:
             model_name = ""
     if not model_name:
@@ -240,13 +287,13 @@ async def run(args: argparse.Namespace) -> int:
 
     if not developer:
         try:
-            developer = input("🏢 Developer/Organization: ").strip()
+            developer = input("Developer/Organization: ").strip()
         except EOFError:
             developer = ""
 
     if not application_url:
         try:
-            application_url = input("🌐 Application URL (optional): ").strip()
+            application_url = input("Application URL (optional): ").strip()
         except EOFError:
             application_url = ""
 
@@ -268,8 +315,9 @@ async def run(args: argparse.Namespace) -> int:
     print_card_summary(chai_card)
     print_sources_summary(sources)
     print_artifacts((content or {}).get("paths"))
+    print_scoring_summary(sources, (content or {}).get("paths"))
 
-    print("\n🎉 Done.")
+    print("\nDone.")
     return 0
 
 
@@ -280,7 +328,7 @@ def main() -> None:
         rc = asyncio.run(run(args))
         sys.exit(rc)
     except KeyboardInterrupt:
-        print("\n\n👋 Goodbye!")
+        print("\n\nGoodbye!")
         sys.exit(130)
     except Exception as e:
         err(f"Unexpected error: {e}")

@@ -197,7 +197,7 @@ async def _gemini_json(
                 retryable = any(code in err_str for code in ("429", "503", "500", "RESOURCE_EXHAUSTED"))
                 if retryable and attempt < retries - 1:
                     wait = (2 ** attempt) + random.uniform(0, 1)
-                    print(f"⏳ Gemini {err_str[:60]}… retry in {wait:.1f}s (attempt {attempt+1}/{retries})")
+                    print(f"Gemini {err_str[:60]}… retry in {wait:.1f}s (attempt {attempt+1}/{retries})")
                     await asyncio.sleep(wait)
                 else:
                     return {"error": "exception", "message": err_str, "exception_type": type(e).__name__}

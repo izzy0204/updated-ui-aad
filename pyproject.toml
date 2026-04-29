@@ -20,3 +20,13 @@ dependencies = [
     "streamlit>=1.47.0",
     "trafilatura>=2.0.0",
 ]
+
+[build-system]
+requires = ["setuptools>=69", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]

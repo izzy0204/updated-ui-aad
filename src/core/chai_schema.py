@@ -3,6 +3,7 @@ from typing import Dict, List, Optional
 import json
 import xml.etree.ElementTree as ET
 from datetime import datetime
+import re
 
 
 @dataclass
@@ -217,163 +218,230 @@ class CHAIModelCard:
         return ET.tostring(root, encoding="unicode")
 
     def to_markdown(self, citations: Optional[Dict[str, List[Dict[str, str]]]] = None) -> str:
-        """Export model card to Markdown format (covers all required fields)."""
-        md = f"""# {self.model_name or "Unnamed Model"} — CHAI Model Card (v0.3)
+        """Export model card to Markdown format (covers all required fields).
 
-## 1) Metadata
-- **Model Name:** {self.model_name or "Not specified"}
-- **Developer:** {self.developer or "Not specified"}
-- **Application URL:** {self.application_url or "Not specified"}
-- **Inquiries or to report an issue:** {self.inquiries_or_to_report_an_issue or "Not specified"}
-- **Release Stage:** {self.release_stage or "Not specified"}
-- **Release Date:** {self.release_date or "Not specified"}
-- **Version:** {self.version or "Not specified"}
-- **Regulatory Approval Status, if applicable:** {self.regulatory_approval_status_if_applicable or "Not specified"}
-- **Global Availability:** {self.global_availability or "Not specified"}
-- **Summary:** {self.summary or "Not specified"}
-- **Keywords:** {", ".join(self.keywords) if self.keywords else "Not specified"}
+        Citation policy:
+        - If citations are provided, every non-placeholder sentence in the model card body
+          receives at least one inline numeric citation like " [3]" or " [2,5]".
+        """
 
-## 2) Uses & Directions
-- **Intended Use & Workflow:** {self.intended_use_and_workflow or "Not specified"}
-- **Primary Intended Users:** {self.primary_intended_users or "Not specified"}
-- **Necessary knowledge/expertise:** {self.necessary_knowledge_expertise or "Not specified"}
-- **How to Use:** {self.how_to_use or "Not specified"}
-- **Targeted patient population:** {self.targeted_patient_population or "Not specified"}
-- **Patient consent or disclosure required or suggested?:** {self.patient_consent_or_disclosure_required_or_suggested or "Not specified"}
+        def _is_placeholder(val: object) -> bool:
+            if val is None:
+                return True
+            if isinstance(val, list):
+                return len([x for x in val if str(x).strip()]) == 0
+            s = str(val).strip()
+            return (not s) or s.lower() in {"not specified", "unknown", "tbd", "n/a", "na"}
 
-## 3) Warnings
-- **Developer-Supplied Warnings:** {self.developer_supplied_warnings or "Not specified"}
-- **Model Limitations:** {self.model_limitations or "Not specified"}
-- **Skin type representation & equity:** {self.skin_type_representation_and_equity or "Not specified"}
-- **Clinical Risk Level:** {self.clinical_risk_level or "Not specified"}
-
-## 4) Trust Ingredients
-- **AI System Facts:** {self.ai_system_facts or "Not specified"}
-- **Model Type:** {self.model_type or "Not specified"}
-- **Interaction with other systems:** {self.interaction_with_other_systems or "Not specified"}
-- **Outcomes & Output:** {self.outcomes_and_output or "Not specified"}
-- **Type & Value of Solution Output:** {self.type_and_value_of_solution_output or "Not specified"}
-- **Explanation for how an output is generated:** {self.explanation_for_how_an_output_is_generated or "Not specified"}
-- **Foundation Models Used in application, if applicable:** {", ".join(self.foundation_models_used_in_application_if_applicable) if self.foundation_models_used_in_application_if_applicable else "Not specified"}
-- **Input Data Source:** {self.input_data_source or "Not specified"}
-- **Output/Input Data Type:** {self.output_input_data_type or "Not specified"}
-- **Development Data Characterization:** {self.development_data_characterization or "Not specified"}
-- **Training Data:** {self.training_data or "Not specified"}
-- **Exclusion/Inclusion Criteria:** {self.exclusion_inclusion_criteria or "Not specified"}
-- **Demographic representativeness:** {self.demographic_representativeness or "Not specified"}
-- **Dataset (DOI if applicable):** {self.dataset_doi_if_applicable or "Not specified"}
-- **Dataset Transparency:** {self.dataset_transparency or "Not specified"}
-- **Validation/Test Dataset:** {self.validation_test_dataset or "Not specified"}
-- **Timeline of Data collection:** {self.timeline_of_data_collection or "Not specified"}
-- **Skin tone diversity:** {self.skin_tone_diversity or "Not specified"}
-- **Did the data collection process undergo ethical review:** {self.did_the_data_collection_process_undergo_ethical_review or "Not specified"}
-- **Ethical Review Board Oversight:** {self.ethical_review_board_oversight or "Not specified"}
-- **IRB Approval:** {self.irb_approval or "Not specified"}
-- **Relevance of training data to intended population:** {self.relevance_of_training_data_to_intended_population or "Not specified"}
-- **Bias Mitigation Approaches:** {self.bias_mitigation_approaches or "Not specified"}
-- **Ongoing Maintenance:** {self.ongoing_maintenance or "Not specified"}
-- **Security and compliance environment practices or accreditations, if applicable:** {self.security_and_compliance_environment_practices_or_accreditations_if_applicable or "Not specified"}
-- **Transparency, Intelligibility, and Accountability mechanisms, if applicable:** {self.transparency_intelligibility_and_accountability_mechanisms_if_applicable or "Not specified"}
-- **Transparency Information:** {self.transparency_information or "Not specified"}
-- **Funding Source of the technical implementation:** {self.funding_source_of_the_technical_implementation or "Not specified"}
-- **3rd Party Information, if applicable:** {self.third_party_information_if_applicable or "Not specified"}
-
-## 5) Key Metrics
-### Usefulness / Efficacy
-- **Goal of Metric(s):** {self.usefulness_efficacy_goal_of_metrics or "Not specified"}
-- **Result:** {self.usefulness_efficacy_result or "Not specified"}
-- **Interpretation:** {self.usefulness_efficacy_interpretation or "Not specified"}
-- **Test Type:** {self.usefulness_efficacy_test_type or "Not specified"}
-- **Testing Data Description:** {self.usefulness_efficacy_testing_data_description or "Not specified"}
-- **Validation Process and Justification:** {self.usefulness_efficacy_validation_process_and_justification or "Not specified"}
-- **AUROC/Accuracy/etc.:** {self.usefulness_efficacy_auroc_accuracy_etc or "Not specified"}
-
-### Fairness & Equity
-- **Goal of Metric(s):** {self.fairness_equity_goal_of_metrics or "Not specified"}
-- **Result:** {self.fairness_equity_result or "Not specified"}
-- **Interpretation:** {self.fairness_equity_interpretation or "Not specified"}
-- **Test Type:** {self.fairness_equity_test_type or "Not specified"}
-- **Testing Data Description:** {self.fairness_equity_testing_data_description or "Not specified"}
-- **Validation Process and Justification:** {self.fairness_equity_validation_process_and_justification or "Not specified"}
-
-### Safety & Reliability
-- **Goal of Metric(s):** {self.safety_reliability_goal_of_metrics or "Not specified"}
-- **Result:** {self.safety_reliability_result or "Not specified"}
-- **Interpretation:** {self.safety_reliability_interpretation or "Not specified"}
-- **Test Type:** {self.safety_reliability_test_type or "Not specified"}
-- **Testing Data Description:** {self.safety_reliability_testing_data_description or "Not specified"}
-- **Validation Process and Justification:** {self.safety_reliability_validation_process_and_justification or "Not specified"}
-
-## 6) Resources
-- **Evaluation References, if available:** {self.evaluation_references_if_available or "Not specified"}
-- **Clinical Trial, if available:** {self.clinical_trial_if_available or "Not specified"}
-- **Peer-Reviewed Publication(s):** {self.peer_reviewed_publications or "Not specified"}
-- **Reimbursement status, if applicable:** {self.reimbursement_status_if_applicable or "Not specified"}
-- **Stakeholders consulted during design of solution:** {self.stakeholders_consulted_during_design_of_solution or "Not specified"}
-"""
-
-        # Add sources section if citations are provided
-        if citations:
-            md += "\n## References\n"
-            
-            # Extract sources metadata if available (new format with implicit/explicit tracking)
-            sources_metadata = citations.get("_sources_metadata", {})
-            
-            # Collect all unique URLs across all fields (explicit citations) for fallback
-            seen_urls = set()
-            explicit_urls = []
-            
-            for field_name, field_citations in citations.items():
-                # Skip metadata key
-                if field_name == "_sources_metadata":
+        def _urls_from_citations(field_name: str) -> List[str]:
+            if not citations or not isinstance(citations, dict):
+                return []
+            urls: List[str] = []
+            for key in (field_name, f"postfill.{field_name}"):
+                lst = citations.get(key)
+                if not isinstance(lst, list):
                     continue
-                if not isinstance(field_citations, list):
-                    continue
-                for citation in field_citations:
-                    if not isinstance(citation, dict):
+                for item in lst:
+                    if not isinstance(item, dict):
                         continue
-                    url = citation.get("url", "").strip()
-                    
-                    if url and url not in seen_urls:
-                        seen_urls.add(url)
-                        explicit_urls.append(url)
-            
-            # If we have metadata, use it to show all sources (implicit + explicit)
-            if sources_metadata:
-                all_sources = list(sources_metadata.keys())
-                # Normalize URLs to avoid duplicates (decode %20 to space, etc.)
-                import urllib.parse
-                normalized_sources = {}
-                for url in all_sources:
-                    # Normalize by decoding and re-encoding to handle variations
-                    try:
-                        decoded = urllib.parse.unquote(url)
-                        normalized = urllib.parse.quote(decoded, safe='/:?=&')
-                        # Use the normalized version as key, but keep original for display
-                        if normalized not in normalized_sources:
-                            normalized_sources[normalized] = url
-                    except Exception:
-                        # If normalization fails, use original
-                        if url not in normalized_sources:
-                            normalized_sources[url] = url
-                
-                # Get unique sources (using normalized keys)
-                unique_sources = list(normalized_sources.values())
-                unique_sources.sort()
-                
-                if unique_sources:
-                    source_lines = "\n".join([f"[{i}] {url}" for i, url in enumerate(unique_sources, 1)])
-                    md += source_lines + "\n"
-                else:
-                    md += "No sources available.\n"
-            else:
-                # Fallback to old format if metadata not available
-                explicit_urls.sort()
-                if explicit_urls:
-                    source_lines = "\n".join([f"[{i}] {url}" for i, url in enumerate(explicit_urls, 1)])
-                    md += source_lines + "\n"
-                else:
-                    md += "No sources available.\n"
+                    u = (item.get("url") or "").strip()
+                    if u and u not in urls:
+                        urls.append(u)
+            return urls
 
-        md += f"\n---\n*Generated on {self.extraction_timestamp} (CHAI Schema v0.3)*\n"
-        return md
+        def _append_citations_per_sentence(text: str, cite_suffix: str) -> str:
+            """Append citations to every sentence that doesn't already end with a citation."""
+            if not text or not cite_suffix:
+                return text
+
+            # Keep existing explicit numeric citations if already present at sentence end.
+            parts = re.split(r"(\n+)", text)  # preserve paragraph breaks
+            out: List[str] = []
+            for part in parts:
+                if part.startswith("\n"):
+                    out.append(part)
+                    continue
+
+                chunk = part.strip()
+                if not chunk:
+                    out.append(part)
+                    continue
+
+                # Sentence-ish split; good enough for model card prose.
+                sentences = re.split(r"(?<=[.!?])\s+", chunk)
+                patched: List[str] = []
+                for s in sentences:
+                    ss = s.strip()
+                    if not ss:
+                        continue
+                    if re.search(r"\s\[\d+(?:,\d+)*\]\s*$", ss):
+                        patched.append(ss)
+                    else:
+                        patched.append(ss + cite_suffix)
+                out.append(" ".join(patched))
+            return "".join(out)
+
+        def _format_value(field_name: str, value: object) -> str:
+            if isinstance(value, list):
+                v = ", ".join(str(x).strip() for x in value if str(x).strip())
+            else:
+                v = str(value).strip() if value is not None else ""
+
+            if _is_placeholder(v):
+                return "Not specified"
+
+            if not citations:
+                return v
+
+            urls = _urls_from_citations(field_name)
+            nums = sorted({url_to_num.get(u) for u in urls if u in url_to_num})
+            nums = [n for n in nums if isinstance(n, int)]
+            cite_suffix = f" [{','.join(map(str, nums))}]" if nums else ""
+            rendered = _append_citations_per_sentence(v, cite_suffix)
+            # Keep multi-line values inside the bullet list item.
+            rendered = rendered.replace("\n", "\n  ")
+            return rendered
+
+        # --- Build reference numbering ---
+        url_to_num: Dict[str, int] = {}
+        ordered_urls: List[str] = []
+
+        if citations and isinstance(citations, dict):
+            sources_metadata = citations.get("_sources_metadata", {}) if isinstance(citations.get("_sources_metadata", {}), dict) else {}
+
+            # Prefer the explicit metadata list if present (it includes implicit + explicit sources),
+            # otherwise fall back to URLs observed in field citation lists.
+            candidate_urls: List[str] = []
+            if sources_metadata:
+                candidate_urls = list(sources_metadata.keys())
+            else:
+                seen = set()
+                for k, lst in citations.items():
+                    if k == "_sources_metadata" or not isinstance(lst, list):
+                        continue
+                    for it in lst:
+                        if not isinstance(it, dict):
+                            continue
+                        u = (it.get("url") or "").strip()
+                        if u and u not in seen:
+                            seen.add(u)
+                            candidate_urls.append(u)
+
+            ordered_urls = sorted([u for u in candidate_urls if str(u).strip()])
+            url_to_num = {u: i for i, u in enumerate(ordered_urls, 1)}
+
+        def _line(field_name: str, label: str, value: object) -> str:
+            return f"- **{label}:** {_format_value(field_name, value)}"
+
+        lines: List[str] = []
+        lines.append(f"# {self.model_name or 'Unnamed Model'} — CHAI Model Card (v0.3)")
+        lines.append("")
+        lines.append("## 1) Metadata")
+        lines.append(_line("model_name", "Model Name", self.model_name))
+        lines.append(_line("developer", "Developer", self.developer))
+        lines.append(_line("application_url", "Application URL", self.application_url))
+        lines.append(_line("inquiries_or_to_report_an_issue", "Inquiries or to report an issue", self.inquiries_or_to_report_an_issue))
+        lines.append(_line("release_stage", "Release Stage", self.release_stage))
+        lines.append(_line("release_date", "Release Date", self.release_date))
+        lines.append(_line("version", "Version", self.version))
+        lines.append(_line("regulatory_approval_status_if_applicable", "Regulatory Approval Status, if applicable", self.regulatory_approval_status_if_applicable))
+        lines.append(_line("global_availability", "Global Availability", self.global_availability))
+        lines.append(_line("summary", "Summary", self.summary))
+        lines.append(_line("keywords", "Keywords", self.keywords))
+        lines.append("")
+
+        lines.append("## 2) Uses & Directions")
+        lines.append(_line("intended_use_and_workflow", "Intended Use & Workflow", self.intended_use_and_workflow))
+        lines.append(_line("primary_intended_users", "Primary Intended Users", self.primary_intended_users))
+        lines.append(_line("necessary_knowledge_expertise", "Necessary knowledge/expertise", self.necessary_knowledge_expertise))
+        lines.append(_line("how_to_use", "How to Use", self.how_to_use))
+        lines.append(_line("targeted_patient_population", "Targeted patient population", self.targeted_patient_population))
+        lines.append(_line("patient_consent_or_disclosure_required_or_suggested", "Patient consent or disclosure required or suggested?", self.patient_consent_or_disclosure_required_or_suggested))
+        lines.append("")
+
+        lines.append("## 3) Warnings")
+        lines.append(_line("developer_supplied_warnings", "Developer-Supplied Warnings", self.developer_supplied_warnings))
+        lines.append(_line("model_limitations", "Model Limitations", self.model_limitations))
+        lines.append(_line("skin_type_representation_and_equity", "Skin type representation & equity", self.skin_type_representation_and_equity))
+        lines.append(_line("clinical_risk_level", "Clinical Risk Level", self.clinical_risk_level))
+        lines.append("")
+
+        lines.append("## 4) Trust Ingredients")
+        lines.append(_line("ai_system_facts", "AI System Facts", self.ai_system_facts))
+        lines.append(_line("model_type", "Model Type", self.model_type))
+        lines.append(_line("interaction_with_other_systems", "Interaction with other systems", self.interaction_with_other_systems))
+        lines.append(_line("outcomes_and_output", "Outcomes & Output", self.outcomes_and_output))
+        lines.append(_line("type_and_value_of_solution_output", "Type & Value of Solution Output", self.type_and_value_of_solution_output))
+        lines.append(_line("explanation_for_how_an_output_is_generated", "Explanation for how an output is generated", self.explanation_for_how_an_output_is_generated))
+        lines.append(_line("foundation_models_used_in_application_if_applicable", "Foundation Models Used in application, if applicable", self.foundation_models_used_in_application_if_applicable))
+        lines.append(_line("input_data_source", "Input Data Source", self.input_data_source))
+        lines.append(_line("output_input_data_type", "Output/Input Data Type", self.output_input_data_type))
+        lines.append(_line("development_data_characterization", "Development Data Characterization", self.development_data_characterization))
+        lines.append(_line("training_data", "Training Data", self.training_data))
+        lines.append(_line("exclusion_inclusion_criteria", "Exclusion/Inclusion Criteria", self.exclusion_inclusion_criteria))
+        lines.append(_line("demographic_representativeness", "Demographic representativeness", self.demographic_representativeness))
+        lines.append(_line("dataset_doi_if_applicable", "Dataset (DOI if applicable)", self.dataset_doi_if_applicable))
+        lines.append(_line("dataset_transparency", "Dataset Transparency", self.dataset_transparency))
+        lines.append(_line("validation_test_dataset", "Validation/Test Dataset", self.validation_test_dataset))
+        lines.append(_line("timeline_of_data_collection", "Timeline of Data collection", self.timeline_of_data_collection))
+        lines.append(_line("skin_tone_diversity", "Skin tone diversity", self.skin_tone_diversity))
+        lines.append(_line("did_the_data_collection_process_undergo_ethical_review", "Did the data collection process undergo ethical review", self.did_the_data_collection_process_undergo_ethical_review))
+        lines.append(_line("ethical_review_board_oversight", "Ethical Review Board Oversight", self.ethical_review_board_oversight))
+        lines.append(_line("irb_approval", "IRB Approval", self.irb_approval))
+        lines.append(_line("relevance_of_training_data_to_intended_population", "Relevance of training data to intended population", self.relevance_of_training_data_to_intended_population))
+        lines.append(_line("bias_mitigation_approaches", "Bias Mitigation Approaches", self.bias_mitigation_approaches))
+        lines.append(_line("ongoing_maintenance", "Ongoing Maintenance", self.ongoing_maintenance))
+        lines.append(_line("security_and_compliance_environment_practices_or_accreditations_if_applicable", "Security and compliance environment practices or accreditations, if applicable", self.security_and_compliance_environment_practices_or_accreditations_if_applicable))
+        lines.append(_line("transparency_intelligibility_and_accountability_mechanisms_if_applicable", "Transparency, Intelligibility, and Accountability mechanisms, if applicable", self.transparency_intelligibility_and_accountability_mechanisms_if_applicable))
+        lines.append(_line("transparency_information", "Transparency Information", self.transparency_information))
+        lines.append(_line("funding_source_of_the_technical_implementation", "Funding Source of the technical implementation", self.funding_source_of_the_technical_implementation))
+        lines.append(_line("third_party_information_if_applicable", "3rd Party Information, if applicable", self.third_party_information_if_applicable))
+        lines.append("")
+
+        lines.append("## 5) Key Metrics")
+        lines.append("### Usefulness / Efficacy")
+        lines.append(_line("usefulness_efficacy_goal_of_metrics", "Goal of Metric(s)", self.usefulness_efficacy_goal_of_metrics))
+        lines.append(_line("usefulness_efficacy_result", "Result", self.usefulness_efficacy_result))
+        lines.append(_line("usefulness_efficacy_interpretation", "Interpretation", self.usefulness_efficacy_interpretation))
+        lines.append(_line("usefulness_efficacy_test_type", "Test Type", self.usefulness_efficacy_test_type))
+        lines.append(_line("usefulness_efficacy_testing_data_description", "Testing Data Description", self.usefulness_efficacy_testing_data_description))
+        lines.append(_line("usefulness_efficacy_validation_process_and_justification", "Validation Process and Justification", self.usefulness_efficacy_validation_process_and_justification))
+        lines.append(_line("usefulness_efficacy_auroc_accuracy_etc", "AUROC/Accuracy/etc.", self.usefulness_efficacy_auroc_accuracy_etc))
+        lines.append("")
+
+        lines.append("### Fairness & Equity")
+        lines.append(_line("fairness_equity_goal_of_metrics", "Goal of Metric(s)", self.fairness_equity_goal_of_metrics))
+        lines.append(_line("fairness_equity_result", "Result", self.fairness_equity_result))
+        lines.append(_line("fairness_equity_interpretation", "Interpretation", self.fairness_equity_interpretation))
+        lines.append(_line("fairness_equity_test_type", "Test Type", self.fairness_equity_test_type))
+        lines.append(_line("fairness_equity_testing_data_description", "Testing Data Description", self.fairness_equity_testing_data_description))
+        lines.append(_line("fairness_equity_validation_process_and_justification", "Validation Process and Justification", self.fairness_equity_validation_process_and_justification))
+        lines.append("")
+
+        lines.append("### Safety & Reliability")
+        lines.append(_line("safety_reliability_goal_of_metrics", "Goal of Metric(s)", self.safety_reliability_goal_of_metrics))
+        lines.append(_line("safety_reliability_result", "Result", self.safety_reliability_result))
+        lines.append(_line("safety_reliability_interpretation", "Interpretation", self.safety_reliability_interpretation))
+        lines.append(_line("safety_reliability_test_type", "Test Type", self.safety_reliability_test_type))
+        lines.append(_line("safety_reliability_testing_data_description", "Testing Data Description", self.safety_reliability_testing_data_description))
+        lines.append(_line("safety_reliability_validation_process_and_justification", "Validation Process and Justification", self.safety_reliability_validation_process_and_justification))
+        lines.append("")
+
+        lines.append("## 6) Resources")
+        lines.append(_line("evaluation_references_if_available", "Evaluation References, if available", self.evaluation_references_if_available))
+        lines.append(_line("clinical_trial_if_available", "Clinical Trial, if available", self.clinical_trial_if_available))
+        lines.append(_line("peer_reviewed_publications", "Peer-Reviewed Publication(s)", self.peer_reviewed_publications))
+        lines.append(_line("reimbursement_status_if_applicable", "Reimbursement status, if applicable", self.reimbursement_status_if_applicable))
+        lines.append(_line("stakeholders_consulted_during_design_of_solution", "Stakeholders consulted during design of solution", self.stakeholders_consulted_during_design_of_solution))
+
+        if citations and ordered_urls:
+            lines.append("")
+            lines.append("## References")
+            lines.extend([f"[{i}] {u}" for i, u in enumerate(ordered_urls, 1)])
+        elif citations:
+            lines.append("")
+            lines.append("## References")
+            lines.append("No sources available.")
+
+        lines.append(f"\n---\n*Generated on {self.extraction_timestamp} (CHAI Schema v0.3)*")
+        return "\n".join(lines) + "\n"

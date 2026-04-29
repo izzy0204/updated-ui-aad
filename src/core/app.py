@@ -35,10 +35,19 @@ import sys
 import os
 from pathlib import Path
 
+from dotenv import load_dotenv
+
 # Add src directory to path for imports
 current_dir = Path(__file__).parent
 src_dir = current_dir.parent
+repo_root = src_dir.parent
+load_dotenv(repo_root / ".env")
+load_dotenv()
+
 sys.path.insert(0, str(src_dir))
+# Also add repo root so top-level packages like `config/` can be imported
+# even when Streamlit is launched from a different working directory.
+sys.path.insert(0, str(repo_root))
 
 from pipelines.cardgen_pipeline import CardGenPipeline
 from core.chai_schema import CHAIModelCard
@@ -108,11 +117,11 @@ with st.expander("What happens when you click 'Generate Model Card'?"):
     - Regulatory compliance information
     - Ready-to-use model card in multiple formats (JSON, Markdown, XML)
     
-    **🎯 Enhanced Discovery:** Uses advanced AI to analyze discovered sources for comprehensive model documentation.
+    **Enhanced Discovery:** Uses advanced AI to analyze discovered sources for comprehensive model documentation.
     """)
 
 # Developer-focused optimization info
-st.info("🎯 **Enhanced Discovery**: When you specify a developer name or application URL, the system prioritizes those sources for more accurate and targeted information extraction. The Application URL will be used as the primary source for field filling.")
+st.info("**Enhanced Discovery**: When you specify a developer name or application URL, the system prioritizes those sources for more accurate and targeted information extraction. The Application URL will be used as the primary source for field filling.")
 
 # Main generation logic
 if generate_button:
@@ -128,25 +137,25 @@ if generate_button:
             async def run_cardgen_pipeline():
                 async with CardGenPipeline() as pipeline:
                     # Step 1: Source Discovery
-                    status_text.text("🔍 Finding information about your model...")
+                    status_text.text("Finding information about your model...")
                     progress_bar.progress(25)
                     
                     sources = await pipeline.discover_model_sources(model_name, developer_name, application_url)
                     
                     # Step 2: Content Extraction
-                    status_text.text("📝 Extracting technical details and documentation...")
+                    status_text.text("Extracting technical details and documentation...")
                     progress_bar.progress(50)
                     
                     extracted_content = await pipeline.extract_content_from_sources(sources)
                     
                     # Step 3: Model Card Generation
-                    status_text.text("🤖 Analyzing with AI and generating comprehensive model card...")
+                    status_text.text("Analyzing with AI and generating comprehensive model card...")
                     progress_bar.progress(75)
                     
                     chai_card = await pipeline.generate_chai_model_card(model_name, extracted_content, developer_name, application_url)
                     
                     progress_bar.progress(100)
-                    status_text.text("✅ Model card generated successfully!")
+                    status_text.text("Model card generated successfully!")
                     
                     return chai_card, sources, extracted_content
             
@@ -159,12 +168,12 @@ if generate_button:
             st.session_state.generated_content = extracted_content
             
             # Success message with tab guidance
-            st.success("✅ Your model card has been generated! View the complete formatted output in the **Output tab**.")
+            st.success("Your model card has been generated! View the complete formatted output in the **Output tab**.")
             
             # Show scoring information if available
             if sources.get("scoring"):
                 scoring = sources["scoring"]
-                st.subheader("📊 Model Card Scoring")
+                st.subheader("Model Card Scoring")
                 
                 # Color-coded scoring display
                 col1, col2, col3 = st.columns(3)
@@ -172,23 +181,23 @@ if generate_button:
                 with col1:
                     completion = scoring["completion_percentage"]
                     if completion >= 75:
-                        st.success(f"🟢 Completion: {completion:.1f}%")
+                        st.success(f"Completion: {completion:.1f}%")
                     elif completion >= 50:
-                        st.warning(f"🟡 Completion: {completion:.1f}%")
+                        st.warning(f"Completion: {completion:.1f}%")
                     else:
-                        st.error(f"🔴 Completion: {completion:.1f}%")
+                        st.error(f"Completion: {completion:.1f}%")
                 
                 with col2:
                     clinical_level = scoring["clinical_usability_level"]
                     if clinical_level == "green":
-                        st.success(f"🟢 Clinical: {clinical_level.upper()}")
+                        st.success(f"Clinical: {clinical_level.upper()}")
                     elif clinical_level == "yellow":
-                        st.warning(f"🟡 Clinical: {clinical_level.upper()}")
+                        st.warning(f"Clinical: {clinical_level.upper()}")
                     else:
-                        st.error(f"🔴 Clinical: {clinical_level.upper()}")
+                        st.error(f"Clinical: {clinical_level.upper()}")
                 
                 with col3:
-                    st.info(f"📝 Fields: {scoring['filled_fields']}/{scoring['total_fields']}")
+                    st.info(f"Fields: {scoring['filled_fields']}/{scoring['total_fields']}")
                 
                 # Overall rating
                 st.info(f"**Overall Rating:** {scoring['overall_rating']}")
@@ -202,7 +211,7 @@ if generate_button:
                     st.info(f"**Recommendations:** {scoring['recommendations_count']} improvement suggestions available")
             
             # Quick stats
-            st.subheader("📊 Generation Summary")
+            st.subheader("Generation Summary")
             col1, col2, col3, col4 = st.columns(4)
             
             total_sources = sum(len(source_list) for source_list in sources.values())
@@ -262,14 +271,14 @@ if generate_button:
                         st.markdown(f"**Keywords:** {', '.join(chai_model_card.keywords[:5])}")
             
             # Download section
-            st.subheader("💾 Download Your Model Card")
+            st.subheader("Download Your Model Card")
             st.markdown("Choose your preferred format:")
             
             col1, col2, col3 = st.columns(3)
             
             with col1:
                 st.download_button(
-                    label="📄 Download JSON",
+                    label="Download JSON",
                     data=chai_model_card.to_json(),
                     file_name=f"{model_name.replace(' ', '_')}_model_card.json",
                     mime="application/json",
@@ -278,7 +287,7 @@ if generate_button:
             
             with col2:
                 st.download_button(
-                    label="📝 Download Markdown", 
+                    label="Download Markdown", 
                     data=chai_model_card.to_markdown(),
                     file_name=f"{model_name.replace(' ', '_')}_model_card.md",
                     mime="text/markdown",
@@ -287,7 +296,7 @@ if generate_button:
             
             with col3:
                 st.download_button(
-                    label="🗂️ Download XML",
+                    label="Download XML",
                     data=chai_model_card.to_xml(),
                     file_name=f"{model_name.replace(' ', '_')}_model_card.xml", 
                     mime="application/xml",
@@ -295,10 +304,10 @@ if generate_button:
                 )
             
             # Technical details in expandable section
-            with st.expander("🔧 Technical Details & Source Information"):
+            with st.expander("Technical Details & Source Information"):
                 # ENHANCED SOURCES SECTION - Prominent display for transparency
                 if hasattr(chai_model_card, 'sources_summary') and chai_model_card.sources_summary:
-                    st.markdown("### 📊 Information Sources & Reliability Assessment")
+                    st.markdown("### Information Sources & Reliability Assessment")
                     
                     col1, col2 = st.columns(2)
                     with col1:
@@ -309,12 +318,12 @@ if generate_button:
                         st.markdown("#### Source Reliability Assessment")
                         st.markdown(chai_model_card.source_reliability_assessment)
                     
-                    st.info("💡 **Transparency Note**: This model card was generated using automated information discovery from the sources listed above. All information is attributed to its source.")
+                    st.info("**Transparency Note**: This model card was generated using automated information discovery from the sources listed above. All information is attributed to its source.")
                     
                     # Display AI extraction metrics if available
                     try:
                         # Access metrics from the completed pipeline
-                        with st.expander("🔍 AI Extraction Analytics", expanded=False):
+                        with st.expander("AI Extraction Analytics", expanded=False):
                             # Show static success message since pipeline is out of scope
                             st.success("Model card generation completed successfully with AI analysis")
                             st.info("AI analysis completed with GPT-5 for comprehensive content extraction and model card generation.")
@@ -336,10 +345,10 @@ if generate_button:
                     st.metric("ArXiv Papers", len(sources.get('arxiv', [])))
                 
                 st.markdown("### Compliance Standards")
-                st.markdown("- ✅ CHAI Schema v0.1 compliant")
-                st.markdown("- ✅ HTI-1 regulation ready")
-                st.markdown("- ✅ 45 CFR 170.315 compatible")
-                st.markdown("- ✅ Medical AI documentation standards")
+                st.markdown("- CHAI Schema v0.1 compliant")
+                st.markdown("- HTI-1 regulation ready")
+                st.markdown("- 45 CFR 170.315 compatible")
+                st.markdown("- Medical AI documentation standards")
                 
                 st.markdown(f"**Generated:** {chai_model_card.extraction_timestamp}")
                 
@@ -348,7 +357,7 @@ if generate_button:
             if 'generated_model_card' in st.session_state:
                 st.session_state.generated_model_card = None
             
-            st.error("🚫 **Gemini API Rate Limit Exceeded**")
+            st.error("**Gemini API Rate Limit Exceeded**")
             st.markdown("""
             **The model card generation has been stopped because the Gemini API rate limit was reached.**
             
@@ -357,14 +366,14 @@ if generate_button:
             - The scraping process has been automatically stopped to prevent further errors
             
             **What to do:**
-            - ⏰ **Wait 1-2 minutes** before trying again
-            - 🔄 **Try a simpler model name** to reduce API calls needed
-            - 📞 **Contact support** if this happens repeatedly
+            - **Wait 1-2 minutes** before trying again
+            - **Try a simpler model name** to reduce API calls needed
+            - **Contact support** if this happens repeatedly
             
-            **Current status:** 🛑 **Scraping stopped** - No further API calls will be made until you restart
+            **Current status:** **Scraping stopped** - No further API calls will be made until you restart
             """)
             
-            with st.expander("🔍 Technical Details"):
+            with st.expander("Technical Details"):
                 st.code(f"Rate Limit Error: {str(e)}")
                 st.info("Rate limiting protects the API from being overwhelmed and ensures fair usage across all users.")
         
@@ -376,7 +385,7 @@ if generate_button:
             if 'generated_model_card' in st.session_state:
                 st.session_state.generated_model_card = None
             
-            st.error("💳 **Gemini API Quota Exceeded**")
+            st.error("**Gemini API Quota Exceeded**")
             st.markdown("""
             **The model card generation has been stopped because the Gemini API quota has been exceeded.**
             
@@ -393,7 +402,7 @@ if generate_button:
             **Status:** Generation completely stopped - no output will be provided until quota issue is resolved
             """)
             
-            with st.expander("🔍 Technical Details"):
+            with st.expander("Technical Details"):
                 st.code(f"Quota Error: {str(e)}")
                 st.info("Quota limits prevent unexpected charges and help manage API usage costs.")
 
@@ -405,12 +414,12 @@ if generate_button:
             if 'generated_model_card' in st.session_state:
                 st.session_state.generated_model_card = None
             
-            st.error("⚠️ Model card generation failed")
+            st.error("Model card generation failed")
             
-            with st.expander("🔍 Error Details (Click to expand)"):
+            with st.expander("Error Details (Click to expand)"):
                 st.code(f"Error: {str(e)}\n\nFull traceback:\n{error_details}")
             
-            st.info("💡 **Troubleshooting tips:**")
+            st.info("**Troubleshooting tips:**")
             st.markdown("""
             - Try a different model name (e.g., 'DermNet', 'SkinLesion-AI', or 'HAM10000')
             - Make sure the model name is spelled correctly
@@ -430,7 +439,7 @@ def output_tab_content():
         # Add a clear button at the top
         col1, col2 = st.columns([1, 4])
         with col1:
-            if st.button("🗑️ Clear Output", help="Clear the current model card output"):
+            if st.button("Clear Output", help="Clear the current model card output"):
                 st.session_state.generated_model_card = None
                 st.rerun()
         
@@ -442,7 +451,7 @@ def output_tab_content():
     else:
         st.info("No model card generated yet. Go to the Main tab and generate a model card to see the output here.")
         st.markdown("")
-        st.markdown("📌 **How it works:**")
+        st.markdown("**How it works:**")
         st.markdown("- Generate a model card on the Main tab")
         st.markdown("- The output will automatically appear here")
         st.markdown("- Output persists when you switch between tabs")
@@ -463,7 +472,7 @@ def display_model_card_output(chai_model_card):
             box-shadow: 0 10px 30px rgba(0,0,0,0.3);
         ">
             <h1 style="margin: 0; font-size: 2.5rem; text-align: center; text-shadow: 2px 2px 4px rgba(0,0,0,0.3);">
-                🏥 {chai_model_card.model_name or 'AI Model'}
+                 {chai_model_card.model_name or 'AI Model'}
             </h1>
             <p style="text-align: center; font-size: 1.2rem; margin: 1rem 0; opacity: 0.9;">
                 {chai_model_card.model_developer or 'Unknown Developer'}
@@ -488,7 +497,7 @@ def display_model_card_output(chai_model_card):
                 box-shadow: 0 5px 15px rgba(0,0,0,0.2);
                 margin-bottom: 1rem;
             ">
-                <h3 style="margin: 0; color: white;">📋 Basic Info</h3>
+                <h3 style="margin: 0; color: white;"> Basic Info</h3>
                 <hr style="border-color: rgba(255,255,255,0.3);">
                 <p><strong>Type:</strong> {chai_model_card.model_type or 'Not specified'}</p>
                 <p><strong>Stage:</strong> {chai_model_card.model_software_release_stage or 'Not specified'}</p>
@@ -514,7 +523,7 @@ def display_model_card_output(chai_model_card):
                 box-shadow: 0 5px 15px rgba(0,0,0,0.2);
                 margin-bottom: 1rem;
             ">
-                <h3 style="margin: 0; color: white;">⚠️ Risk Level</h3>
+                <h3 style="margin: 0; color: white;"> Risk Level</h3>
                 <hr style="border-color: rgba(255,255,255,0.3);">
                 <p style="font-size: 1.2rem; font-weight: bold;">{risk_level}</p>
                 <p><strong>Limitations:</strong> {(getattr(chai_model_card, 'model_limitations', None) or 'Not specified')[:50]}{'...' if len(str(getattr(chai_model_card, 'model_limitations', None) or '')) > 50 else ''}</p>
@@ -535,7 +544,7 @@ def display_model_card_output(chai_model_card):
                 box-shadow: 0 5px 15px rgba(0,0,0,0.2);
                 margin-bottom: 1rem;
             ">
-                <h3 style="margin: 0; color: white;">🎯 Usage</h3>
+                <h3 style="margin: 0; color: white;"> Usage</h3>
                 <hr style="border-color: rgba(255,255,255,0.3);">
                 <p><strong>Users:</strong> {chai_model_card.primary_intended_users or 'Healthcare professionals'}</p>
                 <p><strong>Regulatory:</strong> {getattr(chai_model_card, 'regulatory_approval_status', None) or 'Not specified'}</p>
@@ -555,7 +564,7 @@ def display_model_card_output(chai_model_card):
             margin-bottom: 2rem;
             box-shadow: 0 5px 15px rgba(0,0,0,0.1);
         ">
-            <h3 style="margin: 0 0 1rem 0; color: #8B4513;">📝 Model Summary</h3>
+            <h3 style="margin: 0 0 1rem 0; color: #8B4513;"> Model Summary</h3>
             <p style="color: #2c3e50; font-size: 1.1rem; line-height: 1.6;">{summary_text}</p>
         </div>
         """,
@@ -575,7 +584,7 @@ def display_model_card_output(chai_model_card):
                 margin-bottom: 2rem;
                 border-left: 4px solid #3498db;
             ">
-                <h4 style="margin: 0 0 1rem 0; color: #2c3e50;">🏷️ Keywords</h4>
+                <h4 style="margin: 0 0 1rem 0; color: #2c3e50;"> Keywords</h4>
                 {keywords_html}
             </div>
             """,
@@ -583,16 +592,16 @@ def display_model_card_output(chai_model_card):
         )
     
     # Expandable detailed sections
-    with st.expander("📊 Detailed Technical Information", expanded=False):
+    with st.expander("Detailed Technical Information", expanded=False):
         display_detailed_sections(chai_model_card)
     
     # Download Section
-    st.markdown("### 💾 Download Options")
+    st.markdown("### Download Options")
     col1, col2, col3 = st.columns(3)
     
     with col1:
         st.download_button(
-            label="📄 Download JSON",
+            label="Download JSON",
             data=chai_model_card.to_json(),
             file_name=f"{(chai_model_card.model_name or 'model_card').replace(' ', '_')}_model_card.json",
             mime="application/json",
@@ -602,7 +611,7 @@ def display_model_card_output(chai_model_card):
     
     with col2:
         st.download_button(
-            label="📝 Download Markdown", 
+            label="Download Markdown",
             data=chai_model_card.to_markdown(),
             file_name=f"{(chai_model_card.model_name or 'model_card').replace(' ', '_')}_model_card.md",
             mime="text/markdown",
@@ -612,7 +621,7 @@ def display_model_card_output(chai_model_card):
     
     with col3:
         st.download_button(
-            label="🗂️ Download XML",
+            label="Download XML",
             data=chai_model_card.to_xml(),
             file_name=f"{(chai_model_card.model_name or 'model_card').replace(' ', '_')}_model_card.xml", 
             mime="application/xml",
@@ -624,7 +633,7 @@ def display_detailed_sections(chai_model_card):
     """Display detailed sections in expandable format"""
     
     # Release Info Section
-    st.markdown("## 🚀 Release Info")
+    st.markdown("## Release Info")
     col1, col2 = st.columns(2)
     
     with col1:
@@ -639,7 +648,7 @@ def display_detailed_sections(chai_model_card):
     st.markdown("---")
     
     # Uses & Directions Section
-    st.markdown("## 🎯 Uses & Directions")
+    st.markdown("## Uses & Directions")
     
     st.markdown(f"**Intended Use:** {chai_model_card.intended_use_and_workflow or 'Not specified'}")
     st.markdown(f"**Primary Intended Users:** {chai_model_card.primary_intended_users or 'Not specified'}")
@@ -648,7 +657,7 @@ def display_detailed_sections(chai_model_card):
     st.markdown("---")
     
     # Trust Ingredients Section
-    st.markdown("## 🔒 Trust Ingredients")
+    st.markdown("## Trust Ingredients")
     
     col1, col2 = st.columns(2)
     
@@ -664,7 +673,7 @@ def display_detailed_sections(chai_model_card):
     
     # Sources Section
     st.markdown("---")
-    st.markdown("## 📚 Sources Used")
+    st.markdown("## Sources Used")
     display_sources_section(chai_model_card)
     
     # Generation timestamp
@@ -683,7 +692,7 @@ def display_sources_section(chai_model_card):
     col1, col2 = st.columns(2)
     
     with col1:
-        st.markdown("### 📊 Source Discovery")
+        st.markdown("### Source Discovery")
         if extraction_summary.get('sources_discovered'):
             source_counts = extraction_summary['sources_discovered']
             st.markdown(f"**Total sources found:** {source_counts.get('total', 0)}")
@@ -705,7 +714,7 @@ def display_sources_section(chai_model_card):
                 st.info("No source type breakdown available")
     
     with col2:
-        st.markdown("### 📈 Extraction Statistics")
+        st.markdown("### Extraction Statistics")
         if extraction_summary:
             st.metric("Content Extracted", extraction_summary.get('content_extracted', 0))
             st.metric("Success Rate", extraction_summary.get('success_rate', 'N/A'))
@@ -713,7 +722,7 @@ def display_sources_section(chai_model_card):
     
     # Display detailed source citations
     if source_citations:
-        st.markdown("### 🔗 Source Citations by Field")
+        st.markdown("### Source Citations by Field")
         
         # Count total citations
         citation_count = sum(len(citations) for citations in source_citations.values() if isinstance(citations, list))
@@ -723,7 +732,7 @@ def display_sources_section(chai_model_card):
         for field_name, citations in source_citations.items():
             if citations and isinstance(citations, list):
                 field_display_name = field_name.replace('_', ' ').title()
-                with st.expander(f"📝 {field_display_name} ({len(citations)} citations)"):
+                with st.expander(f"{field_display_name} ({len(citations)} citations)"):
                     for i, citation in enumerate(citations[:5], 1):  # Show max 5 citations per field
                         if isinstance(citation, dict):
                             title = citation.get('title', 'Unknown Title')
@@ -732,13 +741,13 @@ def display_sources_section(chai_model_card):
                             
                             st.markdown(f"**{i}. {title}**")
                             if url:
-                                st.markdown(f"🔗 [View Source]({url})")
-                            st.markdown(f"📂 Type: {source_type}")
+                                st.markdown(f"[View Source]({url})")
+                            st.markdown(f"Type: {source_type}")
                             st.markdown("---")
     
     # Display sources summary if available
     if sources_summary and isinstance(sources_summary, dict):
-        st.markdown("### 📋 Analysis Summary")
+        st.markdown("### Analysis Summary")
         col1, col2, col3 = st.columns(3)
         
         with col1:
@@ -754,7 +763,7 @@ def display_sources_section(chai_model_card):
                 st.metric("Success Ratio", f"{sources_summary['success_ratio']:.1%}")
     
     # Footer note
-    st.info("💡 All information in this model card was extracted from the sources listed above.")
+    st.info("All information in this model card was extracted from the sources listed above.")
 
 
 # Create tabs and use the functions

@@ -71,7 +71,7 @@ class TracingLogger:
         self.total_tokens += call_data["total_tokens"]
         self.total_cost += call_cost
 
-        status = "✓" if success else "✗"
+        status = "OK" if success else "FAIL"
         print(f"{status} {operation} | {prompt_tokens}+{completion_tokens}={call_data['total_tokens']} tokens | {response_time:.2f}s | ${call_cost:.4f}")
         if not success and error_msg:
             print(f"   Error: {error_msg}")
@@ -110,7 +110,7 @@ class TracingLogger:
     def print_summary(self):
         s = self.get_summary()
         print("\n" + "=" * 60)
-        print("📊 AI EXTRACTION TRACING SUMMARY")
+        print("AI EXTRACTION TRACING SUMMARY")
         print("=" * 60)
         print(f"Session Duration: {s['session_duration_seconds']:.1f} seconds")
         print(f"Total API Calls: {s['total_api_calls']}")
@@ -119,7 +119,7 @@ class TracingLogger:
         print(f"Estimated Cost: ${s.get('estimated_total_cost', 0):.4f}")
         print(f"Avg Response Time: {s.get('average_response_time', 0):.2f}s")
         print(f"Tokens/Minute: {s.get('tokens_per_minute', 0):.0f}")
-        print("\n📋 Operations Breakdown:")
+        print("\nOperations Breakdown:")
         for op, data in s["operations_breakdown"].items():
             print(f"  {op}:")
             print(f"    Calls: {data['count']}")
@@ -247,7 +247,7 @@ class AIContentExtractor:
         self.block_until = 0
 
         if self.verbose:
-            print(f"🔍 AI Content Extractor (Gemini 2.5 Flash + Thinking) initialized")
+            print("AI Content Extractor (Gemini 2.5 Flash + Thinking) initialized")
 
     # ---------------- state helpers ----------------
 
@@ -515,7 +515,7 @@ contact, summary, regulatory_approval_status, funding_source
             return []
         if not self.is_api_available() and not force:
             if self.verbose:
-                print("🚫 Skipping batch API call - API unavailable")
+                print("Skipping batch API call - API unavailable")
             return [self._get_default_response("extract_basic_metadata_first") for _ in content_batch]
 
         items = []
@@ -556,7 +556,7 @@ CONTENT TO PROCESS:
     def extract_missing_fields(self, content: str, source_type: str = "web") -> Dict[str, Any]:
         if not self.is_api_available():
             if self.verbose:
-                print("🚫 Skipping API call - API unavailable")
+                print("Skipping API call - API unavailable")
             return self._get_default_response("extract_missing_fields")
 
         def call():
@@ -611,7 +611,7 @@ Extract ONLY what is explicitly stated."""
             return []
         if not self.is_api_available() and not force:
             if self.verbose:
-                print("🚫 Skipping batch API call - API unavailable")
+                print("Skipping batch API call - API unavailable")
             return [self._get_default_response("extract_missing_fields") for _ in content_batch]
 
         items = []
@@ -650,7 +650,7 @@ CONTENT TO PROCESS:
             return []
         if not self.is_api_available() and not force:
             if self.verbose:
-                print("🚫 Skipping comprehensive batch API call - API unavailable")
+                print("Skipping comprehensive batch API call - API unavailable")
             return [self._get_default_response("extract_comprehensive") for _ in content_batch]
 
         items = []
@@ -686,7 +686,7 @@ CONTENT TO PROCESS:
     def extract_model_information(self, content: str, source_type: str = "web") -> Dict[str, Any]:
         if not self.is_api_available():
             if self.verbose:
-                print("🚫 Skipping API call - API unavailable")
+                print("Skipping API call - API unavailable")
             return self._get_default_response("extract_model_information")
 
         def call():
@@ -722,7 +722,7 @@ Content (first {min(len(content), self._max_input_chars)} chars):
     def extract_clinical_metrics(self, content: str, source_type: str = "web") -> Dict[str, Any]:
         if not self.is_api_available():
             if self.verbose:
-                print("🚫 Skipping API call - API unavailable")
+                print("Skipping API call - API unavailable")
             return self._get_default_response("extract_clinical_metrics")
 
         def call():
@@ -765,7 +765,7 @@ Content (first {min(len(content), self._max_input_chars)} chars):
     def generate_regulatory_compliance_info(self, content: str, source_type: str = "web") -> Dict[str, Any]:
         if not self.is_api_available():
             if self.verbose:
-                print("🚫 Skipping API call - API unavailable")
+                print("Skipping API call - API unavailable")
             return {"regulatory_approvals": "Not specified", "clinical_oversight": "Not specified"}
 
         def call():

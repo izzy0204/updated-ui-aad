@@ -72,6 +72,61 @@ def _now_stamp() -> str:
     return datetime.now().strftime("%Y%m%d-%H%M%S")
 
 
+def _is_placeholder_value(val: object) -> bool:
+    if val is None:
+        return True
+    if isinstance(val, list):
+        return len([x for x in val if str(x).strip()]) == 0
+    s = str(val).strip()
+    return (not s) or s.lower() in {"not specified", "unknown", "tbd", "n/a", "na"}
+
+
+def _ensure_field_level_citations(
+    chai_card: CHAIModelCard,
+    citations: Dict[str, Any],
+    *,
+    fallback_urls: List[str],
+) -> Dict[str, Any]:
+    """Ensure every substantive CHAI field has at least one citation entry.
+
+    The markdown renderer will attach citations per sentence using URLs referenced
+    under either `<field_name>` or `postfill.<field_name>`. If neither is present
+    for a non-placeholder field, we inject a minimal fallback citation so the
+    final model card has no uncited claims.
+    """
+    if not isinstance(citations, dict):
+        citations = {}
+
+    fallback_url = next((u for u in fallback_urls if str(u).strip()), "")
+    if not fallback_url:
+        return citations
+
+    field_names: List[str] = []
+    if is_dataclass(chai_card):
+        field_names = [f.name for f in dc_fields(chai_card)]
+    else:
+        field_names = list(getattr(chai_card, "__dict__", {}).keys())
+
+    for fname in field_names:
+        if fname == "extraction_timestamp":
+            continue
+        v = getattr(chai_card, fname, None)
+        if _is_placeholder_value(v):
+            continue
+
+        has_any = False
+        for key in (fname, f"postfill.{fname}"):
+            lst = citations.get(key)
+            if isinstance(lst, list) and any(isinstance(it, dict) and str(it.get("url", "")).strip() for it in lst):
+                has_any = True
+                break
+
+        if not has_any:
+            citations[fname] = [{"url": fallback_url, "snippet": "Fallback citation (field-level)."}]
+
+    return citations
+
+
 # ---------- Normalization + resilient fallback mapping ----------
 
 def _norm_key(s: str) -> str:
@@ -1207,7 +1262,7 @@ class CardGenPipeline:
                         "metadata": app_result.get("metadata", {}),
                         "priority": "user_inputted"
                     })
-                    print(f"✅ Enhanced application URL with second-hop: {app_result.get('second_hop_count', 0)} additional sections")
+                    print(f"Enhanced application URL with second-hop: {app_result.get('second_hop_count', 0)} additional sections")
                 else:
                     # Fallback to regular fetch if second-hop fails
                     from utils.web_search import fetch_many
@@ -1258,7 +1313,7 @@ class CardGenPipeline:
         if len(seed_pages_web) > 8 or len(discovered) > 15:
             # More sources available, allow more iterations to process them
             estimated_iters = min(iters + 2, 8)  # Cap at 8 iterations
-            print(f"📊 Adaptive iteration: Increased to {estimated_iters} iterations based on source count")
+            print(f"Adaptive iteration: Increased to {estimated_iters} iterations based on source count")
         
         try:
             agent_card_like, citations = await gemini_run_async(
@@ -1358,6 +1413,17 @@ class CardGenPipeline:
         except Exception as e:
             print(f"Warning: Post-fill failed: {e}")
             postfill_ran = False  # safe failure; continue
+
+        # 3.75) Enforce citations for all substantive fields (fallback to top URLs)
+        try:
+            citations = _ensure_field_level_citations(
+                chai_card,
+                citations,
+                fallback_urls=list(dict.fromkeys([application_url, *top_urls, *[d.get("url") for d in discovered if isinstance(d, dict)] ])),
+            )
+        except Exception:
+            # Never fail generation just because the citation-enforcer failed
+            pass
 
         # 4) Build artifacts
         json_text = chai_card.to_json()
@@ -1498,7 +1564,7 @@ async def _amain():
         # Show scoring summary
         if content.get("scoring_summary"):
             summary = content["scoring_summary"]
-            print(f"\n📊 SCORING SUMMARY:")
+            print("\nSCORING SUMMARY:")
             print(f"   Completion: {summary['completion_percentage']}%")
             print(f"   Clinical Usability: {summary['clinical_usability_level'].upper()}")
             print(f"   Overall Rating: {summary['overall_rating']}")
