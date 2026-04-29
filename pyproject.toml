@@ -1,7 +1,6 @@
 [project]
-name = "aad-model-card-generator"
+name = "app"
 version = "0.1.0"
-description = "AI Model Card Generator"
 dependencies = [
     "streamlit",
     "google-genai",
