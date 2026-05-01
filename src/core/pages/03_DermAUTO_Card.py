@@ -375,9 +375,9 @@ with st.sidebar:
     option_to_path: Dict[str, Path] = {}
 
     manual_presets: List[Tuple[str, str]] = [
-        ("Manual · DermaSensor", "Dermasensor.md"),
-        ("Manual · Tandem (updated)", "Tandem updated.md"),
-        ("Manual · DermGPT (updated)", "DermGPT updated.md"),
+        ("B · DermaSensor", "Dermasensor.md"),
+        ("B · Tandem (updated)", "Tandem updated.md"),
+        ("B · DermGPT (updated)", "DermGPT updated.md"),
     ]
     for label, fname in manual_presets:
         p = _resolve_md_path(fname)
@@ -393,11 +393,11 @@ with st.sidebar:
     for fname in allowed_auto_names:
         p = _resolve_md_path(fname)
         if p:
-            option_to_path[f"Auto · {fname}"] = p
+            option_to_path[f"A · {fname}"] = p
 
     options = list(option_to_path.keys())
 
-    default_key = "Auto · dermgpt-20260429-173126.md"
+    default_key = "A · dermgpt-20260429-173126.md"
     default_idx = options.index(default_key) if default_key in option_to_path else 0
 
     selected_path: Optional[Path] = None
@@ -434,7 +434,7 @@ if uploaded is not None:
     source_label = uploaded.name
 elif selected_path and selected_path.exists():
     md_text = selected_path.read_text(encoding="utf-8", errors="replace")
-    # Preserve the manual/auto label shown in the selectbox.
+    # Preserve the A/B label shown in the selectbox.
     source_label = next((k for k, v in option_to_path.items() if v == selected_path), selected_path.name)
 else:
     md_text = ""
@@ -445,7 +445,7 @@ if not md_text.strip():
     st.stop()
 
 md_for_parse = _normalize_md_for_parsing(md_text)
-is_manual = source_label.strip().lower().startswith("manual ·")
+is_manual = source_label.strip().lower().startswith("b ·")
 ref_map = _parse_references(md_for_parse, allow_sources_heading=is_manual)
 sections = _parse_model_card_md(md_for_parse)
 doc_title = _extract_doc_title(md_for_parse)
