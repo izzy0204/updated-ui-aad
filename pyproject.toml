@@ -1,7 +1,8 @@
 [project]
-name = "aad-model-card-generator"
+name = "medical-card-gen"
 version = "0.1.0"
-description = "AI Model Card Generator"
+description = "Streamlit app for medical AI model cards"
+requires-python = ">=3.10"
 dependencies = [
     "streamlit",
     "google-genai",
@@ -12,7 +13,9 @@ dependencies = [
     "requests",
     "trafilatura",
     "selenium",
-    "webdriver-manager"
+    "webdriver-manager",
+    "asyncio",
+    "pandas"
 ]
 
 [tool.uv]
