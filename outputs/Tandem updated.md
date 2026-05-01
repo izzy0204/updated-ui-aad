@@ -1,4 +1,4 @@
-# Tandem ó CHAI Model Card (Manual)
+# Tandem ‚Äî CHAI Model Card (Manual)
 
 ## 1) Metadata
 - **Model Name:** Not disclosed.
@@ -35,7 +35,7 @@
 - **Foundation Models Used in application, if applicable:** Not disclosed; public statements suggest leveraging existing foundation models rather than training from scratch. [4]
 - **Input Data Source:** Electronic prescriptions (structured), clinical records/notes (unstructured), payer rules, insurance data, historical outcomes, and patient communications. [1,5]
 - **Output/Input Data Type:** Inputs include structured and unstructured clinical/admin data; outputs include structured forms, letters, routing instructions, portal updates, and SMS messages. [1,5]
-- **Dataset Transparency:** Not disclosed; training data described as proprietary ìfirst-partyî authorization interaction data. [7]
+- **Dataset Transparency:** Not disclosed; training data described as proprietary ‚Äúfirst-party‚Äù authorization interaction data. [7]
 - **Validation/Test Dataset:** Not disclosed.
 - **Ongoing Maintenance:** Continuous improvement described as platform scales. [1]
 - **Security and compliance environment practices or accreditations, if applicable:** HIPAA-compliant and SOC 2 Type II certified per developer; encryption and U.S.-based data storage described. [5]
