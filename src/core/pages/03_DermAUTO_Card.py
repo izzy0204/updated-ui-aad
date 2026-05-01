@@ -33,6 +33,10 @@ _REF_ROW = "font-size:12px;margin:5px 0;line-height:1.4;"
 
 _CITATION_IN_TEXT = re.compile(r"\[(\s*\d+(?:\s*,\s*\d+)*\s*)\]")
 _GEN_FOOTER = re.compile(r"^\s*\*?\s*Generated on\s+.+", re.IGNORECASE)
+_SECTIONLIKE_H1 = re.compile(r"^\s*#\s+\*{0,2}\s*\d+\s*\\?[.)]\s+.+", re.IGNORECASE)
+_HEADING_BOLD_WRAPPER = re.compile(r"^\s*(\*{1,2})(.+?)\1\s*$")
+_MD_LINK = re.compile(r"\[([^\]]+)\]\((https?://[^)]+)\)")
+_URL = re.compile(r"(https?://[^\s<>()]+)")
 
 
 def _href(url: str) -> str:
@@ -43,18 +47,62 @@ def _strip_citations(text: str) -> str:
     return re.sub(r"\s*\[\s*\d+(?:\s*,\s*\d+)*\s*\]", "", text).strip()
 
 
-def _parse_references(md_text: str) -> Dict[int, str]:
+def _normalize_md_for_parsing(md_text: str) -> str:
+    """
+    Normalize a few common markdown variants so cards render consistently:
+    - Unescape literal citation markers like \\[1\\] -> [1]
+    - Accept '*' bullets as '-' bullets for field parsing
+    - Treat section-like H1 headings (e.g. '# **1\\. Metadata**') as '##'
+    """
+    # Some exported markdown escapes citation brackets; we want them linkified.
+    md_text = md_text.replace("\\[", "[").replace("\\]", "]")
+
+    out_lines: List[str] = []
+    for raw in md_text.splitlines():
+        line = raw.rstrip("\n")
+
+        # Convert section-like H1 headings to H2 so they participate in section parsing.
+        if _SECTIONLIKE_H1.match(line):
+            # "# **1\. Metadata**" -> "## 1. Metadata"
+            h = line.lstrip()[2:].strip()
+            m = _HEADING_BOLD_WRAPPER.match(h)
+            if m:
+                h = m.group(2).strip()
+            out_lines.append(f"## {h}")
+            continue
+
+        # Allow '*' as list bullet for fields.
+        if re.match(r"^\s*\*\s+\*\*", line):
+            out_lines.append(re.sub(r"^(\s*)\*\s+", r"\1- ", line, count=1))
+            continue
+
+        out_lines.append(line)
+
+    return "\n".join(out_lines)
+
+
+def _parse_references(md_text: str, *, allow_sources_heading: bool = False) -> Dict[int, str]:
     refs: Dict[int, str] = {}
     lines = md_text.splitlines()
     i = 0
+    heading_markers = {"## references"}
+    if allow_sources_heading:
+        heading_markers |= {"## sources", "## source", "## refs", "## citations"}
+
     while i < len(lines):
-        if lines[i].strip().lower() == "## references":
+        if lines[i].strip().lower() in heading_markers:
             i += 1
             while i < len(lines):
                 line = lines[i]
                 stripped = line.strip()
-                if stripped.startswith("## ") and "reference" not in stripped.lower():
-                    break
+                if stripped.startswith("## "):
+                    nxt = stripped.lower()
+                    if ("reference" in nxt) or (
+                        allow_sources_heading and ("source" in nxt or "citation" in nxt or "ref" in nxt)
+                    ):
+                        pass
+                    else:
+                        break
                 if stripped == "---":
                     break
                 m = re.match(r"^\s*\[(\d+)\]\s+(.+)$", line)
@@ -122,10 +170,37 @@ def _linkify_citations(escaped_text: str, refs: Dict[int, str]) -> str:
     return _CITATION_IN_TEXT.sub(repl, escaped_text)
 
 
-def _format_field(text: str, refs: Dict[int, str], hide_citations: bool) -> str:
+def _linkify_urls(escaped_text: str) -> str:
+    # Convert markdown links first (still visible after escaping).
+    escaped_text = _MD_LINK.sub(
+        lambda m: (
+            f'<a href="{html.escape(_href(m.group(2)), quote=True)}" target="_blank" rel="noopener noreferrer" '
+            'style="color:#0b57d0;font-weight:700;text-decoration:underline;">'
+            f"{html.escape(m.group(1))}</a>"
+        ),
+        escaped_text,
+    )
+
+    # Then convert bare URLs.
+    escaped_text = _URL.sub(
+        lambda m: (
+            f'<a href="{html.escape(_href(m.group(1)), quote=True)}" target="_blank" rel="noopener noreferrer" '
+            'style="color:#0b57d0;font-weight:700;word-break:break-all;text-decoration:underline;">'
+            f"{m.group(1)}</a>"
+        ),
+        escaped_text,
+    )
+    return escaped_text
+
+
+def _format_field(text: str, refs: Dict[int, str], hide_citations: bool, *, linkify_urls: bool = False) -> str:
     if hide_citations:
-        return html.escape(_strip_citations(text))
+        base = html.escape(_strip_citations(text))
+        return _linkify_urls(base) if linkify_urls else base
+
     base = html.escape(text)
+    if linkify_urls:
+        base = _linkify_urls(base)
     return _linkify_citations(base, refs)
 
 
@@ -136,9 +211,7 @@ def _parse_model_card_md(md_text: str) -> Dict[str, Dict[str, str]]:
     # Last `##` title — each `###` is `## title — ### title` (do not chain ###).
     last_h2_section = current_section
 
-    field_re = re.compile(
-        r"^\s*-\s+\*\*(?:(?P<a>.+?):\*\*|(?P<b>.+?)\*\*:)\s*(?P<val>.*)\s*$"
-    )
+    field_re = re.compile(r"^\s*[-*]\s+\*\*(?:(?P<a>.+?):\*\*|(?P<b>.+?)\*\*:)\s*(?P<val>.*)\s*$")
     heading2_re = re.compile(r"^\s*##\s+(.*)\s*$")
     heading3_re = re.compile(r"^\s*###\s+(.*)\s*$")
 
@@ -229,8 +302,9 @@ def _render_full_card_html(
     source_label: str,
     hide_citations: bool,
     generated_footer: Optional[str],
+    manual_linkify: bool,
 ) -> str:
-    fmt = lambda t: _format_field(t, refs, hide_citations)
+    fmt = lambda t: _format_field(t, refs, hide_citations, linkify_urls=manual_linkify)
     parts: List[str] = [
         f'<div style="{_WRAP}">',
         f'<div style="{_TITLE}">AI Model Card</div>',
@@ -282,20 +356,41 @@ with st.sidebar:
     if OUTPUTS_DIR.exists():
         md_files = sorted(OUTPUTS_DIR.glob("*.md"), key=lambda p: p.stat().st_mtime, reverse=True)
 
-    default_name = "dermgpt-20260429-173126.md"
-    default_idx = next((i for i, p in enumerate(md_files) if p.name == default_name), 0)
+    manual_presets: List[Tuple[str, Path]] = [
+        ("Manual · DermaSensor", OUTPUTS_DIR / "Dermasensor.md"),
+        ("Manual · Tandem (updated)", OUTPUTS_DIR / "Tandem updated.md"),
+    ]
+
+    option_to_path: Dict[str, Path] = {}
+    for label, p in manual_presets:
+        if p.exists():
+            option_to_path[label] = p
+
+    # Only include specific autogenerated cards requested in the UI.
+    allowed_auto_names = {
+        "dermgpt-20260429-173126.md",
+        "dermasensor-20260501-042020.md",
+        "tandem-20260501-043225.md",
+    }
+    for p in md_files:
+        if p.name in allowed_auto_names:
+            option_to_path[f"Auto · {p.name}"] = p
+
+    options = list(option_to_path.keys())
+
+    default_key = "Auto · dermgpt-20260429-173126.md"
+    default_idx = options.index(default_key) if default_key in option_to_path else 0
 
     selected_path: Optional[Path] = None
-    if md_files:
-        selected = st.selectbox(
-            "Select an output markdown file",
-            options=md_files,
-            index=min(default_idx, len(md_files) - 1),
-            format_func=lambda p: p.name,
+    if options:
+        selected_key = st.selectbox(
+            "Select a model card",
+            options=options,
+            index=min(default_idx, len(options) - 1),
         )
-        selected_path = Path(selected)
+        selected_path = option_to_path.get(selected_key)
     else:
-        st.info("No `outputs/*.md` files found.")
+        st.info("No model cards found in `outputs/`.")
 
     uploaded = st.file_uploader("Or upload a markdown file", type=["md"])
 
@@ -308,7 +403,8 @@ if uploaded is not None:
     source_label = uploaded.name
 elif selected_path and selected_path.exists():
     md_text = selected_path.read_text(encoding="utf-8", errors="replace")
-    source_label = selected_path.name
+    # Preserve the manual/auto label shown in the selectbox.
+    source_label = next((k for k, v in option_to_path.items() if v == selected_path), selected_path.name)
 else:
     md_text = ""
     source_label = "No file selected"
@@ -317,10 +413,12 @@ if not md_text.strip():
     st.warning("Pick or upload a markdown file to render.")
     st.stop()
 
-ref_map = _parse_references(md_text)
-sections = _parse_model_card_md(md_text)
-doc_title = _extract_doc_title(md_text)
-generated_line = _extract_generated_line(md_text)
+md_for_parse = _normalize_md_for_parsing(md_text)
+is_manual = source_label.strip().lower().startswith("manual ·")
+ref_map = _parse_references(md_for_parse, allow_sources_heading=is_manual)
+sections = _parse_model_card_md(md_for_parse)
+doc_title = _extract_doc_title(md_for_parse)
+generated_line = _extract_generated_line(md_for_parse)
 
 card_html = _render_full_card_html(
     sections=sections,
@@ -329,6 +427,7 @@ card_html = _render_full_card_html(
     source_label=source_label,
     hide_citations=hide_citations,
     generated_footer=generated_line,
+    manual_linkify=is_manual,
 )
 
 if hasattr(st, "html"):
