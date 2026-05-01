@@ -362,7 +362,7 @@ with st.sidebar:
 
     # Sidebar order: DermaSensor A/B, DermGPT A/B, Tandem A/B. Labels are UI-only; filenames are on disk.
     ordered_sources: List[Tuple[str, str]] = [
-        ("A · DermaSensor", "dermasensor-20260501-042020.md"),
+        ("A · DermaSensor", "dermasensor-20260501-192348.md"),
         ("B · DermaSensor", "Dermasensor.md"),
         ("A · DermGPT", "dermgpt-20260429-173126.md"),
         ("B · DermGPT", "DermGPT updated.md"),
