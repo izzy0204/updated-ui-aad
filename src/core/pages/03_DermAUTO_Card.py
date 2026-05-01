@@ -364,8 +364,8 @@ with st.sidebar:
 
     manual_presets: List[Tuple[str, str]] = [
         ("B · DermaSensor", "Dermasensor.md"),
-        ("B · Tandem (updated)", "Tandem updated.md"),
-        ("B · DermGPT (updated)", "DermGPT updated.md"),
+        ("B · Tandem", "Tandem updated.md"),
+        ("B · DermGPT", "DermGPT updated.md"),
     ]
     for label, fname in manual_presets:
         p = _resolve_md_path(fname)
@@ -378,14 +378,21 @@ with st.sidebar:
         "dermasensor-20260501-042020.md",
         "tandem-20260501-043225.md",
     )
+    # UI-only display names (filenames on disk unchanged).
+    auto_ui_label: Dict[str, str] = {
+        "dermgpt-20260429-173126.md": "DermGPT",
+        "dermasensor-20260501-042020.md": "DermaSensor",
+        "tandem-20260501-043225.md": "Tandem",
+    }
     for fname in allowed_auto_names:
         p = _resolve_md_path(fname)
         if p:
-            option_to_path[f"A · {fname}"] = p
+            display = auto_ui_label.get(fname, fname)
+            option_to_path[f"A · {display}"] = p
 
     options = list(option_to_path.keys())
 
-    default_key = "A · dermgpt-20260429-173126.md"
+    default_key = "A · DermGPT"
     default_idx = options.index(default_key) if default_key in option_to_path else 0
 
     selected_path: Optional[Path] = None
