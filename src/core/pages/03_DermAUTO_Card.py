@@ -377,6 +377,7 @@ with st.sidebar:
     manual_presets: List[Tuple[str, str]] = [
         ("Manual · DermaSensor", "Dermasensor.md"),
         ("Manual · Tandem (updated)", "Tandem updated.md"),
+        ("Manual · DermGPT (updated)", "DermGPT updated.md"),
     ]
     for label, fname in manual_presets:
         p = _resolve_md_path(fname)
