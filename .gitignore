@@ -136,6 +136,13 @@ dmypy.json
 
 # App artifacts
 outputs/
+!outputs/
+# Ignore everything under outputs by default, but allow
+# a small set of curated/manual markdown cards to be committed.
+outputs/*
+!outputs/DermGPT updated.md
+!outputs/Dermasensor.md
+!outputs/Tandem updated.md
 cache/cache.db
 
 # Temporary files
