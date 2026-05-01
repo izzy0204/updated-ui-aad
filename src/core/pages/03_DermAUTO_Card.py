@@ -7,18 +7,27 @@ from urllib.parse import quote as url_quote
 import streamlit as st
 
 
-REPO_ROOT = Path(__file__).resolve().parents[3]
-# Bundled presets ship in-repo for Streamlit Cloud (`outputs/` is gitignored).
-PRELOADED_DIR = REPO_ROOT / "preloaded_cards"
+# Resolve repo root from this file: .../src/core/pages/<this>.py -> parents[3] == repo root.
+_PAGE_DIR = Path(__file__).resolve().parent
+REPO_ROOT = _PAGE_DIR.parents[3]
+# Bundled presets live NEXT TO this page so Streamlit Cloud always finds them (no cwd guessing).
+# Also check legacy repo-root `preloaded_cards/` for backwards compatibility.
+PRELOADED_DIRS: Tuple[Path, ...] = (
+    _PAGE_DIR / "preloaded_cards",
+    REPO_ROOT / "preloaded_cards",
+)
 OUTPUTS_DIR = REPO_ROOT / "outputs"
 
 
 def _resolve_md_path(filename: str) -> Optional[Path]:
-    """Prefer tracked `preloaded_cards/`; fall back to local `outputs/` for dev."""
-    for base in (PRELOADED_DIR, OUTPUTS_DIR):
+    """Prefer `pages/preloaded_cards/`, then repo-root `preloaded_cards/`, then local `outputs/`."""
+    for base in PRELOADED_DIRS:
         p = base / filename
         if p.exists():
             return p
+    p = OUTPUTS_DIR / filename
+    if p.exists():
+        return p
     return None
 
 # Full card: wider wrap; inline styles for Streamlit HTML rendering.
@@ -399,7 +408,19 @@ with st.sidebar:
         )
         selected_path = option_to_path.get(selected_key)
     else:
-        st.info("No bundled model cards found. Add markdown under `preloaded_cards/` in the repo.")
+        st.error("No bundled model cards found.")
+        st.caption(
+            "Expected 5 `.md` files under `src/core/pages/preloaded_cards/`. "
+            "If you deploy from Git, push that folder and redeploy."
+        )
+        with st.expander("Path check (debug)"):
+            st.code(
+                "\n".join(
+                    f"{d} exists={d.is_dir()} → {(d / 'dermgpt-20260429-173126.md').exists()}"
+                    for d in PRELOADED_DIRS
+                )
+                + f"\n{OUTPUTS_DIR} (outputs/) exists={OUTPUTS_DIR.is_dir()}"
+            )
 
     uploaded = st.file_uploader("Or upload a markdown file", type=["md"])
 
