@@ -29,7 +29,15 @@
 ## 4) Trust Ingredients
 - **AI System Facts:** ESS spectroscopy captures wavelength-dependent backscatter; preprocessing + proprietary neural network compares pattern against training data from histopathology-confirmed lesions; returns risk output to aid referral decisions. [5,18,20,21]
 - **Model Type:** Predictive / risk stratification adjunctive device output (Investigate Further vs Monitor) rather than direct diagnosis. [18,20]
-- **Interaction with other systems:** Used as a point-of-care device within clinical workflows; no public details on EHR integration.\n+- **Outcomes & Output:** Output includes referral-oriented risk classification and score; intended to improve triage and reduce missed cancers by clinicians in reader studies. [18,20]\n+- **Explanation for how an output is generated:** Broadband light pulses interact with tissue microstructure; backscattered spectra are captured and analyzed by the locked algorithm validated in clinical studies. [5,18,20,21]\n+- **Foundation Models Used in application, if applicable:** Proprietary ML algorithm; foundation model usage not disclosed publicly. [21]\n+- **Input Data Source:** Spectral recordings from the scanned lesion. [17,18]\n+- **Output/Input Data Type:** Input: spectral signal; Output: categorical result + numeric score intended to guide referral decisions. [18,20]\n+- **Dataset Transparency:** Training dataset is proprietary; external reporting discusses limitations and demographic imbalances in pivotal evaluation populations. [23,24]\n+- **Ongoing Maintenance:** Algorithm is described as “locked” with periodic revalidation/updates requiring FDA clearance. [20]\n+- **Security and compliance environment practices or accreditations, if applicable:** Privacy policy is published by the developer. [25]
+- **Interaction with other systems:** Used as a point-of-care device within clinical workflows; no public details on EHR integration.
+- **Outcomes & Output:** Output includes referral-oriented risk classification and score; intended to improve triage and reduce missed cancers by clinicians in reader studies. [18,20]
+- **Explanation for how an output is generated:** Broadband light pulses interact with tissue microstructure; backscattered spectra are captured and analyzed by the locked algorithm validated in clinical studies. [5,18,20,21]
+- **Foundation Models Used in application, if applicable:** Proprietary ML algorithm; foundation model usage not disclosed publicly. [21]
+- **Input Data Source:** Spectral recordings from the scanned lesion. [17,18]
+- **Output/Input Data Type:** Input: spectral signal; Output: categorical result + numeric score intended to guide referral decisions. [18,20]
+- **Dataset Transparency:** Training dataset is proprietary; external reporting discusses limitations and demographic imbalances in pivotal evaluation populations. [23,24]
+- **Ongoing Maintenance:** Algorithm is described as “locked” with periodic revalidation/updates requiring FDA clearance. [20]
+- **Security and compliance environment practices or accreditations, if applicable:** Privacy policy is published by the developer. [25]
 
 ## 5) Key Metrics
 ### Usefulness / Efficacy
