@@ -52,7 +52,6 @@ _MONO = "font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace
 _REF_ROW = "font-size:12px;margin:5px 0;line-height:1.4;"
 
 _CITATION_IN_TEXT = re.compile(r"\[(\s*\d+(?:\s*,\s*\d+)*\s*)\]")
-_GEN_FOOTER = re.compile(r"^\s*\*?\s*Generated on\s+.+", re.IGNORECASE)
 _SECTIONLIKE_H1 = re.compile(r"^\s*#\s+\*{0,2}\s*\d+\s*\\?[.)]\s+.+", re.IGNORECASE)
 _HEADING_BOLD_WRAPPER = re.compile(r"^\s*(\*{1,2})(.+?)\1\s*$")
 _MD_LINK = re.compile(r"\[([^\]]+)\]\((https?://[^)]+)\)")
@@ -143,14 +142,6 @@ def _extract_doc_title(md_text: str) -> Optional[str]:
             return line[2:].strip()
         if line:
             break
-    return None
-
-
-def _extract_generated_line(md_text: str) -> Optional[str]:
-    for raw in md_text.splitlines():
-        s = raw.strip()
-        if _GEN_FOOTER.match(s) or (s.startswith("*") and "generated on" in s.lower()):
-            return s.strip("*").strip()
     return None
 
 
@@ -321,7 +312,6 @@ def _render_full_card_html(
     doc_title: Optional[str],
     source_label: str,
     hide_citations: bool,
-    generated_footer: Optional[str],
     manual_linkify: bool,
 ) -> str:
     fmt = lambda t: _format_field(t, refs, hide_citations, linkify_urls=manual_linkify)
@@ -352,8 +342,6 @@ def _render_full_card_html(
     if ref_html:
         parts.append(ref_html)
 
-    if generated_footer:
-        parts.append(f'<div style="{_FOOT}">{html.escape(generated_footer)}</div>')
     parts.append(
         f'<div style="{_FOOT}">'
         "Citation markers link to numbered URLs when shown. "
@@ -449,7 +437,6 @@ is_manual = source_label.strip().lower().startswith("b ·")
 ref_map = _parse_references(md_for_parse, allow_sources_heading=is_manual)
 sections = _parse_model_card_md(md_for_parse)
 doc_title = _extract_doc_title(md_for_parse)
-generated_line = _extract_generated_line(md_for_parse)
 
 card_html = _render_full_card_html(
     sections=sections,
@@ -457,7 +444,6 @@ card_html = _render_full_card_html(
     doc_title=doc_title,
     source_label=source_label,
     hide_citations=hide_citations,
-    generated_footer=generated_line,
     manual_linkify=is_manual,
 )
 

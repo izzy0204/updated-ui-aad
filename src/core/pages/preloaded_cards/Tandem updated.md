@@ -1,4 +1,4 @@
-# Tandem — CHAI Model Card (Manual)
+# Tandem — CHAI Model Card
 
 ## 1) Metadata
 - **Model Name:** Not disclosed.

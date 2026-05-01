@@ -1,4 +1,4 @@
-# DermaSensor — CHAI Model Card (Manual)
+# DermaSensor — CHAI Model Card
 
 ## 1) Metadata
 - **Model Name:** DermaSensor [1]

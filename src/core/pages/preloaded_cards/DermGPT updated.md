@@ -1,4 +1,4 @@
-# DermGPT — CHAI Model Card (Manual)
+# DermGPT — CHAI Model Card
 
 ## 1) Metadata
 - **Model Name:** DermGPT [4]
