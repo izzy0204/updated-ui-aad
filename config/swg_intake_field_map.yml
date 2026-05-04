@@ -1,0 +1,36 @@
+columns:
+  A:
+  - 1) Metadata|||Developer
+  - 1) Metadata|||Model Name
+  B:
+  - 1) Metadata|||Application URL
+  C:
+  - 1) Metadata|||Summary
+  - 4) Trust Ingredients|||AI System Facts
+  - 4) Trust Ingredients|||Transparency Information
+  - 4) Trust Ingredients|||3rd Party Information, if applicable
+  - 6) Resources|||Stakeholders consulted during design of solution
+  E:
+  - 2) Uses & Directions|||Intended Use & Workflow
+  - 4) Trust Ingredients|||Outcomes & Output
+  - 1) Metadata|||Keywords
+  - 1) Metadata|||Summary
+  - 5) Key Metrics — Usefulness / Efficacy|||Interpretation
+  - 4) Trust Ingredients|||Exclusion/Inclusion Criteria
+  - 4) Trust Ingredients|||Interaction with other systems
+  - 4) Trust Ingredients|||Type & Value of Solution Output
+  - 3) Warnings|||Developer-Supplied Warnings
+  - 4) Trust Ingredients|||AI System Facts
+  J:
+  - 1) Metadata|||Release Date
+  R:
+  - 2) Uses & Directions|||Patient consent or disclosure required or suggested?
+  V:
+  - 1) Metadata|||Regulatory Approval Status, if applicable
+  - 5) Key Metrics — Safety & Reliability|||Validation Process and Justification
+  - 5) Key Metrics — Safety & Reliability|||Goal of Metric(s)
+  - 4) Trust Ingredients|||Security and compliance environment practices or accreditations, if applicable
+  W:
+  - 1) Metadata|||Inquiries or to report an issue
+_meta:
+  description: Maps Excel column letters to CHAI field composite keys (section|||field). Edit manually when inference mis-assigns.

@@ -1,11 +1,29 @@
-import html
 import re
 from pathlib import Path
-from typing import Dict, List, Optional, Set, Tuple
-from urllib.parse import quote as url_quote
+from typing import Dict, List, Optional, Tuple
 
 import streamlit as st
 
+from core.card_provenance import compute_provenance_for_sections
+from core.dermauto_card_render import (
+    body_before_references,
+    build_ref_renumbering,
+    extract_doc_title,
+    normalize_md_for_parsing,
+    parse_model_card_md,
+    parse_references,
+    render_full_card_html,
+    rewrite_sections_citations,
+    strip_chai_model_card_suffix,
+)
+from core.swg_intake import (
+    default_field_map_path,
+    default_forms_xlsx,
+    load_column_field_map_yaml,
+    match_survey_row_for_title,
+    read_xlsx_first_sheet,
+    survey_reported_composite_keys,
+)
 
 # Resolve repo root from this file: .../src/core/pages/<this>.py -> parents[3] == repo root.
 _PAGE_DIR = Path(__file__).resolve().parent
@@ -30,440 +48,24 @@ def _resolve_md_path(filename: str) -> Optional[Path]:
         return p
     return None
 
-# Full card: wider wrap; inline styles for Streamlit HTML rendering.
-_WRAP = (
-    "max-width:min(100%,920px);margin:0 auto;background:#ffffff;color:#111111;"
-    "border:3px solid #111111;padding:16px 18px 14px 18px;"
-    "font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;"
-    "box-sizing:border-box;"
-)
-_DOC_TITLE = "font-weight:900;font-size:28px;line-height:1.15;margin:0 0 12px 0;letter-spacing:-0.02em;"
-_TITLE = "font-weight:900;font-size:32px;line-height:1;margin:0;letter-spacing:-0.02em;"
-_SUB = "font-size:13px;margin:6px 0 12px 0;line-height:1.35;"
-_RULE_THICK = "border-top:10px solid #111111;margin:10px 0 8px 0;width:100%;"
-_RULE_MED = "border-top:5px solid #111111;margin:12px 0 8px 0;width:100%;"
-_RULE_THIN = "border-top:1px solid #111111;margin:6px 0;width:100%;"
-_SECTION = "font-weight:800;font-size:15px;margin:0;padding:6px 0 4px 0;line-height:1.25;"
-_ROW = "border-top:1px solid #111111;padding:10px 0;"
-_LBL = "font-weight:800;font-size:13px;margin:0 0 6px 0;"
-_VAL = "font-weight:600;font-size:13px;line-height:1.5;color:#222222;margin:0;word-wrap:break-word;"
-_FOOT = "font-size:11px;margin-top:14px;line-height:1.4;color:#444444;"
-_MONO = "font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;font-size:12px;"
-_REF_ROW = "font-size:12px;margin:5px 0;line-height:1.4;"
 
-_CITATION_IN_TEXT = re.compile(r"\[(\s*\d+(?:\s*,\s*\d+)*\s*)\]")
-_SECTIONLIKE_H1 = re.compile(r"^\s*#\s+\*{0,2}\s*\d+\s*\\?[.)]\s+.+", re.IGNORECASE)
-_HEADING_BOLD_WRAPPER = re.compile(r"^\s*(\*{1,2})(.+?)\1\s*$")
-_MD_LINK = re.compile(r"\[([^\]]+)\]\((https?://[^)]+)\)")
-_URL = re.compile(r"(https?://[^\s<>()]+)")
-
-
-def _href(url: str) -> str:
-    return url_quote(url.strip(), safe="/:?#[]@!$&'()*+,;=-._~%")
-
-
-def _strip_citations(text: str) -> str:
-    return re.sub(r"\s*\[\s*\d+(?:\s*,\s*\d+)*\s*\]", "", text).strip()
-
-
-def _strip_citations_immediately_after_dr(text: str) -> str:
-    """Avoid superscript cite clusters glued to the honorific (e.g. 'Dr. [1,2]' → 'Dr.')."""
-    return re.sub(
-        r"(Dr\.)\s*\[\s*\d+(?:\s*,\s*\d+)*\s*\]",
-        r"\1",
-        text,
-        flags=re.IGNORECASE,
-    )
-
-
-def _unwrap_latex_inline_delimiters(text: str) -> str:
-    """Turn LaTeX-style \\(...\\) into (...) for display (common in pasted exports).
-
-    Uses [^\\\\] for the inner span so digits like '3,000+' do not break regex (+ stays literal).
-    """
-    return re.sub(r"\\\(([^\\]*?)\\\)", r"(\1)", text)
-
-
-def _normalize_md_for_parsing(md_text: str) -> str:
-    """
-    Normalize a few common markdown variants so cards render consistently:
-    - Unescape literal citation markers like \\[1\\] -> [1]
-    - Accept '*' bullets as '-' bullets for field parsing
-    - Treat section-like H1 headings (e.g. '# **1\\. Metadata**') as '##'
-    """
-    # Some exported markdown escapes citation brackets; we want them linkified.
-    md_text = md_text.replace("\\[", "[").replace("\\]", "]")
-
-    out_lines: List[str] = []
-    for raw in md_text.splitlines():
-        line = raw.rstrip("\n")
-
-        # Convert section-like H1 headings to H2 so they participate in section parsing.
-        if _SECTIONLIKE_H1.match(line):
-            # "# **1\. Metadata**" -> "## 1. Metadata"
-            h = line.lstrip()[2:].strip()
-            m = _HEADING_BOLD_WRAPPER.match(h)
-            if m:
-                h = m.group(2).strip()
-            out_lines.append(f"## {h}")
-            continue
-
-        # Allow '*' as list bullet for fields.
-        if re.match(r"^\s*\*\s+\*\*", line):
-            out_lines.append(re.sub(r"^(\s*)\*\s+", r"\1- ", line, count=1))
-            continue
-
-        out_lines.append(line)
-
-    return "\n".join(out_lines)
-
-
-def _parse_references(md_text: str, *, allow_sources_heading: bool = False) -> Dict[int, str]:
-    refs: Dict[int, str] = {}
-    lines = md_text.splitlines()
-    i = 0
-    heading_markers = {"## references"}
-    if allow_sources_heading:
-        heading_markers |= {"## sources", "## source", "## refs", "## citations"}
-
-    while i < len(lines):
-        if lines[i].strip().lower() in heading_markers:
-            i += 1
-            while i < len(lines):
-                line = lines[i]
-                stripped = line.strip()
-                if stripped.startswith("## "):
-                    nxt = stripped.lower()
-                    if ("reference" in nxt) or (
-                        allow_sources_heading and ("source" in nxt or "citation" in nxt or "ref" in nxt)
-                    ):
-                        pass
-                    else:
-                        break
-                if stripped == "---":
-                    break
-                m = re.match(r"^\s*\[(\d+)\]\s+(.+)$", line)
-                if m:
-                    num = int(m.group(1))
-                    url = m.group(2).strip()
-                    refs[num] = url
-                i += 1
-            break
-        i += 1
-    return refs
-
-
-def _extract_doc_title(md_text: str) -> Optional[str]:
-    for raw in md_text.splitlines():
-        line = raw.strip()
-        if line.startswith("# ") and not line.startswith("##"):
-            return line[2:].strip()
-        if line:
-            break
-    return None
-
-
-def _strip_chai_model_card_suffix(title: Optional[str]) -> Optional[str]:
-    """UI-only: hide trailing em-dash title boilerplate from H1."""
-    if not title:
-        return None
-    t = re.sub(r"\s*[—–-]\s*CHAI Model Card\s*$", "", title.strip(), flags=re.IGNORECASE).strip()
-    return t or None
-
-
-def _body_before_references(md_text: str, *, allow_sources_heading: bool) -> str:
-    lines = md_text.splitlines()
-    heading_markers = {"## references"}
-    if allow_sources_heading:
-        heading_markers |= {"## sources", "## source", "## refs", "## citations"}
-    for i, line in enumerate(lines):
-        if line.strip().lower() in heading_markers:
-            return "\n".join(lines[:i])
-    return md_text
-
-
-def _collect_citation_numbers_in_order(body_md: str) -> List[int]:
-    """First-appearance order of numeric citation markers (supports [1, 2] lists)."""
-    seen: List[int] = []
-    seen_set: Set[int] = set()
-    for m in _CITATION_IN_TEXT.finditer(body_md):
-        inner = m.group(1)
-        for x in inner.split(","):
-            xs = x.strip()
-            if xs.isdigit():
-                n = int(xs)
-                if n not in seen_set:
-                    seen_set.add(n)
-                    seen.append(n)
-    return seen
-
-
-def _build_ref_renumbering(
-    body_md: str, ref_map: Dict[int, str]
-) -> Tuple[Dict[int, int], Dict[int, str]]:
-    """
-    Map old reference indices to new 1..N by order of first citation in body.
-    Uncited URLs from the References list are appended after, stable by old index.
-    """
-    if not ref_map:
-        return {}, {}
-
-    ordered_old: List[int] = []
-    used: Set[int] = set()
-    for n in _collect_citation_numbers_in_order(body_md):
-        if n not in used:
-            ordered_old.append(n)
-            used.add(n)
-    for k in sorted(ref_map.keys()):
-        if k not in used:
-            ordered_old.append(k)
-            used.add(k)
-
-    old_to_new = {old: i + 1 for i, old in enumerate(ordered_old)}
-    new_ref_map = {old_to_new[old]: ref_map[old] for old in ordered_old if old in ref_map}
-    return old_to_new, new_ref_map
-
-
-def _rewrite_citation_markers(text: str, old_to_new: Dict[int, int]) -> str:
-    if not old_to_new:
-        return text
-
-    def repl(m: re.Match[str]) -> str:
-        inner = m.group(1)
-        parts_out: List[str] = []
-        for x in inner.split(","):
-            xs = x.strip()
-            if xs.isdigit():
-                n = int(xs)
-                parts_out.append(str(old_to_new.get(n, n)))
-            elif xs:
-                parts_out.append(xs)
-        return "[" + ", ".join(parts_out) + "]"
-
-    return _CITATION_IN_TEXT.sub(repl, text)
-
-
-def _rewrite_sections_citations(
-    sections: Dict[str, Dict[str, str]], old_to_new: Dict[int, int]
-) -> Dict[str, Dict[str, str]]:
-    if not old_to_new:
-        return sections
-    out: Dict[str, Dict[str, str]] = {}
-    for sec_name, fields in sections.items():
-        if sec_name.strip().lower() == "references":
-            out[sec_name] = dict(fields)
-            continue
-        out[sec_name] = {k: _rewrite_citation_markers(v, old_to_new) for k, v in fields.items()}
-    return out
-
-
-def _linkify_citations(escaped_text: str, refs: Dict[int, str]) -> str:
-    def repl(match: re.Match[str]) -> str:
-        inner = match.group(1)
-        raw_nums = [x.strip() for x in inner.split(",") if x.strip()]
-        nums: List[int] = []
-        for x in raw_nums:
-            if x.isdigit():
-                nums.append(int(x))
-        if not nums:
-            return match.group(0)
-
-        pieces: List[str] = []
-        for j, n in enumerate(nums):
-            if j:
-                pieces.append('<span style="color:#111;">,</span>')
-            url = refs.get(n)
-            if url:
-                safe_url = html.escape(_href(url), quote=True)
-                pieces.append(
-                    f'<a href="{safe_url}" target="_blank" rel="noopener noreferrer" '
-                    f'title="Source [{n}]" '
-                    'style="color:#0b57d0;font-weight:700;text-decoration:underline;">'
-                    f"{n}</a>"
-                )
-            else:
-                pieces.append(f'<span style="color:#666;font-weight:600;" title="No URL for [{n}]">{n}</span>')
-        inner_html = "".join(pieces)
-        return (
-            f'<sup style="font-size:0.72em;white-space:nowrap;line-height:1;">'
-            f'<span style="color:#111;">[</span>{inner_html}<span style="color:#111;">]</span>'
-            f"</sup>"
-        )
-
-    return _CITATION_IN_TEXT.sub(repl, escaped_text)
-
-
-def _linkify_urls(escaped_text: str) -> str:
-    # Convert markdown links first (still visible after escaping).
-    escaped_text = _MD_LINK.sub(
-        lambda m: (
-            f'<a href="{html.escape(_href(m.group(2)), quote=True)}" target="_blank" rel="noopener noreferrer" '
-            'style="color:#0b57d0;font-weight:700;text-decoration:underline;">'
-            f"{html.escape(m.group(1))}</a>"
-        ),
-        escaped_text,
-    )
-
-    # Then convert bare URLs.
-    escaped_text = _URL.sub(
-        lambda m: (
-            f'<a href="{html.escape(_href(m.group(1)), quote=True)}" target="_blank" rel="noopener noreferrer" '
-            'style="color:#0b57d0;font-weight:700;word-break:break-all;text-decoration:underline;">'
-            f"{m.group(1)}</a>"
-        ),
-        escaped_text,
-    )
-    return escaped_text
-
-
-def _format_field(text: str, refs: Dict[int, str], hide_citations: bool, *, linkify_urls: bool = False) -> str:
-    text = _strip_citations_immediately_after_dr(text)
-    text = _unwrap_latex_inline_delimiters(text)
-    if hide_citations:
-        base = html.escape(_strip_citations(text))
-        return _linkify_urls(base) if linkify_urls else base
-
-    base = html.escape(text)
-    if linkify_urls:
-        base = _linkify_urls(base)
-    return _linkify_citations(base, refs)
-
-
-def _parse_model_card_md(md_text: str) -> Dict[str, Dict[str, str]]:
-    sections: Dict[str, Dict[str, str]] = {}
-    current_section = "Unsectioned"
-    sections[current_section] = {}
-    # Last `##` title — each `###` is `## title — ### title` (do not chain ###).
-    last_h2_section = current_section
-
-    field_re = re.compile(r"^\s*[-*]\s+\*\*(?:(?P<a>.+?):\*\*|(?P<b>.+?)\*\*:)\s*(?P<val>.*)\s*$")
-    heading2_re = re.compile(r"^\s*##\s+(.*)\s*$")
-    heading3_re = re.compile(r"^\s*###\s+(.*)\s*$")
-
-    last_key: Optional[Tuple[str, str]] = None
-
-    for raw in md_text.splitlines():
-        line = raw.rstrip()
-
-        m2 = heading2_re.match(line)
-        if m2:
-            current_section = m2.group(1).strip()
-            last_h2_section = current_section
-            sections.setdefault(current_section, {})
-            last_key = None
-            continue
-
-        m3 = heading3_re.match(line)
-        if m3:
-            current_section = f"{last_h2_section} — {m3.group(1).strip()}"
-            sections.setdefault(current_section, {})
-            last_key = None
-            continue
-
-        fm = field_re.match(line)
-        if fm:
-            field = (fm.group("a") or fm.group("b") or "").strip()
-            value = (fm.group("val") or "").strip()
-            sections[current_section][field] = value
-            last_key = (current_section, field)
-            continue
-
-        if last_key and (line.startswith("  ") or line.startswith("\t")) and line.strip():
-            sec, field = last_key
-            prev = sections[sec].get(field, "")
-            joiner = " " if prev else ""
-            sections[sec][field] = f"{prev}{joiner}{line.strip()}"
-            continue
-
-    return sections
-
-
-def _block_rich(label: str, value_html: str) -> str:
-    return (
-        f'<div style="{_ROW}">'
-        f'<div style="{_LBL}">{html.escape(label)}</div>'
-        f'<div style="{_VAL}">{value_html}</div>'
-        "</div>"
-    )
-
-
-def _section(title: str) -> str:
-    return (
-        f'<div style="{_RULE_THICK}"></div>'
-        f'<div style="{_SECTION}">{html.escape(title)}</div>'
-        f'<div style="{_RULE_THIN}"></div>'
-    )
-
-
-def _references_block(refs: Dict[int, str]) -> str:
-    if not refs:
-        return ""
-    rows: List[str] = []
-    for n in sorted(refs.keys()):
-        u = refs[n]
-        safe_href = html.escape(_href(u), quote=True)
-        rows.append(
-            f'<div style="{_REF_ROW}">'
-            f'<span style="font-weight:800;">[{n}]</span> '
-            f'<a href="{safe_href}" target="_blank" rel="noopener noreferrer" '
-            'style="color:#0b57d0;font-weight:600;word-break:break-all;text-decoration:underline;">'
-            f"{html.escape(u)}"
-            f"</a>"
-            f"</div>"
-        )
-    return (
-        f'<div style="{_RULE_MED}"></div>'
-        f'<div style="{_SECTION}">References</div>'
-        f'<div style="{_RULE_THIN}"></div>'
-        f'{"".join(rows)}'
-    )
-
-
-def _render_full_card_html(
-    *,
-    sections: Dict[str, Dict[str, str]],
-    refs: Dict[int, str],
-    doc_title: Optional[str],
-    source_label: str,
-    hide_citations: bool,
-    manual_linkify: bool,
-) -> str:
-    fmt = lambda t: _format_field(t, refs, hide_citations, linkify_urls=manual_linkify)
-    parts: List[str] = [
-        f'<div style="{_WRAP}">',
-        f'<div style="{_TITLE}">AI Model Card</div>',
-        f'<div style="{_SUB}">Source · <span style="{_MONO}">{html.escape(source_label)}</span></div>',
+def _provenance_legend_html() -> str:
+    """Sidebar legend with pastel swatches matching PROVENANCE_ROW_STYLE."""
+    rows = [
+        ("#d8f3dc", "#2d6a4f", "Public source + survey reported"),
+        ("#d9e8ff", "#1e6091", "Public source, not in survey"),
+        ("#fff9e6", "#d4a017", "Survey only, not publicly available"),
+        ("#fde8e8", "#c1121f", "Not reported publicly or in survey"),
     ]
-    if doc_title:
-        parts.append(f'<div style="{_DOC_TITLE}">{html.escape(doc_title)}</div>')
-    parts.append(f'<div style="{_RULE_THICK}"></div>')
-
-    refs_heading_only = "references"
-    for sec_name, fields in sections.items():
-        if sec_name == "Unsectioned" and not fields:
-            continue
-        # Reference lines are [n] URL; parsed separately — skip empty shell
-        if sec_name.strip().lower() == refs_heading_only and not fields:
-            continue
-        if not fields:
-            continue
-
-        parts.append(_section(sec_name))
-        for field_name, value in fields.items():
-            parts.append(_block_rich(field_name, fmt(value)))
-
-    ref_html = _references_block(refs)
-    if ref_html:
-        parts.append(ref_html)
-
-    parts.append(
-        f'<div style="{_FOOT}">'
-        "Citation markers link to numbered URLs when shown. "
-        "Content is rendered from the markdown model card file."
-        "</div>"
-    )
-    parts.append("</div>")
-    return "\n".join(parts)
+    parts = []
+    for bg, ac, label in rows:
+        parts.append(
+            f'<div style="display:flex;align-items:center;gap:8px;margin:4px 0;font-size:12px;">'
+            f'<span style="display:inline-block;width:14px;height:14px;border-radius:3px;'
+            f"background:{bg};border:2px solid {ac};\"></span>"
+            f"<span>{label}</span></div>"
+        )
+    return "".join(parts)
 
 
 st.set_page_config(page_title="DermAUTO-CARD", layout="wide")
@@ -522,6 +124,13 @@ with st.sidebar:
     st.subheader("Display")
     hide_citations = st.checkbox("Hide citation markers", value=False)
     show_raw = st.checkbox("Show raw markdown preview", value=False)
+    color_provenance = st.checkbox("Color-code statement provenance", value=False)
+    if color_provenance:
+        st.markdown(
+            "<div style='margin-top:6px;font-weight:600;font-size:12px;'>Legend</div>"
+            + _provenance_legend_html(),
+            unsafe_allow_html=True,
+        )
 
 if uploaded is not None:
     md_text = uploaded.read().decode("utf-8", errors="replace")
@@ -538,26 +147,45 @@ if not md_text.strip():
     st.warning("Pick or upload a markdown file to render.")
     st.stop()
 
-md_for_parse = _normalize_md_for_parsing(md_text)
+md_for_parse = normalize_md_for_parsing(md_text)
 is_manual = source_label.strip().lower().startswith("b ·")
-ref_map = _parse_references(md_for_parse, allow_sources_heading=is_manual)
-body_md = _body_before_references(md_for_parse, allow_sources_heading=is_manual)
-_old_to_new, ref_map = _build_ref_renumbering(body_md, ref_map)
-sections = _parse_model_card_md(md_for_parse)
-sections = _rewrite_sections_citations(sections, _old_to_new)
-doc_title = _extract_doc_title(md_for_parse)
+ref_map = parse_references(md_for_parse, allow_sources_heading=is_manual)
+body_md = body_before_references(md_for_parse, allow_sources_heading=is_manual)
+_old_to_new, ref_map = build_ref_renumbering(body_md, ref_map)
+sections = parse_model_card_md(md_for_parse)
+sections = rewrite_sections_citations(sections, _old_to_new)
+doc_title = extract_doc_title(md_for_parse)
 # UI-only: autogenerated sidebar cards (A ·) use CHAI H1 "… (v0.3)"; strip for display.
 if doc_title and not is_manual:
     doc_title = re.sub(r"\s*\(v0\.3\)\s*$", "", doc_title, flags=re.IGNORECASE).strip() or None
-doc_title = _strip_chai_model_card_suffix(doc_title)
+doc_title = strip_chai_model_card_suffix(doc_title)
 
-card_html = _render_full_card_html(
+provenance_by_key = None
+if color_provenance:
+    column_map = load_column_field_map_yaml(default_field_map_path())
+    survey_row = None
+    xlsx_path = default_forms_xlsx()
+    if xlsx_path.exists():
+        _, data_rows = read_xlsx_first_sheet(xlsx_path)
+        survey_row = match_survey_row_for_title(data_rows, doc_title)
+    survey_keys = survey_reported_composite_keys(
+        survey_row=survey_row,
+        column_to_fields=column_map,
+    )
+    provenance_by_key = compute_provenance_for_sections(
+        sections,
+        ref_map,
+        survey_keys if survey_row is not None else None,
+    )
+
+card_html = render_full_card_html(
     sections=sections,
     refs=ref_map,
     doc_title=doc_title,
     source_label=source_label,
     hide_citations=hide_citations,
     manual_linkify=is_manual,
+    provenance_by_key=provenance_by_key,
 )
 
 if hasattr(st, "html"):
