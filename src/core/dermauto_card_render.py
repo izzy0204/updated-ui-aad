@@ -430,10 +430,7 @@ def render_full_card_html(
         parts.append(ref_html)
 
     parts.append(
-        f'<div style="{FOOT}">'
-        "Citation markers link to numbered URLs when shown. "
-        "Content is rendered from the markdown model card file."
-        "</div>"
+        f'<div style="{FOOT}">Citation markers link to numbered URLs when shown.</div>'
     )
     parts.append("</div>")
     return "\n".join(parts)
