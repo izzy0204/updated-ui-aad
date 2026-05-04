@@ -59,10 +59,10 @@ def _resolve_md_path(filename: str) -> Optional[Path]:
 def _provenance_legend_html() -> str:
     """Sidebar legend with pastel swatches matching PROVENANCE_ROW_STYLE."""
     rows = [
-        ("#d8f3dc", "#2d6a4f", "Public source + survey reported"),
-        ("#d9e8ff", "#1e6091", "Public source, not in survey"),
-        ("#fff9e6", "#d4a017", "Survey only, not publicly available"),
-        ("#fde8e8", "#c1121f", "Not reported publicly or in survey"),
+        ("#d8f3dc", "#2d6a4f", "Public source + industry survey reported"),
+        ("#d9e8ff", "#1e6091", "Public source, not in industry survey"),
+        ("#fff9e6", "#d4a017", "Industry survey only, not publicly available"),
+        ("#fde8e8", "#c1121f", "Not reported publicly or in industry survey"),
     ]
     parts = []
     for bg, ac, label in rows:
