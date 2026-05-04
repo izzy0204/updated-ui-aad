@@ -6,7 +6,7 @@
 - **Inquiries or to report an issue:** General inquiries and support via knowledge base [3]; contact page [4]
 - **Release Stage:** FDA-cleared handheld device using ESS + proprietary neural network algorithm; algorithm details not fully public. [5,9]
 - **Release Date:** FDA authorization announced January 17, 2024; Breakthrough Device designation in 2021. [6,7]
-- **Version:** Handheld device; version not publicly specified.
+- **Version:** Software Version: 3.0.2 (Class 2 Device Recall initiated October 13, 2025); handheld device form factor. [9]
 - **Regulatory Approval Status, if applicable:** FDA De Novo / Class II classification for “Software-aided adjunctive diagnostic devices for use by non-dermatology providers of lesions suspicious for skin cancer.” [8,9,10]
 - **Global Availability:** FDA-cleared and available for sale in the U.S.; CE marked; waitlist/limited state availability described publicly. [12,13]
 - **Summary:** Connected handheld device intended to help frontline providers assess lesions suspicious for melanoma/BCC/SCC and inform referral decisions, producing results in seconds. [14,18]

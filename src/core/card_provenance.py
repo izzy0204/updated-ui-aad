@@ -15,9 +15,16 @@ _ABSENCE_PHRASES: tuple[str, ...] = (
 
 
 def field_is_absence_placeholder(raw_value: str) -> bool:
-    """True when the text signals missing/unknown info (always tier red)."""
+    """True when the text signals missing/unknown info (always tier red).
+
+    Longer answers that merely contain \"not specified\" (e.g. device facts plus
+    \"version not publicly specified\") are scored normally so citations/survey apply.
+    """
     text = strip_citations(raw_value).strip().lower()
     if not text:
+        return False
+    # Substantive prose: do not downgrade solely due to an embedded absence phrase.
+    if len(text) >= 42:
         return False
     return any(p in text for p in _ABSENCE_PHRASES)
 
