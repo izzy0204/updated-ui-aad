@@ -65,7 +65,7 @@
 - **Peer-Reviewed Publication(s):** Examples of related publications include: [10,11]
   - https://derma.jmir.org/2025/1/e74040
   - https://pmc.ncbi.nlm.nih.gov/articles/PMC12677980/
-- **Reimbursement status, if applicable:** N/A / not specified.
+- **Reimbursement status, if applicable:** Not specified.
 - **Stakeholders consulted during design of solution:** Not specified.
 
 ## References

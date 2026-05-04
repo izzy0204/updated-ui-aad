@@ -64,7 +64,7 @@
 - **Evaluation References, if available:** See pivotal study summary PDF and related publications. [18,15,16]
 - **Clinical Trial, if available:** Study evidence and summaries described in the clinical evidence PDF. [18]
 - **Peer-Reviewed Publication(s):** PubMed entry and related publications. [16]
-- **Reimbursement status, if applicable:** Not specified / N/A in public sources reviewed.
+- **Reimbursement status, if applicable:** Not specified in public sources reviewed.
 - **Stakeholders consulted during design of solution:** Board / leadership information listed by the developer. [29]
 
 ## References

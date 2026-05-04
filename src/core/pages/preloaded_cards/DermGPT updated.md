@@ -42,7 +42,7 @@
 - **Output/Input Data Type:** Input: natural language text; Output: natural language text (with citations), plus generated documents/letters. [1,2]
 - **Training Data:** Dermatology peer-reviewed literature and published sources; full dataset not disclosed. [2,7]
 - **Dataset Transparency:** Not fully disclosed; users should treat as complementary tool with human oversight. [2,7]
-- **Ongoing Maintenance:** Described as continuously updated and improved. [1]
+- **Ongoing Maintenance:** Described as continuously updated and improved. [1] Service/uptime terms are published at https://www.dermgpt.com/sla.
 
 ## 5) Key Metrics
 
@@ -74,7 +74,7 @@
 - **Peer-Reviewed Publication(s):** Examples of related publications include: [10,11]
   - [https://derma.jmir.org/2025/1/e74040](https://derma.jmir.org/2025/1/e74040)
   - [https://pmc.ncbi.nlm.nih.gov/articles/PMC12677980/](https://pmc.ncbi.nlm.nih.gov/articles/PMC12677980/)
-- **Reimbursement status, if applicable:** N/A / not specified.
+- **Reimbursement status, if applicable:** Not specified.
 - **Stakeholders consulted during design of solution:** Not specified.
 
 ## References
