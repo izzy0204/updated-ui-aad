@@ -76,6 +76,14 @@ def _strip_citations_immediately_after_dr(text: str) -> str:
     )
 
 
+def _unwrap_latex_inline_delimiters(text: str) -> str:
+    """Turn LaTeX-style \\(...\\) into (...) for display (common in pasted exports).
+
+    Uses [^\\\\] for the inner span so digits like '3,000+' do not break regex (+ stays literal).
+    """
+    return re.sub(r"\\\(([^\\]*?)\\\)", r"(\1)", text)
+
+
 def _normalize_md_for_parsing(md_text: str) -> str:
     """
     Normalize a few common markdown variants so cards render consistently:
@@ -309,11 +317,12 @@ def _linkify_urls(escaped_text: str) -> str:
 
 
 def _format_field(text: str, refs: Dict[int, str], hide_citations: bool, *, linkify_urls: bool = False) -> str:
+    text = _strip_citations_immediately_after_dr(text)
+    text = _unwrap_latex_inline_delimiters(text)
     if hide_citations:
         base = html.escape(_strip_citations(text))
         return _linkify_urls(base) if linkify_urls else base
 
-    text = _strip_citations_immediately_after_dr(text)
     base = html.escape(text)
     if linkify_urls:
         base = _linkify_urls(base)

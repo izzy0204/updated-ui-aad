@@ -7,7 +7,7 @@
 - **Inquiries or to report an issue:** No clear contact / FAQ located in the reviewed sources. [4]
 - **Release Stage:** Not specified in reviewed sources.
 - **Release Date:** Listed as November 11, 2023 on a directory page. [3]
-- **Version:** Not specified; described as a dermatology-focused language model built on \(3,000+\) peer-reviewed articles/texts. [2]
+- **Version:** Not specified; described as a dermatology-focused language model built on (3,000+) peer-reviewed articles/texts. [2]
 - **Regulatory Approval Status, if applicable:** Not FDA approved / not described as a regulated medical device in reviewed sources. [1,4]
 - **Global Availability:** Not specified in reviewed sources.
 - **Summary:** DermGPT is described as an AI-powered dermatology chatbot intended to improve clinic productivity and streamline dermatology workflows by providing cited answers from curated dermatology literature. [1,2,4]
@@ -28,7 +28,7 @@
 - **Clinical Risk Level:** Not explicitly stated; likely low-to-moderate because it is a language assistant that could still produce incorrect medical content if misused. [6]
 
 ## 4) Trust Ingredients
-- **AI System Facts:** Described as a dermatology-focused language model trained/built on \(3,000+\) peer-reviewed dermatology articles and texts, returning cited answers. [1,2,4]
+- **AI System Facts:** Described as a dermatology-focused language model trained/built on (3,000+) peer-reviewed dermatology articles and texts, returning cited answers. [1,2,4]
 - **Model Type:** Informative / workflow support LLM (language-based model). [1,2]
 - **Interaction with other systems:** Not specified.
 - **Outcomes & Output:** Natural-language answers and drafts for clinical/admin tasks (e.g., patient education, prior authorizations, messaging responses, study support). [1,2,4]
