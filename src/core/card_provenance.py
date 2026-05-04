@@ -4,7 +4,22 @@ from __future__ import annotations
 
 from typing import Dict, Optional, Set
 
-from core.dermauto_card_render import CITATION_IN_TEXT, URL, composite_section_field_key
+from core.dermauto_card_render import CITATION_IN_TEXT, URL, composite_section_field_key, strip_citations
+
+# Case-insensitive absence wording → always tier red (overrides citations/survey).
+_ABSENCE_PHRASES: tuple[str, ...] = (
+    "not specified",
+    "none found",
+    "none disclosed",
+)
+
+
+def field_is_absence_placeholder(raw_value: str) -> bool:
+    """True when the text signals missing/unknown info (always tier red)."""
+    text = strip_citations(raw_value).strip().lower()
+    if not text:
+        return False
+    return any(p in text for p in _ABSENCE_PHRASES)
 
 
 def field_has_public_source(raw_value: str, refs: Dict[int, str]) -> bool:
@@ -50,6 +65,9 @@ def compute_provenance_for_sections(
             continue
         for field_name, raw_value in fields.items():
             ck = composite_section_field_key(sec_name, field_name)
+            if field_is_absence_placeholder(raw_value):
+                out[ck] = "red"
+                continue
             public = field_has_public_source(raw_value, refs)
             survey = bool(survey_reported_keys and ck in survey_reported_keys)
             out[ck] = provenance_tier(public=public, survey=survey)
