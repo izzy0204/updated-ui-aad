@@ -6,8 +6,8 @@
 - **Inquiries or to report an issue:** security@withtandem.com
 - **Release Stage:** Commercially available. [3]
 - **Release Date:** Company founded 2023. [4]
-- **Version:** Not disclosed.
-- **Regulatory Approval Status, if applicable:** No FDA clearance or approval disclosed or required (administrative workflow automation). Platform is described as HIPAA-compliant and SOC 2 Type II certified; not classified as a medical device by Tandem. [5]
+- **Version:** Not specified.
+- **Regulatory Approval Status, if applicable:** No FDA clearance or approval specified or required (administrative workflow automation). Platform is described as HIPAA-compliant and SOC 2 Type II certified; not classified as a medical device by Tandem. [5]
 - **Global Availability:** Available in the United States; availability abroad not clearly specified. [1]
 - **Summary:** Tandem is an AI-powered platform that automates end-to-end medication access workflows (prior authorization submission, appeals, pharmacy routing, affordability/patient assistance enrollment, and patient communication). Integrates with provider EHRs; offered free to providers and patients (per developer materials). [1]
 - **Keywords:** prior authorization; NLP; AI; medication access; pharmacy routing; EHR integration; appeals automation; patient support programs; HIPAA; healthcare workflow automation. [1]
@@ -21,9 +21,9 @@
 - **Patient consent or disclosure required or suggested?:** Patient opt-in/consent described for participation and communications (SMS/phone outreach). [5]
 
 ## 3) Warnings
-- **Developer-Supplied Warnings:** No formal warnings disclosed; platform notes include: electronic prescription workflows only; optional EHR integration; manual upload required without integration; provider review/approval before submissions; administrative automation tool that does not replace clinical judgment. [5]
+- **Developer-Supplied Warnings:** No formal warnings specified; platform notes include: electronic prescription workflows only; optional EHR integration; manual upload required without integration; provider review/approval before submissions; administrative automation tool that does not replace clinical judgment. [5]
 - **Model Limitations:** Described limitations include scope focused on medication PAs (not all categories), variability in performance for complex cases or non-responsive patients, not a full replacement for PA specialists, and limited public disclosure of model error rates. [6]
-- **Skin type representation & equity:** Not applicable to core function (administrative workflow); not disclosed. 
+- **Skin type representation & equity:** Not applicable to core function (administrative workflow); not specified. 
 - **Clinical Risk Level:** Low-to-moderate; errors/delays could affect medication access; designed with human-in-the-loop provider review. [5]
 
 ## 4) Trust Ingredients
@@ -32,14 +32,14 @@
 - **Interaction with other systems:** Integrates with EHRs (e.g., Epic, athenahealth, eClinicalWorks, ModMed) and interacts with payer/PBM systems and pharmacy routing; partner announcements include OpenEvidence. [5,8]
 - **Outcomes & Output:** Completed PA forms, payer follow-up coordination, appeal letters (clinician-approved), enrollment workflows, pharmacy routing, and real-time patient status communications via text; staff dashboards. [1,5]
 - **Explanation for how an output is generated:** Pull/ingest patient records and prescription data (via integration or upload), match to payer requirements, generate forms/appeals, require provider approval, submit and follow up, learn from outcomes. [1,5]
-- **Foundation Models Used in application, if applicable:** Not disclosed; public statements suggest leveraging existing foundation models rather than training from scratch. [4]
+- **Foundation Models Used in application, if applicable:** Not specified; public statements suggest leveraging existing foundation models rather than training from scratch. [4]
 - **Input Data Source:** Electronic prescriptions (structured), clinical records/notes (unstructured), payer rules, insurance data, historical outcomes, and patient communications. [1,5]
 - **Output/Input Data Type:** Inputs include structured and unstructured clinical/admin data; outputs include structured forms, letters, routing instructions, portal updates, and SMS messages. [1,5]
-- **Dataset Transparency:** Not disclosed; training data described as proprietary “first-party” authorization interaction data. [7]
-- **Validation/Test Dataset:** Not disclosed.
+- **Dataset Transparency:** Not specified; training data described as proprietary “first-party” authorization interaction data. [7]
+- **Validation/Test Dataset:** Not specified.
 - **Ongoing Maintenance:** Continuous improvement described as platform scales. [1]
 - **Security and compliance environment practices or accreditations, if applicable:** HIPAA-compliant and SOC 2 Type II certified per developer; encryption and U.S.-based data storage described. [5]
-- **Transparency, Intelligibility, and Accountability mechanisms, if applicable:** Human-in-the-loop provider approval; status dashboard; embedded clinical team; no public external audits/model cards disclosed. [5]
+- **Transparency, Intelligibility, and Accountability mechanisms, if applicable:** Human-in-the-loop provider approval; status dashboard; embedded clinical team; no public external audits/model cards specified. [5]
 - **Funding Source of the technical implementation:** Venture-backed; product offered free to providers/patients; revenue model described as supported by pharma partners. [1]
 - **3rd Party Information, if applicable:** Partner announcements (e.g., OpenEvidence); EHR integrations; large-scale deployment case study described for DOCS Dermatology Group; industry/org partnerships described. [8,9,14]
 
@@ -47,16 +47,16 @@
 ### Usefulness / Efficacy
 - **Goal of Metric(s):** Improve PA approval speed/likelihood and reduce administrative burden. [1]
 - **Result:** Marketing claims include higher PA approval rate, faster medication access, time saved per PA, same-day initiation, and shorter time-to-approval; background context references AMA prior authorization survey. [1,15]
-- **Interpretation:** Internal metrics suggest reduced administrative burden; independent validation not publicly disclosed. [1]
-- **Test Type:** Internal platform metrics; no peer-reviewed validation disclosed. [1]
-- **Testing Data Description:** Not disclosed. [1]
-- **Validation Process and Justification:** Not disclosed. [1]
+- **Interpretation:** Internal metrics suggest reduced administrative burden; independent validation not publicly specified. [1]
+- **Test Type:** Internal platform metrics; no peer-reviewed validation specified. [1]
+- **Testing Data Description:** Not specified. [1]
+- **Validation Process and Justification:** Not specified. [1]
 
 ### Fairness & Equity
-- **Goal of Metric(s):** Not disclosed; positioning suggests broad coverage across drugs/insurers/pharmacies. [1]
-- **Result:** Not disclosed; affordability features described. [1]
-- **Interpretation:** Not disclosed.
-- **Test Type:** Not disclosed.
+- **Goal of Metric(s):** Not specified; positioning suggests broad coverage across drugs/insurers/pharmacies. [1]
+- **Result:** Not specified; affordability features described. [1]
+- **Interpretation:** Not specified.
+- **Test Type:** Not specified.
 
 ### Safety & Reliability
 - **Goal of Metric(s):** Security compliance (HIPAA, SOC 2) and safe, provider-approved submission workflows. [5]
@@ -67,8 +67,8 @@
 
 ## 6) Resources
 - **Evaluation References, if available:** No peer-reviewed evaluation studies identified; developer case studies and blog posts referenced; additional case study described for DOCS Dermatology Group. [1,14]
-- **Clinical Trial, if available:** None found in cited materials.
-- **Peer-Reviewed Publication(s):** None found in cited materials.
+- **Clinical Trial, if available:** Not specified.
+- **Peer-Reviewed Publication(s):** Not specified.
 - **Reimbursement status, if applicable:** Platform described as free to providers and patients; revenue model described as supported by pharma partners; no reimbursement codes apply. [1,9]
 - **Stakeholders consulted during design of solution:** Clinical Intelligence team described; founder background and investor/healthcare council connections referenced. [1,2]
 
