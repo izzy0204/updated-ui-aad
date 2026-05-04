@@ -66,6 +66,16 @@ def _strip_citations(text: str) -> str:
     return re.sub(r"\s*\[\s*\d+(?:\s*,\s*\d+)*\s*\]", "", text).strip()
 
 
+def _strip_citations_immediately_after_dr(text: str) -> str:
+    """Avoid superscript cite clusters glued to the honorific (e.g. 'Dr. [1,2]' → 'Dr.')."""
+    return re.sub(
+        r"(Dr\.)\s*\[\s*\d+(?:\s*,\s*\d+)*\s*\]",
+        r"\1",
+        text,
+        flags=re.IGNORECASE,
+    )
+
+
 def _normalize_md_for_parsing(md_text: str) -> str:
     """
     Normalize a few common markdown variants so cards render consistently:
@@ -303,6 +313,7 @@ def _format_field(text: str, refs: Dict[int, str], hide_citations: bool, *, link
         base = html.escape(_strip_citations(text))
         return _linkify_urls(base) if linkify_urls else base
 
+    text = _strip_citations_immediately_after_dr(text)
     base = html.escape(text)
     if linkify_urls:
         base = _linkify_urls(base)
