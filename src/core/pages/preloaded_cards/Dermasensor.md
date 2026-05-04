@@ -29,7 +29,7 @@
 ## 4) Trust Ingredients
 - **AI System Facts:** ESS spectroscopy captures wavelength-dependent backscatter; preprocessing + proprietary neural network compares pattern against training data from histopathology-confirmed lesions; returns risk output to aid referral decisions. [5,18,20,21]
 - **Model Type:** Predictive / risk stratification adjunctive device output (Investigate Further vs Monitor) rather than direct diagnosis. [18,20]
-- **Interaction with other systems:** Used as a point-of-care device within clinical workflows; no public details on EHR integration.
+- **Interaction with other systems:** The DermaSensor device is a handheld unit that interacts with a base unit for battery recharging and calibration. [2,4,5,9] It is designed for use by physicians who are not dermatologists as an adjunctive device following identification of a suspicious skin lesion; output is shown on the device interface as part of the clinical visit. [2,4,5,9]
 - **Outcomes & Output:** Output includes referral-oriented risk classification and score; intended to improve triage and reduce missed cancers by clinicians in reader studies. [18,20]
 - **Explanation for how an output is generated:** Broadband light pulses interact with tissue microstructure; backscattered spectra are captured and analyzed by the locked algorithm validated in clinical studies. [5,18,20,21]
 - **Foundation Models Used in application, if applicable:** Proprietary ML algorithm; foundation model usage not disclosed publicly. [21]

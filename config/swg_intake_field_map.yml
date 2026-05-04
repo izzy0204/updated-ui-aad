@@ -24,8 +24,6 @@ columns:
   J:
   - 1) Metadata|||Release Date
   - 1) Metadata|||Version
-  R:
-  - 2) Uses & Directions|||Patient consent or disclosure required or suggested?
   V:
   - 1) Metadata|||Regulatory Approval Status, if applicable
   - 5) Key Metrics — Safety & Reliability|||Validation Process and Justification
@@ -33,5 +31,6 @@ columns:
   - 4) Trust Ingredients|||Security and compliance environment practices or accreditations, if applicable
   W:
   - 1) Metadata|||Inquiries or to report an issue
+  - 2) Uses & Directions|||Patient consent or disclosure required or suggested?
 _meta:
   description: Maps Excel column letters to CHAI field composite keys (section|||field). Edit manually when inference mis-assigns.

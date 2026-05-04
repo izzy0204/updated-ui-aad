@@ -1,7 +1,7 @@
 # Tandem — CHAI Model Card
 
 ## 1) Metadata
-- **Model Name:** Not disclosed.
+- **Model Name:** Tandem [1]
 - **Developer:** Tandem Technology, Inc. Founder & CEO is Sahir Jaggi. Clinical Intelligence led by Adam Harris, MD and Kathleen Alvarez, NP. [1,2]
 - **Inquiries or to report an issue:** security@withtandem.com
 - **Release Stage:** Commercially available. [3]
@@ -10,7 +10,7 @@
 - **Regulatory Approval Status, if applicable:** No FDA clearance or approval disclosed or required (administrative workflow automation). Platform is described as HIPAA-compliant and SOC 2 Type II certified; not classified as a medical device by Tandem. [5]
 - **Global Availability:** Available in the United States; availability abroad not clearly specified. [1]
 - **Summary:** Tandem is an AI-powered platform that automates end-to-end medication access workflows (prior authorization submission, appeals, pharmacy routing, affordability/patient assistance enrollment, and patient communication). Integrates with provider EHRs; offered free to providers and patients (per developer materials). [1]
-- **Keywords:** prior authorization; NLP; AI; medication access; pharmacy routing; EHR integration; appeals automation; patient support programs; HIPAA; healthcare workflow automation.
+- **Keywords:** prior authorization; NLP; AI; medication access; pharmacy routing; EHR integration; appeals automation; patient support programs; HIPAA; healthcare workflow automation. [1]
 
 ## 2) Uses & Directions
 - **Intended Use & Workflow:** Automate steps of obtaining prior authorization for medications, including PA form generation/submission, appeals, pharmacy navigation, and patient communication. [1]
