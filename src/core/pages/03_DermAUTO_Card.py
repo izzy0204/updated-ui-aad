@@ -1,6 +1,13 @@
 import re
+import sys
 from pathlib import Path
 from typing import Dict, List, Optional, Tuple
+
+# Streamlit Cloud (and some launch configs) do not load repo-root `sitecustomize.py`;
+# ensure `src/` is importable as package root `core`.
+_SRC_DIR = Path(__file__).resolve().parents[2]
+if str(_SRC_DIR) not in sys.path:
+    sys.path.insert(0, str(_SRC_DIR))
 
 import streamlit as st
 
