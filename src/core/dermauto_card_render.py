@@ -41,6 +41,8 @@ SECTIONLIKE_H1 = re.compile(r"^\s*#\s+\*{0,2}\s*\d+\s*\\?[.)]\s+.+", re.IGNORECA
 HEADING_BOLD_WRAPPER = re.compile(r"^\s*(\*{1,2})(.+?)\1\s*$")
 MD_LINK = re.compile(r"\[([^\]]+)\]\((https?://[^)]+)\)")
 URL = re.compile(r"(https?://[^\s<>()]+)")
+# After markdown links become <a>...</a>, avoid wrapping the same URL again (nested/broken anchors).
+_ANCHOR_BLOCKS = re.compile(r"(<a\b[^>]*>.*?</a>)", re.IGNORECASE | re.DOTALL)
 
 
 def composite_section_field_key(section_name: str, field_name: str) -> str:
@@ -269,15 +271,20 @@ def linkify_urls(escaped_text: str) -> str:
         escaped_text,
     )
 
-    escaped_text = URL.sub(
-        lambda m: (
+    def _url_anchor(m: re.Match[str]) -> str:
+        return (
             f'<a href="{html.escape(href(m.group(1)), quote=True)}" target="_blank" rel="noopener noreferrer" '
             'style="color:#0b57d0;font-weight:700;word-break:break-all;text-decoration:underline;">'
             f"{m.group(1)}</a>"
-        ),
-        escaped_text,
-    )
-    return escaped_text
+        )
+
+    parts: List[str] = []
+    for chunk in _ANCHOR_BLOCKS.split(escaped_text):
+        if chunk.lstrip().lower().startswith("<a"):
+            parts.append(chunk)
+        else:
+            parts.append(URL.sub(_url_anchor, chunk))
+    return "".join(parts)
 
 
 def format_field(text: str, refs: Dict[int, str], hide_citations: bool, *, linkify_urls_flag: bool = False) -> str:

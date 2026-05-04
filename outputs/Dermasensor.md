@@ -17,7 +17,7 @@
 - **Primary Intended Users:** Qualified healthcare professionals in clinical settings; marketed for non-dermatology providers in primary care and related outpatient settings. [5,17,20]
 - **Necessary knowledge/expertise:** Clinical assessment skills for lesion selection and interpretation; device is an adjunct to clinical judgment. [18,20]
 - **How to Use:** Three-step process (identify lesion → apply device/record spectra → receive result). Instructional materials and device instructions for use are referenced by the developer. [17,19,20]
-- **Targeted patient population:** Patients (often \(40+\)) with lesions already judged suspicious for melanoma/BCC/SCC where a referral decision is being considered. [18,20]
+- **Targeted patient population:** Patients (often 40+) with lesions already judged suspicious for melanoma/BCC/SCC where a referral decision is being considered. [18,20]
 - **Patient consent or disclosure required or suggested?:** Not clearly specified in public materials; likely follows local clinical/consent practices.
 
 ## 3) Warnings

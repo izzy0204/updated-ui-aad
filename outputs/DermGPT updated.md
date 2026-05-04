@@ -36,8 +36,8 @@
 - **Foundation Models Used in application, if applicable:** Not specified.
 - **Input Data Source:** User prompts and queries; underlying curated literature base. [1,2]
 - **Output/Input Data Type:** Input: natural language text; Output: natural language text (with citations), plus generated documents/letters. [1,2]
-- **Training Data:** Dermatology peer-reviewed literature and published sources; full dataset not disclosed. [2,7]
-- **Dataset Transparency:** Not fully disclosed; users should treat as complementary tool with human oversight. [2,7]
+- **Training Data:** Dermatology peer-reviewed literature and published sources; full dataset not specified in reviewed sources. [2,7]
+- **Dataset Transparency:** Not fully specified in reviewed sources; users should treat as complementary tool with human oversight. [2,7]
 - **Ongoing Maintenance:** Described as continuously updated and improved. [1]
 
 ## 5) Key Metrics
