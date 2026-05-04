@@ -94,6 +94,20 @@ def normalize_md_for_parsing(md_text: str) -> str:
     return "\n".join(out_lines)
 
 
+_REF_LINE_MARKDOWN_URL = re.compile(
+    r"^\s*\[([^\]]*)\]\((https?://[^)]+)\)\s*$",
+)
+
+
+def normalize_reference_url_value(raw: str) -> str:
+    """Turn `[text](https://...)` reference lines into a bare URL for citation hrefs."""
+    t = raw.strip()
+    m = _REF_LINE_MARKDOWN_URL.match(t)
+    if m:
+        return m.group(2).strip()
+    return t
+
+
 def parse_references(md_text: str, *, allow_sources_heading: bool = False) -> Dict[int, str]:
     refs: Dict[int, str] = {}
     lines = md_text.splitlines()
@@ -121,7 +135,7 @@ def parse_references(md_text: str, *, allow_sources_heading: bool = False) -> Di
                 m = re.match(r"^\s*\[(\d+)\]\s+(.+)$", line)
                 if m:
                     num = int(m.group(1))
-                    url = m.group(2).strip()
+                    url = normalize_reference_url_value(m.group(2).strip())
                     refs[num] = url
                 i += 1
             break

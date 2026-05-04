@@ -6,11 +6,11 @@
 - **Developer:** Dr. Faranak “Fara” Kamangar MD (board-certified dermatologist). [1,8]
 - **Application URL:** https://www.dermgpt.com/ [4]
 - **Inquiries or to report an issue:** No clear contact / FAQ located in the reviewed sources. [4]
-- **Release Stage:** Not specified in reviewed sources.
+- **Release Stage:** Not specified.
 - **Release Date:** Listed as November 11, 2023 on a directory page. [3]
 - **Version:** Not specified; described as a dermatology-focused language model built on (3,000+) peer-reviewed articles/texts. [2]
-- **Regulatory Approval Status, if applicable:** Not FDA approved / not described as a regulated medical device in reviewed sources. [1,4]
-- **Global Availability:** Not specified in reviewed sources.
+- **Regulatory Approval Status, if applicable:** Not FDA approved / not described as a regulated medical device. [1,4]
+- **Global Availability:** Not specified.
 - **Summary:** DermGPT is described as an AI-powered dermatology chatbot intended to improve clinic productivity and streamline dermatology workflows by providing cited answers from curated dermatology literature. [1,2,4]
 - **Keywords:** Not specified.
 
@@ -27,7 +27,7 @@
 
 - **Developer-Supplied Warnings:** AI can create inaccuracies; users should proofread content. [2]
 - **Model Limitations:** Not a substitute for professional medical advice; limitations include dependence on curated literature and typical LLM risks (incorrect outputs/hallucinations), mitigated by clinician oversight. [1,2]
-- **Skin type representation & equity:** Not specified in reviewed sources.
+- **Skin type representation & equity:** Not specified.
 - **Clinical Risk Level:** Not explicitly stated; likely low-to-moderate because it is a language assistant that could still produce incorrect medical content if misused. [6]
 
 ## 4) Trust Ingredients
@@ -40,8 +40,8 @@
 - **Foundation Models Used in application, if applicable:** Not specified.
 - **Input Data Source:** User prompts and queries; underlying curated literature base. [1,2]
 - **Output/Input Data Type:** Input: natural language text; Output: natural language text (with citations), plus generated documents/letters. [1,2]
-- **Training Data:** Dermatology peer-reviewed literature and published sources; full dataset not specified in reviewed sources. [2,7]
-- **Dataset Transparency:** Not fully specified in reviewed sources; users should treat as complementary tool with human oversight. [2,7]
+- **Training Data:** Dermatology peer-reviewed literature and published sources; full dataset not specified. [2,7]
+- **Dataset Transparency:** Not fully specified; users should treat as complementary tool with human oversight. [2,7]
 - **Ongoing Maintenance:** Described as continuously updated and improved. [1] Service/uptime terms are published at https://www.dermgpt.com/sla.
 
 ## 5) Key Metrics
@@ -64,16 +64,14 @@
 ### Safety & Reliability
 
 - **Goal of Metric(s):** Accuracy/reliability of responses; one comparative study suggests differing strengths vs. ChatGPT-4 across common vs rare conditions. [9]
-- **Result:** Not specified in reviewed sources.
+- **Result:** Not specified.
 - **Interpretation:** Not specified.
 
 ## 6) Resources
 
 - **Evaluation References, if available:** Not specified.
 - **Clinical Trial, if available:** Not specified.
-- **Peer-Reviewed Publication(s):** Examples of related publications include: [10,11]
-  - [https://derma.jmir.org/2025/1/e74040](https://derma.jmir.org/2025/1/e74040)
-  - [https://pmc.ncbi.nlm.nih.gov/articles/PMC12677980/](https://pmc.ncbi.nlm.nih.gov/articles/PMC12677980/)
+- **Peer-Reviewed Publication(s):** Examples of related publications include [10,11].
 - **Reimbursement status, if applicable:** Not specified.
 - **Stakeholders consulted during design of solution:** Not specified.
 
