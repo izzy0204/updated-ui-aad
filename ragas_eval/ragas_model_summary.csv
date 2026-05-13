@@ -1,0 +1,4 @@
+model,avg_faithfulness,avg_answer_relevancy
+DermGPT,1.0,0.38561904350353166
+DermaSensor,1.0,0.4035311195553298
+Tandem,1.0,0.29395485907543945

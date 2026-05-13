@@ -1,0 +1,8 @@
+ragas
+datasets
+pandas
+openai
+python-dotenv
+matplotlib
+numpy
+scipy

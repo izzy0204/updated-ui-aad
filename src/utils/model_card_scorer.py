@@ -224,7 +224,8 @@ class ClinicalUsabilityScorer:
         # Check for required clinical elements
         element_score = 0.0
         for element in required_elements:
-            if re.search(rf'\b{element.replace("_", r"\s+")}\b', content, re.IGNORECASE):
+            element_pattern = element.replace("_", r"\s+")
+            if re.search(rf'\b{element_pattern}\b', content, re.IGNORECASE):
                 element_score += 1.0
         
         element_score = element_score / len(required_elements)

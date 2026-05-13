@@ -1,0 +1,7 @@
+model,metric,n_fields,mean,ci95_low,ci95_high
+DermaSensor,faithfulness,6,1.0,1.0,1.0
+DermaSensor,answer_relevancy,6,0.4035311195553299,0.22974668191272363,0.5518782858987424
+DermGPT,faithfulness,6,1.0,1.0,1.0
+DermGPT,answer_relevancy,6,0.38561904350353177,0.31785544394222054,0.4547351605400239
+Tandem,faithfulness,6,1.0,1.0,1.0
+Tandem,answer_relevancy,6,0.29395485907543945,0.22447542260610212,0.3800056412410781

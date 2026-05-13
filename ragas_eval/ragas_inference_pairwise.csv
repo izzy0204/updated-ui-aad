@@ -1,0 +1,7 @@
+model_higher_column,model_lower_column,metric,n_paired,mean_diff_m1_minus_m2,ci95_diff_low,ci95_diff_high,p_paired_ttest,p_wilcoxon
+DermaSensor,DermGPT,faithfulness,6,0.0,0.0,0.0,,
+DermaSensor,DermGPT,answer_relevancy,6,0.01791207605179811,-0.13573168342213945,0.10861352096192407,0.8232308163282253,0.4375
+DermaSensor,Tandem,faithfulness,6,0.0,0.0,0.0,,
+DermaSensor,Tandem,answer_relevancy,6,0.10957626047989044,-0.058955337526463,0.2655272213198161,0.2818083213110621,0.21875
+DermGPT,Tandem,faithfulness,6,0.0,0.0,0.0,,
+DermGPT,Tandem,answer_relevancy,6,0.09166418442809232,-0.024003203850451155,0.17574527303887302,0.16412545292409492,0.21875

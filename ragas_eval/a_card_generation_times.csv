@@ -1,0 +1,4 @@
+label,model_name,developer_name,started_utc,ended_utc,elapsed_seconds,pipeline_md_path,preloaded_md_path,sources_count
+A · DermaSensor,DermaSensor,"DermaSensor, Inc.",2026-05-09T02:34:30.706239+00:00,2026-05-09T02:37:05.184709+00:00,154.478,outputs/dermasensor-20260508-223705.md,/Users/isabellegatmaitan/Documents/GitHub/aad-model-card-generator/src/core/pages/preloaded_cards/dermasensor-20260501-192348.md,69
+A · DermGPT,DermGPT,,2026-05-09T02:37:05.185570+00:00,2026-05-09T02:40:45.445332+00:00,220.26,outputs/dermgpt-20260508-224045.md,/Users/isabellegatmaitan/Documents/GitHub/aad-model-card-generator/src/core/pages/preloaded_cards/dermgpt-20260429-173126.md,65
+A · Tandem,Tandem,,2026-05-09T02:40:45.447005+00:00,2026-05-09T02:44:47.845496+00:00,242.399,outputs/tandem-20260508-224447.md,/Users/isabellegatmaitan/Documents/GitHub/aad-model-card-generator/src/core/pages/preloaded_cards/tandem-20260501-043225.md,60
