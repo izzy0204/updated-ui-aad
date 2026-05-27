@@ -11,7 +11,7 @@ if str(_SRC_DIR) not in sys.path:
 
 import streamlit as st
 
-from core.card_provenance import compute_provenance_for_sections
+from core.card_regulatory import compute_regulatory_for_sections
 from core.dermauto_card_render import (
     body_before_references,
     build_ref_renumbering,
@@ -19,17 +19,10 @@ from core.dermauto_card_render import (
     normalize_md_for_parsing,
     parse_model_card_md,
     parse_references,
+    regulatory_legend_html,
     render_full_card_html,
     rewrite_sections_citations,
     strip_chai_model_card_suffix,
-)
-from core.swg_intake import (
-    default_field_map_path,
-    default_forms_xlsx,
-    load_column_field_map_yaml,
-    match_survey_row_for_title,
-    read_xlsx_first_sheet,
-    survey_reported_composite_keys,
 )
 
 # Resolve repo root from this file: .../src/core/pages/<this>.py -> parents[3] == repo root.
@@ -54,25 +47,6 @@ def _resolve_md_path(filename: str) -> Optional[Path]:
     if p.exists():
         return p
     return None
-
-
-def _provenance_legend_html() -> str:
-    """Sidebar legend with pastel swatches matching PROVENANCE_ROW_STYLE."""
-    rows = [
-        ("#d8f3dc", "#2d6a4f", "Public source + industry survey reported"),
-        ("#d9e8ff", "#1e6091", "Public source, not in industry survey"),
-        ("#fff9e6", "#d4a017", "Industry survey only, not publicly available"),
-        ("#fde8e8", "#c1121f", "Not reported publicly or in industry survey"),
-    ]
-    parts = []
-    for bg, ac, label in rows:
-        parts.append(
-            f'<div style="display:flex;align-items:center;gap:8px;margin:4px 0;font-size:12px;">'
-            f'<span style="display:inline-block;width:14px;height:14px;border-radius:3px;'
-            f"background:{bg};border:2px solid {ac};\"></span>"
-            f"<span>{label}</span></div>"
-        )
-    return "".join(parts)
 
 
 st.set_page_config(page_title="DermAUTO-CARD", layout="wide")
@@ -131,11 +105,27 @@ with st.sidebar:
     st.subheader("Display")
     hide_citations = st.checkbox("Hide citation markers", value=False)
     show_raw = st.checkbox("Show raw markdown preview", value=False)
-    color_provenance = st.checkbox("Color-code statement provenance", value=False)
-    if color_provenance:
+
+    color_row, help_row = st.columns([0.88, 0.12])
+    with color_row:
+        color_regulatory = st.checkbox(
+            "Color-code regulatory status",
+            value=False,
+            help="Highlight each statement by inferred FDA / EUA / CE / research-use status.",
+        )
+    with help_row:
+        with st.popover("?", help="What do the colors mean?"):
+            st.markdown("**Regulatory status color key**")
+            st.markdown(regulatory_legend_html(), unsafe_allow_html=True)
+            st.caption(
+                "Each field row is colored from the text of that statement. "
+                "When several signals appear, the strongest authorization level is shown."
+            )
+
+    if color_regulatory:
         st.markdown(
             "<div style='margin-top:6px;font-weight:600;font-size:12px;'>Legend</div>"
-            + _provenance_legend_html(),
+            + regulatory_legend_html(),
             unsafe_allow_html=True,
         )
 
@@ -167,23 +157,9 @@ if doc_title and not is_manual:
     doc_title = re.sub(r"\s*\(v0\.3\)\s*$", "", doc_title, flags=re.IGNORECASE).strip() or None
 doc_title = strip_chai_model_card_suffix(doc_title)
 
-provenance_by_key = None
-if color_provenance:
-    column_map = load_column_field_map_yaml(default_field_map_path())
-    survey_row = None
-    xlsx_path = default_forms_xlsx()
-    if xlsx_path.exists():
-        _, data_rows = read_xlsx_first_sheet(xlsx_path)
-        survey_row = match_survey_row_for_title(data_rows, doc_title)
-    survey_keys = survey_reported_composite_keys(
-        survey_row=survey_row,
-        column_to_fields=column_map,
-    )
-    provenance_by_key = compute_provenance_for_sections(
-        sections,
-        ref_map,
-        survey_keys if survey_row is not None else None,
-    )
+regulatory_by_key = None
+if color_regulatory:
+    regulatory_by_key = compute_regulatory_for_sections(sections)
 
 card_html = render_full_card_html(
     sections=sections,
@@ -192,7 +168,7 @@ card_html = render_full_card_html(
     source_label=source_label,
     hide_citations=hide_citations,
     manual_linkify=is_manual,
-    provenance_by_key=provenance_by_key,
+    regulatory_by_key=regulatory_by_key,
 )
 
 if hasattr(st, "html"):

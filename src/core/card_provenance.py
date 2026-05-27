@@ -1,4 +1,4 @@
-"""Per-field provenance tier (public citation vs SWG survey mapping)."""
+"""Deprecated: superseded by core.card_regulatory (regulatory-status color coding)."""
 
 from __future__ import annotations
 

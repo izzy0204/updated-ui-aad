@@ -28,13 +28,27 @@ FOOT = "font-size:11px;margin-top:14px;line-height:1.4;color:#444444;"
 MONO = "font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;font-size:12px;"
 REF_ROW = "font-size:12px;margin:5px 0;line-height:1.4;"
 
-# Pastel provenance row styles (background + left accent); dark text remains readable.
-PROVENANCE_ROW_STYLE: Dict[str, Tuple[str, str]] = {
+# Pastel regulatory-status row styles (background + left accent); dark text remains readable.
+REGULATORY_ROW_STYLE: Dict[str, Tuple[str, str]] = {
+    "red": ("#fde8e8", "#c1121f"),
+    "orange": ("#ffe5d0", "#e85d04"),
+    "yellow": ("#fff9e6", "#d4a017"),
     "green": ("#d8f3dc", "#2d6a4f"),
     "blue": ("#d9e8ff", "#1e6091"),
-    "yellow": ("#fff9e6", "#d4a017"),
-    "red": ("#fde8e8", "#c1121f"),
+    "gray": ("#f0f0f0", "#6c757d"),
 }
+
+REGULATORY_LEGEND: Tuple[Tuple[str, str], ...] = (
+    ("red", "Not Authorized / Consumer Tool"),
+    ("orange", "Investigational / Research Use Only"),
+    ("yellow", "EUA Authorized"),
+    ("green", "FDA Approved or FDA Cleared"),
+    ("blue", "CE Marked (authorized in Europe)"),
+    ("gray", "Regulatory Status Unknown"),
+)
+
+# Backward-compatible alias for any external imports.
+PROVENANCE_ROW_STYLE = REGULATORY_ROW_STYLE
 
 CITATION_IN_TEXT = re.compile(r"\[(\s*\d+(?:\s*,\s*\d+)*\s*)\]")
 SECTIONLIKE_H1 = re.compile(r"^\s*#\s+\*{0,2}\s*\d+\s*\\?[.)]\s+.+", re.IGNORECASE)
@@ -362,11 +376,25 @@ def parse_model_card_md(md_text: str) -> Dict[str, Dict[str, str]]:
     return sections
 
 
-def block_rich(label: str, value_html: str, *, provenance_tier: Optional[str] = None) -> str:
+def regulatory_legend_html() -> str:
+    parts: List[str] = []
+    for tier, label in REGULATORY_LEGEND:
+        bg, accent = REGULATORY_ROW_STYLE[tier]
+        parts.append(
+            f'<div style="display:flex;align-items:flex-start;gap:8px;margin:6px 0;font-size:13px;line-height:1.35;">'
+            f'<span style="flex-shrink:0;display:inline-block;width:14px;height:14px;margin-top:2px;border-radius:3px;'
+            f"background:{bg};border:2px solid {accent};\"></span>"
+            f"<span>{html.escape(label)}</span></div>"
+        )
+    return "".join(parts)
+
+
+def block_rich(label: str, value_html: str, *, regulatory_tier: Optional[str] = None, provenance_tier: Optional[str] = None) -> str:
     row_style = ROW
     extra = ""
-    if provenance_tier and provenance_tier in PROVENANCE_ROW_STYLE:
-        bg, accent = PROVENANCE_ROW_STYLE[provenance_tier]
+    tier = regulatory_tier or provenance_tier
+    if tier and tier in REGULATORY_ROW_STYLE:
+        bg, accent = REGULATORY_ROW_STYLE[tier]
         extra = f"background-color:{bg};border-left:4px solid {accent};padding-left:12px;margin-left:-4px;"
     wrap = f"{row_style}{extra}"
     return (
@@ -417,6 +445,7 @@ def render_full_card_html(
     source_label: str,
     hide_citations: bool,
     manual_linkify: bool,
+    regulatory_by_key: Optional[Dict[str, str]] = None,
     provenance_by_key: Optional[Dict[str, str]] = None,
 ) -> str:
     fmt: Callable[[str], str] = lambda t: format_field(t, refs, hide_citations, linkify_urls_flag=manual_linkify)
@@ -442,9 +471,10 @@ def render_full_card_html(
         for field_name, value in fields.items():
             ck = composite_section_field_key(sec_name, field_name)
             tier: Optional[str] = None
-            if provenance_by_key:
-                tier = provenance_by_key.get(ck)
-            parts.append(block_rich(field_name, fmt(value), provenance_tier=tier))
+            tier_map = regulatory_by_key if regulatory_by_key is not None else provenance_by_key
+            if tier_map:
+                tier = tier_map.get(ck)
+            parts.append(block_rich(field_name, fmt(value), regulatory_tier=tier))
 
     ref_html = references_block(refs)
     if ref_html:
