@@ -1,8 +1,14 @@
-name: Hello Actions
-on: [push]
+name: Clinical model card tests
+on: [push, pull_request]
 jobs:
-  greet:
+  clinical-suite:
     runs-on: ubuntu-latest
     steps:
-      - name: Say Hello
-        run: echo "Actions are now active for Isabelle's project!"
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Run clinical test suite
+        run: bash scripts/run_clinical_test_suite.sh

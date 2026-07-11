@@ -101,6 +101,9 @@ _FALSE_CERTAINTY_PATTERNS = [
 _METRICS_BONUS_CAP = 0.10
 _SUMMARY_PENALTY = 0.05
 _FALSE_CERTAINTY_PENALTY = 0.08
+_REGULATORY_CONFIDENCE_PENALTY = 0.05
+_REGULATORY_MISSING_EVIDENCE_PENALTY = 0.10
+_TRUSTED_REGULATORY_CONFIDENCE = frozenset({"authoritative", "cited_explicit"})
 
 
 class ClinicalUsabilityScorer:
@@ -295,8 +298,13 @@ class ModelCardScorer:
     def __init__(self):
         self.clinical_scorer = ClinicalUsabilityScorer()
     
-    def score_model_card(self, model_card_data: Dict[str, Any]) -> ModelCardScore:
-        """Score a complete model card"""
+    def score_model_card(
+        self,
+        model_card_data: Dict[str, Any],
+        *,
+        citations: Optional[Dict[str, Any]] = None,
+    ) -> ModelCardScore:
+        """Score a complete model card."""
         logger.info("Starting model card scoring")
         
         # Organize fields by category
@@ -336,6 +344,11 @@ class ModelCardScorer:
         if self._has_false_regulatory_certainty(model_card_data):
             clinical_usability_score = max(0.0, clinical_usability_score - _FALSE_CERTAINTY_PENALTY)
 
+        evidence_issues, evidence_penalty = self._regulatory_evidence_issues(
+            model_card_data, citations
+        )
+        clinical_usability_score = max(0.0, clinical_usability_score - evidence_penalty)
+
         clinical_usability_score = max(0.0, min(1.0, clinical_usability_score))
         
         # Determine clinical usability level
@@ -349,6 +362,7 @@ class ModelCardScorer:
         
         # Identify quality issues
         quality_issues = self._identify_quality_issues(category_scores)
+        quality_issues.extend(evidence_issues)
         
         # Determine overall rating
         overall_rating = self._determine_overall_rating(completion_percentage, clinical_usability_score)
@@ -464,6 +478,69 @@ class ModelCardScorer:
             if isinstance(v, str) and v.strip()
         )
         return any(pat.search(corpus) for pat in _FALSE_CERTAINTY_PATTERNS)
+
+    def _has_regulatory_evidence(self, sidecar: Dict[str, Any]) -> bool:
+        for key in (
+            "regulatory_status_evidence",
+            "regulatoryStatusEvidence",
+            "regulatory_status_source",
+            "regulatoryStatusSource",
+        ):
+            val = sidecar.get(key)
+            if isinstance(val, list) and val:
+                return True
+            if isinstance(val, dict) and val:
+                return True
+            if isinstance(val, str) and val.strip():
+                return True
+        field_citations = sidecar.get("field_citations") or sidecar.get("fieldCitations") or {}
+        if not isinstance(field_citations, dict):
+            return False
+        for reg_key in ("regulatory_approval_status", "regulatoryApprovalStatus"):
+            cites = field_citations.get(reg_key)
+            if isinstance(cites, list) and cites:
+                return True
+        return False
+
+    def _regulatory_evidence_issues(
+        self,
+        model_card_data: Dict[str, Any],
+        citations: Optional[Dict[str, Any]],
+    ) -> Tuple[List[str], float]:
+        """Evidence-quality penalties from citation sidecar (separate from completion)."""
+        status = (
+            model_card_data.get("regulatoryApprovalStatus")
+            or model_card_data.get("regulatory_approval_status")
+            or "UNKNOWN"
+        )
+        status_upper = str(status).upper()
+        if status_upper == "UNKNOWN":
+            return [], 0.0
+
+        sidecar = citations if isinstance(citations, dict) else {}
+        confidence = str(
+            sidecar.get("regulatory_status_confidence")
+            or sidecar.get("regulatoryStatusConfidence")
+            or model_card_data.get("regulatory_status_confidence")
+            or "unknown"
+        ).lower()
+
+        issues: List[str] = []
+        penalty = 0.0
+        if confidence not in _TRUSTED_REGULATORY_CONFIDENCE:
+            issues.append(
+                f"Regulatory status '{status_upper}' lacks authoritative or cited_explicit "
+                f"confidence (got '{confidence}')"
+            )
+            penalty += _REGULATORY_CONFIDENCE_PENALTY
+
+        if status_upper in ("FDA_CLEARED", "FDA_APPROVED") and not self._has_regulatory_evidence(sidecar):
+            issues.append(
+                f"Critical: {status_upper} regulatory status has no regulatory_status_evidence"
+            )
+            penalty += _REGULATORY_MISSING_EVIDENCE_PENALTY
+
+        return issues, penalty
     
     def _score_category(self, category_name: str, fields: List[Tuple[str, str]]) -> CategoryScore:
         """Score a category of fields"""

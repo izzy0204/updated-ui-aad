@@ -67,12 +67,12 @@ sys.path.insert(0, str(repo_root))
 from dataclasses import fields as dc_fields
 
 from pipelines.cardgen_pipeline import CardGenPipeline
-from core.chai_schema import CHAIModelCard, ClinicalModelCard, REGULATORY_STATUS_LABELS
+from core.chai_schema import ClinicalModelCard, REGULATORY_STATUS_LABELS
 from ai_extractors.ai_extractor import RateLimitExceededError, QuotaExceededError
 
 
 def _restore_model_card_from_session():
-    """Get CHAIModelCard from session state; rebuild from JSON if the object was lost (common on Cloud)."""
+    """Get ClinicalModelCard from session state; rebuild from JSON if the object was lost (common on Cloud)."""
     card = st.session_state.get("generated_model_card")
     if card is not None:
         return card

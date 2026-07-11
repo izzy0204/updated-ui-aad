@@ -32,6 +32,8 @@ check_zero() {
 check_zero "_AGENT_TO_CHAI in src/pipelines" "_AGENT_TO_CHAI" src/pipelines
 check_zero "max_fields=74" "max_fields=74" src
 check_zero "iter_chai_field_placements imports" "import iter_chai_field_placements|from core.chai_schema import.*iter_chai" src
+check_zero "CHAIModelCard imports" "import CHAIModelCard|from core.chai_schema import.*CHAIModelCard" src
+check_zero "is_v03_markdown in viewer" "is_v03_markdown" src/core/pages
 check_zero "intended_use_and_workflow in terminal" "intended_use_and_workflow" terminal_app.py
 check_zero "xml_path in terminal" "xml_path" terminal_app.py
 

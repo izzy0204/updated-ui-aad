@@ -115,3 +115,43 @@ def test_scorer_summary_penalty() -> None:
     assert scorer.score_model_card(long_summary).clinical_usability_score <= scorer.score_model_card(
         short_summary
     ).clinical_usability_score
+
+
+@pytest.mark.unit
+def test_scorer_low_confidence_regulatory_penalized() -> None:
+    scorer = ModelCardScorer()
+    sidecar = {"regulatory_status_confidence": "unknown", "regulatory_status_source": [{"url": "https://fda.gov"}]}
+    penalized = scorer.score_model_card(
+        _clinical_card_dict(regulatoryApprovalStatus="FDA_CLEARED"),
+        citations=sidecar,
+    )
+    trusted = scorer.score_model_card(
+        _clinical_card_dict(regulatoryApprovalStatus="FDA_CLEARED"),
+        citations={
+            "regulatory_status_confidence": "authoritative",
+            "regulatory_status_evidence": [{"url": "https://fda.gov"}],
+        },
+    )
+    assert penalized.clinical_usability_score < trusted.clinical_usability_score
+    assert any("authoritative or cited_explicit" in issue for issue in penalized.quality_issues)
+
+
+@pytest.mark.unit
+def test_scorer_fda_without_evidence_critical() -> None:
+    scorer = ModelCardScorer()
+    score = scorer.score_model_card(
+        _clinical_card_dict(regulatoryApprovalStatus="FDA_APPROVED"),
+        citations={"regulatory_status_confidence": "authoritative"},
+    )
+    assert any("regulatory_status_evidence" in issue for issue in score.quality_issues)
+
+
+@pytest.mark.unit
+def test_scorer_unknown_regulatory_not_penalized() -> None:
+    scorer = ModelCardScorer()
+    score = scorer.score_model_card(
+        _clinical_card_dict(regulatoryApprovalStatus="UNKNOWN"),
+        citations={"regulatory_status_confidence": "unknown"},
+    )
+    assert not any("regulatory_status_evidence" in issue for issue in score.quality_issues)
+    assert not any("authoritative or cited_explicit" in issue for issue in score.quality_issues)

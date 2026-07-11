@@ -1,4 +1,3 @@
-import re
 import sys
 from pathlib import Path
 from typing import Dict, List, Optional, Tuple
@@ -9,24 +8,12 @@ if str(_SRC_DIR) not in sys.path:
 
 import streamlit as st
 
-from core.card_regulatory import compute_regulatory_for_sections
 from core.chai_schema import ClinicalModelCard
 from core.source_regulatory import load_citations_for_markdown
 from core.dermauto_card_render import (
-    body_before_references,
-    build_ref_renumbering,
-    extract_doc_title,
     is_clinical_markdown,
-    is_v03_markdown,
-    normalize_md_for_parsing,
-    parse_model_card_md,
-    parse_references,
-    parse_schema_version,
     regulatory_legend_html,
     render_from_card,
-    render_full_card_html,
-    rewrite_sections_citations,
-    strip_chai_model_card_suffix,
 )
 
 _PAGE_DIR = Path(__file__).resolve().parent
@@ -136,31 +123,14 @@ if card is not None:
         st.markdown(html_out, unsafe_allow_html=True)
     st.stop()
 
-if is_v03_markdown(md_text) and not is_clinical_markdown(md_text):
-    st.error("This card uses the legacy CHAI v0.3 format. Run the migration script or upload a clinical-model-card-1.0 file.")
-    st.stop()
-
-md_for_parse = normalize_md_for_parsing(md_text)
-ref_map = parse_references(md_for_parse)
-body_md = body_before_references(md_for_parse, allow_sources_heading=False)
-_old_to_new, ref_map = build_ref_renumbering(body_md, ref_map)
-sections = rewrite_sections_citations(parse_model_card_md(md_for_parse), _old_to_new)
-doc_title = strip_chai_model_card_suffix(extract_doc_title(md_for_parse))
-
-regulatory_by_key = None
-if color_regulatory:
-    regulatory_by_key = compute_regulatory_for_sections(sections, md_text=md_for_parse, citations=citations_data, refs=ref_map)
-
-card_html = render_full_card_html(
-    sections=sections,
-    refs=ref_map,
-    doc_title=doc_title,
-    source_label=source_label,
-    hide_citations=hide_citations,
-    manual_linkify=False,
-    regulatory_by_key=regulatory_by_key,
-)
-if hasattr(st, "html"):
-    st.html(card_html)
+if is_clinical_markdown(md_text):
+    st.error(
+        "Clinical markdown upload requires the companion `.clinical.json` bundle. "
+        "Upload the JSON file (and optional `.citations.json`) for full rendering."
+    )
 else:
-    st.markdown(card_html, unsafe_allow_html=True)
+    st.error(
+        "Legacy CHAI v0.3 markdown is no longer supported. "
+        "Upload a `clinical-model-card-1.0` JSON file or run the migration script."
+    )
+st.stop()

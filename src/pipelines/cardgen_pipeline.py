@@ -35,7 +35,6 @@ except Exception:
 
 # === CHAI schema: single source of truth ===
 from core.chai_schema import (
-    CHAIModelCard,
     CLINICAL_CARD_FIELD_NAMES,
     CLINICAL_NESTED_FIELD_SPECS,
     ClinicalModelCard,
@@ -94,7 +93,7 @@ def _is_placeholder_value(val: object) -> bool:
 
 
 def _ensure_field_level_citations(
-    chai_card: CHAIModelCard,
+    chai_card: ClinicalModelCard,
     citations: Dict[str, Any],
     *,
     fallback_urls: List[str],
@@ -259,7 +258,7 @@ async def _fetch_fda_records(model_name: str, developer_name: str) -> tuple[list
 
 # ------------------------- post-fill helpers -------------------------
 
-def _collect_empty_clinical_fields(card: CHAIModelCard) -> list[str]:
+def _collect_empty_clinical_fields(card: ClinicalModelCard) -> list[str]:
     """Return clinical field paths that are empty (including nested subfields)."""
     empties: list[str] = []
     if not is_dataclass(card):
@@ -311,7 +310,7 @@ def _collect_empty_clinical_fields(card: CHAIModelCard) -> list[str]:
     return empties
 
 
-def _is_clinical_field_filled(card: CHAIModelCard, field_name: str) -> bool:
+def _is_clinical_field_filled(card: ClinicalModelCard, field_name: str) -> bool:
     if field_name == "training_data":
         return bool((card.training_data.description or "").strip())
     if field_name == "performance":
@@ -324,7 +323,7 @@ def _is_clinical_field_filled(card: CHAIModelCard, field_name: str) -> bool:
     return val is not None
 
 
-def _apply_postfill_value(card: CHAIModelCard, field_name: str, val: str) -> None:
+def _apply_postfill_value(card: ClinicalModelCard, field_name: str, val: str) -> None:
     if "." in field_name or field_name.startswith("performance.metrics"):
         apply_nested_postfill(card, field_name, val)
     else:
@@ -553,11 +552,11 @@ Respond as JSON:
 
 
 async def _postfill_one_critical_field(
-    chai_card: CHAIModelCard,
+    chai_card: ClinicalModelCard,
     field_name: str,
     seed_pages: list[dict],
     citations: dict,
-) -> tuple[CHAIModelCard, dict]:
+) -> tuple[ClinicalModelCard, dict]:
     """Post-fill a single critical field with enhanced context."""
     client, model, config = _postfill_client()
     if client is None or not model:
@@ -575,13 +574,13 @@ async def _postfill_one_critical_field(
 
 
 async def _postfill_missing_fields(
-    chai_card: CHAIModelCard,
+    chai_card: ClinicalModelCard,
     seed_pages: list[dict],
     citations: dict,
     *,
     max_fields: int = 0,
     pass_name: str = "default",
-) -> tuple[CHAIModelCard, dict]:
+) -> tuple[ClinicalModelCard, dict]:
     """
     For any empty clinical field, ask Gemini to fill it using (seed_pages + citations) as context.
     Adds citations under 'postfill.<field>'.
@@ -613,7 +612,7 @@ async def _postfill_missing_fields(
 
 class CardGenPipeline:
     """
-    Gemini-as-Agent pipeline that outputs a CHAIModelCard and artifacts.
+    Gemini-as-Agent pipeline that outputs a ClinicalModelCard and artifacts.
     Public return shape: (chai_card, sources, content)
     """
 
@@ -621,6 +620,25 @@ class CardGenPipeline:
         self.out_dir = Path(out_dir)
         self.out_dir.mkdir(parents=True, exist_ok=True)
         self.use_web_discovery = use_web_discovery
+        self._rewrite_summary_callback = self._gemini_rewrite_summary
+
+    def _gemini_rewrite_summary(self, original: str) -> Optional[str]:
+        """Rewrite an over-long summary via Gemini (sync); returns None when unavailable."""
+        client, model, config = _postfill_client()
+        if client is None or not model:
+            return None
+        prompt = (
+            "Rewrite the following clinical AI model card summary in at most three complete sentences. "
+            "Preserve factual claims only; do not add new claims. Return only the rewritten summary.\n\n"
+            f"{original}"
+        )
+        try:
+            resp = client.models.generate_content(model=model, contents=prompt, config=config)
+            text = (getattr(resp, "text", None) or "").strip()
+            return text or None
+        except Exception as exc:
+            print(f"Warning: summary rewrite failed: {exc}")
+            return None
 
     async def __aenter__(self):
         return self
@@ -714,7 +732,7 @@ class CardGenPipeline:
             "extracted_content": "Content extraction placeholder"
         }
 
-    async def generate_chai_model_card(self, model_name: str, extracted_content: Dict[str, Any], developer_name: str = "", application_url: str = "") -> CHAIModelCard:
+    async def generate_chai_model_card(self, model_name: str, extracted_content: Dict[str, Any], developer_name: str = "", application_url: str = "") -> ClinicalModelCard:
         """
         Generate a CHAI model card using the extracted content and user inputs.
         """
@@ -736,13 +754,13 @@ class CardGenPipeline:
         finalize_policy: str = "not_specified",  # or "none"
         write_files: bool = True,
         file_prefix: str | None = None,
-    ) -> Tuple[CHAIModelCard, Dict, Dict]:
+    ) -> Tuple[ClinicalModelCard, Dict, Dict]:
         """
         Generate model card with adaptive iteration count based on initial completeness.
         """
         """
         Returns:
-          - chai_card: CHAIModelCard (flat dataclass)
+          - chai_card: ClinicalModelCard (flat dataclass)
           - sources:   {"agent": "gemini", "citations": {...}, "hint": str,
                         "web_search": {...}, "publications": [...], "fda": [...],
                         "postfill": {"ran": bool}}
@@ -1002,7 +1020,7 @@ class CardGenPipeline:
         # Generate scoring report
         scorer = ModelCardScorer()
         model_card_dict = chai_card.to_dict_camel()
-        score = scorer.score_model_card(model_card_dict)
+        score = scorer.score_model_card(model_card_dict, citations=citations)
         
         # Add scoring information to sources
         sources["scoring"] = {
@@ -1035,7 +1053,7 @@ class CardGenPipeline:
     def _write_all(
         self,
         *,
-        chai_card: CHAIModelCard,
+        chai_card: ClinicalModelCard,
         citations: Dict,
         base_name: str,
         json_text: str,

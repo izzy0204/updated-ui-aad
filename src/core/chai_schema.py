@@ -145,10 +145,6 @@ def iter_field_placements() -> Iterator[Tuple[str, str, str]]:
     yield ("6) Governance and Monitoring", "contact", "Inquiries / Report an Issue")
 
 
-# Backward compat alias during transition (no remaining imports — safe to remove in Batch 10)
-iter_chai_field_placements = iter_field_placements
-
-
 @dataclass
 class ClinicalModelCard:
     """Clinician-centered model card (v1.0)."""
@@ -611,10 +607,7 @@ def validate_model_card(card: ClinicalModelCard) -> ValidationResult:
     return result
 
 
-# Primary export type; DEPRECATED: remove after Batch 10 — use ClinicalModelCard
-CHAIModelCard = ClinicalModelCard
-
-# Top-level string field names for agent extraction (excludes nested)
+# Primary export type
 CLINICAL_CARD_FIELD_NAMES: List[str] = [
     f.name
     for f in fields(ClinicalModelCard)

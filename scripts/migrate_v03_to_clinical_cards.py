@@ -459,6 +459,18 @@ def _content_hash(card: ClinicalModelCard) -> str:
     return hashlib.sha256(card.to_json().encode()).hexdigest()
 
 
+def _migration_sources() -> List[Path]:
+    """Legacy v0.3 markdown sources: root preloads first, else v03_backup."""
+    root_legacy = [
+        p
+        for p in sorted(PRELOADED.glob("*.md"))
+        if p.parent == PRELOADED and ".clinical." not in p.name
+    ]
+    if root_legacy:
+        return root_legacy
+    return sorted(BACKUP.glob("*.md"))
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description="Migrate v0.3 model cards to clinical schema v1.0")
     parser.add_argument("--out-dir", type=Path, default=DEFAULT_OUT)
@@ -484,28 +496,39 @@ def main() -> int:
         out_dir.mkdir(parents=True, exist_ok=True)
 
     failed = 0
-    for md_path in sorted(PRELOADED.glob("*.md")):
-        if md_path.parent.name in ("v03_backup", "clinical_migrated"):
-            continue
-        if ".clinical." in md_path.name:
-            continue
+    for md_path in _migration_sources():
         try:
             card, bundle = migrate_card(md_path)
             report = bundle["report"]
             slug = md_path.stem
+            content_hash = _content_hash(card)
             if args.dry_run:
-                print(f"[dry-run] {md_path.name}: errors={report['validationErrors']} warnings={report['validationWarnings']}")
+                print(
+                    f"[dry-run] {md_path.name}: hash={content_hash[:12]}… "
+                    f"errors={report['validationErrors']} warnings={report['validationWarnings']}"
+                )
             else:
                 json_path = out_dir / f"{slug}.clinical.json"
                 md_out = out_dir / f"{slug}.clinical.md"
                 cite_path = out_dir / f"{slug}.citations.json"
+                report_path = out_dir / f"{slug}.migration_report.json"
+                if json_path.is_file():
+                    try:
+                        existing = ClinicalModelCard.from_dict(
+                            json.loads(json_path.read_text(encoding="utf-8"))
+                        )
+                        if _content_hash(existing) == content_hash:
+                            print(f"Unchanged {md_path.name} (hash {content_hash[:12]}…)")
+                            if report["validationErrors"]:
+                                failed += 1
+                            continue
+                    except (json.JSONDecodeError, TypeError, ValueError):
+                        pass
                 json_path.write_text(card.to_json(), encoding="utf-8")
                 md_out.write_text(card.to_markdown(citations=bundle["citations"]), encoding="utf-8")
                 cite_path.write_text(json.dumps(bundle["citations"], indent=2), encoding="utf-8")
-                (out_dir / f"{slug}.migration_report.json").write_text(
-                    json.dumps(report, indent=2), encoding="utf-8"
-                )
-                print(f"Migrated {md_path.name} → {json_path.name}")
+                report_path.write_text(json.dumps(report, indent=2), encoding="utf-8")
+                print(f"Migrated {md_path.name} → {json_path.name} (hash {content_hash[:12]}…)")
             if report["validationErrors"]:
                 failed += 1
         except Exception as exc:

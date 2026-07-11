@@ -21,7 +21,7 @@ from typing import Any, Dict, List, Optional, Tuple
 
 from utils.web_search import fetch_many
 from config.config import get_settings
-from core.chai_schema import CHAIModelCard, CLINICAL_AGENT_EXTRACT_FIELDS, CLINICAL_NESTED_FIELD_SPECS
+from core.chai_schema import CLINICAL_AGENT_EXTRACT_FIELDS, CLINICAL_NESTED_FIELD_SPECS, ClinicalModelCard
 from utils.cache_system import get_cache
 from .prompts import PLANNER, EXTRACTOR, VALIDATOR
 from .tools import (
@@ -390,7 +390,7 @@ async def _validate_patch(
     model_id: str,
     state: Dict[str, Any],
 ) -> Dict[str, Any]:
-    chai_fields = [f.name for f in dc_fields(CHAIModelCard) if f.name != "extraction_timestamp"]
+    chai_fields = [f.name for f in dc_fields(ClinicalModelCard) if f.name != "extraction_timestamp"]
 
     def _present(field: str) -> bool:
         v = state.get(field, None)
@@ -833,12 +833,15 @@ async def run(
 
         targets = new_targets
 
-        # 6) Field-specific pass for commonly missing fields
+        # 6) Field-specific pass for commonly missing clinical fields
         commonly_missing = [
-            "release_date", "global_availability", "how_to_use",
-            "developer_supplied_warnings", "model_limitations",
-            "training_data", "output_input_data_type", "ongoing_maintenance",
-            "transparency_information", "usefulness_efficacy_result",
+            "version",
+            "availability",
+            "performance_evaluation_limitations",
+            "ongoing_monitoring_plan",
+            "scheduled_updates",
+            "clinical_trial",
+            "model_development_and_validation",
         ]
         missing_common = [f for f in commonly_missing if _is_empty(_get_by_path(state, f))]
         if missing_common and sources_blob:

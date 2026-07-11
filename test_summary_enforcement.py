@@ -43,6 +43,32 @@ LONG = (
 
 
 @pytest.mark.unit
+def test_summary_within_limit_unchanged():
+    card = _card("One. Two. Three.")
+    out, warnings = enforce_summary_length(card)
+    assert out.summary == "One. Two. Three."
+    assert warnings == []
+
+
+@pytest.mark.unit
+def test_summary_rewrite_callback_used(monkeypatch):
+    from pipelines.cardgen_pipeline import CardGenPipeline
+
+    pipeline = CardGenPipeline(out_dir=REPO / ".pytest_tmp")
+    assert callable(pipeline._rewrite_summary_callback)
+
+    def fake_rewrite(_: str) -> str:
+        return "Short one. Two. Three."
+
+    monkeypatch.setattr(pipeline, "_gemini_rewrite_summary", fake_rewrite)
+    pipeline._rewrite_summary_callback = pipeline._gemini_rewrite_summary
+    card = _card(LONG)
+    out, warnings = enforce_summary_length(card, rewrite_callback=pipeline._rewrite_summary_callback)
+    assert out.summary == "Short one. Two. Three."
+    assert "summary_exceeds_three_sentences" not in warnings
+
+
+@pytest.mark.unit
 def test_no_callback_warns_preserves_original():
     card = _card(LONG)
     out, warnings = enforce_summary_length(card)

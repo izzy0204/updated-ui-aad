@@ -58,6 +58,19 @@ def test_idempotent_second_run_same_hash(tmp_path: Path):
 
 
 @pytest.mark.unit
+def test_unmatched_markers_warn(tmp_path: Path):
+    mod = _load_migrate()
+    src = BACKUP / "dermasensor-20260501-192348.md"
+    text = src.read_text(encoding="utf-8")
+    text = text.replace("DermaSensor [4,5,6]", "DermaSensor [4,5,6,99]", 1)
+    bad_md = tmp_path / "orphan-cites.md"
+    bad_md.write_text(text, encoding="utf-8")
+    _, bundle = mod.migrate_card(bad_md)
+    warnings = bundle["report"]["validationWarnings"]
+    assert any("unmatched_citation_markers" in w for w in warnings)
+
+
+@pytest.mark.unit
 def test_sidecar_reference_ids_resolve(tmp_path: Path):
     mod = _load_migrate()
     src = BACKUP / "dermasensor-20260501-192348.md"

@@ -4,6 +4,8 @@
 from __future__ import annotations
 
 import json
+import os
+import subprocess
 import sys
 from pathlib import Path
 
@@ -17,9 +19,23 @@ MIGRATED = PRELOADED / "clinical_migrated"
 def main() -> int:
     errors = []
 
+    checklist = MIGRATED / "CHECKLIST.md"
+    if not checklist.is_file():
+        errors.append("Missing clinical_migrated/CHECKLIST.md")
+
     backup = PRELOADED / "v03_backup" / "MANIFEST.json"
     if not backup.is_file():
         errors.append("Missing v03_backup/MANIFEST.json")
+
+    root_legacy_md = [
+        p
+        for p in PRELOADED.glob("*.md")
+        if p.parent == PRELOADED and ".clinical." not in p.name
+    ]
+    if root_legacy_md:
+        errors.append(
+            f"Legacy v0.3 markdown still in preloaded_cards root: {[p.name for p in root_legacy_md]}"
+        )
 
     clinical_jsons = list(PRELOADED.glob("*.clinical.json")) + list(MIGRATED.glob("*.clinical.json"))
     if len(clinical_jsons) < 6:
@@ -74,6 +90,17 @@ def main() -> int:
             "test_scorer_weights_sum_to_one",
             "test_scorer_clinical_fixture_completion",
             "test_scorer_field_level_quality",
+            "test_scorer_low_confidence_regulatory_penalized",
+            "test_scorer_fda_without_evidence_critical",
+        ]),
+        ("test_dermauto_render", [
+            "test_fixture_renders_linked_title",
+            "test_regulatory_color_only_on_status_row",
+            "test_fixture_renders_performance_metrics_table",
+        ]),
+        ("test_summary_enforcement", [
+            "test_summary_within_limit_unchanged",
+            "test_callback_success_replaces_summary",
         ]),
     ]
     for mod_name, fns in test_modules:
@@ -84,6 +111,22 @@ def main() -> int:
     tr = _load_test("test_regulatory_status")
     tr.test_fda_cleared()
     tr.test_card_tier_only_on_regulatory_row()
+
+    env = os.environ.copy()
+    env["PYTHONPATH"] = f"{REPO / 'src'}:{REPO / '.pytest_deps'}:{env.get('PYTHONPATH', '')}"
+    pytest = subprocess.run(
+        [sys.executable, "-m", "pytest", "-m", "unit", "-q"],
+        cwd=REPO,
+        env=env,
+        capture_output=True,
+        text=True,
+    )
+    if pytest.returncode != 0:
+        errors.append("Full pytest unit suite failed")
+        if pytest.stdout:
+            print(pytest.stdout, file=sys.stderr)
+        if pytest.stderr:
+            print(pytest.stderr, file=sys.stderr)
 
     if errors:
         for e in errors:
