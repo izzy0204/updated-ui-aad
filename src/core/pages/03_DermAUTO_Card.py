@@ -3,8 +3,6 @@ import sys
 from pathlib import Path
 from typing import Dict, List, Optional, Tuple
 
-# Streamlit Cloud (and some launch configs) do not load repo-root `sitecustomize.py`;
-# ensure `src/` is importable as package root `core`.
 _SRC_DIR = Path(__file__).resolve().parents[2]
 if str(_SRC_DIR) not in sys.path:
     sys.path.insert(0, str(_SRC_DIR))
@@ -12,24 +10,27 @@ if str(_SRC_DIR) not in sys.path:
 import streamlit as st
 
 from core.card_regulatory import compute_regulatory_for_sections
+from core.chai_schema import ClinicalModelCard
+from core.source_regulatory import load_citations_for_markdown
 from core.dermauto_card_render import (
     body_before_references,
     build_ref_renumbering,
     extract_doc_title,
+    is_clinical_markdown,
+    is_v03_markdown,
     normalize_md_for_parsing,
     parse_model_card_md,
     parse_references,
+    parse_schema_version,
     regulatory_legend_html,
+    render_from_card,
     render_full_card_html,
     rewrite_sections_citations,
     strip_chai_model_card_suffix,
 )
 
-# Resolve repo root from this file: .../src/core/pages/<this>.py -> parents[3] == repo root.
 _PAGE_DIR = Path(__file__).resolve().parent
 REPO_ROOT = _PAGE_DIR.parents[3]
-# Bundled presets live NEXT TO this page so Streamlit Cloud always finds them (no cwd guessing).
-# Also check legacy repo-root `preloaded_cards/` for backwards compatibility.
 PRELOADED_DIRS: Tuple[Path, ...] = (
     _PAGE_DIR / "preloaded_cards",
     REPO_ROOT / "preloaded_cards",
@@ -37,129 +38,118 @@ PRELOADED_DIRS: Tuple[Path, ...] = (
 OUTPUTS_DIR = REPO_ROOT / "outputs"
 
 
-def _resolve_md_path(filename: str) -> Optional[Path]:
-    """Prefer `pages/preloaded_cards/`, then repo-root `preloaded_cards/`, then local `outputs/`."""
+def _resolve_card_paths(filename: str) -> Tuple[Optional[Path], Optional[Path]]:
+    """Return (json_path, md_path) preferring .clinical.json."""
+    stem = Path(filename).stem.replace(".clinical", "")
     for base in PRELOADED_DIRS:
-        p = base / filename
-        if p.exists():
-            return p
-    p = OUTPUTS_DIR / filename
-    if p.exists():
-        return p
-    return None
+        jp = base / f"{stem}.clinical.json"
+        if jp.exists():
+            return jp, jp.with_suffix(".clinical.md")
+        mp = base / filename
+        if mp.exists():
+            return mp.with_suffix(".clinical.json") if mp.with_suffix(".clinical.json").exists() else None, mp
+    jp = OUTPUTS_DIR / f"{stem}.clinical.json"
+    if jp.exists():
+        return jp, jp.with_suffix(".clinical.md")
+    mp = OUTPUTS_DIR / filename
+    if mp.exists():
+        return None, mp
+    return None, None
 
 
 st.set_page_config(page_title="DermAUTO-CARD", layout="wide")
-
 st.title("DermAUTO-CARD")
-st.caption("Full CHAI model card from markdown: every section and field, with citations linked to **References**.")
+st.caption("Clinician-centered model card viewer (JSON canonical, markdown for upload).")
 
 with st.sidebar:
     st.subheader("Source")
-
-    # Sidebar order: DermaSensor A/B, DermGPT A/B, Tandem A/B. Labels are UI-only; filenames are on disk.
     ordered_sources: List[Tuple[str, str]] = [
-        ("A · DermaSensor", "dermasensor-20260501-192348.md"),
-        ("B · DermaSensor", "Dermasensor.md"),
-        ("A · DermGPT", "dermgpt-20260429-173126.md"),
-        ("B · DermGPT", "DermGPT updated.md"),
-        ("A · Tandem", "tandem-20260501-043225.md"),
-        ("B · Tandem", "Tandem updated.md"),
+        ("A · DermaSensor", "dermasensor-20260501-192348"),
+        ("B · DermaSensor", "Dermasensor"),
+        ("A · DermGPT", "dermgpt-20260429-173126"),
+        ("B · DermGPT", "DermGPT updated"),
+        ("A · Tandem", "tandem-20260501-043225"),
+        ("B · Tandem", "Tandem updated"),
     ]
     option_to_path: Dict[str, Path] = {}
-    for label, fname in ordered_sources:
-        p = _resolve_md_path(fname)
-        if p:
-            option_to_path[label] = p
+    for label, stem in ordered_sources:
+        for base in PRELOADED_DIRS:
+            jp = base / f"{stem}.clinical.json"
+            if jp.exists():
+                option_to_path[label] = jp
+                break
 
     options = list(option_to_path.keys())
-
     default_key = "A · DermGPT"
     default_idx = options.index(default_key) if default_key in option_to_path else 0
 
     selected_path: Optional[Path] = None
     if options:
-        selected_key = st.selectbox(
-            "Select a model card",
-            options=options,
-            index=min(default_idx, len(options) - 1),
-        )
+        selected_key = st.selectbox("Select a model card", options=options, index=min(default_idx, len(options) - 1))
         selected_path = option_to_path.get(selected_key)
     else:
         st.error("No bundled model cards found.")
-        st.caption(
-            "Expected 5 `.md` files under `src/core/pages/preloaded_cards/`. "
-            "If you deploy from Git, push that folder and redeploy."
-        )
-        with st.expander("Path check (debug)"):
-            st.code(
-                "\n".join(
-                    f"{d} exists={d.is_dir()} → {(d / 'dermgpt-20260429-173126.md').exists()}"
-                    for d in PRELOADED_DIRS
-                )
-                + f"\n{OUTPUTS_DIR} (outputs/) exists={OUTPUTS_DIR.is_dir()}"
-            )
 
-    uploaded = st.file_uploader("Or upload a markdown file", type=["md"])
-
-    st.subheader("Display")
+    uploaded = st.file_uploader("Or upload clinical JSON / markdown", type=["json", "md"])
     hide_citations = st.checkbox("Hide citation markers", value=False)
-    show_raw = st.checkbox("Show raw markdown preview", value=False)
+    color_regulatory = st.checkbox("Color-code regulatory status row", value=False)
 
-    color_row, help_row = st.columns([0.88, 0.12])
-    with color_row:
-        color_regulatory = st.checkbox(
-            "Color-code regulatory status",
-            value=False,
-            help="Highlight each statement by inferred FDA / EUA / CE / research-use status.",
-        )
-    with help_row:
-        with st.popover("?", help="What do the colors mean?"):
-            st.markdown("**Regulatory status color key**")
-            st.markdown(regulatory_legend_html(), unsafe_allow_html=True)
-            st.caption(
-                "Each field row is colored from the text of that statement. "
-                "When several signals appear, the strongest authorization level is shown."
-            )
-
-    if color_regulatory:
-        st.markdown(
-            "<div style='margin-top:6px;font-weight:600;font-size:12px;'>Legend</div>"
-            + regulatory_legend_html(),
-            unsafe_allow_html=True,
-        )
+md_path: Optional[Path] = None
+json_path: Optional[Path] = None
+source_label = "No file selected"
+card: Optional[ClinicalModelCard] = None
+md_text = ""
+citations_data = None
 
 if uploaded is not None:
-    md_text = uploaded.read().decode("utf-8", errors="replace")
     source_label = uploaded.name
+    if uploaded.name.endswith(".json"):
+        card = ClinicalModelCard.from_dict(__import__("json").loads(uploaded.read().decode("utf-8")))
+    else:
+        md_text = uploaded.read().decode("utf-8", errors="replace")
 elif selected_path and selected_path.exists():
-    md_text = selected_path.read_text(encoding="utf-8", errors="replace")
-    # Preserve the A/B label shown in the selectbox.
     source_label = next((k for k, v in option_to_path.items() if v == selected_path), selected_path.name)
-else:
-    md_text = ""
-    source_label = "No file selected"
+    if selected_path.suffix == ".json":
+        card = ClinicalModelCard.from_dict(__import__("json").loads(selected_path.read_text(encoding="utf-8")))
+        citations_data = load_citations_for_markdown(selected_path)
+    else:
+        md_path = selected_path
+        json_path, _ = _resolve_card_paths(selected_path.name)
+        if json_path and json_path.exists():
+            card = ClinicalModelCard.from_dict(__import__("json").loads(json_path.read_text(encoding="utf-8")))
+            citations_data = load_citations_for_markdown(json_path)
+        else:
+            md_text = selected_path.read_text(encoding="utf-8", errors="replace")
+            citations_data = load_citations_for_markdown(selected_path)
 
-if not md_text.strip():
-    st.warning("Pick or upload a markdown file to render.")
+if card is None and not md_text.strip():
+    st.warning("Pick or upload a model card to render.")
+    st.stop()
+
+if card is not None:
+    if color_regulatory:
+        st.markdown(regulatory_legend_html(), unsafe_allow_html=True)
+    html_out = render_from_card(card, source_label=source_label, hide_citations=hide_citations, citations=citations_data)
+    if hasattr(st, "html"):
+        st.html(html_out)
+    else:
+        st.markdown(html_out, unsafe_allow_html=True)
+    st.stop()
+
+if is_v03_markdown(md_text) and not is_clinical_markdown(md_text):
+    st.error("This card uses the legacy CHAI v0.3 format. Run the migration script or upload a clinical-model-card-1.0 file.")
     st.stop()
 
 md_for_parse = normalize_md_for_parsing(md_text)
-is_manual = source_label.strip().lower().startswith("b ·")
-ref_map = parse_references(md_for_parse, allow_sources_heading=is_manual)
-body_md = body_before_references(md_for_parse, allow_sources_heading=is_manual)
+ref_map = parse_references(md_for_parse)
+body_md = body_before_references(md_for_parse, allow_sources_heading=False)
 _old_to_new, ref_map = build_ref_renumbering(body_md, ref_map)
-sections = parse_model_card_md(md_for_parse)
-sections = rewrite_sections_citations(sections, _old_to_new)
-doc_title = extract_doc_title(md_for_parse)
-# UI-only: autogenerated sidebar cards (A ·) use CHAI H1 "… (v0.3)"; strip for display.
-if doc_title and not is_manual:
-    doc_title = re.sub(r"\s*\(v0\.3\)\s*$", "", doc_title, flags=re.IGNORECASE).strip() or None
-doc_title = strip_chai_model_card_suffix(doc_title)
+sections = rewrite_sections_citations(parse_model_card_md(md_for_parse), _old_to_new)
+doc_title = strip_chai_model_card_suffix(extract_doc_title(md_for_parse))
 
 regulatory_by_key = None
 if color_regulatory:
-    regulatory_by_key = compute_regulatory_for_sections(sections)
+    regulatory_by_key = compute_regulatory_for_sections(sections, md_text=md_for_parse, citations=citations_data, refs=ref_map)
 
 card_html = render_full_card_html(
     sections=sections,
@@ -167,15 +157,10 @@ card_html = render_full_card_html(
     doc_title=doc_title,
     source_label=source_label,
     hide_citations=hide_citations,
-    manual_linkify=is_manual,
+    manual_linkify=False,
     regulatory_by_key=regulatory_by_key,
 )
-
 if hasattr(st, "html"):
     st.html(card_html)
 else:
     st.markdown(card_html, unsafe_allow_html=True)
-
-if show_raw:
-    with st.expander("Raw markdown", expanded=False):
-        st.markdown(md_text)

@@ -1,0 +1,33 @@
+{
+  "schemaVersion": "clinical-model-card-citations-1.0",
+  "references": {
+    "1": {
+      "url": "https://example.com/datasets/derm-archive",
+      "title": "Derm archive dataset"
+    },
+    "2": {
+      "url": "https://example.com/pub/dermtest-validation",
+      "title": "Validation publication"
+    }
+  },
+  "fieldCitations": {
+    "training_data.description": [
+      {
+        "text": "Multicenter dermoscopy archive with histopathology labels.",
+        "citationIds": ["1"]
+      }
+    ],
+    "model_development_and_validation.description": [
+      {
+        "text": "Prospective validation across three sites.",
+        "citationIds": ["2"]
+      }
+    ],
+    "performance.metrics[0]": [
+      {
+        "text": "94%",
+        "citationIds": ["2"]
+      }
+    ]
+  }
+}

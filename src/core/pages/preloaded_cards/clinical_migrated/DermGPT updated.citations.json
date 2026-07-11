@@ -1,0 +1,331 @@
+{
+  "schema_version": "clinical-model-card-citations-1.0",
+  "references": {
+    "1": {
+      "url": "https://practicaldermatology.com/topics/practice-management/ai-based-dermgpt-focuses-on-improved-clinic-productivity/23990/",
+      "title": "",
+      "source": ""
+    },
+    "2": {
+      "url": "https://www.mdedge.com/cutis/article/268568/dermgpt-can-help-improve-your-office-productivity",
+      "title": "",
+      "source": ""
+    },
+    "3": {
+      "url": "https://theresanaiforthat.com/gpt/dermgpt/",
+      "title": "",
+      "source": ""
+    },
+    "4": {
+      "url": "https://www.dermgpt.com/derm-gpt-chat",
+      "title": "",
+      "source": ""
+    },
+    "5": {
+      "url": "[https://www.jaad.org/article/S0190-9622(25)01529-4/fulltext](https://www.jaad.org/article/S0190-9622(25)01529-4/fulltext)",
+      "title": "",
+      "source": ""
+    },
+    "6": {
+      "url": "https://pubmed.ncbi.nlm.nih.gov/38754096/",
+      "title": "",
+      "source": ""
+    },
+    "7": {
+      "url": "https://www.medpagetoday.com/video-coverage/atopic-derm-future-focus/107750",
+      "title": "",
+      "source": ""
+    },
+    "8": {
+      "url": "https://www.learnskin.com/authors/Faranak-Kamangar/",
+      "title": "",
+      "source": ""
+    },
+    "9": {
+      "url": "https://www.sciencedirect.com/science/article/pii/S2667102625000919",
+      "title": "",
+      "source": ""
+    },
+    "10": {
+      "url": "https://derma.jmir.org/2025/1/e74040",
+      "title": "",
+      "source": ""
+    },
+    "11": {
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC12677980/",
+      "title": "",
+      "source": ""
+    }
+  },
+  "field_citations": {
+    "model_name": [
+      {
+        "text": "DermGPT",
+        "citationIds": [
+          "4"
+        ]
+      }
+    ],
+    "developer": [
+      {
+        "text": "Dr. Faranak \u201cFara\u201d Kamangar MD (board-certified dermatologist).",
+        "citationIds": [
+          "1",
+          "8"
+        ]
+      }
+    ],
+    "availability": [
+      {
+        "text": "Not specified.",
+        "citationIds": []
+      }
+    ],
+    "summary": [
+      {
+        "text": "DermGPT is described as an AI-powered dermatology chatbot intended to improve clinic productivity and streamline dermatology workflows by providing cited answers from curated dermatology literature.",
+        "citationIds": [
+          "1",
+          "2",
+          "4"
+        ]
+      }
+    ],
+    "medical_purpose": [
+      {
+        "text": "Intended as an assistant for dermatologists and staff to support practice management tasks and access dermatology knowledge; not a stand-alone decision maker or replacement for medical care/decision-making.",
+        "citationIds": [
+          "1"
+        ]
+      }
+    ],
+    "acceptable_input": [
+      {
+        "text": "User prompts and queries; underlying curated literature base.",
+        "citationIds": [
+          "1",
+          "2"
+        ]
+      },
+      {
+        "text": "Input: natural language text; Output: natural language text (with citations), plus generated documents/letters.",
+        "citationIds": [
+          "1",
+          "2"
+        ]
+      },
+      {
+        "text": "Use via the web app by prompting the chatbot; outputs are described as including citations and requiring proofreading.",
+        "citationIds": [
+          "2",
+          "4"
+        ]
+      }
+    ],
+    "output": [
+      {
+        "text": "Natural-language answers and drafts for clinical/admin tasks (e.g., patient education, prior authorizations, messaging responses, study support).",
+        "citationIds": [
+          "1",
+          "2",
+          "4"
+        ]
+      }
+    ],
+    "role_in_decision_making": [
+      {
+        "text": "Not explicitly stated; likely low-to-moderate because it is a language assistant that could still produce incorrect medical content if misused.",
+        "citationIds": [
+          "6"
+        ]
+      },
+      {
+        "text": "Intended as an assistant for dermatologists and staff to support practice management tasks and access dermatology knowledge; not a stand-alone decision maker or replacement for medical care/decision-making.",
+        "citationIds": [
+          "1"
+        ]
+      }
+    ],
+    "intended_users": [
+      {
+        "text": "Dermatologists and dermatology staff (RNs, MAs, ancillary staff); some sources describe broader audiences, but primary positioning is clinical workflow support.",
+        "citationIds": [
+          "1",
+          "4"
+        ]
+      },
+      {
+        "text": "No special technical expertise described; clinical expertise required to appropriately apply outputs.",
+        "citationIds": [
+          "1",
+          "2"
+        ]
+      }
+    ],
+    "target_patient_population": [
+      {
+        "text": "Not specified; tool is primarily provider-facing.",
+        "citationIds": [
+          "1"
+        ]
+      }
+    ],
+    "known_failure_modes": [
+      {
+        "text": "Not a substitute for professional medical advice; limitations include dependence on curated literature and typical LLM risks (incorrect outputs/hallucinations), mitigated by clinician oversight.",
+        "citationIds": [
+          "1",
+          "2"
+        ]
+      },
+      {
+        "text": "Not specified.",
+        "citationIds": []
+      }
+    ],
+    "unsupported_clinical_scenarios": [
+      {
+        "text": "AI can create inaccuracies; users should proofread content.",
+        "citationIds": [
+          "2"
+        ]
+      },
+      {
+        "text": "Not a substitute for professional medical advice; limitations include dependence on curated literature and typical LLM risks (incorrect outputs/hallucinations), mitigated by clinician oversight.",
+        "citationIds": [
+          "1",
+          "2"
+        ]
+      }
+    ],
+    "unsupported_use_cases": [
+      {
+        "text": "Not a substitute for professional medical advice; limitations include dependence on curated literature and typical LLM risks (incorrect outputs/hallucinations), mitigated by clinician oversight.",
+        "citationIds": [
+          "1",
+          "2"
+        ]
+      }
+    ],
+    "required_clinician_oversight": [
+      {
+        "text": "Use via the web app by prompting the chatbot; outputs are described as including citations and requiring proofreading.",
+        "citationIds": [
+          "2",
+          "4"
+        ]
+      },
+      {
+        "text": "Not explicitly stated; likely low-to-moderate because it is a language assistant that could still produce incorrect medical content if misused.",
+        "citationIds": [
+          "6"
+        ]
+      },
+      {
+        "text": "Not specified.",
+        "citationIds": []
+      }
+    ],
+    "model_type": [
+      {
+        "text": "Informative / workflow support LLM (language-based model).",
+        "citationIds": [
+          "1",
+          "2"
+        ]
+      },
+      {
+        "text": "Described as a dermatology-focused language model trained/built on 3,000+ peer-reviewed dermatology articles and texts, returning cited answers.",
+        "citationIds": [
+          "1",
+          "2",
+          "4"
+        ]
+      }
+    ],
+    "training_data.description": [
+      {
+        "text": "Dermatology peer-reviewed literature and published sources; full dataset not specified.",
+        "citationIds": [
+          "2",
+          "7"
+        ]
+      }
+    ],
+    "model_development_and_validation.description": [
+      {
+        "text": "Examples of related publications include",
+        "citationIds": [
+          "10",
+          "11"
+        ]
+      },
+      {
+        "text": ".",
+        "citationIds": []
+      }
+    ],
+    "clinical_trial": [
+      {
+        "text": "Not specified.",
+        "citationIds": []
+      }
+    ],
+    "performance.summary": [
+      {
+        "text": "Not specified.",
+        "citationIds": []
+      }
+    ],
+    "ongoing_monitoring_plan": [
+      {
+        "text": "Described as continuously updated and improved.",
+        "citationIds": [
+          "1"
+        ]
+      },
+      {
+        "text": "Service/uptime terms are published at https://www.dermgpt.com/sla.",
+        "citationIds": []
+      }
+    ],
+    "scheduled_updates": [
+      {
+        "text": "Described as continuously updated and improved.",
+        "citationIds": [
+          "1"
+        ]
+      },
+      {
+        "text": "Service/uptime terms are published at https://www.dermgpt.com/sla.",
+        "citationIds": []
+      }
+    ],
+    "contact": [
+      {
+        "text": "No clear contact / FAQ located in the reviewed sources.",
+        "citationIds": [
+          "4"
+        ]
+      },
+      {
+        "text": "https://www.dermgpt.com/",
+        "citationIds": [
+          "4"
+        ]
+      }
+    ],
+    "regulatory_approval_status": [
+      {
+        "text": "Not FDA approved / not described as a regulated medical device.",
+        "citationIds": [
+          "1",
+          "4"
+        ]
+      }
+    ]
+  },
+  "fields": {},
+  "regulatory_status_source": "conservative_text_map",
+  "regulatory_status_confidence": "conservative_map"
+}

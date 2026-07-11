@@ -50,7 +50,7 @@ class Target:
     label: str
     model_name: str
     developer_name: str
-    out_md_filename: str
+    clinical_stem: str
 
 
 TARGETS: list[Target] = [
@@ -58,19 +58,19 @@ TARGETS: list[Target] = [
         label="A · DermaSensor",
         model_name="DermaSensor",
         developer_name="DermaSensor, Inc.",
-        out_md_filename="dermasensor-20260501-192348.md",
+        clinical_stem="dermasensor-20260501-192348",
     ),
     Target(
         label="A · DermGPT",
         model_name="DermGPT",
         developer_name="",
-        out_md_filename="dermgpt-20260429-173126.md",
+        clinical_stem="dermgpt-20260429-173126",
     ),
     Target(
         label="A · Tandem",
         model_name="Tandem",
         developer_name="",
-        out_md_filename="tandem-20260501-043225.md",
+        clinical_stem="tandem-20260501-043225",
     ),
 ]
 
@@ -123,19 +123,29 @@ def main() -> None:
         end_iso = utc_now_iso()
         elapsed_s = time.time() - start_wall
 
+        json_path: Optional[Path] = None
         md_path: Optional[Path] = None
+        cites_path: Optional[Path] = None
         outs = content.get("paths")
-        if outs and getattr(outs, "md_path", None):
-            md_path = Path(outs.md_path)
+        if outs and getattr(outs, "json_path", None):
+            json_path = Path(outs.json_path)
+            md_path = Path(outs.md_path) if getattr(outs, "md_path", None) else None
+            cites_path = (
+                Path(outs.citations_json_path) if getattr(outs, "citations_json_path", None) else None
+            )
 
-        copied_to = preloaded_dir / t.out_md_filename
+        stem = t.clinical_stem
+        copied_json = preloaded_dir / f"{stem}.clinical.json"
+        copied_md = preloaded_dir / f"{stem}.clinical.md"
+        copied_cites = preloaded_dir / f"{stem}.citations.json"
+        if json_path and json_path.exists():
+            shutil.copyfile(json_path, copied_json)
         if md_path and md_path.exists():
-            shutil.copyfile(md_path, copied_to)
-        else:
-            # As a fallback, write markdown from content if available
-            md_text = content.get("markdown", "")
-            if isinstance(md_text, str) and md_text.strip():
-                copied_to.write_text(md_text, encoding="utf-8")
+            shutil.copyfile(md_path, copied_md)
+        elif isinstance(content.get("markdown"), str) and content["markdown"].strip():
+            copied_md.write_text(content["markdown"], encoding="utf-8")
+        if cites_path and cites_path.exists():
+            shutil.copyfile(cites_path, copied_cites)
 
         report_rows.append(
             {
@@ -145,8 +155,10 @@ def main() -> None:
                 "started_utc": start_iso,
                 "ended_utc": end_iso,
                 "elapsed_seconds": round(elapsed_s, 3),
-                "pipeline_md_path": str(md_path) if md_path else "",
-                "preloaded_md_path": str(copied_to),
+                "pipeline_json_path": str(json_path) if json_path else "",
+                "preloaded_clinical_json": str(copied_json),
+                "preloaded_clinical_md": str(copied_md),
+                "preloaded_citations_json": str(copied_cites),
                 "sources_count": len((sources or {}).get("citations", {}) or {}),
             }
         )

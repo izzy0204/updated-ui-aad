@@ -1,0 +1,60 @@
+{
+  "schemaVersion": "clinical-model-card-1.0",
+  "modelName": "DermTest Pro",
+  "applicationUrl": "https://example.com/dermtest",
+  "developer": "Acme Dermatology AI",
+  "regulatoryApprovalStatus": "FDA_CLEARED",
+  "regulatoryApprovalDate": "2024-06-01",
+  "version": "2.1.0",
+  "lastUpdated": "2026-01-15",
+  "availability": "Available in the United States.",
+  "summary": "Assists clinicians in lesion triage. Validated on multicenter cohorts.",
+  "medicalPurpose": "Support referral decisions for suspicious lesions.",
+  "acceptableInput": "Dermoscopic images.",
+  "output": "Risk score and category.",
+  "roleInDecisionMaking": "Adjunct to clinical judgment.",
+  "intendedUsers": "Primary care physicians.",
+  "targetPatientPopulation": "Adults with suspicious skin lesions.",
+  "knownFailureModes": "May underperform on acral sites.",
+  "unsupportedClinicalScenarios": "Pediatric screening.",
+  "unsupportedUseCases": "Consumer self-diagnosis.",
+  "requiredClinicianOversight": "Physician review required.",
+  "modelType": "Convolutional neural network.",
+  "trainingData": {
+    "description": "Multicenter dermoscopy archive with histopathology labels.",
+    "datasetUrl": "https://example.com/datasets/derm-archive"
+  },
+  "modelDevelopmentAndValidation": {
+    "description": "Prospective validation across three sites.",
+    "publicationUrl": "https://example.com/pub/dermtest-validation"
+  },
+  "clinicalTrial": {
+    "identifier": "NCT01234567",
+    "url": "https://clinicaltrials.gov/study/NCT01234567",
+    "description": "Multicenter prospective study."
+  },
+  "performance": {
+    "summary": "Sensitivity 94% and specificity 87% in the pivotal cohort.",
+    "metrics": [
+      {
+        "name": "Sensitivity",
+        "value": "94%",
+        "population": "Pivotal cohort (n=412)",
+        "confidenceInterval": "90–97%"
+      },
+      {
+        "name": "Specificity",
+        "value": "87%",
+        "population": "Pivotal cohort (n=412)",
+        "confidenceInterval": "83–91%"
+      }
+    ]
+  },
+  "performanceEvaluationLimitations": "Single geography in pivotal trial.",
+  "ongoingMonitoringPlan": "Annual performance review.",
+  "scheduledUpdates": "As needed with regulatory clearance.",
+  "contact": {
+    "email": "support@example.com",
+    "url": "https://example.com/contact"
+  }
+}

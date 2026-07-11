@@ -21,7 +21,7 @@ from typing import Any, Dict, List, Optional, Tuple
 
 from utils.web_search import fetch_many
 from config.config import get_settings
-from core.chai_schema import CHAIModelCard
+from core.chai_schema import CHAIModelCard, CLINICAL_AGENT_EXTRACT_FIELDS, CLINICAL_NESTED_FIELD_SPECS
 from utils.cache_system import get_cache
 from .prompts import PLANNER, EXTRACTOR, VALIDATOR
 from .tools import (
@@ -39,7 +39,8 @@ from google.genai import types
 
 # ----------------------------- CHAI fields -----------------------------
 
-_CHAI_FIELDS = [f.name for f in dc_fields(CHAIModelCard) if f.name != "extraction_timestamp"]
+_CHAI_FIELDS = CLINICAL_AGENT_EXTRACT_FIELDS
+_NESTED_FIELD_NAMES = frozenset(CLINICAL_NESTED_FIELD_SPECS.keys())
 
 # ----------------------------- Numeric Specificity -----------------------------
 _NUMERIC_HINTS = {
@@ -480,6 +481,18 @@ def _safe_merge_value(existing: Any, new: Any, field_name: str) -> tuple[Any, bo
         if len(new.strip()) > len(existing.strip()):
             return new, True
         return existing, False
+    if isinstance(new, dict):
+        if isinstance(existing, dict):
+            merged = dict(existing)
+            changed = False
+            for k, v in new.items():
+                if v in (None, "", [], {}):
+                    continue
+                if merged.get(k) != v:
+                    merged[k] = v
+                    changed = True
+            return merged, changed
+        return new, True
     return existing, False
 
 
@@ -501,8 +514,8 @@ def _finalize_not_specified(state: Dict[str, Any]) -> Dict[str, Any]:
 
 def _normalize_extractor_output(
     raw: Any, want_fields: List[str]
-) -> tuple[Dict[str, str], Dict[str, List[Dict[str, str]]]]:
-    values: Dict[str, str] = {}
+) -> tuple[Dict[str, Any], Dict[str, List[Dict[str, str]]]]:
+    values: Dict[str, Any] = {}
     evidence: Dict[str, List[Dict[str, str]]] = {}
 
     if isinstance(raw, dict) and "error" in raw:
@@ -516,10 +529,14 @@ def _normalize_extractor_output(
     # 1) Primary "values" object
     if isinstance(raw.get("values"), dict):
         for k, v in raw["values"].items():
-            if isinstance(v, (str, int, float)):
+            if isinstance(v, dict) and str(k) in _NESTED_FIELD_NAMES:
+                values[str(k)] = v
+            elif isinstance(v, (str, int, float)):
                 values[str(k)] = str(v).strip()
             elif v is None:
                 values[str(k)] = None
+            elif isinstance(v, list) and str(k) == "performance":
+                values[str(k)] = v
             elif isinstance(v, list):
                 values[str(k)] = "; ".join(str(x).strip() for x in v if str(x).strip())
 
@@ -737,32 +754,10 @@ async def run(
                 want.append(path)
 
         if not want:
-            specialized_fields = [
-                "release_date", "global_availability", "how_to_use",
-                "developer_supplied_warnings", "model_limitations",
-                "training_data", "output_input_data_type", "ongoing_maintenance",
-                "transparency_information", "usefulness_efficacy_result",
-                "safety_reliability_goal_of_metrics", "safety_reliability_result",
-                "safety_reliability_interpretation", "safety_reliability_test_type",
-                "safety_reliability_testing_data_description",
-                "safety_reliability_validation_process_and_justification",
-                "regulatory_approval_status_if_applicable", "irb_approval",
-                "ethical_review_board_oversight", "clinical_trial_if_available",
-                "reimbursement_status_if_applicable",
-                "stakeholders_consulted_during_design_of_solution",
-                "fairness_equity_goal_of_metrics", "fairness_equity_result",
-                "fairness_equity_interpretation", "bias_mitigation_approaches",
-                "skin_tone_diversity", "demographic_representativeness",
-            ]
-            for field in specialized_fields:
-                cur = _get_by_path(state, field)
+            for field in _CHAI_FIELDS:
+                cur = _get_by_path(state, field) if "." in field else state.get(field)
                 if _is_empty(cur):
                     want.append(field)
-            for field in _CHAI_FIELDS:
-                if field not in specialized_fields:
-                    cur = _get_by_path(state, field)
-                    if _is_empty(cur):
-                        want.append(field)
 
         # 4) Extract – launch batches concurrently
         BATCH_SIZE = 15
@@ -865,8 +860,13 @@ async def run(
         # 7) Stop criteria
         total_nonempty = flatten_nonempty(state)
         critical_fields = [
-            "model_name", "developer", "summary", "intended_use_and_workflow",
-            "model_limitations", "training_data", "usefulness_efficacy_result",
+            "model_name",
+            "developer",
+            "summary",
+            "medical_purpose",
+            "known_failure_modes",
+            "training_data",
+            "performance",
         ]
         critical_filled = sum(1 for f in critical_fields if not _is_empty(_get_by_path(state, f)))
         weighted_coverage = (total_nonempty + critical_filled) / max(50, total_nonempty + critical_filled)

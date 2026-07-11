@@ -67,7 +67,7 @@ sys.path.insert(0, str(repo_root))
 from dataclasses import fields as dc_fields
 
 from pipelines.cardgen_pipeline import CardGenPipeline
-from core.chai_schema import CHAIModelCard
+from core.chai_schema import CHAIModelCard, ClinicalModelCard, REGULATORY_STATUS_LABELS
 from ai_extractors.ai_extractor import RateLimitExceededError, QuotaExceededError
 
 
@@ -81,9 +81,7 @@ def _restore_model_card_from_session():
         return None
     try:
         data = json.loads(raw)
-        valid = {f.name for f in dc_fields(CHAIModelCard)}
-        filtered = {k: v for k, v in data.items() if k in valid}
-        card = CHAIModelCard(**filtered)
+        card = ClinicalModelCard.from_dict(data)
         st.session_state.generated_model_card = card
         return card
     except Exception:
@@ -315,24 +313,21 @@ def main_tab_content():
                     
                     with col2:
                         st.markdown("**Key Details**")
-                        st.markdown(f"**Intended Use:** {chai_model_card.intended_use_and_workflow[:200] if chai_model_card.intended_use_and_workflow else 'Medical image analysis'}...")
-                        st.markdown(f"**Primary Users:** {chai_model_card.primary_intended_users if chai_model_card.primary_intended_users else 'Healthcare professionals'}")
-                        st.markdown(f"**Clinical Risk Level:** {chai_model_card.clinical_risk_level if chai_model_card.clinical_risk_level else 'To be determined'}")
-                        
-                        if chai_model_card.keywords:
-                            st.markdown(f"**Keywords:** {', '.join(chai_model_card.keywords[:5])}")
+                        st.markdown(f"**Medical Purpose:** {(chai_model_card.medical_purpose or 'Not specified')[:200]}")
+                        st.markdown(f"**Intended Users:** {chai_model_card.intended_users or 'Healthcare professionals'}")
+                        st.markdown(f"**Regulatory Status:** {REGULATORY_STATUS_LABELS.get(chai_model_card.regulatory_approval_status, 'Unknown')}")
                 
                 # Download section
                 st.subheader("Download Your Model Card")
                 st.markdown("Choose your preferred format:")
                 
-                col1, col2, col3 = st.columns(3)
+                col1, col2 = st.columns(2)
                 
                 with col1:
                     st.download_button(
                         label="Download JSON",
                         data=chai_model_card.to_json(),
-                        file_name=f"{model_name.replace(' ', '_')}_model_card.json",
+                        file_name=f"{model_name.replace(' ', '_')}_model_card.clinical.json",
                         mime="application/json",
                         use_container_width=True
                     )
@@ -341,17 +336,8 @@ def main_tab_content():
                     st.download_button(
                         label="Download Markdown", 
                         data=chai_model_card.to_markdown(),
-                        file_name=f"{model_name.replace(' ', '_')}_model_card.md",
+                        file_name=f"{model_name.replace(' ', '_')}_model_card.clinical.md",
                         mime="text/markdown",
-                        use_container_width=True
-                    )
-                
-                with col3:
-                    st.download_button(
-                        label="Download XML",
-                        data=chai_model_card.to_xml(),
-                        file_name=f"{model_name.replace(' ', '_')}_model_card.xml", 
-                        mime="application/xml",
                         use_container_width=True
                     )
                 
@@ -554,17 +540,16 @@ def display_model_card_output(chai_model_card):
                 <h3 style="margin: 0; color: white;"> Basic Info</h3>
                 <hr style="border-color: rgba(255,255,255,0.3);">
                 <p><strong>Type:</strong> {chai_model_card.model_type or 'Not specified'}</p>
-                <p><strong>Stage:</strong> {_card_stage(chai_model_card) or 'Not specified'}</p>
                 <p><strong>Version:</strong> {_card_version(chai_model_card) or 'Not specified'}</p>
+                <p><strong>Last Updated:</strong> {chai_model_card.last_updated or 'Not specified'}</p>
             </div>
             """,
             unsafe_allow_html=True
         )
     
     with col2:
-        # Determine risk color
-        risk_level = getattr(chai_model_card, 'clinical_risk_level', None) or 'Unknown'
-        risk_color = "#e74c3c" if "high" in risk_level.lower() else "#f39c12" if "medium" in risk_level.lower() else "#27ae60"
+        risk_level = chai_model_card.role_in_decision_making or 'Advisory'
+        risk_color = "#27ae60"
         
         st.markdown(
             f"""
@@ -577,10 +562,10 @@ def display_model_card_output(chai_model_card):
                 box-shadow: 0 5px 15px rgba(0,0,0,0.2);
                 margin-bottom: 1rem;
             ">
-                <h3 style="margin: 0; color: white;"> Risk Level</h3>
+                <h3 style="margin: 0; color: white;"> Decision Role</h3>
                 <hr style="border-color: rgba(255,255,255,0.3);">
-                <p style="font-size: 1.2rem; font-weight: bold;">{risk_level}</p>
-                <p><strong>Limitations:</strong> {(getattr(chai_model_card, 'model_limitations', None) or 'Not specified')[:50]}{'...' if len(str(getattr(chai_model_card, 'model_limitations', None) or '')) > 50 else ''}</p>
+                <p style="font-size: 1.2rem; font-weight: bold;">{risk_level[:80]}</p>
+                <p><strong>Failure modes:</strong> {(chai_model_card.known_failure_modes or 'Not specified')[:50]}...</p>
             </div>
             """,
             unsafe_allow_html=True
@@ -600,8 +585,8 @@ def display_model_card_output(chai_model_card):
             ">
                 <h3 style="margin: 0; color: white;"> Usage</h3>
                 <hr style="border-color: rgba(255,255,255,0.3);">
-                <p><strong>Users:</strong> {chai_model_card.primary_intended_users or 'Healthcare professionals'}</p>
-                <p><strong>Regulatory:</strong> {getattr(chai_model_card, 'regulatory_approval_status', None) or 'Not specified'}</p>
+                <p><strong>Users:</strong> {chai_model_card.intended_users or 'Healthcare professionals'}</p>
+                <p><strong>Regulatory:</strong> {REGULATORY_STATUS_LABELS.get(chai_model_card.regulatory_approval_status, 'Unknown')}</p>
             </div>
             """,
             unsafe_allow_html=True
@@ -625,25 +610,7 @@ def display_model_card_output(chai_model_card):
         unsafe_allow_html=True
     )
     
-    # Keywords Section
-    keywords = chai_model_card.keywords if chai_model_card.keywords else []
-    if keywords:
-        keywords_html = ' '.join([f'<span style="background: #3498db; color: white; padding: 0.3rem 0.8rem; border-radius: 15px; margin: 0.2rem; display: inline-block; font-size: 0.9rem;">{keyword}</span>' for keyword in keywords[:10]])
-        st.markdown(
-            f"""
-            <div style="
-                background: #ecf0f1;
-                padding: 1rem;
-                border-radius: 10px;
-                margin-bottom: 2rem;
-                border-left: 4px solid #3498db;
-            ">
-                <h4 style="margin: 0 0 1rem 0; color: #2c3e50;"> Keywords</h4>
-                {keywords_html}
-            </div>
-            """,
-            unsafe_allow_html=True
-        )
+    # Keywords section removed in clinical schema v1.0
     
     # Expandable detailed sections
     with st.expander("Detailed Technical Information", expanded=False):
@@ -651,13 +618,13 @@ def display_model_card_output(chai_model_card):
     
     # Download Section
     st.markdown("### Download Options")
-    col1, col2, col3 = st.columns(3)
+    col1, col2 = st.columns(2)
     
     with col1:
         st.download_button(
             label="Download JSON",
             data=chai_model_card.to_json(),
-            file_name=f"{(chai_model_card.model_name or 'model_card').replace(' ', '_')}_model_card.json",
+            file_name=f"{(chai_model_card.model_name or 'model_card').replace(' ', '_')}_model_card.clinical.json",
             mime="application/json",
             use_container_width=True,
             key="json_download"
@@ -667,72 +634,38 @@ def display_model_card_output(chai_model_card):
         st.download_button(
             label="Download Markdown",
             data=chai_model_card.to_markdown(),
-            file_name=f"{(chai_model_card.model_name or 'model_card').replace(' ', '_')}_model_card.md",
+            file_name=f"{(chai_model_card.model_name or 'model_card').replace(' ', '_')}_model_card.clinical.md",
             mime="text/markdown",
             use_container_width=True,
             key="markdown_download"
         )
-    
-    with col3:
-        st.download_button(
-            label="Download XML",
-            data=chai_model_card.to_xml(),
-            file_name=f"{(chai_model_card.model_name or 'model_card').replace(' ', '_')}_model_card.xml", 
-            mime="application/xml",
-            use_container_width=True,
-            key="xml_download"
-        )
 
 def display_detailed_sections(chai_model_card):
-    """Display detailed sections in expandable format"""
-    
-    # Release Info Section
-    st.markdown("## Release Info")
-    col1, col2 = st.columns(2)
-    
-    with col1:
-        st.markdown(f"**Stage:** {_card_stage(chai_model_card) or 'Not specified'}")
-        st.markdown(f"**Date:** {chai_model_card.release_date or 'Not specified'}")
-        st.markdown(f"**Version:** {_card_version(chai_model_card) or 'Not specified'}")
-    
-    with col2:
-        st.markdown(f"**Availability:** {chai_model_card.geographic_availability or 'Not specified'}")
-        st.markdown(f"**Regulatory Status:** {getattr(chai_model_card, 'regulatory_approval_status', None) or 'Not specified'}")
-    
-    st.markdown("---")
-    
-    # Uses & Directions Section
-    st.markdown("## Uses & Directions")
-    
-    st.markdown(f"**Intended Use:** {chai_model_card.intended_use_and_workflow or 'Not specified'}")
-    st.markdown(f"**Primary Intended Users:** {chai_model_card.primary_intended_users or 'Not specified'}")
-    st.markdown(f"**How to Use:** {getattr(chai_model_card, 'how_to_use', None) or 'Not specified'}")
-    
-    st.markdown("---")
-    
-    # Trust Ingredients Section
-    st.markdown("## Trust Ingredients")
-    
-    col1, col2 = st.columns(2)
-    
-    with col1:
-        st.markdown(f"**Model Type:** {chai_model_card.model_type or 'Not specified'}")
-        st.markdown(f"**Foundation Models:** {getattr(chai_model_card, 'foundation_models_used', None) or 'Not specified'}")
-        st.markdown(f"**Input Data Source:** {getattr(chai_model_card, 'input_data_source', None) or 'Not specified'}")
-    
-    with col2:
-        st.markdown(f"**Bias Mitigation:** {getattr(chai_model_card, 'bias_mitigation', None) or 'Not specified'}")
-        st.markdown(f"**Security & Compliance:** {getattr(chai_model_card, 'security_compliance', None) or 'Not specified'}")
-        st.markdown(f"**Funding Source:** {getattr(chai_model_card, 'funding_source', None) or 'Not specified'}")
-    
-    # Sources Section
-    st.markdown("---")
-    st.markdown("## Sources Used")
-    display_sources_section(chai_model_card)
-    
-    # Generation timestamp
-    st.markdown("---")
-    st.markdown(f"**Generated:** {chai_model_card.extraction_timestamp or 'Not specified'}")
+    """Display clinical model card sections."""
+    from core.clinical_display import (
+        iter_display_sections,
+        performance_metrics_rows,
+        regulatory_status_badge_md,
+    )
+
+    current_section = None
+    for section, field_name, label, text in iter_display_sections(chai_model_card):
+        if section != current_section:
+            if current_section is not None:
+                st.markdown("---")
+            st.subheader(section)
+            current_section = section
+        if field_name == "regulatory_approval_status":
+            st.markdown(regulatory_status_badge_md(chai_model_card.regulatory_approval_status, label), unsafe_allow_html=True)
+        elif field_name == "performance" and performance_metrics_rows(chai_model_card):
+            st.markdown(f"**{label}:** {text}")
+            st.markdown("**Performance Metrics**")
+            st.table(performance_metrics_rows(chai_model_card))
+        elif field_name in ("contact", "training_data", "model_development_and_validation", "clinical_trial"):
+            st.markdown(f"**{label}:** {text}")
+        else:
+            st.markdown(f"**{label}:** {text}")
+
 
 def display_sources_section(chai_model_card):
     """Display detailed information about sources used for the model card"""

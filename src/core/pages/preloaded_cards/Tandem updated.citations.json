@@ -1,0 +1,327 @@
+{
+  "schema_version": "clinical-model-card-citations-1.0",
+  "references": {
+    "1": {
+      "url": "https://withtandem.com/",
+      "title": "",
+      "source": ""
+    },
+    "2": {
+      "url": "https://pear.vc/companies/tandem/",
+      "title": "",
+      "source": ""
+    },
+    "3": {
+      "url": "https://www.openevidence.com/announcements/openevidence-and-tandem-partner-to-streamline-evidence-based-prescribing-and-prior-authorizations",
+      "title": "",
+      "source": ""
+    },
+    "4": {
+      "url": "https://techfundingnews.com/tandem-1b-valuation-100m-round/",
+      "title": "",
+      "source": ""
+    },
+    "5": {
+      "url": "https://yourpractice.withtandem.com/prior-authorization-software",
+      "title": "",
+      "source": ""
+    },
+    "6": {
+      "url": "https://datamatrixmedical.com/tandem-ai-prior-authorization-reviews-compared-to-prior-authorization-specialists/",
+      "title": "",
+      "source": ""
+    },
+    "7": {
+      "url": "https://entrepreneurloop.com/tandem-ai-prescription-startup-billion-valuation-2026/",
+      "title": "",
+      "source": ""
+    },
+    "8": {
+      "url": "https://www.businesswire.com/news/home/20260402254260/en/OpenEvidence-and-Tandem-Partner-to-Streamline-Evidence-Based-Prescribing-and-Prior-Authorizations",
+      "title": "",
+      "source": ""
+    },
+    "9": {
+      "url": "https://www.linkedin.com/company/withtandem",
+      "title": "",
+      "source": ""
+    },
+    "10": {
+      "url": "https://pymnts.com/healthcare/2026/tandem-technology-raise-100-million-dollars-prescription-automation/",
+      "title": "",
+      "source": ""
+    },
+    "11": {
+      "url": "https://www.bloomberg.com/news/articles/2026-01-26/ai-for-prescriptions-startup-tandem-lands-1-billion-valuation",
+      "title": "",
+      "source": ""
+    },
+    "12": {
+      "url": "https://withtandem.com/blog/why-thousands-of-providers-trust-tandem-inside-tandems-clinical-intelligence-team",
+      "title": "",
+      "source": ""
+    },
+    "13": {
+      "url": "https://wellfound.com/company/withtandem",
+      "title": "",
+      "source": ""
+    },
+    "14": {
+      "url": "https://withtandem.com/blog/how-docs-dermatology-accelerated-medication-access-across-140-locations",
+      "title": "",
+      "source": ""
+    },
+    "15": {
+      "url": "https://www.ama-assn.org/system/files/prior-authorization-survey.pdf",
+      "title": "",
+      "source": ""
+    },
+    "16": {
+      "url": "https://www.cms.gov/priorities/burden-reduction/overview/interoperability/policies-regulations/cms-interoperability-prior-authorization-final-rule-cms-0057-f",
+      "title": "",
+      "source": ""
+    }
+  },
+  "field_citations": {
+    "model_name": [
+      {
+        "text": "Tandem",
+        "citationIds": [
+          "1"
+        ]
+      }
+    ],
+    "developer": [
+      {
+        "text": "Tandem Technology, Inc. Founder & CEO is Sahir Jaggi. Clinical Intelligence led by Adam Harris, MD and Kathleen Alvarez, NP.",
+        "citationIds": [
+          "1",
+          "2"
+        ]
+      }
+    ],
+    "availability": [
+      {
+        "text": "Available in the United States; availability abroad not clearly specified.",
+        "citationIds": [
+          "1"
+        ]
+      }
+    ],
+    "summary": [
+      {
+        "text": "Tandem is an AI-powered platform that automates end-to-end medication access workflows (prior authorization submission, appeals, pharmacy routing, affordability/patient assistance enrollment, and patient communication). Integrates with provider EHRs; offered free to providers and patients (per developer materials).",
+        "citationIds": [
+          "1"
+        ]
+      }
+    ],
+    "medical_purpose": [
+      {
+        "text": "Automate steps of obtaining prior authorization for medications, including PA form generation/submission, appeals, pharmacy navigation, and patient communication.",
+        "citationIds": [
+          "1"
+        ]
+      }
+    ],
+    "acceptable_input": [
+      {
+        "text": "Electronic prescriptions (structured), clinical records/notes (unstructured), payer rules, insurance data, historical outcomes, and patient communications.",
+        "citationIds": [
+          "1",
+          "5"
+        ]
+      },
+      {
+        "text": "Inputs include structured and unstructured clinical/admin data; outputs include structured forms, letters, routing instructions, portal updates, and SMS messages.",
+        "citationIds": [
+          "1",
+          "5"
+        ]
+      },
+      {
+        "text": "Typical workflow includes e-prescribing to Tandem from the EHR, optional EHR integration for record retrieval, AI-generated PA form creation, provider review/approval, submission and follow-up, appeals generation with provider review, assistance program enrollment, pharmacy routing, and patient text updates.",
+        "citationIds": [
+          "1",
+          "5"
+        ]
+      }
+    ],
+    "output": [
+      {
+        "text": "Completed PA forms, payer follow-up coordination, appeal letters (clinician-approved), enrollment workflows, pharmacy routing, and real-time patient status communications via text; staff dashboards.",
+        "citationIds": [
+          "1",
+          "5"
+        ]
+      }
+    ],
+    "role_in_decision_making": [
+      {
+        "text": "Low-to-moderate; errors/delays could affect medication access; designed with human-in-the-loop provider review.",
+        "citationIds": [
+          "5"
+        ]
+      },
+      {
+        "text": "Automate steps of obtaining prior authorization for medications, including PA form generation/submission, appeals, pharmacy navigation, and patient communication.",
+        "citationIds": [
+          "1"
+        ]
+      }
+    ],
+    "intended_users": [
+      {
+        "text": "Physicians, nurse practitioners, and practice staff at outpatient practices; also used in workflows involving patients waiting to receive medications.",
+        "citationIds": [
+          "1"
+        ]
+      },
+      {
+        "text": "No specialized technical knowledge described; requires provider e-prescribing capability.",
+        "citationIds": [
+          "5"
+        ]
+      }
+    ],
+    "target_patient_population": [
+      {
+        "text": "U.S. patients requiring medications with prior authorization.",
+        "citationIds": [
+          "1"
+        ]
+      }
+    ],
+    "known_failure_modes": [
+      {
+        "text": "Described limitations include scope focused on medication PAs (not all categories), variability in performance for complex cases or non-responsive patients, not a full replacement for PA specialists, and limited public disclosure of model error rates.",
+        "citationIds": [
+          "6"
+        ]
+      },
+      {
+        "text": "Not applicable to core function (administrative workflow); not specified.",
+        "citationIds": []
+      }
+    ],
+    "unsupported_clinical_scenarios": [
+      {
+        "text": "No formal warnings specified; platform notes include: electronic prescription workflows only; optional EHR integration; manual upload required without integration; provider review/approval before submissions; administrative automation tool that does not replace clinical judgment.",
+        "citationIds": [
+          "5"
+        ]
+      },
+      {
+        "text": "Described limitations include scope focused on medication PAs (not all categories), variability in performance for complex cases or non-responsive patients, not a full replacement for PA specialists, and limited public disclosure of model error rates.",
+        "citationIds": [
+          "6"
+        ]
+      }
+    ],
+    "unsupported_use_cases": [
+      {
+        "text": "Described limitations include scope focused on medication PAs (not all categories), variability in performance for complex cases or non-responsive patients, not a full replacement for PA specialists, and limited public disclosure of model error rates.",
+        "citationIds": [
+          "6"
+        ]
+      }
+    ],
+    "required_clinician_oversight": [
+      {
+        "text": "Typical workflow includes e-prescribing to Tandem from the EHR, optional EHR integration for record retrieval, AI-generated PA form creation, provider review/approval, submission and follow-up, appeals generation with provider review, assistance program enrollment, pharmacy routing, and patient text updates.",
+        "citationIds": [
+          "1",
+          "5"
+        ]
+      },
+      {
+        "text": "Low-to-moderate; errors/delays could affect medication access; designed with human-in-the-loop provider review.",
+        "citationIds": [
+          "5"
+        ]
+      },
+      {
+        "text": "Patient opt-in/consent described for participation and communications (SMS/phone outreach).",
+        "citationIds": [
+          "5"
+        ]
+      }
+    ],
+    "model_type": [
+      {
+        "text": "Workflow automation / administrative support with human review.",
+        "citationIds": [
+          "1",
+          "5"
+        ]
+      },
+      {
+        "text": "AI-powered workflow automation platform using a human-in-the-loop approach; combines NLP and machine learning with payer/workflow automation.",
+        "citationIds": [
+          "1",
+          "7"
+        ]
+      }
+    ],
+    "model_development_and_validation.description": [
+      {
+        "text": "Not specified.",
+        "citationIds": []
+      }
+    ],
+    "clinical_trial": [
+      {
+        "text": "Not specified.",
+        "citationIds": []
+      }
+    ],
+    "performance.summary": [
+      {
+        "text": "HIPAA-compliant; SOC 2 Type II certified; no reported breaches/incidents in cited materials; regulatory context includes CMS interoperability/prior authorization rules.",
+        "citationIds": [
+          "5",
+          "16"
+        ]
+      },
+      {
+        "text": "Administrative + human review mitigates clinical risk; security certifications provide assurance of controls.",
+        "citationIds": [
+          "5"
+        ]
+      }
+    ],
+    "ongoing_monitoring_plan": [
+      {
+        "text": "Continuous improvement described as platform scales.",
+        "citationIds": [
+          "1"
+        ]
+      }
+    ],
+    "scheduled_updates": [
+      {
+        "text": "Continuous improvement described as platform scales.",
+        "citationIds": [
+          "1"
+        ]
+      }
+    ],
+    "contact": [
+      {
+        "text": "security@withtandem.com",
+        "citationIds": []
+      }
+    ],
+    "regulatory_approval_status": [
+      {
+        "text": "No FDA clearance or approval specified or required (administrative workflow automation). Platform is described as HIPAA-compliant and SOC 2 Type II certified; not classified as a medical device by Tandem.",
+        "citationIds": [
+          "5"
+        ]
+      }
+    ]
+  },
+  "fields": {},
+  "regulatory_status_source": null,
+  "regulatory_status_confidence": "unknown"
+}
