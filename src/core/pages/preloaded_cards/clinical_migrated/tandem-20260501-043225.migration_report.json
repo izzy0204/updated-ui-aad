@@ -185,12 +185,14 @@
       9
     ],
     "referenceCount": 9,
-    "fieldCitationCount": 23
+    "fieldCitationCount": 23,
+    "displayReferenceCount": 5
   },
-  "validationErrors": [],
+  "validationErrors": [
+    "missing_required:known_failure_modes",
+    "missing_required:unsupported_use_cases"
+  ],
   "validationWarnings": [
-    "summary_exceeds_three_sentences",
-    "summary_exceeds_three_sentences",
     "orphaned_references:[2, 5, 8, 9]"
   ]
 }

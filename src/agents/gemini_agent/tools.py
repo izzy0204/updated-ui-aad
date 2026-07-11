@@ -15,6 +15,8 @@ def ddg_search(query: str, timeout: float, n: int = 5) -> List[str]:
         r = requests.get(url, params={"q": query, "kl": "us-en"}, timeout=timeout, headers={
             "User-Agent": "Mozilla/5.0"
         })
+        if r.status_code == 202:
+            return []
         if not r.ok:
             return []
         # Each result link often appears as <a class="result__a" href="/l/?kh=1&uddg=<enc>">

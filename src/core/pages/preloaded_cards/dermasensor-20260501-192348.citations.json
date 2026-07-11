@@ -2,6 +2,1198 @@
   "schema_version": "clinical-model-card-citations-1.0",
   "references": {
     "1": {
+      "url": "https://www.accessdata.fda.gov/cdrh_docs/reviews/DEN230008.pdf",
+      "title": "",
+      "source": ""
+    },
+    "2": {
+      "url": "https://www.accessdata.fda.gov/scripts/cdrh/cfdocs/cfRES/res.cfm?id=216559",
+      "title": "",
+      "source": ""
+    },
+    "3": {
+      "url": "https://www.accessdata.fda.gov/cdrh_docs/pdf23/DEN230008.pdf",
+      "title": "",
+      "source": ""
+    },
+    "4": {
+      "url": "https://www.dermasensor.com/docs",
+      "title": "",
+      "source": ""
+    }
+  },
+  "field_citations": {
+    "model_name": [
+      {
+        "text": "DermaSensor",
+        "citationIds": [
+          "3",
+          "1",
+          "2"
+        ]
+      }
+    ],
+    "developer": [
+      {
+        "text": "DermaSensor, Inc.",
+        "citationIds": [
+          "3",
+          "1",
+          "2"
+        ]
+      }
+    ],
+    "availability": [
+      {
+        "text": "US distribution to MD, FL, AZ, MS, PA, NY, CT, CA.",
+        "citationIds": [
+          "2"
+        ]
+      }
+    ],
+    "summary": [
+      {
+        "text": "DermaSensor is an AI-powered, software-aided adjunctive diagnostic device that uses optical spectroscopy, specifically Elastic Scattering Spectroscopy (ESS), and an artificial intelligence/machine learning (AI/ML) algorithm to non-invasively analyze intact skin lesions.",
+        "citationIds": [
+          "3",
+          "1"
+        ]
+      },
+      {
+        "text": "It is indicated for use by physicians who are not dermatologists to evaluate skin lesions suggestive of melanoma, basal cell carcinoma, and/or squamous cell carcinoma in patients aged 40 and above, assisting in the decision regarding referral to a dermatologist.",
+        "citationIds": [
+          "3",
+          "1"
+        ]
+      },
+      {
+        "text": "The device provides results as \"Monitor\" (negative) or \"Investigate Further\" (positive) with an additional Similarity Score of 1-10 for positive outputs.",
+        "citationIds": [
+          "3",
+          "1"
+        ]
+      },
+      {
+        "text": "It is intended to be used in conjunction with clinical assessment and is not a standalone diagnostic tool or a screening tool.",
+        "citationIds": [
+          "3",
+          "1"
+        ]
+      }
+    ],
+    "medical_purpose": [
+      {
+        "text": "The DermaSensor device is indicated for use to evaluate skin lesions suggestive of melanoma, basal cell carcinoma, and/or squamous cell carcinoma in patients aged 40 and above.",
+        "citationIds": [
+          "3",
+          "1"
+        ]
+      },
+      {
+        "text": "Its primary purpose is to assist physicians who are not dermatologists in the decision regarding referral of the patient to a dermatologist.",
+        "citationIds": [
+          "3",
+          "1"
+        ]
+      },
+      {
+        "text": "It should be used in conjunction with the totality of clinically relevant information from the clinical assessment, including visual analysis of the lesion.",
+        "citationIds": [
+          "3",
+          "1"
+        ]
+      },
+      {
+        "text": "The device should be used on lesions already assessed as suspicious for skin cancer and not as a screening tool.",
+        "citationIds": [
+          "3",
+          "1"
+        ]
+      },
+      {
+        "text": "It is not intended for use as the sole diagnostic criterion, to confirm a clinical diagnosis of skin cancer, or as a stand-alone diagnostic device.",
+        "citationIds": [
+          "3",
+          "1"
+        ]
+      },
+      {
+        "text": "It is also not intended to replace biopsy or clinical decision-making.",
+        "citationIds": [
+          "3",
+          "1"
+        ]
+      },
+      {
+        "text": "The device utilizes optical spectroscopy and an AI/ML-based software algorithm to analyze an intact skin lesion non-invasively, providing results as \"Monitor\" or \"Investigate Further,\" with a Similarity Score for positive results.",
+        "citationIds": [
+          "3",
+          "1"
+        ]
+      }
+    ],
+    "acceptable_input": [
+      {
+        "text": "The device takes input from an intact skin lesion by non-invasively applying a handheld unit to its surface.",
+        "citationIds": [
+          "1"
+        ]
+      },
+      {
+        "text": "This unit transmits broadband white light, and samples of the backscattered light from the tissue are collected.",
+        "citationIds": [
+          "1"
+        ]
+      },
+      {
+        "text": "These light samples are then conveyed to a microspectrometer, yielding Elastic Scattering Spectroscopy (ESS) spectral recordings.",
+        "citationIds": [
+          "1"
+        ]
+      },
+      {
+        "text": "Input data type: Elastic Scattering Spectroscopy (ESS) spectral recordings, which are optical recordings of backscattered light across a range of wavelengths (360 to 810 nm).",
+        "citationIds": [
+          "1"
+        ]
+      },
+      {
+        "text": "Output data type: Text-based classification results (\"Monitor\" or \"Investigate Further\") and an integer-based \"Similarity Score\" (1-10).",
+        "citationIds": [
+          "1"
+        ]
+      },
+      {
+        "text": "The DermaSensor device is a combination of a handheld unit and a base unit.",
+        "citationIds": [
+          "1"
+        ]
+      },
+      {
+        "text": "The handheld unit, featuring a touch-screen interface, is operated with step-by-step guidance.",
+        "citationIds": [
+          "1"
+        ]
+      },
+      {
+        "text": "A small fiber-optic tip, containing a xenon arc lamp and a fiber-optic probe, transmits broadband white light to the lesion surface and collects backscattered light.",
+        "citationIds": [
+          "1"
+        ]
+      },
+      {
+        "text": "This process yields Elastic Scattering Spectroscopy (ESS) spectral recordings.",
+        "citationIds": [
+          "1"
+        ]
+      },
+      {
+        "text": "An internal microprocessor and proprietary ML-derived classifier algorithm analyze these recordings to assess the potential presence of melanoma, squamous cell carcinoma, or basal cell carcinoma.",
+        "citationIds": [
+          "1"
+        ]
+      },
+      {
+        "text": "Results are provided as \"Monitor\" (negative) or \"Investigate Further\" (positive).",
+        "citationIds": [
+          "1"
+        ]
+      },
+      {
+        "text": "For positive outputs, a Similarity Score of 1-10 is displayed, indicating greater similarity to malignant lesions.",
+        "citationIds": [
+          "1"
+        ]
+      },
+      {
+        "text": "The handheld unit's battery recharges wirelessly in the base unit, which also contains calibration material.",
+        "citationIds": [
+          "1"
+        ]
+      },
+      {
+        "text": "The device tip contacts intact skin for less than 3 minutes, and the user remains gloved during operation.",
+        "citationIds": [
+          "1"
+        ]
+      }
+    ],
+    "output": [
+      {
+        "text": "The DermaSensor device analyzes optical recordings of backscattered light to assess for the potential presence of melanoma, squamous cell carcinoma (SCC), or basal cell carcinoma (BCC).",
+        "citationIds": [
+          "1"
+        ]
+      },
+      {
+        "text": "The results are provided to the user at the point of care as either \"Monitor,\" for a negative result, or \"Investigate Further,\" for a positive result.",
+        "citationIds": [
+          "1"
+        ]
+      },
+      {
+        "text": "For a positive output (\"Investigate Further\"), the device also displays a \"Similarity Score\" ranging from 1 to 10, where higher scores indicate greater similarity to signals observed in malignant lesions.",
+        "citationIds": [
+          "1"
+        ]
+      },
+      {
+        "text": "The solution outputs a classification result as either \"Monitor\" (negative) or \"Investigate Further\" (positive) for the potential presence of melanoma, squamous cell carcinoma, or basal cell carcinoma.",
+        "citationIds": [
+          "1"
+        ]
+      },
+      {
+        "text": "For a \"Investigate Further\" output, it additionally provides a \"Similarity Score\" ranging from 1 to 10, with higher scores indicating increased similarity to malignant lesions.",
+        "citationIds": [
+          "1"
+        ]
+      }
+    ],
+    "role_in_decision_making": [
+      {
+        "text": "Class II",
+        "citationIds": [
+          "3",
+          "1",
+          "2"
+        ]
+      },
+      {
+        "text": "The DermaSensor device is indicated for use to evaluate skin lesions suggestive of melanoma, basal cell carcinoma, and/or squamous cell carcinoma in patients aged 40 and above.",
+        "citationIds": [
+          "3",
+          "1"
+        ]
+      },
+      {
+        "text": "Its primary purpose is to assist physicians who are not dermatologists in the decision regarding referral of the patient to a dermatologist.",
+        "citationIds": [
+          "3",
+          "1"
+        ]
+      },
+      {
+        "text": "It should be used in conjunction with the totality of clinically relevant information from the clinical assessment, including visual analysis of the lesion.",
+        "citationIds": [
+          "3",
+          "1"
+        ]
+      },
+      {
+        "text": "The device should be used on lesions already assessed as suspicious for skin cancer and not as a screening tool.",
+        "citationIds": [
+          "3",
+          "1"
+        ]
+      },
+      {
+        "text": "It is not intended for use as the sole diagnostic criterion, to confirm a clinical diagnosis of skin cancer, or as a stand-alone diagnostic device.",
+        "citationIds": [
+          "3",
+          "1"
+        ]
+      },
+      {
+        "text": "It is also not intended to replace biopsy or clinical decision-making.",
+        "citationIds": [
+          "3",
+          "1"
+        ]
+      },
+      {
+        "text": "The device utilizes optical spectroscopy and an AI/ML-based software algorithm to analyze an intact skin lesion non-invasively, providing results as \"Monitor\" or \"Investigate Further,\" with a Similarity Score for positive results.",
+        "citationIds": [
+          "3",
+          "1"
+        ]
+      }
+    ],
+    "intended_users": [
+      {
+        "text": "Physicians who are not dermatologists.",
+        "citationIds": [
+          "3"
+        ]
+      },
+      {
+        "text": "Users must be physicians, though not necessarily dermatologists, and are expected to perform a clinical assessment, including visual analysis of the lesion, prior to using the device.",
+        "citationIds": [
+          "3",
+          "1"
+        ]
+      },
+      {
+        "text": "The device is a prescription device, restricting its sale, distribution, and use in accordance with 21 CFR 801.109.",
+        "citationIds": [
+          "3",
+          "1"
+        ]
+      }
+    ],
+    "target_patient_population": [
+      {
+        "text": "Patients aged 40 and above with skin lesions suggestive of melanoma, basal cell carcinoma, and/or squamous cell carcinoma.",
+        "citationIds": [
+          "3",
+          "1"
+        ]
+      },
+      {
+        "text": "The device is intended for use on primary lesions only.",
+        "citationIds": [
+          "3",
+          "1"
+        ]
+      },
+      {
+        "text": "The training and tuning data for the algorithm included a majority of older patients (age 60-79), Fitzpatrick phototype I-III, and individuals who self-identified as White, reflecting the higher incidence of skin cancer in these populations.",
+        "citationIds": [
+          "3",
+          "1"
+        ]
+      }
+    ],
+    "known_failure_modes": [
+      {
+        "text": "The performance of the device has not been specifically evaluated in patients with increased risk for skin cancer (e.g., inherited or drug-induced photosensitivity, genetic predisposition to melanoma or BCC, immune compromise, or other medical conditions that increase the risk of skin cancer or its metastasis).",
+        "citationIds": [
+          "1"
+        ]
+      },
+      {
+        "text": "It is intended to assist in clinical decisions related only to melanoma (including severely atypical nevi), squamous cell carcinoma (SCC), and BCC, and has not been tested on rare skin cancer types; therefore, it should not be used for lesions suggestive of malignancies other than these three.",
+        "citationIds": [
+          "1"
+        ]
+      },
+      {
+        "text": "The device is intended for use on primary lesions only and has not been tested on lesions that are previously biopsied, recurrent, or metastatic; on scars, tattoos, sunburned skin, or within a hairy area; or which are located on palms, soles, mucosal surfaces, genitals, ears, within 1 cm of the eye, or under nails.",
+        "citationIds": [
+          "1"
+        ]
+      },
+      {
+        "text": "Consistent with the lower prevalence of skin cancer in Fitzpatrick skin phototypes IV-VI, less data is available for sensitivity of the device for melanoma in these patients, and the decision to refer patients with suspicious pigmented lesions in this group should be primarily based on clinical concern.",
+        "citationIds": [
+          "1"
+        ]
+      },
+      {
+        "text": "The device is not intended for use as a standalone diagnostic device, to replace biopsy, or to replace clinical decision making.",
+        "citationIds": [
+          "1"
+        ]
+      },
+      {
+        "text": "The device's clinical testing must evaluate patients across a range of skin phototypes.",
+        "citationIds": [
+          "3",
+          "1"
+        ]
+      },
+      {
+        "text": "Less data is available for sensitivity of the DermaSensor device for melanoma in Fitzpatrick skin phototypes IV-VI, and the decision to refer patients in this group should be primarily based on clinical concern.",
+        "citationIds": [
+          "3",
+          "1"
+        ]
+      },
+      {
+        "text": "Postmarket clinical validation performance testing is required to specifically include populations with limited representation in premarket studies, such as Fitzpatrick skin phototypes IV, V, and VI, or groups where sensitivity was lower than 90%.",
+        "citationIds": [
+          "3",
+          "1"
+        ]
+      },
+      {
+        "text": "This postmarket study must assess the impact on the device\u2019s effectiveness across age, sex, socioeconomic status, race, and risk factors for skin cancer development and progression.",
+        "citationIds": [
+          "3",
+          "1"
+        ]
+      },
+      {
+        "text": "The training dataset included Fitzpatrick phototypes: I (6.3%), II (31.1%), III (22.9%), IV (4.3%), V (0.7%), VI (0.3%), and 34.4% unknown.",
+        "citationIds": [
+          "3",
+          "1"
+        ]
+      },
+      {
+        "text": "The tuning dataset included: I (14.6%), II (36.5%), III (20.8%), IV (11.4%), V (12.3%), VI (3.7%), and 0.7% unknown.",
+        "citationIds": [
+          "3",
+          "1"
+        ]
+      },
+      {
+        "text": "The ethnicity/race distribution in the training dataset was: White (73.5%), Black or African American (0.5%), Asian (0.8%), Multiracial (0.2%), Native Hawaiian or Other (1.6%), and 23.4% unknown.",
+        "citationIds": [
+          "3",
+          "1"
+        ]
+      },
+      {
+        "text": "For the tuning dataset, it was: White (91.8%), Black or African American (3.4%), Asian (1.1%), Multiracial (0.2%), Native Hawaiian or Other (3.4%), and 0.0% unknown.",
+        "citationIds": [
+          "3",
+          "1"
+        ]
+      }
+    ],
+    "unsupported_clinical_scenarios": [
+      {
+        "text": "The DermaSensor device should be used in conjunction with the totality of clinically relevant information from the clinical assessment, including visual analysis of the lesion.",
+        "citationIds": [
+          "3",
+          "1",
+          "2"
+        ]
+      },
+      {
+        "text": "It should be used on lesions already assessed as suspicious for skin cancer and not as a screening tool.",
+        "citationIds": [
+          "3",
+          "1",
+          "2"
+        ]
+      },
+      {
+        "text": "The device should not be used as the sole diagnostic criterion nor to confirm clinical diagnosis of skin cancer.",
+        "citationIds": [
+          "3",
+          "1",
+          "2"
+        ]
+      },
+      {
+        "text": "It is not intended to be used as a stand-alone diagnostic device, to replace biopsy, or to replace clinical decision making.",
+        "citationIds": [
+          "3",
+          "1",
+          "2"
+        ]
+      },
+      {
+        "text": "The sale, distribution, and use are restricted to prescription use in accordance with 21 CFR 801.109.",
+        "citationIds": [
+          "3",
+          "1",
+          "2"
+        ]
+      },
+      {
+        "text": "Labeling must include warnings to avoid unsafe exposure to any energy-emitting components, e.g., excluding lesions close to the eye.",
+        "citationIds": [
+          "3",
+          "1",
+          "2"
+        ]
+      },
+      {
+        "text": "There is also a recall for software version 3.0.2 due to a potential for the device to not meet specifications resulting in incorrect results or delay of referral for patients.",
+        "citationIds": [
+          "3",
+          "1",
+          "2"
+        ]
+      },
+      {
+        "text": "The performance of the device has not been specifically evaluated in patients with increased risk for skin cancer (e.g., inherited or drug-induced photosensitivity, genetic predisposition to melanoma or BCC, immune compromise, or other medical conditions that increase the risk of skin cancer or its metastasis).",
+        "citationIds": [
+          "1"
+        ]
+      },
+      {
+        "text": "It is intended to assist in clinical decisions related only to melanoma (including severely atypical nevi), squamous cell carcinoma (SCC), and BCC, and has not been tested on rare skin cancer types; therefore, it should not be used for lesions suggestive of malignancies other than these three.",
+        "citationIds": [
+          "1"
+        ]
+      },
+      {
+        "text": "The device is intended for use on primary lesions only and has not been tested on lesions that are previously biopsied, recurrent, or metastatic; on scars, tattoos, sunburned skin, or within a hairy area; or which are located on palms, soles, mucosal surfaces, genitals, ears, within 1 cm of the eye, or under nails.",
+        "citationIds": [
+          "1"
+        ]
+      },
+      {
+        "text": "Consistent with the lower prevalence of skin cancer in Fitzpatrick skin phototypes IV-VI, less data is available for sensitivity of the device for melanoma in these patients, and the decision to refer patients with suspicious pigmented lesions in this group should be primarily based on clinical concern.",
+        "citationIds": [
+          "1"
+        ]
+      },
+      {
+        "text": "The device is not intended for use as a standalone diagnostic device, to replace biopsy, or to replace clinical decision making.",
+        "citationIds": [
+          "1"
+        ]
+      }
+    ],
+    "unsupported_use_cases": [
+      {
+        "text": "The performance of the device has not been specifically evaluated in patients with increased risk for skin cancer (e.g., inherited or drug-induced photosensitivity, genetic predisposition to melanoma or BCC, immune compromise, or other medical conditions that increase the risk of skin cancer or its metastasis).",
+        "citationIds": [
+          "1"
+        ]
+      },
+      {
+        "text": "It is intended to assist in clinical decisions related only to melanoma (including severely atypical nevi), squamous cell carcinoma (SCC), and BCC, and has not been tested on rare skin cancer types; therefore, it should not be used for lesions suggestive of malignancies other than these three.",
+        "citationIds": [
+          "1"
+        ]
+      },
+      {
+        "text": "The device is intended for use on primary lesions only and has not been tested on lesions that are previously biopsied, recurrent, or metastatic; on scars, tattoos, sunburned skin, or within a hairy area; or which are located on palms, soles, mucosal surfaces, genitals, ears, within 1 cm of the eye, or under nails.",
+        "citationIds": [
+          "1"
+        ]
+      },
+      {
+        "text": "Consistent with the lower prevalence of skin cancer in Fitzpatrick skin phototypes IV-VI, less data is available for sensitivity of the device for melanoma in these patients, and the decision to refer patients with suspicious pigmented lesions in this group should be primarily based on clinical concern.",
+        "citationIds": [
+          "1"
+        ]
+      },
+      {
+        "text": "The device is not intended for use as a standalone diagnostic device, to replace biopsy, or to replace clinical decision making.",
+        "citationIds": [
+          "1"
+        ]
+      }
+    ],
+    "required_clinician_oversight": [
+      {
+        "text": "The DermaSensor device is a combination of a handheld unit and a base unit.",
+        "citationIds": [
+          "1"
+        ]
+      },
+      {
+        "text": "The handheld unit, featuring a touch-screen interface, is operated with step-by-step guidance.",
+        "citationIds": [
+          "1"
+        ]
+      },
+      {
+        "text": "A small fiber-optic tip, containing a xenon arc lamp and a fiber-optic probe, transmits broadband white light to the lesion surface and collects backscattered light.",
+        "citationIds": [
+          "1"
+        ]
+      },
+      {
+        "text": "This process yields Elastic Scattering Spectroscopy (ESS) spectral recordings.",
+        "citationIds": [
+          "1"
+        ]
+      },
+      {
+        "text": "An internal microprocessor and proprietary ML-derived classifier algorithm analyze these recordings to assess the potential presence of melanoma, squamous cell carcinoma, or basal cell carcinoma.",
+        "citationIds": [
+          "1"
+        ]
+      },
+      {
+        "text": "Results are provided as \"Monitor\" (negative) or \"Investigate Further\" (positive).",
+        "citationIds": [
+          "1"
+        ]
+      },
+      {
+        "text": "For positive outputs, a Similarity Score of 1-10 is displayed, indicating greater similarity to malignant lesions.",
+        "citationIds": [
+          "1"
+        ]
+      },
+      {
+        "text": "The handheld unit's battery recharges wirelessly in the base unit, which also contains calibration material.",
+        "citationIds": [
+          "1"
+        ]
+      },
+      {
+        "text": "The device tip contacts intact skin for less than 3 minutes, and the user remains gloved during operation.",
+        "citationIds": [
+          "1"
+        ]
+      },
+      {
+        "text": "Class II",
+        "citationIds": [
+          "3",
+          "1",
+          "2"
+        ]
+      },
+      {
+        "text": "The device is a prescription device, and its use is restricted to prescription use in accordance with 21 CFR 801.109.",
+        "citationIds": [
+          "1"
+        ]
+      },
+      {
+        "text": "No explicit mention of patient consent or disclosure requirements beyond prescription use is provided in the sources, but it is implied that a physician-patient relationship and clinical decision-making process would involve appropriate patient communication.",
+        "citationIds": [
+          "1"
+        ]
+      }
+    ],
+    "model_type": [
+      {
+        "text": "The DermaSensor device utilizes an artificial intelligence/machine learning (AI/ML) based software algorithm, specifically a proprietary ML-derived classifier algorithm, to analyze Elastic Scattering Spectroscopy (ESS) spectral recordings.",
+        "citationIds": [
+          "1"
+        ]
+      },
+      {
+        "text": "The DermaSensor device is a software-aided adjunctive diagnostic device that utilizes optical spectroscopy and an artificial intelligence/machine learning (AI/ML) based software algorithm to analyze intact skin lesions non-invasively.",
+        "citationIds": [
+          "3",
+          "1",
+          "2"
+        ]
+      },
+      {
+        "text": "It is a combination of a handheld unit and a base unit.",
+        "citationIds": [
+          "3",
+          "1",
+          "2"
+        ]
+      },
+      {
+        "text": "The handheld unit contains a xenon arc lamp and a fiber-optic probe tip that transmits broadband white light to a lesion surface.",
+        "citationIds": [
+          "3",
+          "1",
+          "2"
+        ]
+      },
+      {
+        "text": "It collects backscattered light samples via an adjacent detection optical fiber, conveying them to a microspectrometer to yield Elastic Scattering Spectroscopy (ESS) spectral recordings.",
+        "citationIds": [
+          "3",
+          "1",
+          "2"
+        ]
+      },
+      {
+        "text": "The handheld unit features a touch-screen interface for operation.",
+        "citationIds": [
+          "3",
+          "1",
+          "2"
+        ]
+      },
+      {
+        "text": "The base unit recharges the handheld unit wirelessly and contains calibration material.",
+        "citationIds": [
+          "3",
+          "1",
+          "2"
+        ]
+      },
+      {
+        "text": "An internal microprocessor and proprietary ML-derived classifier algorithm analyze the optical recordings to assess for the potential presence of melanoma, squamous cell carcinoma, or basal cell carcinoma.",
+        "citationIds": [
+          "3",
+          "1",
+          "2"
+        ]
+      },
+      {
+        "text": "The device operates with Software Version 3.0.2.",
+        "citationIds": [
+          "3",
+          "1",
+          "2"
+        ]
+      }
+    ],
+    "training_data.description": [
+      {
+        "text": "The training dataset contained 950 lesions, contributing approximately 4,200 Elastic Scattering Spectroscopy (ESS) spectra.",
+        "citationIds": [
+          "1"
+        ]
+      },
+      {
+        "text": "The algorithm was trained in the spectral range of 360 to 810 nm, using 47 selected wavelengths to reduce dimensionality.",
+        "citationIds": [
+          "1"
+        ]
+      },
+      {
+        "text": "Patient demographics for the training dataset were: Age (20-39: 7.6%, 40-59: 8.2%, 60-79: 56.6%, 80+: 4.2%, Unknown: 23.4%); Fitzpatrick Phototype (I: 6.3%, II: 31.1%, III: 22.9%, IV: 4.3%, V: 0.7%, VI: 0.3%, Unknown: 34.4%); Ethnicity/Race (White: 73.5%, Black or African American: 0.5%, Asian: 0.8%, Multiracial: 0.2%, Native Hawaiian or Other: 1.6%, Unknown: 23.4%); Gender (Male: 39.7%, Female: 24.8%, Unknown: 35.4%).",
+        "citationIds": [
+          "1"
+        ]
+      },
+      {
+        "text": "Anatomical locations included sun-exposed areas like head/neck (5.9%), chest/upper back (3.3%), forearms/hands (3.5%), lower legs (1.4%), and unexposed areas like buttocks/hips (0.1%), upper legs (1.1%), lower trunk (0.7%).",
+        "citationIds": [
+          "1"
+        ]
+      },
+      {
+        "text": "The diagnoses included melanoma and severely dysplastic nevi (8.2%), SCC (9.0%), BCC (12.8%), mixed malignant (0.1%), and various benign mimics such as SK (brown) (6.9%), Benign Nevi (27.5%), AK (7.5%), SK (nonbrown) (3.3%), and other benign/malignant lesions.",
+        "citationIds": [
+          "1"
+        ]
+      }
+    ],
+    "model_development_and_validation.description": [
+      {
+        "text": "The algorithm was developed and tested using a dataset that included 950 lesions (contributing ~4,200 spectra) for training and 361 independent, randomly chosen lesions for testing, totaling 1,311 skin lesions.",
+        "citationIds": [
+          "3",
+          "1"
+        ]
+      },
+      {
+        "text": "The training and tuning data predominantly included older patients (age 60-79), Fitzpatrick phototypes I-III, and individuals who self-identified as White, reflecting the higher incidence of skin cancer in these populations.",
+        "citationIds": [
+          "3",
+          "1"
+        ]
+      },
+      {
+        "text": "Lesions on palms, soles, and under nails were excluded.",
+        "citationIds": [
+          "3",
+          "1"
+        ]
+      },
+      {
+        "text": "The anatomical locations were primarily head and neck, followed by chest/upper back and forearms/hands.",
+        "citationIds": [
+          "3",
+          "1"
+        ]
+      },
+      {
+        "text": "The diagnoses included BCC, SCC, melanoma (and severely atypical nevi), and various benign mimics.",
+        "citationIds": [
+          "3",
+          "1"
+        ]
+      },
+      {
+        "text": "For postmarket surveillance, FDA requires collection and reporting of data from clinical validation performance testing in patients from demographic groups representative of the U.S.",
+        "citationIds": [
+          "3",
+          "1"
+        ]
+      },
+      {
+        "text": "population, specifically to include populations with limited representation in premarket studies (e.g., Fitzpatrick skin phototypes IV, V, and VI) or where sensitivity was below 90%.",
+        "citationIds": [
+          "3",
+          "1"
+        ]
+      },
+      {
+        "text": "This postmarket study requires a statistically justified sample size to confirm non-inferior performance, with overrepresentation of Fitzpatrick skin phototypes with lower prevalence of skin cancer, and recording of age, sex, socioeconomic status, race, and risk factors for skin cancer development and progression.",
+        "citationIds": [
+          "3",
+          "1"
+        ]
+      },
+      {
+        "text": "One peer-reviewed publication is referenced:",
+        "citationIds": [
+          "1"
+        ]
+      },
+      {
+        "text": "*   Rodriguez-Diaz et al.",
+        "citationIds": [
+          "1"
+        ]
+      },
+      {
+        "text": "Photochem, Photobiol.",
+        "citationIds": [
+          "1"
+        ]
+      },
+      {
+        "text": "2019;95(6):1441-1445.",
+        "citationIds": [
+          "1"
+        ]
+      }
+    ],
+    "clinical_trial": [
+      {
+        "text": "Clinical development for the DermaSensor device included a blinded, multicenter clinical study through an initial ML retrospective algorithm, followed by a subsequent blinded, multicenter clinical study.",
+        "citationIds": [
+          "3",
+          "1"
+        ]
+      },
+      {
+        "text": "These studies investigated the performance of an algorithm using Elastic Scattering Spectroscopy (ESS) and Machine Learning (ML) for common types of skin cancers.",
+        "citationIds": [
+          "3",
+          "1"
+        ]
+      },
+      {
+        "text": "The initial study dataset was later used entirely for algorithm training, comprising 950 lesions for training and 361 lesions for testing, totaling 1,311 skin lesions.",
+        "citationIds": [
+          "3",
+          "1"
+        ]
+      },
+      {
+        "text": "The training and testing datasets were independent and chosen randomly.",
+        "citationIds": [
+          "3",
+          "1"
+        ]
+      },
+      {
+        "text": "As part of the FDA De Novo classification, the developer is required to conduct postmarket clinical validation performance testing in patients from demographic groups representative of the U.S.",
+        "citationIds": [
+          "3",
+          "1"
+        ]
+      },
+      {
+        "text": "population, including populations with limited representation of melanomas in premarket studies (e.g., Fitzpatrick skin phototypes IV, V, and VI) or where sensitivity was lower than 90%.",
+        "citationIds": [
+          "3",
+          "1"
+        ]
+      },
+      {
+        "text": "This postmarket study must include a statistically justified sample size to confirm device performance, enroll a representative range of subjects with overrepresentation of Fitzpatrick skin phototypes IV, V, and VI, and record age, sex, socioeconomic status, race, and skin cancer risk factors to assess their impact on the device\u2019s effectiveness.",
+        "citationIds": [
+          "3",
+          "1"
+        ]
+      },
+      {
+        "text": "The study protocol was required to be submitted within 30 days of the January 12, 2024 order, with specific enrollment milestones: first subject enrolled within 6 months, 20% within 12 months, 50% within 24 months, and 100% within 36 months from protocol approval.",
+        "citationIds": [
+          "3",
+          "1"
+        ]
+      },
+      {
+        "text": "Periodic progress reports are also required.",
+        "citationIds": [
+          "3",
+          "1"
+        ]
+      }
+    ],
+    "performance.summary": [
+      {
+        "text": "Non-clinical/bench studies demonstrated the following results:",
+        "citationIds": [
+          "1"
+        ]
+      },
+      {
+        "text": "The comprehensive non-clinical/bench testing results indicate that the DermaSensor device has met established safety and reliability standards.",
+        "citationIds": [
+          "3",
+          "1"
+        ]
+      },
+      {
+        "text": "The successful completion of biocompatibility, cleaning and disinfection, shelf life, electrical safety, EMC, and software verification/validation/hazard analysis tests suggests that the risks associated with adverse tissue reactions, infection, device malfunction, electrical/thermal/mechanical hazards, and cybersecurity vulnerabilities have been adequately mitigated.",
+        "citationIds": [
+          "3",
+          "1"
+        ]
+      },
+      {
+        "text": "These findings provide reasonable assurance of the device's safety and effectiveness when used as intended.",
+        "citationIds": [
+          "3",
+          "1"
+        ]
+      },
+      {
+        "text": "Standalone device performance testing must demonstrate at least 90% sensitivity of the device output for lesions with high metastatic potential.",
+        "citationIds": [
+          "3",
+          "1"
+        ]
+      },
+      {
+        "text": "Clinical justification must be provided for reported specificity if lower sensitivity is presented.",
+        "citationIds": [
+          "3",
+          "1"
+        ]
+      },
+      {
+        "text": "The device-aided users' diagnostic characterization of indicated lesions must demonstrate superior accuracy compared to un-aided users.",
+        "citationIds": [
+          "3",
+          "1"
+        ]
+      },
+      {
+        "text": "In the algorithm tuning phase, sensitivity estimates were 96.5% (221/229).",
+        "citationIds": [
+          "3",
+          "1"
+        ]
+      },
+      {
+        "text": "Specificity for physician-biopsied lesions was 20.6% (28/136), and estimated specificity for physician-selected un-biopsied lesions was 33.0% (128/388).",
+        "citationIds": [
+          "3",
+          "1"
+        ]
+      },
+      {
+        "text": "When pooling lesions across tuning datasets, high sensitivity (at or above 90%) was observed for each of the three individual cancers.",
+        "citationIds": [
+          "3",
+          "1"
+        ]
+      },
+      {
+        "text": "Labeling must include a summary of performance measures, including sensitivity and specificity, and statistical confidence intervals, as well as performance of the device for all clinically relevant subgroups.",
+        "citationIds": [
+          "3",
+          "1"
+        ]
+      }
+    ],
+    "performance_evaluation_limitations": [
+      {
+        "text": "The patient demographics for the algorithm training and tuning datasets included Fitzpatrick phototypes I (6.3% training, 14.6% tuning), II (31.1% training, 36.5% tuning), III (22.9% training, 20.8% tuning), IV (4.3% training, 11.4% tuning), V (0.7% training, 12.3% tuning), and VI (0.3% training, 3.7% tuning), with a significant portion unknown (34.4% training, 0.7% tuning).",
+        "citationIds": [
+          "3",
+          "1"
+        ]
+      },
+      {
+        "text": "The FDA noted that less data was available for sensitivity of the DermaSensor device for melanoma in Fitzpatrick skin phototypes IV-VI, consistent with the lower prevalence of skin cancer in these groups.",
+        "citationIds": [
+          "3",
+          "1"
+        ]
+      },
+      {
+        "text": "Due to this, the FDA requires postmarket clinical validation performance testing to include populations who had limited representation of melanomas in the premarket studies (e.g., Fitzpatrick skin phototypes IV, V, and VI) or in whom sensitivity was lower than 90%, with an overrepresentation of these skin phototypes in the study enrollment.",
+        "citationIds": [
+          "3",
+          "1"
+        ]
+      }
+    ],
+    "ongoing_monitoring_plan": [
+      {
+        "text": "The DermaSensor device has a minimum use life of three years, with product use-life testing performed to ensure adequacy.",
+        "citationIds": [
+          "3",
+          "1",
+          "2"
+        ]
+      },
+      {
+        "text": "Software verification, validation, and hazard analysis are performed as part of special controls.",
+        "citationIds": [
+          "3",
+          "1",
+          "2"
+        ]
+      },
+      {
+        "text": "The cybersecurity documentation includes an upgrade and maintenance plan.",
+        "citationIds": [
+          "3",
+          "1",
+          "2"
+        ]
+      },
+      {
+        "text": "There was a Class 2 Device Recall (Z-0583-2026) initiated by the firm on October 13, 2025 (posted November 21, 2025) for DermaSensor (Model/Catalog Number: 10101, Software Version: 3.0.2) due to a potential for the device to not meet specifications, resulting in incorrect results or delayed patient referral.",
+        "citationIds": [
+          "3",
+          "1",
+          "2"
+        ]
+      },
+      {
+        "text": "The recall action involved notifying consignees via telephone and follow-up letter, instructing them to examine inventory, complete a response form, and arrange a visit with DermaSensor for device correction.",
+        "citationIds": [
+          "3",
+          "1",
+          "2"
+        ]
+      },
+      {
+        "text": "If a device contained the component issue, DermaSensor would provide correct results for past scans.",
+        "citationIds": [
+          "3",
+          "1",
+          "2"
+        ]
+      }
+    ],
+    "scheduled_updates": [
+      {
+        "text": "The DermaSensor device has a minimum use life of three years, with product use-life testing performed to ensure adequacy.",
+        "citationIds": [
+          "3",
+          "1",
+          "2"
+        ]
+      },
+      {
+        "text": "Software verification, validation, and hazard analysis are performed as part of special controls.",
+        "citationIds": [
+          "3",
+          "1",
+          "2"
+        ]
+      },
+      {
+        "text": "The cybersecurity documentation includes an upgrade and maintenance plan.",
+        "citationIds": [
+          "3",
+          "1",
+          "2"
+        ]
+      },
+      {
+        "text": "There was a Class 2 Device Recall (Z-0583-2026) initiated by the firm on October 13, 2025 (posted November 21, 2025) for DermaSensor (Model/Catalog Number: 10101, Software Version: 3.0.2) due to a potential for the device to not meet specifications, resulting in incorrect results or delayed patient referral.",
+        "citationIds": [
+          "3",
+          "1",
+          "2"
+        ]
+      },
+      {
+        "text": "The recall action involved notifying consignees via telephone and follow-up letter, instructing them to examine inventory, complete a response form, and arrange a visit with DermaSensor for device correction.",
+        "citationIds": [
+          "3",
+          "1",
+          "2"
+        ]
+      },
+      {
+        "text": "If a device contained the component issue, DermaSensor would provide correct results for past scans.",
+        "citationIds": [
+          "3",
+          "1",
+          "2"
+        ]
+      }
+    ],
+    "contact": [
+      {
+        "text": "For product inquiries or to report an issue, contact DermaSensor Inc.",
+        "citationIds": [
+          "3",
+          "2",
+          "4"
+        ]
+      },
+      {
+        "text": "at 1-855-373-6767.",
+        "citationIds": [
+          "3",
+          "2",
+          "4"
+        ]
+      },
+      {
+        "text": "For specific recall information, contact Ryan Frieden at 01-855-3736767 Ext.",
+        "citationIds": [
+          "3",
+          "2",
+          "4"
+        ]
+      },
+      {
+        "text": "605.",
+        "citationIds": [
+          "3",
+          "2",
+          "4"
+        ]
+      },
+      {
+        "text": "For general regulatory questions regarding medical devices, contact FDA's Division of Industry and Consumer Education (DICE) by email at DICE@fda.hhs.gov or phone at 1-800-638-2041 or 301-796-7100.",
+        "citationIds": [
+          "3",
+          "2",
+          "4"
+        ]
+      },
+      {
+        "text": "https://www.dermasensor.com/",
+        "citationIds": [
+          "4"
+        ]
+      }
+    ],
+    "regulatory_approval_status": [
+      {
+        "text": "The DermaSensor device received De Novo classification as a Class II prescription device (21 CFR 878.1830, Product Code QZS) from the U.S.",
+        "citationIds": [
+          "3",
+          "1"
+        ]
+      },
+      {
+        "text": "Food and Drug Administration (FDA) on January 12, 2024.",
+        "citationIds": [
+          "3",
+          "1"
+        ]
+      },
+      {
+        "text": "The De Novo request for classification was received by the FDA on February 2, 2023.",
+        "citationIds": [
+          "3",
+          "1"
+        ]
+      }
+    ],
+    "performance.metrics[0]": [
+      {
+        "text": "In the algorithm tuning phase, sensitivity estimates were 96.5% (221/229).",
+        "citationIds": [
+          "3",
+          "1"
+        ]
+      }
+    ],
+    "performance.metrics[1]": [
+      {
+        "text": "Specificity for physician-biopsied lesions was 20.6% (28/136), and estimated specificity for physician-selected un-biopsied lesions was 33.0% (128/388).",
+        "citationIds": [
+          "3",
+          "1"
+        ]
+      }
+    ],
+    "performance.metrics[2]": [
+      {
+        "text": "Specificity for physician-biopsied lesions was 20.6% (28/136), and estimated specificity for physician-selected un-biopsied lesions was 33.0% (128/388).",
+        "citationIds": [
+          "3",
+          "1"
+        ]
+      }
+    ]
+  },
+  "fields": {},
+  "regulatory_status_source": "conservative_text_map",
+  "regulatory_status_confidence": "conservative_map",
+  "_orphaned_references": {
+    "1": {
       "url": "https://fda.report/Company/Dermasensor-Inc",
       "title": "",
       "source": ""
@@ -16,28 +1208,8 @@
       "title": "",
       "source": ""
     },
-    "4": {
-      "url": "https://www.accessdata.fda.gov/cdrh_docs/pdf23/DEN230008.pdf",
-      "title": "",
-      "source": ""
-    },
-    "5": {
-      "url": "https://www.accessdata.fda.gov/cdrh_docs/reviews/DEN230008.pdf",
-      "title": "",
-      "source": ""
-    },
-    "6": {
-      "url": "https://www.accessdata.fda.gov/scripts/cdrh/cfdocs/cfRES/res.cfm?id=216559",
-      "title": "",
-      "source": ""
-    },
     "7": {
       "url": "https://www.crunchbase.com/organization/dermasensor-inc",
-      "title": "",
-      "source": ""
-    },
-    "8": {
-      "url": "https://www.dermasensor.com/docs",
       "title": "",
       "source": ""
     },
@@ -47,1147 +1219,5 @@
       "source": ""
     }
   },
-  "field_citations": {
-    "model_name": [
-      {
-        "text": "DermaSensor",
-        "citationIds": [
-          "4",
-          "5",
-          "6"
-        ]
-      }
-    ],
-    "developer": [
-      {
-        "text": "DermaSensor, Inc.",
-        "citationIds": [
-          "4",
-          "5",
-          "6"
-        ]
-      }
-    ],
-    "availability": [
-      {
-        "text": "US distribution to MD, FL, AZ, MS, PA, NY, CT, CA.",
-        "citationIds": [
-          "6"
-        ]
-      }
-    ],
-    "summary": [
-      {
-        "text": "DermaSensor is an AI-powered, software-aided adjunctive diagnostic device that uses optical spectroscopy, specifically Elastic Scattering Spectroscopy (ESS), and an artificial intelligence/machine learning (AI/ML) algorithm to non-invasively analyze intact skin lesions.",
-        "citationIds": [
-          "4",
-          "5"
-        ]
-      },
-      {
-        "text": "It is indicated for use by physicians who are not dermatologists to evaluate skin lesions suggestive of melanoma, basal cell carcinoma, and/or squamous cell carcinoma in patients aged 40 and above, assisting in the decision regarding referral to a dermatologist.",
-        "citationIds": [
-          "4",
-          "5"
-        ]
-      },
-      {
-        "text": "The device provides results as \"Monitor\" (negative) or \"Investigate Further\" (positive) with an additional Similarity Score of 1-10 for positive outputs.",
-        "citationIds": [
-          "4",
-          "5"
-        ]
-      },
-      {
-        "text": "It is intended to be used in conjunction with clinical assessment and is not a standalone diagnostic tool or a screening tool.",
-        "citationIds": [
-          "4",
-          "5"
-        ]
-      }
-    ],
-    "medical_purpose": [
-      {
-        "text": "The DermaSensor device is indicated for use to evaluate skin lesions suggestive of melanoma, basal cell carcinoma, and/or squamous cell carcinoma in patients aged 40 and above.",
-        "citationIds": [
-          "4",
-          "5"
-        ]
-      },
-      {
-        "text": "Its primary purpose is to assist physicians who are not dermatologists in the decision regarding referral of the patient to a dermatologist.",
-        "citationIds": [
-          "4",
-          "5"
-        ]
-      },
-      {
-        "text": "It should be used in conjunction with the totality of clinically relevant information from the clinical assessment, including visual analysis of the lesion.",
-        "citationIds": [
-          "4",
-          "5"
-        ]
-      },
-      {
-        "text": "The device should be used on lesions already assessed as suspicious for skin cancer and not as a screening tool.",
-        "citationIds": [
-          "4",
-          "5"
-        ]
-      },
-      {
-        "text": "It is not intended for use as the sole diagnostic criterion, to confirm a clinical diagnosis of skin cancer, or as a stand-alone diagnostic device.",
-        "citationIds": [
-          "4",
-          "5"
-        ]
-      },
-      {
-        "text": "It is also not intended to replace biopsy or clinical decision-making.",
-        "citationIds": [
-          "4",
-          "5"
-        ]
-      },
-      {
-        "text": "The device utilizes optical spectroscopy and an AI/ML-based software algorithm to analyze an intact skin lesion non-invasively, providing results as \"Monitor\" or \"Investigate Further,\" with a Similarity Score for positive results.",
-        "citationIds": [
-          "4",
-          "5"
-        ]
-      }
-    ],
-    "acceptable_input": [
-      {
-        "text": "The device takes input from an intact skin lesion by non-invasively applying a handheld unit to its surface.",
-        "citationIds": [
-          "5"
-        ]
-      },
-      {
-        "text": "This unit transmits broadband white light, and samples of the backscattered light from the tissue are collected.",
-        "citationIds": [
-          "5"
-        ]
-      },
-      {
-        "text": "These light samples are then conveyed to a microspectrometer, yielding Elastic Scattering Spectroscopy (ESS) spectral recordings.",
-        "citationIds": [
-          "5"
-        ]
-      },
-      {
-        "text": "Input data type: Elastic Scattering Spectroscopy (ESS) spectral recordings, which are optical recordings of backscattered light across a range of wavelengths (360 to 810 nm).",
-        "citationIds": [
-          "5"
-        ]
-      },
-      {
-        "text": "Output data type: Text-based classification results (\"Monitor\" or \"Investigate Further\") and an integer-based \"Similarity Score\" (1-10).",
-        "citationIds": [
-          "5"
-        ]
-      },
-      {
-        "text": "The DermaSensor device is a combination of a handheld unit and a base unit.",
-        "citationIds": [
-          "5"
-        ]
-      },
-      {
-        "text": "The handheld unit, featuring a touch-screen interface, is operated with step-by-step guidance.",
-        "citationIds": [
-          "5"
-        ]
-      },
-      {
-        "text": "A small fiber-optic tip, containing a xenon arc lamp and a fiber-optic probe, transmits broadband white light to the lesion surface and collects backscattered light.",
-        "citationIds": [
-          "5"
-        ]
-      },
-      {
-        "text": "This process yields Elastic Scattering Spectroscopy (ESS) spectral recordings.",
-        "citationIds": [
-          "5"
-        ]
-      },
-      {
-        "text": "An internal microprocessor and proprietary ML-derived classifier algorithm analyze these recordings to assess the potential presence of melanoma, squamous cell carcinoma, or basal cell carcinoma.",
-        "citationIds": [
-          "5"
-        ]
-      },
-      {
-        "text": "Results are provided as \"Monitor\" (negative) or \"Investigate Further\" (positive).",
-        "citationIds": [
-          "5"
-        ]
-      },
-      {
-        "text": "For positive outputs, a Similarity Score of 1-10 is displayed, indicating greater similarity to malignant lesions.",
-        "citationIds": [
-          "5"
-        ]
-      },
-      {
-        "text": "The handheld unit's battery recharges wirelessly in the base unit, which also contains calibration material.",
-        "citationIds": [
-          "5"
-        ]
-      },
-      {
-        "text": "The device tip contacts intact skin for less than 3 minutes, and the user remains gloved during operation.",
-        "citationIds": [
-          "5"
-        ]
-      }
-    ],
-    "output": [
-      {
-        "text": "The DermaSensor device analyzes optical recordings of backscattered light to assess for the potential presence of melanoma, squamous cell carcinoma (SCC), or basal cell carcinoma (BCC).",
-        "citationIds": [
-          "5"
-        ]
-      },
-      {
-        "text": "The results are provided to the user at the point of care as either \"Monitor,\" for a negative result, or \"Investigate Further,\" for a positive result.",
-        "citationIds": [
-          "5"
-        ]
-      },
-      {
-        "text": "For a positive output (\"Investigate Further\"), the device also displays a \"Similarity Score\" ranging from 1 to 10, where higher scores indicate greater similarity to signals observed in malignant lesions.",
-        "citationIds": [
-          "5"
-        ]
-      },
-      {
-        "text": "The solution outputs a classification result as either \"Monitor\" (negative) or \"Investigate Further\" (positive) for the potential presence of melanoma, squamous cell carcinoma, or basal cell carcinoma.",
-        "citationIds": [
-          "5"
-        ]
-      },
-      {
-        "text": "For a \"Investigate Further\" output, it additionally provides a \"Similarity Score\" ranging from 1 to 10, with higher scores indicating increased similarity to malignant lesions.",
-        "citationIds": [
-          "5"
-        ]
-      }
-    ],
-    "role_in_decision_making": [
-      {
-        "text": "Class II",
-        "citationIds": [
-          "4",
-          "5",
-          "6"
-        ]
-      },
-      {
-        "text": "The DermaSensor device is indicated for use to evaluate skin lesions suggestive of melanoma, basal cell carcinoma, and/or squamous cell carcinoma in patients aged 40 and above.",
-        "citationIds": [
-          "4",
-          "5"
-        ]
-      },
-      {
-        "text": "Its primary purpose is to assist physicians who are not dermatologists in the decision regarding referral of the patient to a dermatologist.",
-        "citationIds": [
-          "4",
-          "5"
-        ]
-      },
-      {
-        "text": "It should be used in conjunction with the totality of clinically relevant information from the clinical assessment, including visual analysis of the lesion.",
-        "citationIds": [
-          "4",
-          "5"
-        ]
-      },
-      {
-        "text": "The device should be used on lesions already assessed as suspicious for skin cancer and not as a screening tool.",
-        "citationIds": [
-          "4",
-          "5"
-        ]
-      },
-      {
-        "text": "It is not intended for use as the sole diagnostic criterion, to confirm a clinical diagnosis of skin cancer, or as a stand-alone diagnostic device.",
-        "citationIds": [
-          "4",
-          "5"
-        ]
-      },
-      {
-        "text": "It is also not intended to replace biopsy or clinical decision-making.",
-        "citationIds": [
-          "4",
-          "5"
-        ]
-      },
-      {
-        "text": "The device utilizes optical spectroscopy and an AI/ML-based software algorithm to analyze an intact skin lesion non-invasively, providing results as \"Monitor\" or \"Investigate Further,\" with a Similarity Score for positive results.",
-        "citationIds": [
-          "4",
-          "5"
-        ]
-      }
-    ],
-    "intended_users": [
-      {
-        "text": "Physicians who are not dermatologists.",
-        "citationIds": [
-          "4"
-        ]
-      },
-      {
-        "text": "Users must be physicians, though not necessarily dermatologists, and are expected to perform a clinical assessment, including visual analysis of the lesion, prior to using the device.",
-        "citationIds": [
-          "4",
-          "5"
-        ]
-      },
-      {
-        "text": "The device is a prescription device, restricting its sale, distribution, and use in accordance with 21 CFR 801.109.",
-        "citationIds": [
-          "4",
-          "5"
-        ]
-      }
-    ],
-    "target_patient_population": [
-      {
-        "text": "Patients aged 40 and above with skin lesions suggestive of melanoma, basal cell carcinoma, and/or squamous cell carcinoma.",
-        "citationIds": [
-          "4",
-          "5"
-        ]
-      },
-      {
-        "text": "The device is intended for use on primary lesions only.",
-        "citationIds": [
-          "4",
-          "5"
-        ]
-      },
-      {
-        "text": "The training and tuning data for the algorithm included a majority of older patients (age 60-79), Fitzpatrick phototype I-III, and individuals who self-identified as White, reflecting the higher incidence of skin cancer in these populations.",
-        "citationIds": [
-          "4",
-          "5"
-        ]
-      }
-    ],
-    "known_failure_modes": [
-      {
-        "text": "The performance of the device has not been specifically evaluated in patients with increased risk for skin cancer (e.g., inherited or drug-induced photosensitivity, genetic predisposition to melanoma or BCC, immune compromise, or other medical conditions that increase the risk of skin cancer or its metastasis).",
-        "citationIds": [
-          "5"
-        ]
-      },
-      {
-        "text": "It is intended to assist in clinical decisions related only to melanoma (including severely atypical nevi), squamous cell carcinoma (SCC), and BCC, and has not been tested on rare skin cancer types; therefore, it should not be used for lesions suggestive of malignancies other than these three.",
-        "citationIds": [
-          "5"
-        ]
-      },
-      {
-        "text": "The device is intended for use on primary lesions only and has not been tested on lesions that are previously biopsied, recurrent, or metastatic; on scars, tattoos, sunburned skin, or within a hairy area; or which are located on palms, soles, mucosal surfaces, genitals, ears, within 1 cm of the eye, or under nails.",
-        "citationIds": [
-          "5"
-        ]
-      },
-      {
-        "text": "Consistent with the lower prevalence of skin cancer in Fitzpatrick skin phototypes IV-VI, less data is available for sensitivity of the device for melanoma in these patients, and the decision to refer patients with suspicious pigmented lesions in this group should be primarily based on clinical concern.",
-        "citationIds": [
-          "5"
-        ]
-      },
-      {
-        "text": "The device is not intended for use as a standalone diagnostic device, to replace biopsy, or to replace clinical decision making.",
-        "citationIds": [
-          "5"
-        ]
-      },
-      {
-        "text": "The device's clinical testing must evaluate patients across a range of skin phototypes.",
-        "citationIds": [
-          "4",
-          "5"
-        ]
-      },
-      {
-        "text": "Less data is available for sensitivity of the DermaSensor device for melanoma in Fitzpatrick skin phototypes IV-VI, and the decision to refer patients in this group should be primarily based on clinical concern.",
-        "citationIds": [
-          "4",
-          "5"
-        ]
-      },
-      {
-        "text": "Postmarket clinical validation performance testing is required to specifically include populations with limited representation in premarket studies, such as Fitzpatrick skin phototypes IV, V, and VI, or groups where sensitivity was lower than 90%.",
-        "citationIds": [
-          "4",
-          "5"
-        ]
-      },
-      {
-        "text": "This postmarket study must assess the impact on the device\u2019s effectiveness across age, sex, socioeconomic status, race, and risk factors for skin cancer development and progression.",
-        "citationIds": [
-          "4",
-          "5"
-        ]
-      },
-      {
-        "text": "The training dataset included Fitzpatrick phototypes: I (6.3%), II (31.1%), III (22.9%), IV (4.3%), V (0.7%), VI (0.3%), and 34.4% unknown.",
-        "citationIds": [
-          "4",
-          "5"
-        ]
-      },
-      {
-        "text": "The tuning dataset included: I (14.6%), II (36.5%), III (20.8%), IV (11.4%), V (12.3%), VI (3.7%), and 0.7% unknown.",
-        "citationIds": [
-          "4",
-          "5"
-        ]
-      },
-      {
-        "text": "The ethnicity/race distribution in the training dataset was: White (73.5%), Black or African American (0.5%), Asian (0.8%), Multiracial (0.2%), Native Hawaiian or Other (1.6%), and 23.4% unknown.",
-        "citationIds": [
-          "4",
-          "5"
-        ]
-      },
-      {
-        "text": "For the tuning dataset, it was: White (91.8%), Black or African American (3.4%), Asian (1.1%), Multiracial (0.2%), Native Hawaiian or Other (3.4%), and 0.0% unknown.",
-        "citationIds": [
-          "4",
-          "5"
-        ]
-      }
-    ],
-    "unsupported_clinical_scenarios": [
-      {
-        "text": "The DermaSensor device should be used in conjunction with the totality of clinically relevant information from the clinical assessment, including visual analysis of the lesion.",
-        "citationIds": [
-          "4",
-          "5",
-          "6"
-        ]
-      },
-      {
-        "text": "It should be used on lesions already assessed as suspicious for skin cancer and not as a screening tool.",
-        "citationIds": [
-          "4",
-          "5",
-          "6"
-        ]
-      },
-      {
-        "text": "The device should not be used as the sole diagnostic criterion nor to confirm clinical diagnosis of skin cancer.",
-        "citationIds": [
-          "4",
-          "5",
-          "6"
-        ]
-      },
-      {
-        "text": "It is not intended to be used as a stand-alone diagnostic device, to replace biopsy, or to replace clinical decision making.",
-        "citationIds": [
-          "4",
-          "5",
-          "6"
-        ]
-      },
-      {
-        "text": "The sale, distribution, and use are restricted to prescription use in accordance with 21 CFR 801.109.",
-        "citationIds": [
-          "4",
-          "5",
-          "6"
-        ]
-      },
-      {
-        "text": "Labeling must include warnings to avoid unsafe exposure to any energy-emitting components, e.g., excluding lesions close to the eye.",
-        "citationIds": [
-          "4",
-          "5",
-          "6"
-        ]
-      },
-      {
-        "text": "There is also a recall for software version 3.0.2 due to a potential for the device to not meet specifications resulting in incorrect results or delay of referral for patients.",
-        "citationIds": [
-          "4",
-          "5",
-          "6"
-        ]
-      },
-      {
-        "text": "The performance of the device has not been specifically evaluated in patients with increased risk for skin cancer (e.g., inherited or drug-induced photosensitivity, genetic predisposition to melanoma or BCC, immune compromise, or other medical conditions that increase the risk of skin cancer or its metastasis).",
-        "citationIds": [
-          "5"
-        ]
-      },
-      {
-        "text": "It is intended to assist in clinical decisions related only to melanoma (including severely atypical nevi), squamous cell carcinoma (SCC), and BCC, and has not been tested on rare skin cancer types; therefore, it should not be used for lesions suggestive of malignancies other than these three.",
-        "citationIds": [
-          "5"
-        ]
-      },
-      {
-        "text": "The device is intended for use on primary lesions only and has not been tested on lesions that are previously biopsied, recurrent, or metastatic; on scars, tattoos, sunburned skin, or within a hairy area; or which are located on palms, soles, mucosal surfaces, genitals, ears, within 1 cm of the eye, or under nails.",
-        "citationIds": [
-          "5"
-        ]
-      },
-      {
-        "text": "Consistent with the lower prevalence of skin cancer in Fitzpatrick skin phototypes IV-VI, less data is available for sensitivity of the device for melanoma in these patients, and the decision to refer patients with suspicious pigmented lesions in this group should be primarily based on clinical concern.",
-        "citationIds": [
-          "5"
-        ]
-      },
-      {
-        "text": "The device is not intended for use as a standalone diagnostic device, to replace biopsy, or to replace clinical decision making.",
-        "citationIds": [
-          "5"
-        ]
-      }
-    ],
-    "unsupported_use_cases": [
-      {
-        "text": "The performance of the device has not been specifically evaluated in patients with increased risk for skin cancer (e.g., inherited or drug-induced photosensitivity, genetic predisposition to melanoma or BCC, immune compromise, or other medical conditions that increase the risk of skin cancer or its metastasis).",
-        "citationIds": [
-          "5"
-        ]
-      },
-      {
-        "text": "It is intended to assist in clinical decisions related only to melanoma (including severely atypical nevi), squamous cell carcinoma (SCC), and BCC, and has not been tested on rare skin cancer types; therefore, it should not be used for lesions suggestive of malignancies other than these three.",
-        "citationIds": [
-          "5"
-        ]
-      },
-      {
-        "text": "The device is intended for use on primary lesions only and has not been tested on lesions that are previously biopsied, recurrent, or metastatic; on scars, tattoos, sunburned skin, or within a hairy area; or which are located on palms, soles, mucosal surfaces, genitals, ears, within 1 cm of the eye, or under nails.",
-        "citationIds": [
-          "5"
-        ]
-      },
-      {
-        "text": "Consistent with the lower prevalence of skin cancer in Fitzpatrick skin phototypes IV-VI, less data is available for sensitivity of the device for melanoma in these patients, and the decision to refer patients with suspicious pigmented lesions in this group should be primarily based on clinical concern.",
-        "citationIds": [
-          "5"
-        ]
-      },
-      {
-        "text": "The device is not intended for use as a standalone diagnostic device, to replace biopsy, or to replace clinical decision making.",
-        "citationIds": [
-          "5"
-        ]
-      }
-    ],
-    "required_clinician_oversight": [
-      {
-        "text": "The DermaSensor device is a combination of a handheld unit and a base unit.",
-        "citationIds": [
-          "5"
-        ]
-      },
-      {
-        "text": "The handheld unit, featuring a touch-screen interface, is operated with step-by-step guidance.",
-        "citationIds": [
-          "5"
-        ]
-      },
-      {
-        "text": "A small fiber-optic tip, containing a xenon arc lamp and a fiber-optic probe, transmits broadband white light to the lesion surface and collects backscattered light.",
-        "citationIds": [
-          "5"
-        ]
-      },
-      {
-        "text": "This process yields Elastic Scattering Spectroscopy (ESS) spectral recordings.",
-        "citationIds": [
-          "5"
-        ]
-      },
-      {
-        "text": "An internal microprocessor and proprietary ML-derived classifier algorithm analyze these recordings to assess the potential presence of melanoma, squamous cell carcinoma, or basal cell carcinoma.",
-        "citationIds": [
-          "5"
-        ]
-      },
-      {
-        "text": "Results are provided as \"Monitor\" (negative) or \"Investigate Further\" (positive).",
-        "citationIds": [
-          "5"
-        ]
-      },
-      {
-        "text": "For positive outputs, a Similarity Score of 1-10 is displayed, indicating greater similarity to malignant lesions.",
-        "citationIds": [
-          "5"
-        ]
-      },
-      {
-        "text": "The handheld unit's battery recharges wirelessly in the base unit, which also contains calibration material.",
-        "citationIds": [
-          "5"
-        ]
-      },
-      {
-        "text": "The device tip contacts intact skin for less than 3 minutes, and the user remains gloved during operation.",
-        "citationIds": [
-          "5"
-        ]
-      },
-      {
-        "text": "Class II",
-        "citationIds": [
-          "4",
-          "5",
-          "6"
-        ]
-      },
-      {
-        "text": "The device is a prescription device, and its use is restricted to prescription use in accordance with 21 CFR 801.109.",
-        "citationIds": [
-          "5"
-        ]
-      },
-      {
-        "text": "No explicit mention of patient consent or disclosure requirements beyond prescription use is provided in the sources, but it is implied that a physician-patient relationship and clinical decision-making process would involve appropriate patient communication.",
-        "citationIds": [
-          "5"
-        ]
-      }
-    ],
-    "model_type": [
-      {
-        "text": "The DermaSensor device utilizes an artificial intelligence/machine learning (AI/ML) based software algorithm, specifically a proprietary ML-derived classifier algorithm, to analyze Elastic Scattering Spectroscopy (ESS) spectral recordings.",
-        "citationIds": [
-          "5"
-        ]
-      },
-      {
-        "text": "The DermaSensor device is a software-aided adjunctive diagnostic device that utilizes optical spectroscopy and an artificial intelligence/machine learning (AI/ML) based software algorithm to analyze intact skin lesions non-invasively.",
-        "citationIds": [
-          "4",
-          "5",
-          "6"
-        ]
-      },
-      {
-        "text": "It is a combination of a handheld unit and a base unit.",
-        "citationIds": [
-          "4",
-          "5",
-          "6"
-        ]
-      },
-      {
-        "text": "The handheld unit contains a xenon arc lamp and a fiber-optic probe tip that transmits broadband white light to a lesion surface.",
-        "citationIds": [
-          "4",
-          "5",
-          "6"
-        ]
-      },
-      {
-        "text": "It collects backscattered light samples via an adjacent detection optical fiber, conveying them to a microspectrometer to yield Elastic Scattering Spectroscopy (ESS) spectral recordings.",
-        "citationIds": [
-          "4",
-          "5",
-          "6"
-        ]
-      },
-      {
-        "text": "The handheld unit features a touch-screen interface for operation.",
-        "citationIds": [
-          "4",
-          "5",
-          "6"
-        ]
-      },
-      {
-        "text": "The base unit recharges the handheld unit wirelessly and contains calibration material.",
-        "citationIds": [
-          "4",
-          "5",
-          "6"
-        ]
-      },
-      {
-        "text": "An internal microprocessor and proprietary ML-derived classifier algorithm analyze the optical recordings to assess for the potential presence of melanoma, squamous cell carcinoma, or basal cell carcinoma.",
-        "citationIds": [
-          "4",
-          "5",
-          "6"
-        ]
-      },
-      {
-        "text": "The device operates with Software Version 3.0.2.",
-        "citationIds": [
-          "4",
-          "5",
-          "6"
-        ]
-      }
-    ],
-    "training_data.description": [
-      {
-        "text": "The training dataset contained 950 lesions, contributing approximately 4,200 Elastic Scattering Spectroscopy (ESS) spectra.",
-        "citationIds": [
-          "5"
-        ]
-      },
-      {
-        "text": "The algorithm was trained in the spectral range of 360 to 810 nm, using 47 selected wavelengths to reduce dimensionality.",
-        "citationIds": [
-          "5"
-        ]
-      },
-      {
-        "text": "Patient demographics for the training dataset were: Age (20-39: 7.6%, 40-59: 8.2%, 60-79: 56.6%, 80+: 4.2%, Unknown: 23.4%); Fitzpatrick Phototype (I: 6.3%, II: 31.1%, III: 22.9%, IV: 4.3%, V: 0.7%, VI: 0.3%, Unknown: 34.4%); Ethnicity/Race (White: 73.5%, Black or African American: 0.5%, Asian: 0.8%, Multiracial: 0.2%, Native Hawaiian or Other: 1.6%, Unknown: 23.4%); Gender (Male: 39.7%, Female: 24.8%, Unknown: 35.4%).",
-        "citationIds": [
-          "5"
-        ]
-      },
-      {
-        "text": "Anatomical locations included sun-exposed areas like head/neck (5.9%), chest/upper back (3.3%), forearms/hands (3.5%), lower legs (1.4%), and unexposed areas like buttocks/hips (0.1%), upper legs (1.1%), lower trunk (0.7%).",
-        "citationIds": [
-          "5"
-        ]
-      },
-      {
-        "text": "The diagnoses included melanoma and severely dysplastic nevi (8.2%), SCC (9.0%), BCC (12.8%), mixed malignant (0.1%), and various benign mimics such as SK (brown) (6.9%), Benign Nevi (27.5%), AK (7.5%), SK (nonbrown) (3.3%), and other benign/malignant lesions.",
-        "citationIds": [
-          "5"
-        ]
-      }
-    ],
-    "model_development_and_validation.description": [
-      {
-        "text": "The algorithm was developed and tested using a dataset that included 950 lesions (contributing ~4,200 spectra) for training and 361 independent, randomly chosen lesions for testing, totaling 1,311 skin lesions.",
-        "citationIds": [
-          "4",
-          "5"
-        ]
-      },
-      {
-        "text": "The training and tuning data predominantly included older patients (age 60-79), Fitzpatrick phototypes I-III, and individuals who self-identified as White, reflecting the higher incidence of skin cancer in these populations.",
-        "citationIds": [
-          "4",
-          "5"
-        ]
-      },
-      {
-        "text": "Lesions on palms, soles, and under nails were excluded.",
-        "citationIds": [
-          "4",
-          "5"
-        ]
-      },
-      {
-        "text": "The anatomical locations were primarily head and neck, followed by chest/upper back and forearms/hands.",
-        "citationIds": [
-          "4",
-          "5"
-        ]
-      },
-      {
-        "text": "The diagnoses included BCC, SCC, melanoma (and severely atypical nevi), and various benign mimics.",
-        "citationIds": [
-          "4",
-          "5"
-        ]
-      },
-      {
-        "text": "For postmarket surveillance, FDA requires collection and reporting of data from clinical validation performance testing in patients from demographic groups representative of the U.S.",
-        "citationIds": [
-          "4",
-          "5"
-        ]
-      },
-      {
-        "text": "population, specifically to include populations with limited representation in premarket studies (e.g., Fitzpatrick skin phototypes IV, V, and VI) or where sensitivity was below 90%.",
-        "citationIds": [
-          "4",
-          "5"
-        ]
-      },
-      {
-        "text": "This postmarket study requires a statistically justified sample size to confirm non-inferior performance, with overrepresentation of Fitzpatrick skin phototypes with lower prevalence of skin cancer, and recording of age, sex, socioeconomic status, race, and risk factors for skin cancer development and progression.",
-        "citationIds": [
-          "4",
-          "5"
-        ]
-      },
-      {
-        "text": "One peer-reviewed publication is referenced:",
-        "citationIds": [
-          "5"
-        ]
-      },
-      {
-        "text": "*   Rodriguez-Diaz et al.",
-        "citationIds": [
-          "5"
-        ]
-      },
-      {
-        "text": "Photochem, Photobiol.",
-        "citationIds": [
-          "5"
-        ]
-      },
-      {
-        "text": "2019;95(6):1441-1445.",
-        "citationIds": [
-          "5"
-        ]
-      }
-    ],
-    "clinical_trial": [
-      {
-        "text": "Clinical development for the DermaSensor device included a blinded, multicenter clinical study through an initial ML retrospective algorithm, followed by a subsequent blinded, multicenter clinical study.",
-        "citationIds": [
-          "4",
-          "5"
-        ]
-      },
-      {
-        "text": "These studies investigated the performance of an algorithm using Elastic Scattering Spectroscopy (ESS) and Machine Learning (ML) for common types of skin cancers.",
-        "citationIds": [
-          "4",
-          "5"
-        ]
-      },
-      {
-        "text": "The initial study dataset was later used entirely for algorithm training, comprising 950 lesions for training and 361 lesions for testing, totaling 1,311 skin lesions.",
-        "citationIds": [
-          "4",
-          "5"
-        ]
-      },
-      {
-        "text": "The training and testing datasets were independent and chosen randomly.",
-        "citationIds": [
-          "4",
-          "5"
-        ]
-      },
-      {
-        "text": "As part of the FDA De Novo classification, the developer is required to conduct postmarket clinical validation performance testing in patients from demographic groups representative of the U.S.",
-        "citationIds": [
-          "4",
-          "5"
-        ]
-      },
-      {
-        "text": "population, including populations with limited representation of melanomas in premarket studies (e.g., Fitzpatrick skin phototypes IV, V, and VI) or where sensitivity was lower than 90%.",
-        "citationIds": [
-          "4",
-          "5"
-        ]
-      },
-      {
-        "text": "This postmarket study must include a statistically justified sample size to confirm device performance, enroll a representative range of subjects with overrepresentation of Fitzpatrick skin phototypes IV, V, and VI, and record age, sex, socioeconomic status, race, and skin cancer risk factors to assess their impact on the device\u2019s effectiveness.",
-        "citationIds": [
-          "4",
-          "5"
-        ]
-      },
-      {
-        "text": "The study protocol was required to be submitted within 30 days of the January 12, 2024 order, with specific enrollment milestones: first subject enrolled within 6 months, 20% within 12 months, 50% within 24 months, and 100% within 36 months from protocol approval.",
-        "citationIds": [
-          "4",
-          "5"
-        ]
-      },
-      {
-        "text": "Periodic progress reports are also required.",
-        "citationIds": [
-          "4",
-          "5"
-        ]
-      }
-    ],
-    "performance.summary": [
-      {
-        "text": "Non-clinical/bench studies demonstrated the following results:",
-        "citationIds": [
-          "5"
-        ]
-      },
-      {
-        "text": "The comprehensive non-clinical/bench testing results indicate that the DermaSensor device has met established safety and reliability standards.",
-        "citationIds": [
-          "4",
-          "5"
-        ]
-      },
-      {
-        "text": "The successful completion of biocompatibility, cleaning and disinfection, shelf life, electrical safety, EMC, and software verification/validation/hazard analysis tests suggests that the risks associated with adverse tissue reactions, infection, device malfunction, electrical/thermal/mechanical hazards, and cybersecurity vulnerabilities have been adequately mitigated.",
-        "citationIds": [
-          "4",
-          "5"
-        ]
-      },
-      {
-        "text": "These findings provide reasonable assurance of the device's safety and effectiveness when used as intended.",
-        "citationIds": [
-          "4",
-          "5"
-        ]
-      },
-      {
-        "text": "Standalone device performance testing must demonstrate at least 90% sensitivity of the device output for lesions with high metastatic potential.",
-        "citationIds": [
-          "4",
-          "5"
-        ]
-      },
-      {
-        "text": "Clinical justification must be provided for reported specificity if lower sensitivity is presented.",
-        "citationIds": [
-          "4",
-          "5"
-        ]
-      },
-      {
-        "text": "The device-aided users' diagnostic characterization of indicated lesions must demonstrate superior accuracy compared to un-aided users.",
-        "citationIds": [
-          "4",
-          "5"
-        ]
-      },
-      {
-        "text": "In the algorithm tuning phase, sensitivity estimates were 96.5% (221/229).",
-        "citationIds": [
-          "4",
-          "5"
-        ]
-      },
-      {
-        "text": "Specificity for physician-biopsied lesions was 20.6% (28/136), and estimated specificity for physician-selected un-biopsied lesions was 33.0% (128/388).",
-        "citationIds": [
-          "4",
-          "5"
-        ]
-      },
-      {
-        "text": "When pooling lesions across tuning datasets, high sensitivity (at or above 90%) was observed for each of the three individual cancers.",
-        "citationIds": [
-          "4",
-          "5"
-        ]
-      },
-      {
-        "text": "Labeling must include a summary of performance measures, including sensitivity and specificity, and statistical confidence intervals, as well as performance of the device for all clinically relevant subgroups.",
-        "citationIds": [
-          "4",
-          "5"
-        ]
-      }
-    ],
-    "performance_evaluation_limitations": [
-      {
-        "text": "The patient demographics for the algorithm training and tuning datasets included Fitzpatrick phototypes I (6.3% training, 14.6% tuning), II (31.1% training, 36.5% tuning), III (22.9% training, 20.8% tuning), IV (4.3% training, 11.4% tuning), V (0.7% training, 12.3% tuning), and VI (0.3% training, 3.7% tuning), with a significant portion unknown (34.4% training, 0.7% tuning).",
-        "citationIds": [
-          "4",
-          "5"
-        ]
-      },
-      {
-        "text": "The FDA noted that less data was available for sensitivity of the DermaSensor device for melanoma in Fitzpatrick skin phototypes IV-VI, consistent with the lower prevalence of skin cancer in these groups.",
-        "citationIds": [
-          "4",
-          "5"
-        ]
-      },
-      {
-        "text": "Due to this, the FDA requires postmarket clinical validation performance testing to include populations who had limited representation of melanomas in the premarket studies (e.g., Fitzpatrick skin phototypes IV, V, and VI) or in whom sensitivity was lower than 90%, with an overrepresentation of these skin phototypes in the study enrollment.",
-        "citationIds": [
-          "4",
-          "5"
-        ]
-      }
-    ],
-    "ongoing_monitoring_plan": [
-      {
-        "text": "The DermaSensor device has a minimum use life of three years, with product use-life testing performed to ensure adequacy.",
-        "citationIds": [
-          "4",
-          "5",
-          "6"
-        ]
-      },
-      {
-        "text": "Software verification, validation, and hazard analysis are performed as part of special controls.",
-        "citationIds": [
-          "4",
-          "5",
-          "6"
-        ]
-      },
-      {
-        "text": "The cybersecurity documentation includes an upgrade and maintenance plan.",
-        "citationIds": [
-          "4",
-          "5",
-          "6"
-        ]
-      },
-      {
-        "text": "There was a Class 2 Device Recall (Z-0583-2026) initiated by the firm on October 13, 2025 (posted November 21, 2025) for DermaSensor (Model/Catalog Number: 10101, Software Version: 3.0.2) due to a potential for the device to not meet specifications, resulting in incorrect results or delayed patient referral.",
-        "citationIds": [
-          "4",
-          "5",
-          "6"
-        ]
-      },
-      {
-        "text": "The recall action involved notifying consignees via telephone and follow-up letter, instructing them to examine inventory, complete a response form, and arrange a visit with DermaSensor for device correction.",
-        "citationIds": [
-          "4",
-          "5",
-          "6"
-        ]
-      },
-      {
-        "text": "If a device contained the component issue, DermaSensor would provide correct results for past scans.",
-        "citationIds": [
-          "4",
-          "5",
-          "6"
-        ]
-      }
-    ],
-    "scheduled_updates": [
-      {
-        "text": "The DermaSensor device has a minimum use life of three years, with product use-life testing performed to ensure adequacy.",
-        "citationIds": [
-          "4",
-          "5",
-          "6"
-        ]
-      },
-      {
-        "text": "Software verification, validation, and hazard analysis are performed as part of special controls.",
-        "citationIds": [
-          "4",
-          "5",
-          "6"
-        ]
-      },
-      {
-        "text": "The cybersecurity documentation includes an upgrade and maintenance plan.",
-        "citationIds": [
-          "4",
-          "5",
-          "6"
-        ]
-      },
-      {
-        "text": "There was a Class 2 Device Recall (Z-0583-2026) initiated by the firm on October 13, 2025 (posted November 21, 2025) for DermaSensor (Model/Catalog Number: 10101, Software Version: 3.0.2) due to a potential for the device to not meet specifications, resulting in incorrect results or delayed patient referral.",
-        "citationIds": [
-          "4",
-          "5",
-          "6"
-        ]
-      },
-      {
-        "text": "The recall action involved notifying consignees via telephone and follow-up letter, instructing them to examine inventory, complete a response form, and arrange a visit with DermaSensor for device correction.",
-        "citationIds": [
-          "4",
-          "5",
-          "6"
-        ]
-      },
-      {
-        "text": "If a device contained the component issue, DermaSensor would provide correct results for past scans.",
-        "citationIds": [
-          "4",
-          "5",
-          "6"
-        ]
-      }
-    ],
-    "contact": [
-      {
-        "text": "For product inquiries or to report an issue, contact DermaSensor Inc.",
-        "citationIds": [
-          "4",
-          "6",
-          "8"
-        ]
-      },
-      {
-        "text": "at 1-855-373-6767.",
-        "citationIds": [
-          "4",
-          "6",
-          "8"
-        ]
-      },
-      {
-        "text": "For specific recall information, contact Ryan Frieden at 01-855-3736767 Ext.",
-        "citationIds": [
-          "4",
-          "6",
-          "8"
-        ]
-      },
-      {
-        "text": "605.",
-        "citationIds": [
-          "4",
-          "6",
-          "8"
-        ]
-      },
-      {
-        "text": "For general regulatory questions regarding medical devices, contact FDA's Division of Industry and Consumer Education (DICE) by email at DICE@fda.hhs.gov or phone at 1-800-638-2041 or 301-796-7100.",
-        "citationIds": [
-          "4",
-          "6",
-          "8"
-        ]
-      },
-      {
-        "text": "https://www.dermasensor.com/",
-        "citationIds": [
-          "8"
-        ]
-      }
-    ],
-    "regulatory_approval_status": [
-      {
-        "text": "The DermaSensor device received De Novo classification as a Class II prescription device (21 CFR 878.1830, Product Code QZS) from the U.S.",
-        "citationIds": [
-          "4",
-          "5"
-        ]
-      },
-      {
-        "text": "Food and Drug Administration (FDA) on January 12, 2024.",
-        "citationIds": [
-          "4",
-          "5"
-        ]
-      },
-      {
-        "text": "The De Novo request for classification was received by the FDA on February 2, 2023.",
-        "citationIds": [
-          "4",
-          "5"
-        ]
-      }
-    ]
-  },
-  "fields": {},
-  "regulatory_status_source": null,
-  "regulatory_status_confidence": "unknown"
+  "regulatory_status_display": "FDA Cleared \u2014 FDA De Novo classification (Class II prescription device)"
 }

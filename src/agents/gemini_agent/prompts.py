@@ -6,12 +6,50 @@ _CLINICAL_FIELDS = CLINICAL_AGENT_EXTRACT_FIELDS
 
 _NESTED_SHAPES = """
 NESTED FIELD JSON SHAPES (when requested, return objects under "values"):
-  "training_data": {"description": "...", "dataset_url": "https://..."}
-  "model_development_and_validation": {"description": "...", "publication_url": "https://..."}
-  "clinical_trial": {"identifier": "NCT...", "url": "https://...", "description": "..."}
-  "performance": {"summary": "...", "metrics": [{"name":"Sensitivity","value":"94%","population":"...","confidence_interval":"..."}]}
-  "contact": {"email": "...", "url": "https://..."}
+  "training_data": {{"description": "...", "dataset_url": "https://..."}}
+  "model_development_and_validation": {{"description": "...", "publication_url": "https://..."}}
+  "clinical_trial": {{"identifier": "NCT...", "url": "https://...", "description": "..."}}
+  "performance": {{"summary": "...", "metrics": [{{"name":"Sensitivity","value":"94%","population":"...","confidence_interval":"..."}}]}}
+  "contact": {{"email": "...", "url": "https://..."}}
 """
+
+EXTRACTOR_HEAD = """You extract values for requested **clinical model card fields** from SOURCES.
+
+CRITICAL REQUIREMENTS:
+1. You MUST return ONLY valid JSON - no prose, no explanations, no markdown, no code blocks
+2. The JSON MUST start with {{ and end with }}
+3. The JSON MUST contain both "values" and "evidence" keys
+4. NEVER return partial JSON or malformed responses
+5. If you cannot complete the JSON, return: {{"values": {{}}, "evidence": {{}}}}
+
+STRICT NAMING:
+- Keys in "values" MUST be chosen ONLY from ALLOWED_FIELD_NAMES: {allowed_fields}
+- Requested fields: {field_paths}
+- Use snake_case field names (e.g., "model_name", "summary", "medical_purpose")
+- For regulatory_approval_status use ONLY: NOT_AUTHORIZED_CONSUMER_TOOL, INVESTIGATIONAL_RESEARCH_USE_ONLY, EUA_AUTHORIZED, FDA_APPROVED, FDA_CLEARED, CE_MARKED, UNKNOWN
+- Do NOT claim FDA cleared/approved without explicit evidence in sources; use UNKNOWN when uncertain
+
+CONCISENESS:
+- Keep field values concise; do not repeat the same fact across multiple fields
+- Summary must be at most 3 sentences covering input, output, and clinical role
+
+""" + _NESTED_SHAPES
+
+
+def build_extractor_prompt(
+    *,
+    field_paths: str,
+    allowed_fields: str,
+    manifest: str,
+    sources: str,
+) -> str:
+    """Build extractor prompt without interpreting braces inside source blobs."""
+    head = EXTRACTOR_HEAD.format(field_paths=field_paths, allowed_fields=allowed_fields)
+    return f"{head}\n\nSOURCES:\n{sources}\n\nMANIFEST:\n{manifest}\n"
+
+
+# Back-compat alias (head only; use build_extractor_prompt for full prompt).
+EXTRACTOR = EXTRACTOR_HEAD
 
 PLANNER = f"""You are a planning agent for producing a clinician-centered dermatology AI model card.
 Given a short model hint, return JSON ONLY:
@@ -34,34 +72,6 @@ Given a short model hint, return JSON ONLY:
 {chr(10).join(f'    "{field}",' for field in _CLINICAL_FIELDS)}
   ]
 }}
-"""
-
-EXTRACTOR = """You extract values for requested **clinical model card fields** from SOURCES.
-
-CRITICAL REQUIREMENTS:
-1. You MUST return ONLY valid JSON - no prose, no explanations, no markdown, no code blocks
-2. The JSON MUST start with {{ and end with }}
-3. The JSON MUST contain both "values" and "evidence" keys
-4. NEVER return partial JSON or malformed responses
-5. If you cannot complete the JSON, return: {{"values": {{}}, "evidence": {{}}}}
-
-STRICT NAMING:
-- Keys in "values" MUST be chosen ONLY from ALLOWED_FIELD_NAMES: {allowed_fields}
-- Requested fields: {field_paths}
-- Use snake_case field names (e.g., "model_name", "summary", "medical_purpose")
-- For regulatory_approval_status use ONLY: NOT_AUTHORIZED_CONSUMER_TOOL, INVESTIGATIONAL_RESEARCH_USE_ONLY, EUA_AUTHORIZED, FDA_APPROVED, FDA_CLEARED, CE_MARKED, UNKNOWN
-- Do NOT claim FDA cleared/approved without explicit evidence in sources; use UNKNOWN when uncertain
-
-CONCISENESS:
-- Keep field values concise; do not repeat the same fact across multiple fields
-- Summary must be at most 3 sentences covering input, output, and clinical role
-
-""" + _NESTED_SHAPES + """
-SOURCES:
-{sources}
-
-MANIFEST:
-{manifest}
 """
 
 VALIDATOR = """You validate a partial clinical model card against SOURCES.

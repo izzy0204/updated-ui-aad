@@ -12,47 +12,32 @@
       "source": ""
     },
     "3": {
-      "url": "https://theresanaiforthat.com/gpt/dermgpt/",
-      "title": "",
-      "source": ""
-    },
-    "4": {
       "url": "https://www.dermgpt.com/derm-gpt-chat",
       "title": "",
       "source": ""
     },
-    "5": {
-      "url": "[https://www.jaad.org/article/S0190-9622(25)01529-4/fulltext](https://www.jaad.org/article/S0190-9622(25)01529-4/fulltext)",
-      "title": "",
-      "source": ""
-    },
-    "6": {
-      "url": "https://pubmed.ncbi.nlm.nih.gov/38754096/",
-      "title": "",
-      "source": ""
-    },
-    "7": {
-      "url": "https://www.medpagetoday.com/video-coverage/atopic-derm-future-focus/107750",
-      "title": "",
-      "source": ""
-    },
-    "8": {
+    "4": {
       "url": "https://www.learnskin.com/authors/Faranak-Kamangar/",
       "title": "",
       "source": ""
     },
-    "9": {
-      "url": "https://www.sciencedirect.com/science/article/pii/S2667102625000919",
-      "title": "",
-      "source": ""
-    },
-    "10": {
+    "5": {
       "url": "https://derma.jmir.org/2025/1/e74040",
       "title": "",
       "source": ""
     },
-    "11": {
+    "6": {
       "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC12677980/",
+      "title": "",
+      "source": ""
+    },
+    "7": {
+      "url": "https://pubmed.ncbi.nlm.nih.gov/38754096/",
+      "title": "",
+      "source": ""
+    },
+    "8": {
+      "url": "https://www.medpagetoday.com/video-coverage/atopic-derm-future-focus/107750",
       "title": "",
       "source": ""
     }
@@ -62,7 +47,7 @@
       {
         "text": "DermGPT",
         "citationIds": [
-          "4"
+          "3"
         ]
       }
     ],
@@ -71,14 +56,8 @@
         "text": "Dr. Faranak \u201cFara\u201d Kamangar MD (board-certified dermatologist).",
         "citationIds": [
           "1",
-          "8"
+          "4"
         ]
-      }
-    ],
-    "availability": [
-      {
-        "text": "Not specified.",
-        "citationIds": []
       }
     ],
     "summary": [
@@ -87,7 +66,7 @@
         "citationIds": [
           "1",
           "2",
-          "4"
+          "3"
         ]
       }
     ],
@@ -118,7 +97,7 @@
         "text": "Use via the web app by prompting the chatbot; outputs are described as including citations and requiring proofreading.",
         "citationIds": [
           "2",
-          "4"
+          "3"
         ]
       }
     ],
@@ -128,7 +107,7 @@
         "citationIds": [
           "1",
           "2",
-          "4"
+          "3"
         ]
       }
     ],
@@ -136,7 +115,7 @@
       {
         "text": "Not explicitly stated; likely low-to-moderate because it is a language assistant that could still produce incorrect medical content if misused.",
         "citationIds": [
-          "6"
+          "7"
         ]
       },
       {
@@ -151,7 +130,7 @@
         "text": "Dermatologists and dermatology staff (RNs, MAs, ancillary staff); some sources describe broader audiences, but primary positioning is clinical workflow support.",
         "citationIds": [
           "1",
-          "4"
+          "3"
         ]
       },
       {
@@ -177,10 +156,6 @@
           "1",
           "2"
         ]
-      },
-      {
-        "text": "Not specified.",
-        "citationIds": []
       }
     ],
     "unsupported_clinical_scenarios": [
@@ -212,18 +187,14 @@
         "text": "Use via the web app by prompting the chatbot; outputs are described as including citations and requiring proofreading.",
         "citationIds": [
           "2",
-          "4"
+          "3"
         ]
       },
       {
         "text": "Not explicitly stated; likely low-to-moderate because it is a language assistant that could still produce incorrect medical content if misused.",
         "citationIds": [
-          "6"
+          "7"
         ]
-      },
-      {
-        "text": "Not specified.",
-        "citationIds": []
       }
     ],
     "model_type": [
@@ -239,7 +210,7 @@
         "citationIds": [
           "1",
           "2",
-          "4"
+          "3"
         ]
       }
     ],
@@ -248,7 +219,7 @@
         "text": "Dermatology peer-reviewed literature and published sources; full dataset not specified.",
         "citationIds": [
           "2",
-          "7"
+          "8"
         ]
       }
     ],
@@ -256,25 +227,9 @@
       {
         "text": "Examples of related publications include",
         "citationIds": [
-          "10",
-          "11"
+          "5",
+          "6"
         ]
-      },
-      {
-        "text": ".",
-        "citationIds": []
-      }
-    ],
-    "clinical_trial": [
-      {
-        "text": "Not specified.",
-        "citationIds": []
-      }
-    ],
-    "performance.summary": [
-      {
-        "text": "Not specified.",
-        "citationIds": []
       }
     ],
     "ongoing_monitoring_plan": [
@@ -283,10 +238,6 @@
         "citationIds": [
           "1"
         ]
-      },
-      {
-        "text": "Service/uptime terms are published at https://www.dermgpt.com/sla.",
-        "citationIds": []
       }
     ],
     "scheduled_updates": [
@@ -295,23 +246,19 @@
         "citationIds": [
           "1"
         ]
-      },
-      {
-        "text": "Service/uptime terms are published at https://www.dermgpt.com/sla.",
-        "citationIds": []
       }
     ],
     "contact": [
       {
         "text": "No clear contact / FAQ located in the reviewed sources.",
         "citationIds": [
-          "4"
+          "3"
         ]
       },
       {
         "text": "https://www.dermgpt.com/",
         "citationIds": [
-          "4"
+          "3"
         ]
       }
     ],
@@ -320,12 +267,29 @@
         "text": "Not FDA approved / not described as a regulated medical device.",
         "citationIds": [
           "1",
-          "4"
+          "3"
         ]
       }
     ]
   },
   "fields": {},
   "regulatory_status_source": "conservative_text_map",
-  "regulatory_status_confidence": "conservative_map"
+  "regulatory_status_confidence": "conservative_map",
+  "_orphaned_references": {
+    "3": {
+      "url": "https://theresanaiforthat.com/gpt/dermgpt/",
+      "title": "",
+      "source": ""
+    },
+    "5": {
+      "url": "[https://www.jaad.org/article/S0190-9622(25)01529-4/fulltext](https://www.jaad.org/article/S0190-9622(25)01529-4/fulltext)",
+      "title": "",
+      "source": ""
+    },
+    "9": {
+      "url": "https://www.sciencedirect.com/science/article/pii/S2667102625000919",
+      "title": "",
+      "source": ""
+    }
+  }
 }

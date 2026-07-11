@@ -16,6 +16,8 @@ import os
 import re
 import random
 import hashlib
+import logging
+import traceback
 from dataclasses import fields as dc_fields
 from typing import Any, Dict, List, Optional, Tuple
 
@@ -23,7 +25,7 @@ from utils.web_search import fetch_many
 from config.config import get_settings
 from core.chai_schema import CLINICAL_AGENT_EXTRACT_FIELDS, CLINICAL_NESTED_FIELD_SPECS, ClinicalModelCard
 from utils.cache_system import get_cache
-from .prompts import PLANNER, EXTRACTOR, VALIDATOR
+from .prompts import PLANNER, VALIDATOR, build_extractor_prompt
 from .tools import (
     ddg_search,
     extract_json_block,
@@ -41,6 +43,8 @@ from google.genai import types
 
 _CHAI_FIELDS = CLINICAL_AGENT_EXTRACT_FIELDS
 _NESTED_FIELD_NAMES = frozenset(CLINICAL_NESTED_FIELD_SPECS.keys())
+
+logger = logging.getLogger(__name__)
 
 # ----------------------------- Numeric Specificity -----------------------------
 _NUMERIC_HINTS = {
@@ -300,12 +304,23 @@ async def _gather_targets_async(
                 if txt and txt.strip():
                     blobs.append((url, txt))
                     types_list.append("huggingface")
+                else:
+                    logger.warning("Empty HuggingFace README for %s", t.get("id"))
             elif ttype == "github":
                 url, txt = fetch_github_readme(t.get("id", ""), timeout=20)
                 if txt and txt.strip():
                     blobs.append((url, txt))
                     types_list.append("github")
-        except Exception:
+                else:
+                    logger.warning("Empty GitHub README for %s", t.get("id"))
+        except Exception as exc:
+            logger.warning(
+                "Skipping failed %s target %s: %s: %s",
+                t.get("type"),
+                t.get("id") or t.get("url"),
+                type(exc).__name__,
+                exc,
+            )
             continue
 
     web_urls = [t.get("url", "") for t in ordered if t.get("type") == "web"]
@@ -316,8 +331,16 @@ async def _gather_targets_async(
             url = (r or {}).get("url") or ""
             text = (r or {}).get("text") or ""
             status = (r or {}).get("status", 0)
+            err = (r or {}).get("error")
 
             if status != 200 or not text.strip():
+                logger.warning(
+                    "Skipping web fetch url=%s status=%s error=%s text_len=%s",
+                    url,
+                    status,
+                    err,
+                    len(text.strip()),
+                )
                 continue
             if "Sorry, the page you were looking for in this blog does not exist" in text:
                 continue
@@ -349,7 +372,7 @@ async def _extract_fields(
         return cached
 
     allowed_fields = _CHAI_FIELDS
-    prompt = EXTRACTOR.format(
+    prompt = build_extractor_prompt(
         field_paths=json.dumps(field_paths),
         allowed_fields=json.dumps(allowed_fields),
         manifest=manifest,
@@ -455,6 +478,56 @@ def _is_good_value(value: Any) -> bool:
     if isinstance(value, (int, float)):
         return True
     return bool(value)
+
+
+def _sanitize_batch_keys(batch: List[str]) -> List[str]:
+    return [str(k) for k in batch]
+
+
+def _response_shape(resp: Any) -> Dict[str, Any]:
+    if isinstance(resp, Exception):
+        return {"type": type(resp).__name__, "message": str(resp)}
+    if isinstance(resp, dict):
+        values = resp.get("values")
+        return {
+            "type": "dict",
+            "top_level_keys": list(resp.keys())[:30],
+            "values_keys": list(values.keys())[:30] if isinstance(values, dict) else None,
+            "has_error": "error" in resp,
+            "error": resp.get("error"),
+        }
+    return {"type": type(resp).__name__}
+
+
+def _log_batch_failure(
+    batch_index: int,
+    batch: List[str],
+    exc: BaseException,
+    *,
+    resp: Any = None,
+) -> None:
+    tb = "".join(traceback.format_exception(type(exc), exc, exc.__traceback__))
+    shape = _response_shape(resp) if resp is not None else None
+    logger.error(
+        "Batch %s failed\n"
+        "  exception_class: %s\n"
+        "  exception: %s\n"
+        "  batch_fields: %s\n"
+        "  response_shape: %s\n"
+        "  traceback:\n%s",
+        batch_index,
+        type(exc).__name__,
+        exc,
+        _sanitize_batch_keys(batch),
+        shape,
+        tb,
+    )
+    print(
+        f"ERROR: Batch {batch_index} raised {type(exc).__name__}: {exc}\n"
+        f"  batch_fields={_sanitize_batch_keys(batch)}\n"
+        f"  response_shape={shape}\n"
+        f"  traceback:\n{tb}"
+    )
 
 
 def _is_failed_batch(values: Dict[str, Any], evidence: Dict[str, List[Dict[str, str]]]) -> bool:
@@ -771,17 +844,23 @@ async def run(
         # Run extraction batches concurrently (semaphore caps Gemini calls)
         batch_results = await asyncio.gather(*batch_tasks, return_exceptions=True)
 
+        successful_batches = 0
+        failed_batches = 0
         for idx, resp in enumerate(batch_results):
             batch = want[idx * BATCH_SIZE: (idx + 1) * BATCH_SIZE]
             if isinstance(resp, Exception):
-                print(f"ERROR: Batch {idx+1} raised {resp}")
+                failed_batches += 1
+                _log_batch_failure(idx + 1, batch, resp)
                 continue
 
             values, ev = _normalize_extractor_output(resp, batch)
 
             if _is_failed_batch(values, ev):
+                failed_batches += 1
                 print(f"DEBUG: Detected failed batch {idx+1} – skipping merge")
                 continue
+
+            successful_batches += 1
 
             merge_count = 0
             for k, v in values.items():
@@ -810,6 +889,14 @@ async def run(
                     sn = e.get("snippet")
                     if u and sn:
                         citations[k].append({"url": u, "snippet": sn[:240]})
+
+        logger.info(
+            "Extraction batches: successful=%s failed=%s total=%s blobs=%s",
+            successful_batches,
+            failed_batches,
+            len(batch_results),
+            len(blobs),
+        )
 
         # 5) Validate
         verdict = await _validate_patch(client, gemini_model, gemini_model, state) or {}

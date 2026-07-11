@@ -281,6 +281,9 @@ async def _ddg_search_once(session: aiohttp.ClientSession, base_url: str, query:
     }
 
     async with session.get(base_url, params=params, headers=headers) as r:
+        if r.status == 202:
+            logger.warning("DuckDuckGo returned 202 (challenge/non-result) for %r via %s", query, base_url)
+            return results
         if r.status != 200:
             logger.warning("DuckDuckGo %s returned %s for %r", base_url, r.status, query)
             return results
@@ -431,6 +434,28 @@ def _extract_pdf_text(data: bytes) -> str:
         return ""
 
 
+def _decode_response_bytes(raw: bytes, charset: Optional[str]) -> str:
+    try:
+        return raw.decode(charset or "utf-8", errors="ignore")
+    except Exception:
+        return raw.decode("utf-8", errors="ignore")
+
+
+def _classify_and_extract_text(*, raw: bytes, content_type: str, url: str) -> Tuple[str, str]:
+    """
+    Return (kind, text). PDF parsing runs only when bytes begin with %PDF-.
+    PDF Content-Type or .pdf URL without magic bytes is treated as HTML.
+    """
+    ct = (content_type or "").lower()
+    wants_pdf = "pdf" in ct or url.lower().endswith(".pdf")
+    if raw.startswith(b"%PDF-"):
+        return "pdf", _extract_pdf_text(raw)
+    if wants_pdf:
+        logger.warning("PDF URL/Content-Type but non-PDF body; treating as HTML: %s", url)
+    html = _decode_response_bytes(raw, None)
+    return "html", _extract_html_text(html, url)
+
+
 # ---------- Robust async fetcher (HTML/PDF + retries) ----------
 
 def _selenium_enabled() -> bool:
@@ -452,35 +477,23 @@ async def _fetch_one(session: aiohttp.ClientSession, url: str, timeout: float = 
         async with session.get(u, timeout=timeout, allow_redirects=True) as r:
             ct = (r.headers.get("Content-Type") or "").lower()
             raw = await r.read()
+            kind, text = _classify_and_extract_text(raw=raw, content_type=ct, url=u)
 
-            if "pdf" in ct or u.lower().endswith(".pdf"):
-                text = _extract_pdf_text(raw)
-                kind = "pdf"
-            else:
+            if (use_selenium_fallback or _selenium_enabled()) and kind == "html" and len(text.strip()) < 200:
                 try:
-                    html = raw.decode(r.charset or "utf-8", errors="ignore")
-                except Exception:
-                    html = raw.decode("utf-8", errors="ignore")
-                text = _extract_html_text(html, u)
-                kind = "html"
-                
-                # Check if we need Selenium fallback for JavaScript-rendered content
-                if (use_selenium_fallback or _selenium_enabled()) and kind == "html" and len(text.strip()) < 200:
-                    # Try Selenium if content seems too short (might be JS-rendered)
-                    try:
-                        from scrapers.selenium_scraper import scrape_with_selenium, SELENIUM_AVAILABLE
-                        if SELENIUM_AVAILABLE:
-                            logger.info(f"Trying Selenium fallback for {u} (content too short: {len(text)} chars)")
-                            selenium_result = await scrape_with_selenium(u, headless=True, wait_for_content=True)
-                            if selenium_result.get('status') == 'success':
-                                selenium_text = selenium_result.get('clean_text', '')
-                                if len(selenium_text.strip()) > len(text.strip()):
-                                    text = selenium_text
-                                    logger.info(f"Selenium improved content for {u} ({len(text)} vs {len(selenium_text)} chars)")
-                    except ImportError:
-                        pass  # Selenium not available, continue with static content
-                    except Exception as e:
-                        logger.debug(f"Selenium fallback failed for {u}: {e}")
+                    from scrapers.selenium_scraper import scrape_with_selenium, SELENIUM_AVAILABLE
+                    if SELENIUM_AVAILABLE:
+                        logger.info(f"Trying Selenium fallback for {u} (content too short: {len(text)} chars)")
+                        selenium_result = await scrape_with_selenium(u, headless=True, wait_for_content=True)
+                        if selenium_result.get('status') == 'success':
+                            selenium_text = selenium_result.get('clean_text', '')
+                            if len(selenium_text.strip()) > len(text.strip()):
+                                text = selenium_text
+                                logger.info(f"Selenium improved content for {u} ({len(text)} vs {len(selenium_text)} chars)")
+                except ImportError:
+                    pass
+                except Exception as e:
+                    logger.debug(f"Selenium fallback failed for {u}: {e}")
 
             result = {"url": u, "status": r.status, "type": kind, "text": text}
             

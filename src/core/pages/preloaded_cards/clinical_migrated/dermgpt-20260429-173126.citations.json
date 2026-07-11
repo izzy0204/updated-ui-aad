@@ -7,47 +7,27 @@
       "source": ""
     },
     "2": {
-      "url": "https://dermgpt.org/",
-      "title": "",
-      "source": ""
-    },
-    "3": {
-      "url": "https://github.com/DermGPT",
-      "title": "",
-      "source": ""
-    },
-    "4": {
       "url": "https://github.com/kfenggg/dermGPT",
       "title": "",
       "source": ""
     },
-    "5": {
-      "url": "https://ieeexplore.ieee.org/document/11336018",
-      "title": "",
-      "source": ""
-    },
-    "6": {
-      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC12677980",
-      "title": "",
-      "source": ""
-    },
-    "7": {
-      "url": "https://pubmed.ncbi.nlm.nih.gov/help",
-      "title": "",
-      "source": ""
-    },
-    "8": {
-      "url": "https://www.jaad.org/article/S0190-9622(25)01529-4/fulltext",
-      "title": "",
-      "source": ""
-    },
-    "9": {
+    "3": {
       "url": "https://www.mdedge.com/cutis/article/268568/dermgpt-can-help-improve-your-office-productivity",
       "title": "",
       "source": ""
     },
-    "10": {
+    "4": {
       "url": "https://www.mdedge.com/dermatology/article/268568/dermgpt-can-help-improve-your-office-productivity",
+      "title": "",
+      "source": ""
+    },
+    "5": {
+      "url": "https://dermgpt.org/",
+      "title": "",
+      "source": ""
+    },
+    "6": {
+      "url": "https://ieeexplore.ieee.org/document/11336018",
       "title": "",
       "source": ""
     }
@@ -58,9 +38,9 @@
         "text": "DermGPT",
         "citationIds": [
           "1",
-          "2",
           "5",
-          "10"
+          "6",
+          "4"
         ]
       }
     ],
@@ -69,14 +49,14 @@
         "text": "Faranak (Fara) Kamangar, MD, Department Chair, Palo Alto Medical Foundation.",
         "citationIds": [
           "1",
-          "10"
+          "4"
         ]
       },
       {
         "text": "The model was developed under the Palo Alto Medical Foundation.",
         "citationIds": [
           "1",
-          "10"
+          "4"
         ]
       }
     ],
@@ -85,16 +65,16 @@
         "text": "DermGPT is accessible via a web-based platform (dermgpt.com) and was used by dermatologists at the University of California, Irvine, and University of California, Davis for a study, suggesting availability within the US.",
         "citationIds": [
           "1",
-          "9",
-          "10"
+          "3",
+          "4"
         ]
       },
       {
         "text": "Global availability is not explicitly stated.",
         "citationIds": [
           "1",
-          "9",
-          "10"
+          "3",
+          "4"
         ]
       }
     ],
@@ -103,63 +83,63 @@
         "text": "DermGPT is an advanced web-based AI assistant designed to help healthcare providers, particularly dermatologists, with clinical tasks to increase productivity.",
         "citationIds": [
           "1",
-          "4",
-          "9",
-          "10"
+          "2",
+          "3",
+          "4"
         ]
       },
       {
         "text": "It utilizes a learned language model based on over 3000 peer-reviewed dermatology articles and texts.",
         "citationIds": [
           "1",
-          "4",
-          "9",
-          "10"
+          "2",
+          "3",
+          "4"
         ]
       },
       {
         "text": "The tool offers AI-powered skin analysis via image classification (using models like MobileNet, ResNet, ViT), providing high-accuracy detection of various skin conditions (rashes, moles, lesions).",
         "citationIds": [
           "1",
-          "4",
-          "9",
-          "10"
+          "2",
+          "3",
+          "4"
         ]
       },
       {
         "text": "It includes visual explanations (Grad-CAM, saliency maps, confidence scores) for interpretable AI.",
         "citationIds": [
           "1",
-          "4",
-          "9",
-          "10"
+          "2",
+          "3",
+          "4"
         ]
       },
       {
         "text": "Leveraging GPT-4, it provides natural language insights, explanations of detected conditions, treatment recommendations, care suggestions, and follow-up questions for dermatologist consultation.",
         "citationIds": [
           "1",
-          "4",
-          "9",
-          "10"
+          "2",
+          "3",
+          "4"
         ]
       },
       {
         "text": "For evidence-based support, it offers RAG-powered retrieval from PubMed abstracts, including supporting scientific literature, citations, and source tracking.",
         "citationIds": [
           "1",
-          "4",
-          "9",
-          "10"
+          "2",
+          "3",
+          "4"
         ]
       },
       {
         "text": "Its search output includes citations, and it aims to reduce hallucinations by sourcing answers from a specialized research database.",
         "citationIds": [
           "1",
-          "4",
-          "9",
-          "10"
+          "2",
+          "3",
+          "4"
         ]
       }
     ],
@@ -168,45 +148,45 @@
         "text": "DermGPT is intended to assist health care providers, especially dermatologists, with clinical tasks to enhance office productivity and de-escalate tasks from moderate to difficult to easy.",
         "citationIds": [
           "1",
-          "4",
-          "9",
-          "10"
+          "2",
+          "3",
+          "4"
         ]
       },
       {
         "text": "It can be used as a generative AI tool to complete various clinical and administrative tasks.",
         "citationIds": [
           "1",
-          "4",
-          "9",
-          "10"
+          "2",
+          "3",
+          "4"
         ]
       },
       {
         "text": "The workflow involves using prompts for specific dermatology-related queries or uploading images for skin condition analysis.",
         "citationIds": [
           "1",
-          "4",
-          "9",
-          "10"
+          "2",
+          "3",
+          "4"
         ]
       },
       {
         "text": "Examples of use include writing responses to insurance denial letters, generating differential diagnoses for symptoms like blisters, identifying necessary labs for specific prescriptions, drafting prior authorization letters, providing coding support, responding to common patient messages, writing letters of recommendation, and offering information on new treatments.",
         "citationIds": [
           "1",
-          "4",
-          "9",
-          "10"
+          "2",
+          "3",
+          "4"
         ]
       },
       {
         "text": "For skin analysis, users upload an image, and the system classifies the condition, provides confidence scores, visual explanations, medical insights, and supporting evidence from scientific literature.",
         "citationIds": [
           "1",
-          "4",
-          "9",
-          "10"
+          "2",
+          "3",
+          "4"
         ]
       }
     ],
@@ -215,129 +195,129 @@
         "text": "The input data sources for DermGPT include:",
         "citationIds": [
           "1",
-          "4",
-          "9",
-          "10"
+          "2",
+          "3",
+          "4"
         ]
       },
       {
         "text": "The model accepts and produces the following data types:",
         "citationIds": [
-          "4",
-          "9",
-          "10"
+          "2",
+          "3",
+          "4"
         ]
       },
       {
         "text": "Users can try DermGPT for free by visiting https://www.dermgpt.com/.",
         "citationIds": [
-          "4",
-          "9",
-          "10"
+          "2",
+          "3",
+          "4"
         ]
       },
       {
         "text": "The web-based application is designed to be open on a computer during the workday, allowing users to turn to it for assistance as clinical tasks arise.",
         "citationIds": [
-          "4",
-          "9",
-          "10"
+          "2",
+          "3",
+          "4"
         ]
       },
       {
         "text": "For prompt-based queries, users can input questions such as writing insurance denial letters, seeking differential diagnoses, or inquiring about necessary lab checks for medications.",
         "citationIds": [
-          "4",
-          "9",
-          "10"
+          "2",
+          "3",
+          "4"
         ]
       },
       {
         "text": "For skin analysis, the workflow involves: 1.",
         "citationIds": [
-          "4",
-          "9",
-          "10"
+          "2",
+          "3",
+          "4"
         ]
       },
       {
         "text": "Uploading an image of a skin condition (drag and drop or select).",
         "citationIds": [
-          "4",
-          "9",
-          "10"
+          "2",
+          "3",
+          "4"
         ]
       },
       {
         "text": "2.",
         "citationIds": [
-          "4",
-          "9",
-          "10"
+          "2",
+          "3",
+          "4"
         ]
       },
       {
         "text": "The system performs AI analysis, classifying the condition and showing confidence scores.",
         "citationIds": [
-          "4",
-          "9",
-          "10"
+          "2",
+          "3",
+          "4"
         ]
       },
       {
         "text": "3.",
         "citationIds": [
-          "4",
-          "9",
-          "10"
+          "2",
+          "3",
+          "4"
         ]
       },
       {
         "text": "Users can view visual explanations (Grad-CAM highlights).",
         "citationIds": [
-          "4",
-          "9",
-          "10"
+          "2",
+          "3",
+          "4"
         ]
       },
       {
         "text": "4.",
         "citationIds": [
-          "4",
-          "9",
-          "10"
+          "2",
+          "3",
+          "4"
         ]
       },
       {
         "text": "They can read AI-generated medical insights and recommendations.",
         "citationIds": [
-          "4",
-          "9",
-          "10"
+          "2",
+          "3",
+          "4"
         ]
       },
       {
         "text": "5.",
         "citationIds": [
-          "4",
-          "9",
-          "10"
+          "2",
+          "3",
+          "4"
         ]
       },
       {
         "text": "If RAG is enabled, users can explore relevant scientific literature and citations.",
         "citationIds": [
-          "4",
-          "9",
-          "10"
+          "2",
+          "3",
+          "4"
         ]
       },
       {
         "text": "The project also provides instructions for developers for local setup, including cloning the repository, setting up the environment (using mamba or pip), installing dependencies, configuring API keys (e.g., OPENAI_API_KEY), and starting the Streamlit app.",
         "citationIds": [
-          "4",
-          "9",
-          "10"
+          "2",
+          "3",
+          "4"
         ]
       }
     ],
@@ -346,26 +326,26 @@
         "text": "DermGPT is designed to improve office productivity for healthcare providers by assisting with clinical tasks.",
         "citationIds": [
           "1",
-          "4",
-          "9",
-          "10"
+          "2",
+          "3",
+          "4"
         ]
       },
       {
         "text": "Specific outcomes include:",
         "citationIds": [
           "1",
-          "4",
-          "9",
-          "10"
+          "2",
+          "3",
+          "4"
         ]
       },
       {
         "text": "DermGPT outputs various types of information, primarily text-based, but also visual explanations and confidence scores:",
         "citationIds": [
-          "4",
-          "9",
-          "10"
+          "2",
+          "3",
+          "4"
         ]
       }
     ],
@@ -374,72 +354,72 @@
         "text": "Low to moderate.",
         "citationIds": [
           "1",
-          "4",
-          "9",
-          "10"
+          "2",
+          "3",
+          "4"
         ]
       },
       {
         "text": "DermGPT is designed as a productivity and support tool for healthcare providers, not a primary diagnostic or treatment decision-making tool for patients.",
         "citationIds": [
           "1",
-          "4",
-          "9",
-          "10"
+          "2",
+          "3",
+          "4"
         ]
       },
       {
         "text": "Users are explicitly warned that \"all AI models can create inaccuracies and it is important to proofread all content.\" DermGPT also issues disclaimers for certain questions, recommending consultation with a dermatologist or guidelines, and provides \"Follow-up questions for dermatologist consultation.\" The ethical review for a study comparing DermGPT did not require institutional review board review as it posed minimal risk and collected no identifiable information, referring to the survey process itself, not the AI tool's direct clinical application.",
         "citationIds": [
           "1",
-          "4",
-          "9",
-          "10"
+          "2",
+          "3",
+          "4"
         ]
       },
       {
         "text": "DermGPT is intended to assist health care providers, especially dermatologists, with clinical tasks to enhance office productivity and de-escalate tasks from moderate to difficult to easy.",
         "citationIds": [
           "1",
-          "4",
-          "9",
-          "10"
+          "2",
+          "3",
+          "4"
         ]
       },
       {
         "text": "It can be used as a generative AI tool to complete various clinical and administrative tasks.",
         "citationIds": [
           "1",
-          "4",
-          "9",
-          "10"
+          "2",
+          "3",
+          "4"
         ]
       },
       {
         "text": "The workflow involves using prompts for specific dermatology-related queries or uploading images for skin condition analysis.",
         "citationIds": [
           "1",
-          "4",
-          "9",
-          "10"
+          "2",
+          "3",
+          "4"
         ]
       },
       {
         "text": "Examples of use include writing responses to insurance denial letters, generating differential diagnoses for symptoms like blisters, identifying necessary labs for specific prescriptions, drafting prior authorization letters, providing coding support, responding to common patient messages, writing letters of recommendation, and offering information on new treatments.",
         "citationIds": [
           "1",
-          "4",
-          "9",
-          "10"
+          "2",
+          "3",
+          "4"
         ]
       },
       {
         "text": "For skin analysis, users upload an image, and the system classifies the condition, provides confidence scores, visual explanations, medical insights, and supporting evidence from scientific literature.",
         "citationIds": [
           "1",
-          "4",
-          "9",
-          "10"
+          "2",
+          "3",
+          "4"
         ]
       }
     ],
@@ -447,36 +427,36 @@
       {
         "text": "Health care providers; Physicians; Dermatologists; Board-certified dermatologists; Dermatology residents; Dermatology fellows; Medical students",
         "citationIds": [
-          "9",
-          "10"
+          "3",
+          "4"
         ]
       },
       {
         "text": "Users, specifically health care providers, are expected to have a foundational understanding of dermatology.",
         "citationIds": [
-          "9",
-          "10"
+          "3",
+          "4"
         ]
       },
       {
         "text": "The developer, Dr.",
         "citationIds": [
-          "9",
-          "10"
+          "3",
+          "4"
         ]
       },
       {
         "text": "Kamangar, stresses the importance of proofreading all AI-generated content due to potential inaccuracies, implying that users need sufficient expertise to verify the information.",
         "citationIds": [
-          "9",
-          "10"
+          "3",
+          "4"
         ]
       },
       {
         "text": "For advanced use, understanding of prompts for specific dermatology-related queries is beneficial.",
         "citationIds": [
-          "9",
-          "10"
+          "3",
+          "4"
         ]
       }
     ],
@@ -484,25 +464,25 @@
       {
         "text": "While the tool is designed for healthcare providers in dermatology, the underlying knowledge base and applications are relevant to a broad range of dermatological conditions affecting patients.",
         "citationIds": [
-          "4",
-          "9",
-          "10"
+          "2",
+          "3",
+          "4"
         ]
       },
       {
         "text": "Specific patient populations mentioned in use cases include patients with atopic dermatitis or those presenting with blisters.",
         "citationIds": [
-          "4",
-          "9",
-          "10"
+          "2",
+          "3",
+          "4"
         ]
       },
       {
         "text": "The skin analysis feature targets various dermatological conditions (rashes, moles, lesions).",
         "citationIds": [
-          "4",
-          "9",
-          "10"
+          "2",
+          "3",
+          "4"
         ]
       }
     ],
@@ -511,48 +491,48 @@
         "text": "All AI models, including DermGPT, can create inaccuracies, necessitating users to proofread all generated content.",
         "citationIds": [
           "1",
-          "9",
-          "10"
+          "3",
+          "4"
         ]
       },
       {
         "text": "In a comparative study, DermGPT issued disclaimers instead of direct answers for 3 specific questions, recommending consultation with a dermatologist or guidelines.",
         "citationIds": [
           "1",
-          "9",
-          "10"
+          "3",
+          "4"
         ]
       },
       {
         "text": "While DermGPT demonstrates strong potential for answer clarity and conciseness, ChatGPT was preferred for its more robust source citations, which enhances user trust and perceived academic rigor.",
         "citationIds": [
           "1",
-          "9",
-          "10"
+          "3",
+          "4"
         ]
       },
       {
         "text": "The study comparing DermGPT and ChatGPT had limitations, including a small rater sample (n=19) and multiple ratings per rater and per question, meaning P values should be interpreted as exploratory.",
         "citationIds": [
           "1",
-          "9",
-          "10"
+          "3",
+          "4"
         ]
       },
       {
         "text": "The sample may not represent all dermatology clinicians, limiting generalizability, and subgroup patterns were underpowered.",
         "citationIds": [
           "1",
-          "9",
-          "10"
+          "3",
+          "4"
         ]
       },
       {
         "text": "LLMs, in general, may \"hallucinate,\" producing plausible but incorrect information, which limits clinical utility.",
         "citationIds": [
           "1",
-          "9",
-          "10"
+          "3",
+          "4"
         ]
       }
     ],
@@ -561,64 +541,64 @@
         "text": "Dr.",
         "citationIds": [
           "1",
-          "9",
-          "10"
+          "3",
+          "4"
         ]
       },
       {
         "text": "Faranak Kamangar, the inventor, explicitly states: \"Still, with all of these safeguards, all AI models can create inaccuracies and it is important to proofread all content.\" A study also noted that DermGPT issued disclaimers instead of direct answers for 3 questions, recommending consultation with a dermatologist or guidelines.",
         "citationIds": [
           "1",
-          "9",
-          "10"
+          "3",
+          "4"
         ]
       },
       {
         "text": "All AI models, including DermGPT, can create inaccuracies, necessitating users to proofread all generated content.",
         "citationIds": [
           "1",
-          "9",
-          "10"
+          "3",
+          "4"
         ]
       },
       {
         "text": "In a comparative study, DermGPT issued disclaimers instead of direct answers for 3 specific questions, recommending consultation with a dermatologist or guidelines.",
         "citationIds": [
           "1",
-          "9",
-          "10"
+          "3",
+          "4"
         ]
       },
       {
         "text": "While DermGPT demonstrates strong potential for answer clarity and conciseness, ChatGPT was preferred for its more robust source citations, which enhances user trust and perceived academic rigor.",
         "citationIds": [
           "1",
-          "9",
-          "10"
+          "3",
+          "4"
         ]
       },
       {
         "text": "The study comparing DermGPT and ChatGPT had limitations, including a small rater sample (n=19) and multiple ratings per rater and per question, meaning P values should be interpreted as exploratory.",
         "citationIds": [
           "1",
-          "9",
-          "10"
+          "3",
+          "4"
         ]
       },
       {
         "text": "The sample may not represent all dermatology clinicians, limiting generalizability, and subgroup patterns were underpowered.",
         "citationIds": [
           "1",
-          "9",
-          "10"
+          "3",
+          "4"
         ]
       },
       {
         "text": "LLMs, in general, may \"hallucinate,\" producing plausible but incorrect information, which limits clinical utility.",
         "citationIds": [
           "1",
-          "9",
-          "10"
+          "3",
+          "4"
         ]
       }
     ],
@@ -627,48 +607,48 @@
         "text": "All AI models, including DermGPT, can create inaccuracies, necessitating users to proofread all generated content.",
         "citationIds": [
           "1",
-          "9",
-          "10"
+          "3",
+          "4"
         ]
       },
       {
         "text": "In a comparative study, DermGPT issued disclaimers instead of direct answers for 3 specific questions, recommending consultation with a dermatologist or guidelines.",
         "citationIds": [
           "1",
-          "9",
-          "10"
+          "3",
+          "4"
         ]
       },
       {
         "text": "While DermGPT demonstrates strong potential for answer clarity and conciseness, ChatGPT was preferred for its more robust source citations, which enhances user trust and perceived academic rigor.",
         "citationIds": [
           "1",
-          "9",
-          "10"
+          "3",
+          "4"
         ]
       },
       {
         "text": "The study comparing DermGPT and ChatGPT had limitations, including a small rater sample (n=19) and multiple ratings per rater and per question, meaning P values should be interpreted as exploratory.",
         "citationIds": [
           "1",
-          "9",
-          "10"
+          "3",
+          "4"
         ]
       },
       {
         "text": "The sample may not represent all dermatology clinicians, limiting generalizability, and subgroup patterns were underpowered.",
         "citationIds": [
           "1",
-          "9",
-          "10"
+          "3",
+          "4"
         ]
       },
       {
         "text": "LLMs, in general, may \"hallucinate,\" producing plausible but incorrect information, which limits clinical utility.",
         "citationIds": [
           "1",
-          "9",
-          "10"
+          "3",
+          "4"
         ]
       }
     ],
@@ -676,140 +656,140 @@
       {
         "text": "Users can try DermGPT for free by visiting https://www.dermgpt.com/.",
         "citationIds": [
-          "4",
-          "9",
-          "10"
+          "2",
+          "3",
+          "4"
         ]
       },
       {
         "text": "The web-based application is designed to be open on a computer during the workday, allowing users to turn to it for assistance as clinical tasks arise.",
         "citationIds": [
-          "4",
-          "9",
-          "10"
+          "2",
+          "3",
+          "4"
         ]
       },
       {
         "text": "For prompt-based queries, users can input questions such as writing insurance denial letters, seeking differential diagnoses, or inquiring about necessary lab checks for medications.",
         "citationIds": [
-          "4",
-          "9",
-          "10"
+          "2",
+          "3",
+          "4"
         ]
       },
       {
         "text": "For skin analysis, the workflow involves: 1.",
         "citationIds": [
-          "4",
-          "9",
-          "10"
+          "2",
+          "3",
+          "4"
         ]
       },
       {
         "text": "Uploading an image of a skin condition (drag and drop or select).",
         "citationIds": [
-          "4",
-          "9",
-          "10"
+          "2",
+          "3",
+          "4"
         ]
       },
       {
         "text": "2.",
         "citationIds": [
-          "4",
-          "9",
-          "10"
+          "2",
+          "3",
+          "4"
         ]
       },
       {
         "text": "The system performs AI analysis, classifying the condition and showing confidence scores.",
         "citationIds": [
-          "4",
-          "9",
-          "10"
+          "2",
+          "3",
+          "4"
         ]
       },
       {
         "text": "3.",
         "citationIds": [
-          "4",
-          "9",
-          "10"
+          "2",
+          "3",
+          "4"
         ]
       },
       {
         "text": "Users can view visual explanations (Grad-CAM highlights).",
         "citationIds": [
-          "4",
-          "9",
-          "10"
+          "2",
+          "3",
+          "4"
         ]
       },
       {
         "text": "4.",
         "citationIds": [
-          "4",
-          "9",
-          "10"
+          "2",
+          "3",
+          "4"
         ]
       },
       {
         "text": "They can read AI-generated medical insights and recommendations.",
         "citationIds": [
-          "4",
-          "9",
-          "10"
+          "2",
+          "3",
+          "4"
         ]
       },
       {
         "text": "5.",
         "citationIds": [
-          "4",
-          "9",
-          "10"
+          "2",
+          "3",
+          "4"
         ]
       },
       {
         "text": "If RAG is enabled, users can explore relevant scientific literature and citations.",
         "citationIds": [
-          "4",
-          "9",
-          "10"
+          "2",
+          "3",
+          "4"
         ]
       },
       {
         "text": "The project also provides instructions for developers for local setup, including cloning the repository, setting up the environment (using mamba or pip), installing dependencies, configuring API keys (e.g., OPENAI_API_KEY), and starting the Streamlit app.",
         "citationIds": [
-          "4",
-          "9",
-          "10"
+          "2",
+          "3",
+          "4"
         ]
       },
       {
         "text": "Low to moderate.",
         "citationIds": [
           "1",
-          "4",
-          "9",
-          "10"
+          "2",
+          "3",
+          "4"
         ]
       },
       {
         "text": "DermGPT is designed as a productivity and support tool for healthcare providers, not a primary diagnostic or treatment decision-making tool for patients.",
         "citationIds": [
           "1",
-          "4",
-          "9",
-          "10"
+          "2",
+          "3",
+          "4"
         ]
       },
       {
         "text": "Users are explicitly warned that \"all AI models can create inaccuracies and it is important to proofread all content.\" DermGPT also issues disclaimers for certain questions, recommending consultation with a dermatologist or guidelines, and provides \"Follow-up questions for dermatologist consultation.\" The ethical review for a study comparing DermGPT did not require institutional review board review as it posed minimal risk and collected no identifiable information, referring to the survey process itself, not the AI tool's direct clinical application.",
         "citationIds": [
           "1",
-          "4",
-          "9",
-          "10"
+          "2",
+          "3",
+          "4"
         ]
       }
     ],
@@ -818,96 +798,96 @@
         "text": "DermGPT is a hybrid AI model that integrates a learned large language model (LLM) with computer vision capabilities.",
         "citationIds": [
           "1",
-          "4",
-          "5",
-          "9",
-          "10"
+          "2",
+          "6",
+          "3",
+          "4"
         ]
       },
       {
         "text": "It functions as an AI-driven chatbot and web-based assistant.",
         "citationIds": [
           "1",
-          "4",
-          "5",
-          "9",
-          "10"
+          "2",
+          "6",
+          "3",
+          "4"
         ]
       },
       {
         "text": "Specifically, it uses a GPT base model (GPT-3.5 and GPT-4 are mentioned for different components) for natural language processing and pretrained vision models (MobileNet, ResNet, ViT, and YOLOv8) for image classification and skin analysis.",
         "citationIds": [
           "1",
-          "4",
-          "5",
-          "9",
-          "10"
+          "2",
+          "6",
+          "3",
+          "4"
         ]
       },
       {
         "text": "DermGPT is an AI-driven chatbot and advanced web-based AI assistant specifically designed for dermatology, aiming to help healthcare providers with clinical tasks to increase productivity and monitor skin health.",
         "citationIds": [
           "1",
-          "2",
-          "4",
           "5",
-          "9",
-          "10"
+          "2",
+          "6",
+          "3",
+          "4"
         ]
       },
       {
         "text": "It analyzes skin conditions using computer vision and natural language processing.",
         "citationIds": [
           "1",
-          "2",
-          "4",
           "5",
-          "9",
-          "10"
+          "2",
+          "6",
+          "3",
+          "4"
         ]
       },
       {
         "text": "The system provides detailed analysis, confidence scores, visual explanations (Grad-CAM), and treatment recommendations.",
         "citationIds": [
           "1",
-          "2",
-          "4",
           "5",
-          "9",
-          "10"
+          "2",
+          "6",
+          "3",
+          "4"
         ]
       },
       {
         "text": "It integrates a learned language model (GPT-3.5 or GPT-4, depending on the component) with computer vision models (YOLOv8, MobileNet, ResNet, ViT) and a research database (PubMed abstracts) to source answers and provide citations, thereby aiming to reduce 'hallucinations'.",
         "citationIds": [
           "1",
-          "2",
-          "4",
           "5",
-          "9",
-          "10"
+          "2",
+          "6",
+          "3",
+          "4"
         ]
       },
       {
         "text": "It was invented by Faranak Kamangar, MD, and developed under the Palo Alto Medical Foundation.",
         "citationIds": [
           "1",
-          "2",
-          "4",
           "5",
-          "9",
-          "10"
+          "2",
+          "6",
+          "3",
+          "4"
         ]
       },
       {
         "text": "The project's copyright is \u00a9 2023 dermgpt.org.",
         "citationIds": [
           "1",
-          "2",
-          "4",
           "5",
-          "9",
-          "10"
+          "2",
+          "6",
+          "3",
+          "4"
         ]
       }
     ],
@@ -916,9 +896,9 @@
         "text": "DermGPT's training data primarily consists of:",
         "citationIds": [
           "1",
-          "4",
-          "9",
-          "10"
+          "2",
+          "3",
+          "4"
         ]
       }
     ],
@@ -1057,80 +1037,80 @@
         "text": "DermGPT showed strong potential for improving answer clarity and conciseness in dermatology-related queries, making its responses accessible for quick clinical reference.",
         "citationIds": [
           "1",
-          "9",
-          "10"
+          "3",
+          "4"
         ]
       },
       {
         "text": "However, ChatGPT was favored for providing more robust source citations, which enhanced user trust and perceived academic rigor.",
         "citationIds": [
           "1",
-          "9",
-          "10"
+          "3",
+          "4"
         ]
       },
       {
         "text": "ChatGPT consistently cited reputable references, such as the Journal of the American Academy of Dermatology and the Journal of the American Medical Association, which contributed to its credibility.",
         "citationIds": [
           "1",
-          "9",
-          "10"
+          "3",
+          "4"
         ]
       },
       {
         "text": "These findings suggest the importance of balancing clarity with strong citation practices in AI-assisted medical tools.",
         "citationIds": [
           "1",
-          "9",
-          "10"
+          "3",
+          "4"
         ]
       },
       {
         "text": "The model's occasional disclaimers, recommending professional consultation, indicate a built-in safety mechanism, although the developer also explicitly warns users to proofread all content due to the potential for inaccuracies.",
         "citationIds": [
           "1",
-          "9",
-          "10"
+          "3",
+          "4"
         ]
       },
       {
         "text": "In a comparative study against ChatGPT, DermGPT's answers were preferred overall by 48.1% of respondents compared to ChatGPT's 28.4%, with the \u03c72 test showing significance (P=.04).",
         "citationIds": [
           "1",
-          "9",
-          "10"
+          "3",
+          "4"
         ]
       },
       {
         "text": "Specifically, in the attending physician group (n=195 responses), DermGPT's answers were preferred 47.7% of the time (93 responses) compared to ChatGPT's 28.7% (56 responses).",
         "citationIds": [
           "1",
-          "9",
-          "10"
+          "3",
+          "4"
         ]
       },
       {
         "text": "In the resident group (n=90 responses), DermGPT was preferred 48.9% of the time (44 responses) versus ChatGPT's 27.8% (25 responses).",
         "citationIds": [
           "1",
-          "9",
-          "10"
+          "3",
+          "4"
         ]
       },
       {
         "text": "In Dr.",
         "citationIds": [
           "1",
-          "9",
-          "10"
+          "3",
+          "4"
         ]
       },
       {
         "text": "Kamangar's practice, DermGPT has been able to save at least 30 to 60 minutes at the end of the day typically spent updating electronic health records.",
         "citationIds": [
           "1",
-          "9",
-          "10"
+          "3",
+          "4"
         ]
       }
     ],
@@ -1138,13 +1118,13 @@
       {
         "text": "While no explicit maintenance schedule is provided, the existence of a GitHub repository for 'dermGPT' with development commands, code quality tools (Black, isort, flake8, mypy, bandit, pre-commit), and testing commands (make test, make test-cov) implies an active development and maintenance process.",
         "citationIds": [
-          "4"
+          "2"
         ]
       },
       {
         "text": "The project uses Mamba for environment management and suggests processes for updating the environment.",
         "citationIds": [
-          "4"
+          "2"
         ]
       }
     ],
@@ -1152,13 +1132,13 @@
       {
         "text": "While no explicit maintenance schedule is provided, the existence of a GitHub repository for 'dermGPT' with development commands, code quality tools (Black, isort, flake8, mypy, bandit, pre-commit), and testing commands (make test, make test-cov) implies an active development and maintenance process.",
         "citationIds": [
-          "4"
+          "2"
         ]
       },
       {
         "text": "The project uses Mamba for environment management and suggests processes for updating the environment.",
         "citationIds": [
-          "4"
+          "2"
         ]
       }
     ],
@@ -1166,19 +1146,41 @@
       {
         "text": "For questions and support, users are directed to open an issue in the GitHub repository at https://github.com/kfenggg/dermGPT.",
         "citationIds": [
-          "4"
+          "2"
         ]
       },
       {
         "text": "https://www.dermgpt.com/",
         "citationIds": [
           "1",
-          "10"
+          "4"
         ]
       }
     ]
   },
   "fields": {},
   "regulatory_status_source": null,
-  "regulatory_status_confidence": "unknown"
+  "regulatory_status_confidence": "unknown",
+  "_orphaned_references": {
+    "3": {
+      "url": "https://github.com/DermGPT",
+      "title": "",
+      "source": ""
+    },
+    "6": {
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC12677980",
+      "title": "",
+      "source": ""
+    },
+    "7": {
+      "url": "https://pubmed.ncbi.nlm.nih.gov/help",
+      "title": "",
+      "source": ""
+    },
+    "8": {
+      "url": "https://www.jaad.org/article/S0190-9622(25)01529-4/fulltext",
+      "title": "",
+      "source": ""
+    }
+  }
 }

@@ -80,6 +80,8 @@ with st.sidebar:
     uploaded = st.file_uploader("Or upload clinical JSON / markdown", type=["json", "md"])
     hide_citations = st.checkbox("Hide citation markers", value=False)
     color_regulatory = st.checkbox("Color-code regulatory status row", value=False)
+    if color_regulatory:
+        st.markdown(regulatory_legend_html(), unsafe_allow_html=True)
 
 md_path: Optional[Path] = None
 json_path: Optional[Path] = None
@@ -114,8 +116,6 @@ if card is None and not md_text.strip():
     st.stop()
 
 if card is not None:
-    if color_regulatory:
-        st.markdown(regulatory_legend_html(), unsafe_allow_html=True)
     html_out = render_from_card(card, source_label=source_label, hide_citations=hide_citations, citations=citations_data)
     if hasattr(st, "html"):
         st.html(html_out)

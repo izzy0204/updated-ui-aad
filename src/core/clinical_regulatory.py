@@ -17,6 +17,7 @@ _CONSERVATIVE_MAP: List[Tuple[re.Pattern[str], RegulatoryApprovalStatus]] = [
     (re.compile(r"\binvestigational\b|\bresearch\s+use\s+only\b", re.I), RegulatoryApprovalStatus.INVESTIGATIONAL_RESEARCH_USE_ONLY),
     (re.compile(r"\beua\b|emergency\s+use\s+authorization", re.I), RegulatoryApprovalStatus.EUA_AUTHORIZED),
     (re.compile(r"\bce\s*[- ]?mark", re.I), RegulatoryApprovalStatus.CE_MARKED),
+    (re.compile(r"\bde\s*novo\b", re.I), RegulatoryApprovalStatus.FDA_CLEARED),
     (re.compile(r"\bfda\s+approved\b|\bapproved\s+by\s+(?:the\s+)?fda\b", re.I), RegulatoryApprovalStatus.FDA_APPROVED),
     (re.compile(r"\bfda\s+cleared\b|\b510\s*\(\s*k\s*\)|\bcleared\s+by\s+(?:the\s+)?fda\b", re.I), RegulatoryApprovalStatus.FDA_CLEARED),
 ]
@@ -33,6 +34,8 @@ def conservative_text_to_status(text: str) -> RegulatoryApprovalStatus:
         return RegulatoryApprovalStatus.UNKNOWN
     if _MARKETING_AMBIGUOUS.search(t):
         return RegulatoryApprovalStatus.UNKNOWN
+    if re.search(r"\bde\s*novo\b", t, re.I):
+        return RegulatoryApprovalStatus.FDA_CLEARED
     for pat, status in _CONSERVATIVE_MAP:
         if pat.search(t):
             return status
@@ -85,11 +88,12 @@ def classify_regulatory_status(
         for item in cited_snippets:
             snippet = str(item.get("snippet") or "")
             url = str(item.get("url") or "").lower()
-            if not snippet:
-                continue
             host_ok = any(h in url for h in ("fda.gov", "accessdata.fda.gov", "ema.europa.eu", "ec.europa.eu"))
+            text_for_map = snippet.strip() or (legacy_text if host_ok else "")
+            if not text_for_map:
+                continue
             if host_ok or "manufacturer" in str(item.get("source_type", "")):
-                status = conservative_text_to_status(snippet)
+                status = conservative_text_to_status(text_for_map)
                 if status != RegulatoryApprovalStatus.UNKNOWN:
                     return status, None, f"citation:{url[:80]}", "cited_explicit"
 

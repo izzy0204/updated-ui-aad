@@ -2,37 +2,997 @@
   "schema_version": "clinical-model-card-citations-1.0",
   "references": {
     "1": {
+      "url": "https://github.com/hydro13/tandem-browser",
+      "title": "",
+      "source": ""
+    },
+    "2": {
+      "url": "https://tandembrowser.org/",
+      "title": "",
+      "source": ""
+    },
+    "3": {
+      "url": "https://www.tandemdiabetes.com/",
+      "title": "",
+      "source": ""
+    },
+    "4": {
       "url": "https://docs.tandem.ac/",
       "title": "",
       "source": ""
     },
+    "5": {
+      "url": "https://www.tandem.net/en/pages/tandem-web",
+      "title": "",
+      "source": ""
+    }
+  },
+  "field_citations": {
+    "model_name": [
+      {
+        "text": "Tandem",
+        "citationIds": [
+          "1",
+          "2"
+        ]
+      }
+    ],
+    "developer": [
+      {
+        "text": "hydro13 (an individual AI Architect with 35 years of IT experience and maintainer of OpenClaw)",
+        "citationIds": [
+          "1"
+        ]
+      }
+    ],
+    "availability": [
+      {
+        "text": "Available for macOS Apple Silicon and Windows 11 x64, with best-effort support for Linux.",
+        "citationIds": [
+          "1",
+          "2"
+        ]
+      },
+      {
+        "text": "No specific geographic restrictions are mentioned.",
+        "citationIds": [
+          "1",
+          "2"
+        ]
+      }
+    ],
+    "summary": [
+      {
+        "text": "Tandem Browser is an open-source, local-first Electron browser for AI agents that integrates the AI directly into the user's real browser session.",
+        "citationIds": [
+          "1",
+          "2"
+        ]
+      },
+      {
+        "text": "It allows AI agents to share tabs, cookies, and DOM, enabling them to operate on existing websites without per-site APIs or RPA.",
+        "citationIds": [
+          "1",
+          "2"
+        ]
+      },
+      {
+        "text": "The system is designed for human-AI co-browsing, where the AI can read the accessibility tree, watch the network, rewrite UI, and pause to ask for human assistance when encountering CAPTCHAs, judgment calls, or unclear forms.",
+        "citationIds": [
+          "1",
+          "2"
+        ]
+      },
+      {
+        "text": "It operates on the user's machine with no cloud backend and features an 8-layer security perimeter between web content and the agent layer.",
+        "citationIds": [
+          "1",
+          "2"
+        ]
+      }
+    ],
+    "medical_purpose": [
+      {
+        "text": "Tandem Browser is intended for users who want to integrate AI agents directly into their daily browsing experience, enabling them to automate web tasks, rewrite live UI, and gather information from websites in a shared human-AI workspace.",
+        "citationIds": [
+          "1",
+          "2"
+        ]
+      },
+      {
+        "text": "The workflow involves the AI agent operating within the user's browser, seeing the same DOM, network requests, and accessibility tree.",
+        "citationIds": [
+          "1",
+          "2"
+        ]
+      },
+      {
+        "text": "The agent can perform tasks like filling forms, navigating sites, and injecting userscripts.",
+        "citationIds": [
+          "1",
+          "2"
+        ]
+      },
+      {
+        "text": "When the agent encounters ambiguity, CAPTCHAs, or risky actions, it pauses and requests human input, allowing for a continuous co-driving experience where the human can intervene or adapt the agent's actions.",
+        "citationIds": [
+          "1",
+          "2"
+        ]
+      }
+    ],
+    "acceptable_input": [
+      {
+        "text": "For Tandem Diabetes Care products (Control-IQ+ technology): Input data comes from integrated continuous glucose monitors (iCGM) readings.",
+        "citationIds": [
+          "1",
+          "2",
+          "3"
+        ]
+      },
+      {
+        "text": "For Tandem Engine/Browser: Input data for the AI agent comes directly from the user's real browser session, including the accessibility tree, the rendered DOM, live network requests, console output, DevTools, and user input (clicks, types, commands, responses to prompts).",
+        "citationIds": [
+          "1",
+          "2",
+          "3"
+        ]
+      },
+      {
+        "text": "It can also accept input from external applications or custom clients connected via MCP or HTTP API.",
+        "citationIds": [
+          "1",
+          "2",
+          "3"
+        ]
+      },
+      {
+        "text": "For Tandem Diabetes Care products: Input data is continuous glucose monitoring (CGM) readings (numerical sensor data).",
+        "citationIds": [
+          "1",
+          "2",
+          "3"
+        ]
+      },
+      {
+        "text": "Output data is insulin delivery commands (numerical rates and bolus amounts) for subcutaneous delivery.",
+        "citationIds": [
+          "1",
+          "2",
+          "3"
+        ]
+      },
+      {
+        "text": "For Tandem Engine/Browser: Input data types include accessibility tree, rendered DOM, network logs, console output (all structured text/code), user interactions (clicks, keyboard input), and commands via MCP or HTTP API.",
+        "citationIds": [
+          "1",
+          "2",
+          "3"
+        ]
+      },
+      {
+        "text": "Output data types include automated browser actions, modifications to live UI (e.g., user scripts), extracted page content (text, HTML, links, forms, images), screenshots, and developer tool outputs (logs, network requests, DOM queries).",
+        "citationIds": [
+          "1",
+          "2",
+          "3"
+        ]
+      },
+      {
+        "text": "To use Tandem Browser, first download and install the appropriate binary for macOS Apple Silicon (v1.0.0) or Windows 11 x64 (v1.11.0).",
+        "citationIds": [
+          "1",
+          "2"
+        ]
+      },
+      {
+        "text": "For Linux, it can be run from source.",
+        "citationIds": [
+          "1",
+          "2"
+        ]
+      },
+      {
+        "text": "After launching, open 'Settings' -> 'Connected Agents' and scroll to 'Connect your AI to Tandem'.",
+        "citationIds": [
+          "1",
+          "2"
+        ]
+      },
+      {
+        "text": "Choose 'On this machine' for local AI or 'On another machine' for remote AI over Tailscale, then click 'Generate connection instructions'.",
+        "citationIds": [
+          "1",
+          "2"
+        ]
+      },
+      {
+        "text": "Copy these instructions and paste them into your AI agent's configuration.",
+        "citationIds": [
+          "1",
+          "2"
+        ]
+      },
+      {
+        "text": "The agent will then read Tandem's bootstrap surface and connect automatically.",
+        "citationIds": [
+          "1",
+          "2"
+        ]
+      },
+      {
+        "text": "Users can then interact with the AI agent within their browser session for various tasks.",
+        "citationIds": [
+          "1",
+          "2"
+        ]
+      }
+    ],
+    "output": [
+      {
+        "text": "For Tandem Diabetes Care products: The Tandem Mobi and t:slim X2 insulin pumps, powered by Control-IQ+ technology, deliver insulin subcutaneously at set and variable rates, predict and help prevent highs and lows, and can deliver correction boluses.",
+        "citationIds": [
+          "4",
+          "1",
+          "2",
+          "3"
+        ]
+      },
+      {
+        "text": "Users can personalize settings for continuous (basal) and mealtime (bolus) insulin delivery.",
+        "citationIds": [
+          "4",
+          "1",
+          "2",
+          "3"
+        ]
+      },
+      {
+        "text": "The system aims to help manage diabetes mellitus.",
+        "citationIds": [
+          "4",
+          "1",
+          "2",
+          "3"
+        ]
+      },
+      {
+        "text": "For Tandem Engine/Browser: The system enables coordinated autonomous work, helps AI assistants achieve correct results (for LLMs), assists desktop users with local file tasks, writing, coding, and agent management, and allows server admins to deploy autonomous agents remotely.",
+        "citationIds": [
+          "4",
+          "1",
+          "2",
+          "3"
+        ]
+      },
+      {
+        "text": "AI agents can automate tasks on real SaaS platforms, rewrite live UI on any site via userscripts, provide insights beyond pixels (accessibility tree, DOM, network logs), and engage in real co-browsing with human users.",
+        "citationIds": [
+          "4",
+          "1",
+          "2",
+          "3"
+        ]
+      },
+      {
+        "text": "It can open tabs, fill forms, log in, cross-reference sources, handle CAPTCHAs (with human assistance), and inject userscripts.",
+        "citationIds": [
+          "4",
+          "1",
+          "2",
+          "3"
+        ]
+      },
+      {
+        "text": "For Tandem Diabetes Care products: The output is the subcutaneous delivery of insulin (basal and bolus doses) at variable rates, based on iCGM readings and predicted glucose values, with the goal of managing blood glucose levels for persons with diabetes.",
+        "citationIds": [
+          "1",
+          "2",
+          "3"
+        ]
+      },
+      {
+        "text": "For Tandem Engine/Browser: The output includes automated actions within a browser (e.g., filling forms, navigating sites, injecting userscripts), generated text/code (for coding agents), console logs, network requests, DOM queries, screenshots, and structured data extracted from web pages (e.g., prices).",
+        "citationIds": [
+          "1",
+          "2",
+          "3"
+        ]
+      },
+      {
+        "text": "It provides real-time focus detection and activity digests to the AI.",
+        "citationIds": [
+          "1",
+          "2",
+          "3"
+        ]
+      },
+      {
+        "text": "The system has 257 tools via MCP and 300+ HTTP API endpoints, covering navigation, input, tab management, page content extraction, accessibility snapshots, DevTools access, network inspection, session management, bookmarks, passwords, extensions, workflows, and UI media.",
+        "citationIds": [
+          "1",
+          "2",
+          "3"
+        ]
+      }
+    ],
+    "role_in_decision_making": [
+      {
+        "text": "The Tandem Mobi system and t:slim X2 insulin pump, along with Control-IQ+ technology, are medical devices intended for the management of diabetes mellitus.",
+        "citationIds": [
+          "3"
+        ]
+      },
+      {
+        "text": "They are prescription-only (RX ONLY) devices.",
+        "citationIds": [
+          "3"
+        ]
+      },
+      {
+        "text": "Misuse or failure to follow instructions can lead to serious adverse events such as hypoglycemia or hyperglycemia.",
+        "citationIds": [
+          "3"
+        ]
+      },
+      {
+        "text": "The Control-IQ+ technology carries specific warnings regarding age and minimum insulin/weight requirements for safe operation.",
+        "citationIds": [
+          "3"
+        ]
+      },
+      {
+        "text": "Tandem Browser is intended for users who want to integrate AI agents directly into their daily browsing experience, enabling them to automate web tasks, rewrite live UI, and gather information from websites in a shared human-AI workspace.",
+        "citationIds": [
+          "1",
+          "2"
+        ]
+      },
+      {
+        "text": "The workflow involves the AI agent operating within the user's browser, seeing the same DOM, network requests, and accessibility tree.",
+        "citationIds": [
+          "1",
+          "2"
+        ]
+      },
+      {
+        "text": "The agent can perform tasks like filling forms, navigating sites, and injecting userscripts.",
+        "citationIds": [
+          "1",
+          "2"
+        ]
+      },
+      {
+        "text": "When the agent encounters ambiguity, CAPTCHAs, or risky actions, it pauses and requests human input, allowing for a continuous co-driving experience where the human can intervene or adapt the agent's actions.",
+        "citationIds": [
+          "1",
+          "2"
+        ]
+      }
+    ],
+    "intended_users": [
+      {
+        "text": "The primary intended users include individuals who use AI models (Claude, GPT, Gemini, local Ollama, LM Studio, custom scripts) and want them to operate within their real browser sessions, teams and developers seeking a serious browser surface behind MCP without custom wrappers, users prioritizing local-first control, authenticated sessions, and strong security, and companies testing secure browser-based AI workflows and human-in-the-loop systems.",
+        "citationIds": [
+          "4",
+          "2"
+        ]
+      },
+      {
+        "text": "It is also for desktop users, server admins deploying autonomous agents remotely, and developers building custom clients or programmatically triggering agent workflows for the Tandem Engine.",
+        "citationIds": [
+          "4",
+          "2"
+        ]
+      },
+      {
+        "text": "Users connecting AI agents to Tandem Browser need to understand how to configure their AI agent to speak MCP (Model Context Protocol) or HTTP and paste connection instructions.",
+        "citationIds": [
+          "4",
+          "1",
+          "2"
+        ]
+      },
+      {
+        "text": "Developers require knowledge of building custom clients, connecting external tools via MCP, or programmatically triggering agent workflows.",
+        "citationIds": [
+          "4",
+          "1",
+          "2"
+        ]
+      },
+      {
+        "text": "For advanced use, understanding concepts like accessibility trees, DOM, network requests, and developer tools can be beneficial.",
+        "citationIds": [
+          "4",
+          "1",
+          "2"
+        ]
+      }
+    ],
+    "target_patient_population": [
+      {
+        "text": "Persons requiring insulin for the management of diabetes mellitus.",
+        "citationIds": [
+          "3"
+        ]
+      },
+      {
+        "text": "Specifically, for Control-IQ+ technology: individuals 2 years of age and greater with type 1 diabetes mellitus, and individuals 18 years of age and greater with type 2 diabetes mellitus.",
+        "citationIds": [
+          "3"
+        ]
+      },
+      {
+        "text": "It should not be used in anyone under the age of 2 years old with type 1 diabetes or under the age of 18 years old with type 2 diabetes, or in patients who require less than a total daily insulin amount.",
+        "citationIds": [
+          "3"
+        ]
+      }
+    ],
+    "known_failure_modes": [
+      {
+        "text": "For the Tandem Mobi system and Control-IQ+ technology: The pump should not be worn or placed more than 12 inches (30.5 cm) above the infusion site, as this may result in over-delivery of insulin.",
+        "citationIds": [
+          "3"
+        ]
+      },
+      {
+        "text": "Control-IQ+ technology is not intended for use in individuals under 2 years old with type 1 diabetes or under 18 years old with type 2 diabetes.",
+        "citationIds": [
+          "3"
+        ]
+      },
+      {
+        "text": "It also should not be used in patients requiring less than a total daily insulin dose of 5 units or weighing less than 20 pounds (9 kg), as these are the minimum values for safe operation.",
+        "citationIds": [
+          "3"
+        ]
+      },
+      {
+        "text": "Users must adhere to the instructions for use for the insulin pump, iCGM, and all system components; failure to do so can lead to over-delivery or under-delivery of insulin, causing hypoglycemia or hyperglycemia.",
+        "citationIds": [
+          "3"
+        ]
+      },
+      {
+        "text": "The mobile app requires a compatible smartphone model and operating system (sold separately) and is only available to pump users residing in the United States.",
+        "citationIds": [
+          "3"
+        ]
+      },
+      {
+        "text": "CGM and adhesive sleeves are sold separately.",
+        "citationIds": [
+          "3"
+        ]
+      }
+    ],
+    "unsupported_clinical_scenarios": [
+      {
+        "text": "Windows builds are currently unsigned, so Windows may show an unknown publisher or SmartScreen warning during installation.",
+        "citationIds": [
+          "1",
+          "2",
+          "5"
+        ]
+      },
+      {
+        "text": "Users are advised to be aware that when an AI has access to a real browser, a hidden instruction in a page's HTML is remote code execution without an exploit, which is why Tandem Browser implements an 8-layer security perimeter.",
+        "citationIds": [
+          "1",
+          "2",
+          "5"
+        ]
+      },
+      {
+        "text": "The new version of Tandem Web (language learning app) does not support calling; users should use the mobile app for video or audio calls.",
+        "citationIds": [
+          "1",
+          "2",
+          "5"
+        ]
+      },
+      {
+        "text": "For the Tandem Mobi system and Control-IQ+ technology: The pump should not be worn or placed more than 12 inches (30.5 cm) above the infusion site, as this may result in over-delivery of insulin.",
+        "citationIds": [
+          "3"
+        ]
+      },
+      {
+        "text": "Control-IQ+ technology is not intended for use in individuals under 2 years old with type 1 diabetes or under 18 years old with type 2 diabetes.",
+        "citationIds": [
+          "3"
+        ]
+      },
+      {
+        "text": "It also should not be used in patients requiring less than a total daily insulin dose of 5 units or weighing less than 20 pounds (9 kg), as these are the minimum values for safe operation.",
+        "citationIds": [
+          "3"
+        ]
+      },
+      {
+        "text": "Users must adhere to the instructions for use for the insulin pump, iCGM, and all system components; failure to do so can lead to over-delivery or under-delivery of insulin, causing hypoglycemia or hyperglycemia.",
+        "citationIds": [
+          "3"
+        ]
+      },
+      {
+        "text": "The mobile app requires a compatible smartphone model and operating system (sold separately) and is only available to pump users residing in the United States.",
+        "citationIds": [
+          "3"
+        ]
+      },
+      {
+        "text": "CGM and adhesive sleeves are sold separately.",
+        "citationIds": [
+          "3"
+        ]
+      }
+    ],
+    "unsupported_use_cases": [
+      {
+        "text": "For the Tandem Mobi system and Control-IQ+ technology: The pump should not be worn or placed more than 12 inches (30.5 cm) above the infusion site, as this may result in over-delivery of insulin.",
+        "citationIds": [
+          "3"
+        ]
+      },
+      {
+        "text": "Control-IQ+ technology is not intended for use in individuals under 2 years old with type 1 diabetes or under 18 years old with type 2 diabetes.",
+        "citationIds": [
+          "3"
+        ]
+      },
+      {
+        "text": "It also should not be used in patients requiring less than a total daily insulin dose of 5 units or weighing less than 20 pounds (9 kg), as these are the minimum values for safe operation.",
+        "citationIds": [
+          "3"
+        ]
+      },
+      {
+        "text": "Users must adhere to the instructions for use for the insulin pump, iCGM, and all system components; failure to do so can lead to over-delivery or under-delivery of insulin, causing hypoglycemia or hyperglycemia.",
+        "citationIds": [
+          "3"
+        ]
+      },
+      {
+        "text": "The mobile app requires a compatible smartphone model and operating system (sold separately) and is only available to pump users residing in the United States.",
+        "citationIds": [
+          "3"
+        ]
+      },
+      {
+        "text": "CGM and adhesive sleeves are sold separately.",
+        "citationIds": [
+          "3"
+        ]
+      }
+    ],
+    "required_clinician_oversight": [
+      {
+        "text": "To use Tandem Browser, first download and install the appropriate binary for macOS Apple Silicon (v1.0.0) or Windows 11 x64 (v1.11.0).",
+        "citationIds": [
+          "1",
+          "2"
+        ]
+      },
+      {
+        "text": "For Linux, it can be run from source.",
+        "citationIds": [
+          "1",
+          "2"
+        ]
+      },
+      {
+        "text": "After launching, open 'Settings' -> 'Connected Agents' and scroll to 'Connect your AI to Tandem'.",
+        "citationIds": [
+          "1",
+          "2"
+        ]
+      },
+      {
+        "text": "Choose 'On this machine' for local AI or 'On another machine' for remote AI over Tailscale, then click 'Generate connection instructions'.",
+        "citationIds": [
+          "1",
+          "2"
+        ]
+      },
+      {
+        "text": "Copy these instructions and paste them into your AI agent's configuration.",
+        "citationIds": [
+          "1",
+          "2"
+        ]
+      },
+      {
+        "text": "The agent will then read Tandem's bootstrap surface and connect automatically.",
+        "citationIds": [
+          "1",
+          "2"
+        ]
+      },
+      {
+        "text": "Users can then interact with the AI agent within their browser session for various tasks.",
+        "citationIds": [
+          "1",
+          "2"
+        ]
+      },
+      {
+        "text": "The Tandem Mobi system and t:slim X2 insulin pump, along with Control-IQ+ technology, are medical devices intended for the management of diabetes mellitus.",
+        "citationIds": [
+          "3"
+        ]
+      },
+      {
+        "text": "They are prescription-only (RX ONLY) devices.",
+        "citationIds": [
+          "3"
+        ]
+      },
+      {
+        "text": "Misuse or failure to follow instructions can lead to serious adverse events such as hypoglycemia or hyperglycemia.",
+        "citationIds": [
+          "3"
+        ]
+      },
+      {
+        "text": "The Control-IQ+ technology carries specific warnings regarding age and minimum insulin/weight requirements for safe operation.",
+        "citationIds": [
+          "3"
+        ]
+      },
+      {
+        "text": "The Tandem Mobi system, including Control-IQ+ technology, is an RX ONLY device, meaning it requires a prescription.",
+        "citationIds": [
+          "3"
+        ]
+      },
+      {
+        "text": "Users of the pump and Control-IQ+ must use the system components in accordance with their respective instructions for use.",
+        "citationIds": [
+          "3"
+        ]
+      },
+      {
+        "text": "The mobile app also requires a compatible smartphone.",
+        "citationIds": [
+          "3"
+        ]
+      }
+    ],
+    "model_type": [
+      {
+        "text": "The Tandem Engine is described as a workflow runtime for AI assistants or agents, capable of orchestrating specialized sub-agents.",
+        "citationIds": [
+          "4",
+          "2"
+        ]
+      },
+      {
+        "text": "Tandem Browser is a model-agnostic platform designed to host various AI agents (e.g., LLMs) within a browser environment.",
+        "citationIds": [
+          "4",
+          "2"
+        ]
+      },
+      {
+        "text": "Tandem Engine is an engine-owned workflow runtime for coordinated autonomous work, designed to scale beyond chat-first AI assistants and operate in multiple highly-concurrent configurations.",
+        "citationIds": [
+          "4",
+          "1",
+          "2"
+        ]
+      },
+      {
+        "text": "It supports AI assistants or agents for local file tasks, writing, coding, or managing agents.",
+        "citationIds": [
+          "4",
+          "1",
+          "2"
+        ]
+      },
+      {
+        "text": "It can be deployed to a VPS or headless server for remote access to autonomous agents.",
+        "citationIds": [
+          "4",
+          "1",
+          "2"
+        ]
+      },
+      {
+        "text": "Tandem Browser is an open-source, local-first Electron browser for AI agents where the AI operates within the user's real browser session, sharing tabs, cookies, and DOM.",
+        "citationIds": [
+          "4",
+          "1",
+          "2"
+        ]
+      },
+      {
+        "text": "It works by interpreting the accessibility tree, rendered DOM, live network requests, and DevTools, enabling agents to operate on existing websites without per-site APIs or RPA rigs.",
+        "citationIds": [
+          "4",
+          "1",
+          "2"
+        ]
+      },
+      {
+        "text": "It features co-browsing capabilities, human-in-the-loop for judgment calls (e.g., CAPTCHAs), and an 8-layer security perimeter between web content and the agent layer, including prompt injection defense.",
+        "citationIds": [
+          "4",
+          "1",
+          "2"
+        ]
+      }
+    ],
+    "training_data.description": [
+      {
+        "text": "Tandem Browser is a model-agnostic platform that enables AI agents to operate within a real browser session.",
+        "citationIds": [
+          "4"
+        ]
+      },
+      {
+        "text": "It does not have its own training data in the traditional sense of an AI model.",
+        "citationIds": [
+          "4"
+        ]
+      },
+      {
+        "text": "Instead, it works with any connected AI agent that speaks Model Context Protocol (MCP) or HTTP, such as Claude, GPT, Gemini, OpenClaw, local Ollama models, LM Studio, or custom scripts.",
+        "citationIds": [
+          "4"
+        ]
+      },
+      {
+        "text": "The capability resides in the connected AI model, not in Tandem Browser itself, which provides the browser environment for these agents.",
+        "citationIds": [
+          "4"
+        ]
+      }
+    ],
+    "model_development_and_validation.description": [
+      {
+        "text": "Beck RW, et al.",
+        "citationIds": [
+          "3"
+        ]
+      },
+      {
+        "text": "Diabetes Technol Ther.",
+        "citationIds": [
+          "3"
+        ]
+      },
+      {
+        "text": "2023;25(5):329-342.",
+        "citationIds": [
+          "3"
+        ]
+      }
+    ],
+    "clinical_trial": [
+      {
+        "text": "A study was conducted using a t:slim X2 insulin pump with Control-IQ technology and Dexcom G6 sensor, referenced as: Beck RW, et al.",
+        "citationIds": [
+          "3"
+        ]
+      },
+      {
+        "text": "Diabetes Technol Ther.",
+        "citationIds": [
+          "3"
+        ]
+      },
+      {
+        "text": "2023;25(5):329-342.",
+        "citationIds": [
+          "3"
+        ]
+      },
+      {
+        "text": "This appears to be a clinical evaluation or trial for the Tandem Diabetes Care product.",
+        "citationIds": [
+          "3"
+        ]
+      }
+    ],
+    "performance.summary": [
+      {
+        "text": "For Tandem Diabetes Care products, user testimonials indicate improved A1c and reduced instances of waking up with lows, suggesting the system acts as a 'safety net'.",
+        "citationIds": [
+          "1",
+          "2",
+          "3"
+        ]
+      },
+      {
+        "text": "For Tandem Browser, the security pipeline incorporates an 811K+ entry blocklist, YARA-style threat rules, AST fingerprinting, Shannon entropy detection, a confidence-weighted pipeline, and 51 automated tests to achieve its safety and reliability goals.",
+        "citationIds": [
+          "1",
+          "2",
+          "3"
+        ]
+      },
+      {
+        "text": "The system provides 257 tools via MCP and over 300 HTTP API endpoints.",
+        "citationIds": [
+          "1",
+          "2",
+          "3"
+        ]
+      },
+      {
+        "text": "For Tandem Diabetes Care products, anecdotal evidence from users suggests that the automated insulin delivery systems (Tandem Mobi, t:slim X2 with Control-IQ+ technology) contribute to better glucose management, including improved A1c levels and prevention of hypoglycemic events, enhancing user safety and peace of mind.",
+        "citationIds": [
+          "1",
+          "2",
+          "3"
+        ]
+      },
+      {
+        "text": "For Tandem Browser, the multi-layered security architecture (8 layers including NetworkShield, OutboundGuard, ContentAnalyzer, ScriptGuard, BehaviorMonitor, Gatekeeper AI, EvolutionEngine, and PromptInjection defense) is interpreted as a core architectural feature designed to protect the AI agent and user data from malicious web content and prompt injection attacks, ensuring a secure and reliable co-browsing environment for human and AI agents.",
+        "citationIds": [
+          "1",
+          "2",
+          "3"
+        ]
+      },
+      {
+        "text": "No specific AUROC, accuracy, or other quantitative machine learning metrics are provided.",
+        "citationIds": [
+          "1"
+        ]
+      },
+      {
+        "text": "However, the efficacy is described qualitatively through the number of available tools: 257 tools via MCP and over 300 HTTP API endpoints across 17 categories (Navigation & Input, Tabs & Workspaces, Page Content, Accessibility Snapshots, DevTools, Network Inspector, Sessions & Auth, Bookmarks & History, Passwords & Forms, Extensions, Workflows & Tasks, Previews, Media & UI, Device Emulation, Data & Config, System, Awareness).",
+        "citationIds": [
+          "1"
+        ]
+      },
+      {
+        "text": "The security model includes an '811K+ blocklist entries' and '51 automated tests'.",
+        "citationIds": [
+          "1"
+        ]
+      }
+    ],
+    "ongoing_monitoring_plan": [
+      {
+        "text": "Tandem Browser is built and maintained full-time by one person.",
+        "citationIds": [
+          "1",
+          "5",
+          "3"
+        ]
+      },
+      {
+        "text": "Sponsorship helps keep the project moving in areas like product development, security maintenance, cross-platform work, documentation, and community support.",
+        "citationIds": [
+          "1",
+          "5",
+          "3"
+        ]
+      },
+      {
+        "text": "The project is currently in development preview (v1.11.0) and has a CHANGELOG.md for release history and CONTRIBUTING.md for contributions, including bug reports and feature requests.",
+        "citationIds": [
+          "1",
+          "5",
+          "3"
+        ]
+      },
+      {
+        "text": "Tandem Diabetes Care's insulin pumps are capable of remote software updates, and their Support Team is available 24/7, 365 days a year.",
+        "citationIds": [
+          "1",
+          "5",
+          "3"
+        ]
+      },
+      {
+        "text": "The Tandem language learning app also receives updates, with a new version of Tandem Web announced with new features, improved performance, and a sleek new design.",
+        "citationIds": [
+          "1",
+          "5",
+          "3"
+        ]
+      }
+    ],
+    "scheduled_updates": [
+      {
+        "text": "Tandem Browser is built and maintained full-time by one person.",
+        "citationIds": [
+          "1",
+          "5",
+          "3"
+        ]
+      },
+      {
+        "text": "Sponsorship helps keep the project moving in areas like product development, security maintenance, cross-platform work, documentation, and community support.",
+        "citationIds": [
+          "1",
+          "5",
+          "3"
+        ]
+      },
+      {
+        "text": "The project is currently in development preview (v1.11.0) and has a CHANGELOG.md for release history and CONTRIBUTING.md for contributions, including bug reports and feature requests.",
+        "citationIds": [
+          "1",
+          "5",
+          "3"
+        ]
+      },
+      {
+        "text": "Tandem Diabetes Care's insulin pumps are capable of remote software updates, and their Support Team is available 24/7, 365 days a year.",
+        "citationIds": [
+          "1",
+          "5",
+          "3"
+        ]
+      },
+      {
+        "text": "The Tandem language learning app also receives updates, with a new version of Tandem Web announced with new features, improved performance, and a sleek new design.",
+        "citationIds": [
+          "1",
+          "5",
+          "3"
+        ]
+      }
+    ],
+    "contact": [
+      {
+        "text": "For questions or to share workflows, use GitHub Discussions.",
+        "citationIds": [
+          "4",
+          "1",
+          "2"
+        ]
+      },
+      {
+        "text": "For bugs and concrete feature requests, open an issue on GitHub.",
+        "citationIds": [
+          "4",
+          "1",
+          "2"
+        ]
+      },
+      {
+        "text": "Tandem Engine documentation also mentions a 'Bug Monitor And Issue Reporter' for turning failures and operator findings into governed drafts, approvals, and published issues.",
+        "citationIds": [
+          "4",
+          "1",
+          "2"
+        ]
+      },
+      {
+        "text": "https://tandembrowser.org/",
+        "citationIds": [
+          "2"
+        ]
+      }
+    ],
+    "regulatory_approval_status": [
+      {
+        "text": "The Tandem Mobi insulin pump with interoperable technology and Control-IQ+ technology is a prescription-only (RX ONLY) medical device intended for the management of diabetes mellitus in persons requiring insulin.",
+        "citationIds": [
+          "3"
+        ]
+      }
+    ]
+  },
+  "fields": {},
+  "regulatory_status_source": null,
+  "regulatory_status_confidence": "unknown",
+  "_orphaned_references": {
     "2": {
       "url": "https://en.wikipedia.org/wiki/Universal-Tandem_Publishing",
       "title": "",
       "source": ""
     },
-    "3": {
-      "url": "https://github.com/hydro13/tandem-browser",
-      "title": "",
-      "source": ""
-    },
-    "4": {
-      "url": "https://tandembrowser.org/",
-      "title": "",
-      "source": ""
-    },
     "5": {
       "url": "https://www.tandem.net/",
-      "title": "",
-      "source": ""
-    },
-    "6": {
-      "url": "https://www.tandem.net/en/pages/tandem-web",
-      "title": "",
-      "source": ""
-    },
-    "7": {
-      "url": "https://www.tandemdiabetes.com/",
       "title": "",
       "source": ""
     },
@@ -46,963 +1006,5 @@
       "title": "",
       "source": ""
     }
-  },
-  "field_citations": {
-    "model_name": [
-      {
-        "text": "Tandem",
-        "citationIds": [
-          "3",
-          "4"
-        ]
-      }
-    ],
-    "developer": [
-      {
-        "text": "hydro13 (an individual AI Architect with 35 years of IT experience and maintainer of OpenClaw)",
-        "citationIds": [
-          "3"
-        ]
-      }
-    ],
-    "availability": [
-      {
-        "text": "Available for macOS Apple Silicon and Windows 11 x64, with best-effort support for Linux.",
-        "citationIds": [
-          "3",
-          "4"
-        ]
-      },
-      {
-        "text": "No specific geographic restrictions are mentioned.",
-        "citationIds": [
-          "3",
-          "4"
-        ]
-      }
-    ],
-    "summary": [
-      {
-        "text": "Tandem Browser is an open-source, local-first Electron browser for AI agents that integrates the AI directly into the user's real browser session.",
-        "citationIds": [
-          "3",
-          "4"
-        ]
-      },
-      {
-        "text": "It allows AI agents to share tabs, cookies, and DOM, enabling them to operate on existing websites without per-site APIs or RPA.",
-        "citationIds": [
-          "3",
-          "4"
-        ]
-      },
-      {
-        "text": "The system is designed for human-AI co-browsing, where the AI can read the accessibility tree, watch the network, rewrite UI, and pause to ask for human assistance when encountering CAPTCHAs, judgment calls, or unclear forms.",
-        "citationIds": [
-          "3",
-          "4"
-        ]
-      },
-      {
-        "text": "It operates on the user's machine with no cloud backend and features an 8-layer security perimeter between web content and the agent layer.",
-        "citationIds": [
-          "3",
-          "4"
-        ]
-      }
-    ],
-    "medical_purpose": [
-      {
-        "text": "Tandem Browser is intended for users who want to integrate AI agents directly into their daily browsing experience, enabling them to automate web tasks, rewrite live UI, and gather information from websites in a shared human-AI workspace.",
-        "citationIds": [
-          "3",
-          "4"
-        ]
-      },
-      {
-        "text": "The workflow involves the AI agent operating within the user's browser, seeing the same DOM, network requests, and accessibility tree.",
-        "citationIds": [
-          "3",
-          "4"
-        ]
-      },
-      {
-        "text": "The agent can perform tasks like filling forms, navigating sites, and injecting userscripts.",
-        "citationIds": [
-          "3",
-          "4"
-        ]
-      },
-      {
-        "text": "When the agent encounters ambiguity, CAPTCHAs, or risky actions, it pauses and requests human input, allowing for a continuous co-driving experience where the human can intervene or adapt the agent's actions.",
-        "citationIds": [
-          "3",
-          "4"
-        ]
-      }
-    ],
-    "acceptable_input": [
-      {
-        "text": "For Tandem Diabetes Care products (Control-IQ+ technology): Input data comes from integrated continuous glucose monitors (iCGM) readings.",
-        "citationIds": [
-          "3",
-          "4",
-          "7"
-        ]
-      },
-      {
-        "text": "For Tandem Engine/Browser: Input data for the AI agent comes directly from the user's real browser session, including the accessibility tree, the rendered DOM, live network requests, console output, DevTools, and user input (clicks, types, commands, responses to prompts).",
-        "citationIds": [
-          "3",
-          "4",
-          "7"
-        ]
-      },
-      {
-        "text": "It can also accept input from external applications or custom clients connected via MCP or HTTP API.",
-        "citationIds": [
-          "3",
-          "4",
-          "7"
-        ]
-      },
-      {
-        "text": "For Tandem Diabetes Care products: Input data is continuous glucose monitoring (CGM) readings (numerical sensor data).",
-        "citationIds": [
-          "3",
-          "4",
-          "7"
-        ]
-      },
-      {
-        "text": "Output data is insulin delivery commands (numerical rates and bolus amounts) for subcutaneous delivery.",
-        "citationIds": [
-          "3",
-          "4",
-          "7"
-        ]
-      },
-      {
-        "text": "For Tandem Engine/Browser: Input data types include accessibility tree, rendered DOM, network logs, console output (all structured text/code), user interactions (clicks, keyboard input), and commands via MCP or HTTP API.",
-        "citationIds": [
-          "3",
-          "4",
-          "7"
-        ]
-      },
-      {
-        "text": "Output data types include automated browser actions, modifications to live UI (e.g., user scripts), extracted page content (text, HTML, links, forms, images), screenshots, and developer tool outputs (logs, network requests, DOM queries).",
-        "citationIds": [
-          "3",
-          "4",
-          "7"
-        ]
-      },
-      {
-        "text": "To use Tandem Browser, first download and install the appropriate binary for macOS Apple Silicon (v1.0.0) or Windows 11 x64 (v1.11.0).",
-        "citationIds": [
-          "3",
-          "4"
-        ]
-      },
-      {
-        "text": "For Linux, it can be run from source.",
-        "citationIds": [
-          "3",
-          "4"
-        ]
-      },
-      {
-        "text": "After launching, open 'Settings' -> 'Connected Agents' and scroll to 'Connect your AI to Tandem'.",
-        "citationIds": [
-          "3",
-          "4"
-        ]
-      },
-      {
-        "text": "Choose 'On this machine' for local AI or 'On another machine' for remote AI over Tailscale, then click 'Generate connection instructions'.",
-        "citationIds": [
-          "3",
-          "4"
-        ]
-      },
-      {
-        "text": "Copy these instructions and paste them into your AI agent's configuration.",
-        "citationIds": [
-          "3",
-          "4"
-        ]
-      },
-      {
-        "text": "The agent will then read Tandem's bootstrap surface and connect automatically.",
-        "citationIds": [
-          "3",
-          "4"
-        ]
-      },
-      {
-        "text": "Users can then interact with the AI agent within their browser session for various tasks.",
-        "citationIds": [
-          "3",
-          "4"
-        ]
-      }
-    ],
-    "output": [
-      {
-        "text": "For Tandem Diabetes Care products: The Tandem Mobi and t:slim X2 insulin pumps, powered by Control-IQ+ technology, deliver insulin subcutaneously at set and variable rates, predict and help prevent highs and lows, and can deliver correction boluses.",
-        "citationIds": [
-          "1",
-          "3",
-          "4",
-          "7"
-        ]
-      },
-      {
-        "text": "Users can personalize settings for continuous (basal) and mealtime (bolus) insulin delivery.",
-        "citationIds": [
-          "1",
-          "3",
-          "4",
-          "7"
-        ]
-      },
-      {
-        "text": "The system aims to help manage diabetes mellitus.",
-        "citationIds": [
-          "1",
-          "3",
-          "4",
-          "7"
-        ]
-      },
-      {
-        "text": "For Tandem Engine/Browser: The system enables coordinated autonomous work, helps AI assistants achieve correct results (for LLMs), assists desktop users with local file tasks, writing, coding, and agent management, and allows server admins to deploy autonomous agents remotely.",
-        "citationIds": [
-          "1",
-          "3",
-          "4",
-          "7"
-        ]
-      },
-      {
-        "text": "AI agents can automate tasks on real SaaS platforms, rewrite live UI on any site via userscripts, provide insights beyond pixels (accessibility tree, DOM, network logs), and engage in real co-browsing with human users.",
-        "citationIds": [
-          "1",
-          "3",
-          "4",
-          "7"
-        ]
-      },
-      {
-        "text": "It can open tabs, fill forms, log in, cross-reference sources, handle CAPTCHAs (with human assistance), and inject userscripts.",
-        "citationIds": [
-          "1",
-          "3",
-          "4",
-          "7"
-        ]
-      },
-      {
-        "text": "For Tandem Diabetes Care products: The output is the subcutaneous delivery of insulin (basal and bolus doses) at variable rates, based on iCGM readings and predicted glucose values, with the goal of managing blood glucose levels for persons with diabetes.",
-        "citationIds": [
-          "3",
-          "4",
-          "7"
-        ]
-      },
-      {
-        "text": "For Tandem Engine/Browser: The output includes automated actions within a browser (e.g., filling forms, navigating sites, injecting userscripts), generated text/code (for coding agents), console logs, network requests, DOM queries, screenshots, and structured data extracted from web pages (e.g., prices).",
-        "citationIds": [
-          "3",
-          "4",
-          "7"
-        ]
-      },
-      {
-        "text": "It provides real-time focus detection and activity digests to the AI.",
-        "citationIds": [
-          "3",
-          "4",
-          "7"
-        ]
-      },
-      {
-        "text": "The system has 257 tools via MCP and 300+ HTTP API endpoints, covering navigation, input, tab management, page content extraction, accessibility snapshots, DevTools access, network inspection, session management, bookmarks, passwords, extensions, workflows, and UI media.",
-        "citationIds": [
-          "3",
-          "4",
-          "7"
-        ]
-      }
-    ],
-    "role_in_decision_making": [
-      {
-        "text": "The Tandem Mobi system and t:slim X2 insulin pump, along with Control-IQ+ technology, are medical devices intended for the management of diabetes mellitus.",
-        "citationIds": [
-          "7"
-        ]
-      },
-      {
-        "text": "They are prescription-only (RX ONLY) devices.",
-        "citationIds": [
-          "7"
-        ]
-      },
-      {
-        "text": "Misuse or failure to follow instructions can lead to serious adverse events such as hypoglycemia or hyperglycemia.",
-        "citationIds": [
-          "7"
-        ]
-      },
-      {
-        "text": "The Control-IQ+ technology carries specific warnings regarding age and minimum insulin/weight requirements for safe operation.",
-        "citationIds": [
-          "7"
-        ]
-      },
-      {
-        "text": "Tandem Browser is intended for users who want to integrate AI agents directly into their daily browsing experience, enabling them to automate web tasks, rewrite live UI, and gather information from websites in a shared human-AI workspace.",
-        "citationIds": [
-          "3",
-          "4"
-        ]
-      },
-      {
-        "text": "The workflow involves the AI agent operating within the user's browser, seeing the same DOM, network requests, and accessibility tree.",
-        "citationIds": [
-          "3",
-          "4"
-        ]
-      },
-      {
-        "text": "The agent can perform tasks like filling forms, navigating sites, and injecting userscripts.",
-        "citationIds": [
-          "3",
-          "4"
-        ]
-      },
-      {
-        "text": "When the agent encounters ambiguity, CAPTCHAs, or risky actions, it pauses and requests human input, allowing for a continuous co-driving experience where the human can intervene or adapt the agent's actions.",
-        "citationIds": [
-          "3",
-          "4"
-        ]
-      }
-    ],
-    "intended_users": [
-      {
-        "text": "The primary intended users include individuals who use AI models (Claude, GPT, Gemini, local Ollama, LM Studio, custom scripts) and want them to operate within their real browser sessions, teams and developers seeking a serious browser surface behind MCP without custom wrappers, users prioritizing local-first control, authenticated sessions, and strong security, and companies testing secure browser-based AI workflows and human-in-the-loop systems.",
-        "citationIds": [
-          "1",
-          "4"
-        ]
-      },
-      {
-        "text": "It is also for desktop users, server admins deploying autonomous agents remotely, and developers building custom clients or programmatically triggering agent workflows for the Tandem Engine.",
-        "citationIds": [
-          "1",
-          "4"
-        ]
-      },
-      {
-        "text": "Users connecting AI agents to Tandem Browser need to understand how to configure their AI agent to speak MCP (Model Context Protocol) or HTTP and paste connection instructions.",
-        "citationIds": [
-          "1",
-          "3",
-          "4"
-        ]
-      },
-      {
-        "text": "Developers require knowledge of building custom clients, connecting external tools via MCP, or programmatically triggering agent workflows.",
-        "citationIds": [
-          "1",
-          "3",
-          "4"
-        ]
-      },
-      {
-        "text": "For advanced use, understanding concepts like accessibility trees, DOM, network requests, and developer tools can be beneficial.",
-        "citationIds": [
-          "1",
-          "3",
-          "4"
-        ]
-      }
-    ],
-    "target_patient_population": [
-      {
-        "text": "Persons requiring insulin for the management of diabetes mellitus.",
-        "citationIds": [
-          "7"
-        ]
-      },
-      {
-        "text": "Specifically, for Control-IQ+ technology: individuals 2 years of age and greater with type 1 diabetes mellitus, and individuals 18 years of age and greater with type 2 diabetes mellitus.",
-        "citationIds": [
-          "7"
-        ]
-      },
-      {
-        "text": "It should not be used in anyone under the age of 2 years old with type 1 diabetes or under the age of 18 years old with type 2 diabetes, or in patients who require less than a total daily insulin amount.",
-        "citationIds": [
-          "7"
-        ]
-      }
-    ],
-    "known_failure_modes": [
-      {
-        "text": "For the Tandem Mobi system and Control-IQ+ technology: The pump should not be worn or placed more than 12 inches (30.5 cm) above the infusion site, as this may result in over-delivery of insulin.",
-        "citationIds": [
-          "7"
-        ]
-      },
-      {
-        "text": "Control-IQ+ technology is not intended for use in individuals under 2 years old with type 1 diabetes or under 18 years old with type 2 diabetes.",
-        "citationIds": [
-          "7"
-        ]
-      },
-      {
-        "text": "It also should not be used in patients requiring less than a total daily insulin dose of 5 units or weighing less than 20 pounds (9 kg), as these are the minimum values for safe operation.",
-        "citationIds": [
-          "7"
-        ]
-      },
-      {
-        "text": "Users must adhere to the instructions for use for the insulin pump, iCGM, and all system components; failure to do so can lead to over-delivery or under-delivery of insulin, causing hypoglycemia or hyperglycemia.",
-        "citationIds": [
-          "7"
-        ]
-      },
-      {
-        "text": "The mobile app requires a compatible smartphone model and operating system (sold separately) and is only available to pump users residing in the United States.",
-        "citationIds": [
-          "7"
-        ]
-      },
-      {
-        "text": "CGM and adhesive sleeves are sold separately.",
-        "citationIds": [
-          "7"
-        ]
-      }
-    ],
-    "unsupported_clinical_scenarios": [
-      {
-        "text": "Windows builds are currently unsigned, so Windows may show an unknown publisher or SmartScreen warning during installation.",
-        "citationIds": [
-          "3",
-          "4",
-          "6"
-        ]
-      },
-      {
-        "text": "Users are advised to be aware that when an AI has access to a real browser, a hidden instruction in a page's HTML is remote code execution without an exploit, which is why Tandem Browser implements an 8-layer security perimeter.",
-        "citationIds": [
-          "3",
-          "4",
-          "6"
-        ]
-      },
-      {
-        "text": "The new version of Tandem Web (language learning app) does not support calling; users should use the mobile app for video or audio calls.",
-        "citationIds": [
-          "3",
-          "4",
-          "6"
-        ]
-      },
-      {
-        "text": "For the Tandem Mobi system and Control-IQ+ technology: The pump should not be worn or placed more than 12 inches (30.5 cm) above the infusion site, as this may result in over-delivery of insulin.",
-        "citationIds": [
-          "7"
-        ]
-      },
-      {
-        "text": "Control-IQ+ technology is not intended for use in individuals under 2 years old with type 1 diabetes or under 18 years old with type 2 diabetes.",
-        "citationIds": [
-          "7"
-        ]
-      },
-      {
-        "text": "It also should not be used in patients requiring less than a total daily insulin dose of 5 units or weighing less than 20 pounds (9 kg), as these are the minimum values for safe operation.",
-        "citationIds": [
-          "7"
-        ]
-      },
-      {
-        "text": "Users must adhere to the instructions for use for the insulin pump, iCGM, and all system components; failure to do so can lead to over-delivery or under-delivery of insulin, causing hypoglycemia or hyperglycemia.",
-        "citationIds": [
-          "7"
-        ]
-      },
-      {
-        "text": "The mobile app requires a compatible smartphone model and operating system (sold separately) and is only available to pump users residing in the United States.",
-        "citationIds": [
-          "7"
-        ]
-      },
-      {
-        "text": "CGM and adhesive sleeves are sold separately.",
-        "citationIds": [
-          "7"
-        ]
-      }
-    ],
-    "unsupported_use_cases": [
-      {
-        "text": "For the Tandem Mobi system and Control-IQ+ technology: The pump should not be worn or placed more than 12 inches (30.5 cm) above the infusion site, as this may result in over-delivery of insulin.",
-        "citationIds": [
-          "7"
-        ]
-      },
-      {
-        "text": "Control-IQ+ technology is not intended for use in individuals under 2 years old with type 1 diabetes or under 18 years old with type 2 diabetes.",
-        "citationIds": [
-          "7"
-        ]
-      },
-      {
-        "text": "It also should not be used in patients requiring less than a total daily insulin dose of 5 units or weighing less than 20 pounds (9 kg), as these are the minimum values for safe operation.",
-        "citationIds": [
-          "7"
-        ]
-      },
-      {
-        "text": "Users must adhere to the instructions for use for the insulin pump, iCGM, and all system components; failure to do so can lead to over-delivery or under-delivery of insulin, causing hypoglycemia or hyperglycemia.",
-        "citationIds": [
-          "7"
-        ]
-      },
-      {
-        "text": "The mobile app requires a compatible smartphone model and operating system (sold separately) and is only available to pump users residing in the United States.",
-        "citationIds": [
-          "7"
-        ]
-      },
-      {
-        "text": "CGM and adhesive sleeves are sold separately.",
-        "citationIds": [
-          "7"
-        ]
-      }
-    ],
-    "required_clinician_oversight": [
-      {
-        "text": "To use Tandem Browser, first download and install the appropriate binary for macOS Apple Silicon (v1.0.0) or Windows 11 x64 (v1.11.0).",
-        "citationIds": [
-          "3",
-          "4"
-        ]
-      },
-      {
-        "text": "For Linux, it can be run from source.",
-        "citationIds": [
-          "3",
-          "4"
-        ]
-      },
-      {
-        "text": "After launching, open 'Settings' -> 'Connected Agents' and scroll to 'Connect your AI to Tandem'.",
-        "citationIds": [
-          "3",
-          "4"
-        ]
-      },
-      {
-        "text": "Choose 'On this machine' for local AI or 'On another machine' for remote AI over Tailscale, then click 'Generate connection instructions'.",
-        "citationIds": [
-          "3",
-          "4"
-        ]
-      },
-      {
-        "text": "Copy these instructions and paste them into your AI agent's configuration.",
-        "citationIds": [
-          "3",
-          "4"
-        ]
-      },
-      {
-        "text": "The agent will then read Tandem's bootstrap surface and connect automatically.",
-        "citationIds": [
-          "3",
-          "4"
-        ]
-      },
-      {
-        "text": "Users can then interact with the AI agent within their browser session for various tasks.",
-        "citationIds": [
-          "3",
-          "4"
-        ]
-      },
-      {
-        "text": "The Tandem Mobi system and t:slim X2 insulin pump, along with Control-IQ+ technology, are medical devices intended for the management of diabetes mellitus.",
-        "citationIds": [
-          "7"
-        ]
-      },
-      {
-        "text": "They are prescription-only (RX ONLY) devices.",
-        "citationIds": [
-          "7"
-        ]
-      },
-      {
-        "text": "Misuse or failure to follow instructions can lead to serious adverse events such as hypoglycemia or hyperglycemia.",
-        "citationIds": [
-          "7"
-        ]
-      },
-      {
-        "text": "The Control-IQ+ technology carries specific warnings regarding age and minimum insulin/weight requirements for safe operation.",
-        "citationIds": [
-          "7"
-        ]
-      },
-      {
-        "text": "The Tandem Mobi system, including Control-IQ+ technology, is an RX ONLY device, meaning it requires a prescription.",
-        "citationIds": [
-          "7"
-        ]
-      },
-      {
-        "text": "Users of the pump and Control-IQ+ must use the system components in accordance with their respective instructions for use.",
-        "citationIds": [
-          "7"
-        ]
-      },
-      {
-        "text": "The mobile app also requires a compatible smartphone.",
-        "citationIds": [
-          "7"
-        ]
-      }
-    ],
-    "model_type": [
-      {
-        "text": "The Tandem Engine is described as a workflow runtime for AI assistants or agents, capable of orchestrating specialized sub-agents.",
-        "citationIds": [
-          "1",
-          "4"
-        ]
-      },
-      {
-        "text": "Tandem Browser is a model-agnostic platform designed to host various AI agents (e.g., LLMs) within a browser environment.",
-        "citationIds": [
-          "1",
-          "4"
-        ]
-      },
-      {
-        "text": "Tandem Engine is an engine-owned workflow runtime for coordinated autonomous work, designed to scale beyond chat-first AI assistants and operate in multiple highly-concurrent configurations.",
-        "citationIds": [
-          "1",
-          "3",
-          "4"
-        ]
-      },
-      {
-        "text": "It supports AI assistants or agents for local file tasks, writing, coding, or managing agents.",
-        "citationIds": [
-          "1",
-          "3",
-          "4"
-        ]
-      },
-      {
-        "text": "It can be deployed to a VPS or headless server for remote access to autonomous agents.",
-        "citationIds": [
-          "1",
-          "3",
-          "4"
-        ]
-      },
-      {
-        "text": "Tandem Browser is an open-source, local-first Electron browser for AI agents where the AI operates within the user's real browser session, sharing tabs, cookies, and DOM.",
-        "citationIds": [
-          "1",
-          "3",
-          "4"
-        ]
-      },
-      {
-        "text": "It works by interpreting the accessibility tree, rendered DOM, live network requests, and DevTools, enabling agents to operate on existing websites without per-site APIs or RPA rigs.",
-        "citationIds": [
-          "1",
-          "3",
-          "4"
-        ]
-      },
-      {
-        "text": "It features co-browsing capabilities, human-in-the-loop for judgment calls (e.g., CAPTCHAs), and an 8-layer security perimeter between web content and the agent layer, including prompt injection defense.",
-        "citationIds": [
-          "1",
-          "3",
-          "4"
-        ]
-      }
-    ],
-    "training_data.description": [
-      {
-        "text": "Tandem Browser is a model-agnostic platform that enables AI agents to operate within a real browser session.",
-        "citationIds": [
-          "1"
-        ]
-      },
-      {
-        "text": "It does not have its own training data in the traditional sense of an AI model.",
-        "citationIds": [
-          "1"
-        ]
-      },
-      {
-        "text": "Instead, it works with any connected AI agent that speaks Model Context Protocol (MCP) or HTTP, such as Claude, GPT, Gemini, OpenClaw, local Ollama models, LM Studio, or custom scripts.",
-        "citationIds": [
-          "1"
-        ]
-      },
-      {
-        "text": "The capability resides in the connected AI model, not in Tandem Browser itself, which provides the browser environment for these agents.",
-        "citationIds": [
-          "1"
-        ]
-      }
-    ],
-    "model_development_and_validation.description": [
-      {
-        "text": "Beck RW, et al.",
-        "citationIds": [
-          "7"
-        ]
-      },
-      {
-        "text": "Diabetes Technol Ther.",
-        "citationIds": [
-          "7"
-        ]
-      },
-      {
-        "text": "2023;25(5):329-342.",
-        "citationIds": [
-          "7"
-        ]
-      }
-    ],
-    "clinical_trial": [
-      {
-        "text": "A study was conducted using a t:slim X2 insulin pump with Control-IQ technology and Dexcom G6 sensor, referenced as: Beck RW, et al.",
-        "citationIds": [
-          "7"
-        ]
-      },
-      {
-        "text": "Diabetes Technol Ther.",
-        "citationIds": [
-          "7"
-        ]
-      },
-      {
-        "text": "2023;25(5):329-342.",
-        "citationIds": [
-          "7"
-        ]
-      },
-      {
-        "text": "This appears to be a clinical evaluation or trial for the Tandem Diabetes Care product.",
-        "citationIds": [
-          "7"
-        ]
-      }
-    ],
-    "performance.summary": [
-      {
-        "text": "For Tandem Diabetes Care products, user testimonials indicate improved A1c and reduced instances of waking up with lows, suggesting the system acts as a 'safety net'.",
-        "citationIds": [
-          "3",
-          "4",
-          "7"
-        ]
-      },
-      {
-        "text": "For Tandem Browser, the security pipeline incorporates an 811K+ entry blocklist, YARA-style threat rules, AST fingerprinting, Shannon entropy detection, a confidence-weighted pipeline, and 51 automated tests to achieve its safety and reliability goals.",
-        "citationIds": [
-          "3",
-          "4",
-          "7"
-        ]
-      },
-      {
-        "text": "The system provides 257 tools via MCP and over 300 HTTP API endpoints.",
-        "citationIds": [
-          "3",
-          "4",
-          "7"
-        ]
-      },
-      {
-        "text": "For Tandem Diabetes Care products, anecdotal evidence from users suggests that the automated insulin delivery systems (Tandem Mobi, t:slim X2 with Control-IQ+ technology) contribute to better glucose management, including improved A1c levels and prevention of hypoglycemic events, enhancing user safety and peace of mind.",
-        "citationIds": [
-          "3",
-          "4",
-          "7"
-        ]
-      },
-      {
-        "text": "For Tandem Browser, the multi-layered security architecture (8 layers including NetworkShield, OutboundGuard, ContentAnalyzer, ScriptGuard, BehaviorMonitor, Gatekeeper AI, EvolutionEngine, and PromptInjection defense) is interpreted as a core architectural feature designed to protect the AI agent and user data from malicious web content and prompt injection attacks, ensuring a secure and reliable co-browsing environment for human and AI agents.",
-        "citationIds": [
-          "3",
-          "4",
-          "7"
-        ]
-      },
-      {
-        "text": "No specific AUROC, accuracy, or other quantitative machine learning metrics are provided.",
-        "citationIds": [
-          "3"
-        ]
-      },
-      {
-        "text": "However, the efficacy is described qualitatively through the number of available tools: 257 tools via MCP and over 300 HTTP API endpoints across 17 categories (Navigation & Input, Tabs & Workspaces, Page Content, Accessibility Snapshots, DevTools, Network Inspector, Sessions & Auth, Bookmarks & History, Passwords & Forms, Extensions, Workflows & Tasks, Previews, Media & UI, Device Emulation, Data & Config, System, Awareness).",
-        "citationIds": [
-          "3"
-        ]
-      },
-      {
-        "text": "The security model includes an '811K+ blocklist entries' and '51 automated tests'.",
-        "citationIds": [
-          "3"
-        ]
-      }
-    ],
-    "ongoing_monitoring_plan": [
-      {
-        "text": "Tandem Browser is built and maintained full-time by one person.",
-        "citationIds": [
-          "3",
-          "6",
-          "7"
-        ]
-      },
-      {
-        "text": "Sponsorship helps keep the project moving in areas like product development, security maintenance, cross-platform work, documentation, and community support.",
-        "citationIds": [
-          "3",
-          "6",
-          "7"
-        ]
-      },
-      {
-        "text": "The project is currently in development preview (v1.11.0) and has a CHANGELOG.md for release history and CONTRIBUTING.md for contributions, including bug reports and feature requests.",
-        "citationIds": [
-          "3",
-          "6",
-          "7"
-        ]
-      },
-      {
-        "text": "Tandem Diabetes Care's insulin pumps are capable of remote software updates, and their Support Team is available 24/7, 365 days a year.",
-        "citationIds": [
-          "3",
-          "6",
-          "7"
-        ]
-      },
-      {
-        "text": "The Tandem language learning app also receives updates, with a new version of Tandem Web announced with new features, improved performance, and a sleek new design.",
-        "citationIds": [
-          "3",
-          "6",
-          "7"
-        ]
-      }
-    ],
-    "scheduled_updates": [
-      {
-        "text": "Tandem Browser is built and maintained full-time by one person.",
-        "citationIds": [
-          "3",
-          "6",
-          "7"
-        ]
-      },
-      {
-        "text": "Sponsorship helps keep the project moving in areas like product development, security maintenance, cross-platform work, documentation, and community support.",
-        "citationIds": [
-          "3",
-          "6",
-          "7"
-        ]
-      },
-      {
-        "text": "The project is currently in development preview (v1.11.0) and has a CHANGELOG.md for release history and CONTRIBUTING.md for contributions, including bug reports and feature requests.",
-        "citationIds": [
-          "3",
-          "6",
-          "7"
-        ]
-      },
-      {
-        "text": "Tandem Diabetes Care's insulin pumps are capable of remote software updates, and their Support Team is available 24/7, 365 days a year.",
-        "citationIds": [
-          "3",
-          "6",
-          "7"
-        ]
-      },
-      {
-        "text": "The Tandem language learning app also receives updates, with a new version of Tandem Web announced with new features, improved performance, and a sleek new design.",
-        "citationIds": [
-          "3",
-          "6",
-          "7"
-        ]
-      }
-    ],
-    "contact": [
-      {
-        "text": "For questions or to share workflows, use GitHub Discussions.",
-        "citationIds": [
-          "1",
-          "3",
-          "4"
-        ]
-      },
-      {
-        "text": "For bugs and concrete feature requests, open an issue on GitHub.",
-        "citationIds": [
-          "1",
-          "3",
-          "4"
-        ]
-      },
-      {
-        "text": "Tandem Engine documentation also mentions a 'Bug Monitor And Issue Reporter' for turning failures and operator findings into governed drafts, approvals, and published issues.",
-        "citationIds": [
-          "1",
-          "3",
-          "4"
-        ]
-      },
-      {
-        "text": "https://tandembrowser.org/",
-        "citationIds": [
-          "4"
-        ]
-      }
-    ],
-    "regulatory_approval_status": [
-      {
-        "text": "The Tandem Mobi insulin pump with interoperable technology and Control-IQ+ technology is a prescription-only (RX ONLY) medical device intended for the management of diabetes mellitus in persons requiring insulin.",
-        "citationIds": [
-          "7"
-        ]
-      }
-    ]
-  },
-  "fields": {},
-  "regulatory_status_source": null,
-  "regulatory_status_confidence": "unknown"
+  }
 }

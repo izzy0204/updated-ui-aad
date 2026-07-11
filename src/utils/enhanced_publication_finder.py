@@ -77,7 +77,7 @@ class EnhancedPublicationFinder:
                         continue
                     print(f"HTTP {r.status} for {url}")
                     return None
-            except (aiohttp.ClientConnectionError, aiohttp.ServerTimeoutError, asyncio.TimeoutError) as e:
+            except (aiohttp.ClientConnectionError, aiohttp.ServerDisconnectedError, asyncio.TimeoutError, ConnectionResetError) as e:
                 last_exc = e
                 if attempt < tries - 1:
                     delay = backoff_base * (2 ** attempt) + random.uniform(0.05, 0.25)

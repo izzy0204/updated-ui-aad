@@ -185,12 +185,15 @@
       8
     ],
     "referenceCount": 10,
-    "fieldCitationCount": 22
+    "fieldCitationCount": 22,
+    "displayReferenceCount": 6
   },
-  "validationErrors": [],
+  "validationErrors": [
+    "missing_required:known_failure_modes",
+    "missing_required:unsupported_clinical_scenarios",
+    "missing_required:unsupported_use_cases"
+  ],
   "validationWarnings": [
-    "summary_exceeds_three_sentences",
-    "summary_exceeds_three_sentences",
     "orphaned_references:[3, 6, 7, 8]"
   ]
 }

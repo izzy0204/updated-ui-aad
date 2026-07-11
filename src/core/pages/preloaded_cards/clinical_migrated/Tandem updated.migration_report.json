@@ -191,9 +191,13 @@
       15
     ],
     "referenceCount": 16,
-    "fieldCitationCount": 22
+    "fieldCitationCount": 22,
+    "displayReferenceCount": 6
   },
-  "validationErrors": [],
+  "validationErrors": [
+    "missing_required:unsupported_clinical_scenarios",
+    "missing_required:unsupported_use_cases"
+  ],
   "validationWarnings": [
     "orphaned_references:[3, 4, 8, 9, 10, 11, 12, 13, 14, 15]"
   ]

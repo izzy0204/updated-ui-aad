@@ -51,10 +51,10 @@ def _merge_unique(*parts: str) -> str:
 
 
 def parse_metrics_from_text(text: str) -> List[PerformanceMetric]:
-    metrics: List[PerformanceMetric] = []
-    for m in _METRIC_RE.finditer(text or ""):
-        metrics.append(PerformanceMetric(name=m.group("name").title(), value=m.group("value")))
-    return metrics
+    """Parse performance metrics from free text; rejects skin-type false positives."""
+    from core.migration_metrics import parse_migration_metrics
+
+    return parse_migration_metrics(text)
 
 
 def _coerce_training_data(raw: Any, flat: Dict[str, Any]) -> TrainingData:

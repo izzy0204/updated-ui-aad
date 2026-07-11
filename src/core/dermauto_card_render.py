@@ -322,13 +322,17 @@ def render_doc_title_html(doc_title: str, application_url: Optional[str] = None)
     return safe_title
 
 
-def card_to_sections(card: Any) -> Dict[str, Dict[str, str]]:
+def card_to_sections(card: Any, citations: Optional[Dict[str, Any]] = None) -> Dict[str, Dict[str, str]]:
     """Build display sections dict from ClinicalModelCard."""
     from core.chai_schema import REGULATORY_STATUS_LABELS
 
     status_label = REGULATORY_STATUS_LABELS.get(
         card.regulatory_approval_status, str(card.regulatory_approval_status.value)
     )
+    if citations and isinstance(citations, dict):
+        display = citations.get("regulatory_status_display")
+        if display:
+            status_label = str(display)
 
     def d(val: Optional[str]) -> str:
         if val is None or not str(val).strip():
@@ -401,7 +405,7 @@ def render_from_card(
 
     logger = logging.getLogger(__name__)
 
-    sections = card_to_sections(card)
+    sections = card_to_sections(card, citations)
     normalized = normalize_citation_sidecar(citations)
     citations_available = normalized.available
 

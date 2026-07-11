@@ -14,6 +14,29 @@ from typing import Any, Dict, List, Optional, Set, Tuple
 
 REPO = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(REPO / "src"))
+sys.path.insert(0, str(REPO / "scripts"))
+
+from migration_field_synthesis import (  # noqa: E402
+    attach_metric_citations,
+    densify_citation_sidecar,
+    parse_regulatory_approval_date,
+    regulatory_status_display_text,
+    synthesize_acceptable_input,
+    synthesize_contact,
+    synthesize_known_failure_modes,
+    synthesize_medical_purpose,
+    synthesize_model_type,
+    synthesize_output,
+    synthesize_performance,
+    synthesize_required_clinician_oversight,
+    synthesize_role_in_decision_making,
+    synthesize_scheduled_updates,
+    synthesize_summary,
+    synthesize_unsupported_clinical_scenarios,
+    synthesize_unsupported_use_cases,
+    synthesize_version,
+    validate_migrated_card,
+)
 
 from core.chai_schema import (  # noqa: E402
     SCHEMA_VERSION,
@@ -39,8 +62,9 @@ from core.dermauto_card_render import (
     parse_model_card_md,
     parse_references,
 )
-from pipelines.clinical_card_mapper import parse_metrics_from_text, _merge_unique
+from pipelines.clinical_card_mapper import _merge_unique
 from utils.sentence_utils import count_sentences
+from pipelines.clinical_card_mapper import enforce_summary_length
 
 PRELOADED = REPO / "src/core/pages/preloaded_cards"
 BACKUP = PRELOADED / "v03_backup"
@@ -305,27 +329,24 @@ def migrate_card(md_path: Path, fda_records: Optional[List[Dict]] = None) -> Tup
     legacy = _parse_v03_fields(md_text)
     old_citations = _load_legacy_citations(md_path)
 
+    nct_m = re.search(r"(NCT\d+)", legacy.get("clinical_trial_if_available", ""), re.I)
+    trial_url_m = re.search(r"(https?://[^\s]+clinicaltrials[^\s]+)", legacy.get("clinical_trial_if_available", ""), re.I)
+
+    reg_text = legacy.get("regulatory_approval_status_if_applicable", "")
     reg_cites = _union_citations(old_citations, "regulatory_approval_status", ["regulatory_approval_status_if_applicable"])
     status, reg_date, reg_source, reg_conf = classify_regulatory_status(
-        legacy_text=legacy.get("regulatory_approval_status_if_applicable", ""),
+        legacy_text=reg_text,
         fda_records=fda_records,
         cited_snippets=reg_cites,
     )
+    if reg_date is None:
+        reg_date = parse_regulatory_approval_date(reg_text)
 
     last_updated = _extract_timestamp(md_text) or date.today()
-
-    perf_text = _merge_unique(
-        legacy.get("usefulness_efficacy_result", ""),
-        legacy.get("usefulness_efficacy_interpretation", ""),
-        legacy.get("usefulness_efficacy_auroc_accuracy_etc", ""),
-    )
-    metrics = parse_metrics_from_text(
-        legacy.get("usefulness_efficacy_auroc_accuracy_etc", "")
-        + " " + legacy.get("safety_reliability_result", "")
-    )
-
-    nct_m = re.search(r"(NCT\d+)", legacy.get("clinical_trial_if_available", ""), re.I)
-    trial_url_m = re.search(r"(https?://[^\s]+clinicaltrials[^\s]+)", legacy.get("clinical_trial_if_available", ""), re.I)
+    monitoring_plan = _clean_field_text(legacy.get("ongoing_maintenance") or "") or None
+    perf = synthesize_performance(legacy)
+    contact_url, _ = synthesize_contact(legacy)
+    scheduled = synthesize_scheduled_updates(legacy, monitoring_plan)
 
     card = ClinicalModelCard(
         model_name=_clean_field_text(legacy.get("model_name", "").strip()),
@@ -333,30 +354,14 @@ def migrate_card(md_path: Path, fda_records: Optional[List[Dict]] = None) -> Tup
         developer=_clean_field_text(legacy.get("developer", "").strip()),
         regulatory_approval_status=status,
         regulatory_approval_date=reg_date,
-        version=legacy.get("version", "").strip() or "Not disclosed",
+        version=synthesize_version(legacy),
         last_updated=last_updated,
         availability=_clean_field_text(legacy.get("global_availability") or "") or None,
-        summary=_clean_field_text(legacy.get("summary", "").strip()),
-        medical_purpose=_clean_field_text(legacy.get("intended_use_and_workflow", "").strip()),
-        acceptable_input=_clean_field_text(
-            _merge_unique(
-                legacy.get("input_data_source", ""),
-                legacy.get("output_input_data_type", ""),
-                legacy.get("how_to_use", ""),
-            )
-        ),
-        output=_clean_field_text(
-            _merge_unique(
-                legacy.get("outcomes_and_output", ""),
-                legacy.get("type_and_value_of_solution_output", ""),
-            )
-        ),
-        role_in_decision_making=_clean_field_text(
-            _merge_unique(
-                legacy.get("clinical_risk_level", ""),
-                legacy.get("intended_use_and_workflow", ""),
-            )
-        ),
+        summary=synthesize_summary(legacy),
+        medical_purpose=synthesize_medical_purpose(legacy),
+        acceptable_input=synthesize_acceptable_input(legacy),
+        output=synthesize_output(legacy),
+        role_in_decision_making=synthesize_role_in_decision_making(legacy),
         intended_users=_clean_field_text(
             _merge_unique(
                 legacy.get("primary_intended_users", ""),
@@ -364,27 +369,11 @@ def migrate_card(md_path: Path, fda_records: Optional[List[Dict]] = None) -> Tup
             )
         ),
         target_patient_population=_clean_field_text(legacy.get("targeted_patient_population", "").strip()),
-        known_failure_modes=_clean_field_text(
-            _merge_unique(
-                legacy.get("model_limitations", ""),
-                legacy.get("skin_type_representation_and_equity", ""),
-            )
-        ),
-        unsupported_clinical_scenarios=_clean_field_text(
-            _merge_unique(
-                legacy.get("developer_supplied_warnings", ""),
-                legacy.get("model_limitations", ""),
-            )
-        ),
-        unsupported_use_cases=_clean_field_text(legacy.get("model_limitations", "").strip()),
-        required_clinician_oversight=_clean_field_text(
-            _merge_unique(
-                legacy.get("how_to_use", ""),
-                legacy.get("clinical_risk_level", ""),
-                legacy.get("patient_consent_or_disclosure_required_or_suggested", ""),
-            )
-        ),
-        model_type=_clean_field_text(_merge_unique(legacy.get("model_type", ""), legacy.get("ai_system_facts", ""))),
+        known_failure_modes=synthesize_known_failure_modes(legacy),
+        unsupported_clinical_scenarios=synthesize_unsupported_clinical_scenarios(legacy),
+        unsupported_use_cases=synthesize_unsupported_use_cases(legacy),
+        required_clinician_oversight=synthesize_required_clinician_oversight(legacy),
+        model_type=synthesize_model_type(legacy),
         training_data=TrainingData(
             description=_clean_field_text(
                 _merge_unique(legacy.get("training_data", ""), legacy.get("development_data_characterization", ""))
@@ -405,7 +394,7 @@ def migrate_card(md_path: Path, fda_records: Optional[List[Dict]] = None) -> Tup
             if legacy.get("clinical_trial_if_available")
             else None
         ),
-        performance=Performance(summary=_clean_field_text(perf_text) or "Not disclosed", metrics=metrics),
+        performance=perf,
         performance_evaluation_limitations=_clean_field_text(
             _merge_unique(
                 legacy.get("skin_tone_diversity", ""),
@@ -413,20 +402,28 @@ def migrate_card(md_path: Path, fda_records: Optional[List[Dict]] = None) -> Tup
             )
         )
         or "Not disclosed",
-        ongoing_monitoring_plan=_clean_field_text(legacy.get("ongoing_maintenance") or "") or None,
-        scheduled_updates=_clean_field_text(legacy.get("ongoing_maintenance") or "") or None,
+        ongoing_monitoring_plan=monitoring_plan,
+        scheduled_updates=scheduled,
         contact=Contact(
             email=None,
-            url=_clean_field_text(
-                legacy.get("inquiries_or_to_report_an_issue") or legacy.get("application_url") or ""
-            )
-            or None,
+            url=contact_url,
         ),
     )
+    card, summary_warnings = enforce_summary_length(card)
 
     new_citations, citation_audit = _build_citation_sidecar(md_text, legacy, old_citations)
+    attach_metric_citations(new_citations, perf.metrics, legacy)
+    new_citations, orphaned_after = densify_citation_sidecar(new_citations)
+    citation_audit["orphanedReferences"] = orphaned_after
+    citation_audit["displayReferenceCount"] = len(new_citations.get("references") or {})
+
+    reg_display = regulatory_status_display_text(status.value, reg_text)
+    if reg_display:
+        new_citations["regulatory_status_display"] = reg_display
     new_citations["regulatory_status_source"] = reg_source
     new_citations["regulatory_status_confidence"] = reg_conf
+    if reg_cites:
+        new_citations["regulatory_status_evidence"] = reg_cites
 
     report = {
         "card": md_path.name,
@@ -440,7 +437,8 @@ def migrate_card(md_path: Path, fda_records: Optional[List[Dict]] = None) -> Tup
     }
     vr = validate_model_card(card)
     report["validationErrors"] = vr.errors
-    report["validationWarnings"] = vr.warnings
+    report["validationWarnings"] = vr.warnings + summary_warnings
+    report["validationWarnings"].extend(validate_migrated_card(card, monitoring=monitoring_plan))
     if count_sentences(card.summary) > 3:
         report["validationWarnings"].append("summary_exceeds_three_sentences")
     if citation_audit.get("unmatchedMarkers"):
@@ -464,11 +462,11 @@ def _migration_sources() -> List[Path]:
     root_legacy = [
         p
         for p in sorted(PRELOADED.glob("*.md"))
-        if p.parent == PRELOADED and ".clinical." not in p.name
+        if p.parent == PRELOADED and ".clinical." not in p.name and p.name.lower() != "readme.md"
     ]
     if root_legacy:
         return root_legacy
-    return sorted(BACKUP.glob("*.md"))
+    return [p for p in sorted(BACKUP.glob("*.md")) if p.name.lower() != "readme.md"]
 
 
 def main() -> int:
