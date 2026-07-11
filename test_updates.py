@@ -197,52 +197,70 @@ def run_scraping_tests():
 def run_pipeline_tests():
     section("3 · CARD PIPELINE (offline)")
 
-    # 3a  CHAIModelCard construction + serialization
+    # 3a  ClinicalModelCard construction + serialization
     try:
-        from core.chai_schema import CHAIModelCard
-        card = CHAIModelCard(model_name="TestModel", developer="TestDev",
-                             summary="A test", intended_use_and_workflow="Clinical")
+        from datetime import date
+        from core.chai_schema import ClinicalModelCard, TrainingData, Performance
+        card = ClinicalModelCard(
+            model_name="TestModel",
+            developer="TestDev",
+            version="1.0",
+            last_updated=date.today(),
+            summary="A test.",
+            medical_purpose="Clinical",
+            acceptable_input="Images",
+            output="Score",
+            role_in_decision_making="Advisory",
+            intended_users="MD",
+            target_patient_population="Adults",
+            known_failure_modes="None",
+            unsupported_clinical_scenarios="None",
+            unsupported_use_cases="None",
+            required_clinician_oversight="Review",
+            model_type="CNN",
+            training_data=TrainingData(description="data"),
+            performance=Performance(summary="92%"),
+            performance_evaluation_limitations="Small n",
+        )
         j = json.loads(card.to_json())
-        ok = j["model_name"] == "TestModel" and len(card.to_markdown()) > 100 and "<ModelName>" in card.to_xml()
-        record("CHAIModelCard serialize (JSON/MD/XML)", ok,
-               f"JSON fields: {len(j)}, MD: {len(card.to_markdown())} chars")
+        ok = j["modelName"] == "TestModel" and len(card.to_markdown()) > 100
+        record("ClinicalModelCard serialize (JSON/MD)", ok,
+               f"schema={j.get('schemaVersion')}, MD: {len(card.to_markdown())} chars")
     except Exception as e:
-        record("CHAIModelCard serialize", False, str(e))
+        record("ClinicalModelCard serialize", False, str(e))
 
     # 3b  _map_agent_dump_to_chai — direct keys
     try:
         from pipelines.cardgen_pipeline import _map_agent_dump_to_chai
         dump = {"model_name": "DermDetect", "developer": "HealthAI",
-                "summary": "Skin lesion analyzer", "model_type": "CNN",
-                "keywords": ["derm", "AI"]}
+                "summary": "Skin lesion analyzer", "model_type": "CNN"}
         card = _map_agent_dump_to_chai(dump)
-        ok = card.model_name == "DermDetect" and card.model_type == "CNN" and len(card.keywords) == 2
-        record("Agent dump → CHAI (direct keys)", ok,
-               f"name={card.model_name}, type={card.model_type}, kw={card.keywords}")
-    except Exception as e:
-        record("Agent dump → CHAI (direct keys)", False, str(e))
-
-    # 3c  _map_agent_dump_to_chai — nested/legacy keys
-    try:
-        from pipelines.cardgen_pipeline import _map_agent_dump_to_chai
-        dump = {"metadata": {"name": "SkinScan", "developer": "DermTech",
-                             "summary": "Skin analysis"},
-                "uses": {"purpose": "Melanoma detection"},
-                "trust": {"model_type": "ResNet-50"}}
-        card = _map_agent_dump_to_chai(dump)
-        ok = card.model_name == "SkinScan" and card.model_type == "ResNet-50"
-        record("Agent dump → CHAI (nested keys)", ok,
+        ok = card.model_name == "DermDetect" and card.model_type == "CNN"
+        record("Agent dump → clinical card (direct keys)", ok,
                f"name={card.model_name}, type={card.model_type}")
     except Exception as e:
-        record("Agent dump → CHAI (nested keys)", False, str(e))
+        record("Agent dump → clinical card (direct keys)", False, str(e))
+
+    # 3c  _map_agent_dump_to_chai — legacy flat keys
+    try:
+        from pipelines.cardgen_pipeline import _map_agent_dump_to_chai
+        dump = {"model_name": "SkinScan", "developer": "DermTech",
+                "summary": "Skin analysis", "intended_use_and_workflow": "Melanoma detection",
+                "model_type": "ResNet-50"}
+        card = _map_agent_dump_to_chai(dump)
+        ok = card.model_name == "SkinScan" and card.model_type == "ResNet-50"
+        record("Agent dump → clinical card (legacy keys)", ok,
+               f"name={card.model_name}, type={card.model_type}")
+    except Exception as e:
+        record("Agent dump → clinical card (legacy keys)", False, str(e))
 
     # 3d  Empty field collection
     try:
         from pipelines.cardgen_pipeline import _collect_empty_chai_fields
-        from core.chai_schema import CHAIModelCard
-        card = CHAIModelCard(model_name="X", developer="Y", summary="Z")
+        from core.chai_schema import ClinicalModelCard
+        card = ClinicalModelCard(model_name="X", developer="Y", summary="Z")
         empties = _collect_empty_chai_fields(card)
-        ok = ("model_name" not in empties and "training_data" in empties and len(empties) > 40)
+        ok = ("model_name" not in empties and "medical_purpose" in empties)
         record("_collect_empty_chai_fields", ok, f"{len(empties)} empty fields detected")
     except Exception as e:
         record("_collect_empty_chai_fields", False, str(e))
@@ -262,11 +280,21 @@ def run_pipeline_tests():
     # 3f  ModelCardScorer
     try:
         from utils.model_card_scorer import ModelCardScorer
-        from core.chai_schema import CHAIModelCard
-        card = CHAIModelCard(model_name="M", developer="D", summary="S",
-                             model_type="CNN", training_data="100k imgs")
+        from core.chai_schema import ClinicalModelCard, TrainingData, Performance
+        from datetime import date
+        card = ClinicalModelCard(
+            model_name="M", developer="D", version="1", last_updated=date.today(),
+            summary="S", model_type="CNN",
+            medical_purpose="p", acceptable_input="i", output="o",
+            role_in_decision_making="r", intended_users="u", target_patient_population="t",
+            known_failure_modes="k", unsupported_clinical_scenarios="s",
+            unsupported_use_cases="u", required_clinician_oversight="o",
+            training_data=TrainingData(description="100k imgs"),
+            performance=Performance(summary="good"),
+            performance_evaluation_limitations="lim",
+        )
         scorer = ModelCardScorer()
-        score = scorer.score_model_card(card.__dict__)
+        score = scorer.score_model_card(card.to_dict_camel())
         ok = score.completion_percentage > 0 and score.filled_fields > 0
         record("ModelCardScorer produces scores", ok,
                f"{score.completion_percentage:.1f}% complete, {score.filled_fields}/{score.total_fields} filled")

@@ -1,54 +1,59 @@
 # AI Model Card Generator
 
-A comprehensive system for generating professional model cards for dermatology AI models, featuring automated source discovery, AI-powered content analysis, and CHAI schema compliance.
+A system for generating professional model cards for dermatology AI models, featuring automated source discovery, AI-powered content analysis, and CHAI schema compliance.
 
-## 🏗️ Project Structure
+## Project Structure
 
 ```
 aad-model-card-generator/
 ├── src/
-│   ├── core/                    # Core application files
-│   │   ├── app.py              # Main Streamlit application
-│   │   ├── app_simple.py       # Simplified version
-│   │   ├── chai_schema.py      # CHAI schema definitions
-│   │   └── walkthrough_demo.py # Demo script
-│   ├── pipelines/              # Data processing pipelines
-│   │   ├── cardgen_pipeline.py # Main card generation pipeline
-│   │   └── model_card_pipeline.py # Model card processing
-│   ├── ai_extractors/          # AI-powered content extraction
-│   │   └── ai_extractor.py     # Gemini AI integration
-│   ├── scrapers/               # Web scraping components
-│   │   ├── robust_scraper_v2.py # Production-grade scraper
-│   │   ├── scraping.py         # Basic scraping utilities
-│   │   └── source_discovery_engine.py # Source discovery
-│   └── utils/                  # Utility modules
-│       ├── utils.py            # General utilities
-│       ├── discovery.py        # Content discovery
-│       ├── enhanced_publication_finder.py # Publication search
-│       ├── citation_system.py  # Citation management
-│       ├── field_mapping.py    # Schema field mapping
-│       ├── consistency_enhancements.py # Data consistency
-│       ├── targeted_questions.py # Question generation
-│       └── result_cache.py     # Caching system
-├── config/                     # Configuration files
-│   └── config.py              # Application configuration
-├── docs/                      # Documentation
-│   ├── README_scraper.md      # Scraper documentation
-│   └── replit.md             # Replit setup guide
-├── assets/                    # Static assets
-│   └── attached_assets/       # Project assets
-├── tests/                     # Test files
-├── pyproject.toml            # Project dependencies
-└── uv.lock                   # Lock file
+│   ├── core/                         # Core application
+│   │   ├── app.py                    # Main Streamlit application
+│   │   ├── chai_schema.py            # CHAI schema definitions
+│   │   ├── card_regulatory.py        # Regulatory text classification
+│   │   ├── source_regulatory.py      # Citation/source tier inference
+│   │   ├── dermauto_card_render.py   # Markdown → HTML card renderer
+│   │   ├── swg_intake.py             # SWG intake form helpers
+│   │   └── pages/
+│   │       ├── 03_DermAUTO_Card.py   # DermAUTO card viewer page
+│   │       └── preloaded_cards/      # Bundled example model cards
+│   ├── pipelines/
+│   │   └── cardgen_pipeline.py       # Main card generation pipeline
+│   ├── agents/gemini_agent/          # Gemini extraction agent
+│   │   ├── agent.py
+│   │   ├── prompts.py
+│   │   └── tools.py
+│   ├── ai_extractors/
+│   │   └── ai_extractor.py           # Gemini AI integration
+│   ├── scrapers/
+│   │   ├── robust_scraper_v2.py      # Production-grade scraper
+│   │   └── selenium_scraper.py       # Selenium fallback for JS-heavy pages
+│   └── utils/
+│       ├── web_search.py             # Search + fetch orchestration
+│       ├── cache_system.py           # Result caching
+│       ├── enhanced_publication_finder.py
+│       ├── fda_discovery.py
+│       ├── model_card_scorer.py
+│       ├── net.py
+│       └── utils.py
+├── config/
+│   ├── config.py
+│   └── swg_intake_field_map.yml
+├── scripts/                          # Standalone utilities
+├── ragas_eval/                       # RAGAS evaluation tooling
+├── docs/
+├── run_app.py                        # Web vs terminal launcher
+├── terminal_app.py                   # CLI entry point
+└── cache_inspector.py                # Cache debug utility
 ```
 
-## 🚀 Quick Start
+## Quick Start
 
 ### Prerequisites
 
 - Python 3.11+
 - Google Gemini API key
-- Required dependencies (see `pyproject.toml`)
+- Dependencies in `pyproject.toml` / `requirements.txt`
 
 ### Installation
 
@@ -73,98 +78,92 @@ export GEMINI_API_KEY="your_gemini_api_key_here"
 streamlit run src/core/app.py --server.port 5000
 ```
 
-## 📋 Features
+Or use the launcher:
+```bash
+python run_app.py
+```
+
+## Features
 
 ### Core Capabilities
-- **Automated Source Discovery**: Multi-platform content discovery from 15+ sources
-- **AI-Powered Analysis**: Gemini AI integration for bias detection and compliance
-- **CHAI Schema Compliance**: Full compliance with HTI-1 and 45 CFR 170.315 standards
-- **Professional Output**: Comprehensive model cards with 80+ fields
-- **Multiple Export Formats**: JSON, Markdown, and XML export options
+- **Automated Source Discovery**: Web search (Google CSE / DuckDuckGo) plus deep scraping
+- **AI-Powered Extraction**: Gemini agent fills CHAI fields with per-field evidence
+- **CHAI Schema Compliance**: 80+ fields aligned with HTI-1 / 45 CFR 170.315
+- **Citations & Provenance**: Inline `[n]` references in markdown, `.citations.json` sidecars, regulatory tier coloring in the UI
+- **Multiple Export Formats**: JSON, Markdown, and XML
 
 ### Web Scraping
-- **Production-Grade Scraper**: Asynchronous architecture with robust error handling
-- **Medical Domain Awareness**: Specialized rate limiting for medical websites
-- **Content Extraction**: Advanced HTML parsing with noise removal
-- **PDF Processing**: Text extraction from PDF documents
-- **Compliance Features**: Robots.txt compliance and ethical scraping
+- **RobustWebScraper**: Async HTTP with retries, second-hop link following, PDF extraction
+- **Selenium fallback**: For JavaScript-heavy pages when static fetch is insufficient
+- **Caching**: SQLite-backed cache to avoid redundant fetches
 
 ### Data Processing
-- **Pipeline Architecture**: Modular data processing pipelines
-- **Caching System**: Intelligent result caching for performance
-- **Consistency Enhancements**: Data validation and consistency checks
-- **Citation Management**: Automated citation extraction and formatting
+- **Pipeline architecture**: `CardGenPipeline` orchestrates discovery → extraction → post-fill → export
+- **Regulatory tagging**: Source URLs typed (FDA, clinical trial, PubMed, etc.) and color-coded at render time
 
-## 🔧 Configuration
+## Configuration
 
-The application uses environment variables for configuration:
+Key environment variables (see `config/config.py`):
 
-- `GEMINI_API_KEY`: Required for AI-powered content analysis
-- `GEMINI_MODEL`: Model to use (default: "gemini-2.5-pro")
-- `GEMINI_TEMPERATURE`: Temperature setting (default: 0.2)
+- `GEMINI_API_KEY`: Required for AI extraction
+- `GEMINI_MODEL`: Model name (default: `gemini-2.5-flash`)
+- `GEMINI_TEMPERATURE`: Sampling temperature (default: `0.7`)
+- `GOOGLE_CSE_API_KEY` / `GOOGLE_CSE_CX`: Optional Google Custom Search for discovery
 
-## 📖 Usage
+## Usage
 
 ### Web Interface
 
-1. Navigate to the Streamlit application
-2. Enter model name and optional developer name
-3. Click "Generate Model Card"
-4. View results in the Output tab
-5. Export in your preferred format
+1. Open the Streamlit app
+2. Enter model name, developer, and optional application URL
+3. Generate the model card
+4. View results in the Output tab and export JSON / Markdown / XML
 
 ### Programmatic Usage
 
 ```python
-from src.pipelines.cardgen_pipeline import CardGenPipeline
+from pipelines.cardgen_pipeline import CardGenPipeline
 
-# Initialize pipeline
-pipeline = CardGenPipeline()
-
-# Generate model card
-result = await pipeline.generate_model_card(
-    model_name="Your Model Name",
-    developer_name="Developer Organization"
-)
-
-print(result)
+async with CardGenPipeline() as pipeline:
+    chai_card, sources, content = await pipeline.generate_model_card(
+        model_name="Your Model Name",
+        developer_name="Developer Organization",
+    )
 ```
 
-## 🧪 Testing
+## Testing
 
-Run the test suite:
+Root-level test scripts (manual runners):
 
 ```bash
-pytest tests/ -v
+python test_regulatory_status.py
+python test_source_regulatory.py
+python test_scoring.py
+python test_updates.py
 ```
 
-## 📚 Documentation
+## Documentation
 
-- [Scraper Documentation](docs/README_scraper.md) - Detailed scraper features and API
-- [Replit Setup Guide](docs/replit.md) - Setup instructions for Replit
+- [Process Walkthrough](PROCESS_WALKTHROUGH.md) — end-to-end pipeline flow
+- [Selenium Integration](SELENIUM_BEAUTIFULSOUP_INTEGRATION.md) — scraper fallback behavior
+- [Caching System](../CACHING_SYSTEM_README.md) — cache layout and inspector usage
+- [Scoring System](../SCORING_SYSTEM_README.md) — model card quality scoring
 
-## 🤝 Contributing
+## Contributing
 
 1. Fork the repository
 2. Create a feature branch
 3. Make your changes
-4. Add tests for new functionality
+4. Add or update tests where appropriate
 5. Submit a pull request
 
-## 📄 License
+## License
 
-This project is designed for dermatology AI model-card generation. Please ensure compliance with website terms of service and robots.txt when scraping external content.
+This project is designed for dermatology AI model-card generation. Ensure compliance with website terms of service and robots.txt when scraping external content.
 
-## 🆘 Support
+## Support
 
 For issues and questions:
-1. Check the documentation in the `docs/` directory
+1. Check the documentation in `docs/`
 2. Review existing issues on GitHub
-3. Create a new issue with detailed information
-
-## 🔄 Recent Updates
-
-- Organized project structure for better maintainability
-- Separated concerns into logical modules
-- Enhanced documentation and configuration management
-- Improved code organization and readability
+3. Open a new issue with detailed reproduction steps

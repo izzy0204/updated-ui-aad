@@ -1,13 +1,35 @@
-"""Per-field regulatory status tier inferred from statement text."""
+"""Regulatory status tiers for model cards (status row/badge only)."""
 
 from __future__ import annotations
 
 import re
-from typing import Dict, Pattern
+from typing import Any, Dict, List, Optional, Pattern, Union
 
+from core.chai_schema import RegulatoryApprovalStatus
 from core.dermauto_card_render import composite_section_field_key, strip_citations
 
-# Higher index = lower priority when multiple signals appear in one statement.
+_REGULATORY_STATUS_LABEL = "Regulatory Approval Status"
+
+
+def tier_for_regulatory_status(status: Union[RegulatoryApprovalStatus, str]) -> str:
+    """Map enum to UI tier color."""
+    if isinstance(status, str):
+        try:
+            status = RegulatoryApprovalStatus(status)
+        except ValueError:
+            return "gray"
+    mapping = {
+        RegulatoryApprovalStatus.NOT_AUTHORIZED_CONSUMER_TOOL: "red",
+        RegulatoryApprovalStatus.INVESTIGATIONAL_RESEARCH_USE_ONLY: "orange",
+        RegulatoryApprovalStatus.EUA_AUTHORIZED: "yellow",
+        RegulatoryApprovalStatus.FDA_APPROVED: "green",
+        RegulatoryApprovalStatus.FDA_CLEARED: "green",
+        RegulatoryApprovalStatus.CE_MARKED: "blue",
+        RegulatoryApprovalStatus.UNKNOWN: "gray",
+    }
+    return mapping.get(status, "gray")
+
+# Higher index = stronger authorization when merging tiers.
 _TIER_PRIORITY: Dict[str, int] = {
     "green": 5,
     "yellow": 4,
@@ -16,6 +38,13 @@ _TIER_PRIORITY: Dict[str, int] = {
     "red": 1,
     "gray": 0,
 }
+
+_VALID_TIERS = frozenset(_TIER_PRIORITY.keys())
+
+_REGULATORY_METADATA_FIELD_MARKERS: tuple[str, ...] = (
+    "regulatory approval status",
+    "global availability",
+)
 
 _ABSENCE_PHRASES: tuple[str, ...] = (
     "not specified",
@@ -102,15 +131,13 @@ def _positive_tiers_matching(text: str) -> set[str]:
 
 def classify_regulatory_status(raw_value: str) -> str:
     """
-    Map statement text to a regulatory tier:
-    green | yellow | blue | orange | red | gray.
+    Map text to a regulatory tier: green | yellow | blue | orange | red | gray.
     """
     text = strip_citations(raw_value).strip()
     if _is_absence_placeholder(text):
         return "gray"
 
     lowered = text.lower()
-    # Negated / unauthorized wording wins over incidental "FDA approved" substrings.
     if any(p.search(lowered) for p in _RED_PATTERNS):
         return "red"
 
@@ -118,19 +145,121 @@ def classify_regulatory_status(raw_value: str) -> str:
     if not matches:
         return "gray"
 
-    # Prefer the strongest authorization signal when multiple appear (e.g. FDA cleared + CE marked).
     return max(matches, key=lambda t: _TIER_PRIORITY[t])
+
+
+def merge_regulatory_tiers(*tiers: str) -> str:
+    """Pick the strongest non-gray tier, or gray if none."""
+    valid = [t for t in tiers if t in _VALID_TIERS and t != "gray"]
+    if not valid:
+        return "gray"
+    return max(valid, key=lambda t: _TIER_PRIORITY[t])
+
+
+def resolve_card_regulatory_tier_from_metadata(
+    *,
+    regulatory_approval: str = "",
+    global_availability: str = "",
+) -> str:
+    """Card-level tier from pipeline metadata fields (used when exporting markdown)."""
+    return merge_regulatory_tiers(
+        classify_regulatory_status(regulatory_approval),
+        classify_regulatory_status(global_availability),
+    )
+
+
+def _is_regulatory_metadata_field(field_name: str) -> bool:
+    low = field_name.lower()
+    return any(marker in low for marker in _REGULATORY_METADATA_FIELD_MARKERS)
+
+
+def resolve_card_regulatory_tier(sections: Dict[str, Dict[str, str]]) -> str:
+    """Derive card-level tier from Regulatory Approval / Global Availability fields."""
+    texts: List[str] = []
+    for sec_name, fields in sections.items():
+        if sec_name.strip().lower() == "references":
+            continue
+        for field_name, raw_value in fields.items():
+            if _is_regulatory_metadata_field(field_name):
+                texts.append(raw_value)
+    if not texts:
+        return "gray"
+    return merge_regulatory_tiers(*(classify_regulatory_status(t) for t in texts))
+
+
+def parse_regulatory_tier_frontmatter(md_text: str) -> Optional[str]:
+    """Read optional `regulatory_tier:` from YAML frontmatter (pipeline-generated cards)."""
+    lines = md_text.splitlines()
+    if not lines or lines[0].strip() != "---":
+        return None
+    for line in lines[1:]:
+        stripped = line.strip()
+        if stripped == "---":
+            break
+        m = re.match(r"^regulatory_tier:\s*(\w+)\s*$", stripped, re.I)
+        if m:
+            tier = m.group(1).lower()
+            if tier in _VALID_TIERS:
+                return tier
+    return None
 
 
 def compute_regulatory_for_sections(
     sections: Dict[str, Dict[str, str]],
+    *,
+    md_text: Optional[str] = None,
+    citations: Optional[Dict[str, Any]] = None,
+    refs: Optional[Dict[int, str]] = None,
 ) -> Dict[str, str]:
-    """Map composite_section_field_key -> regulatory tier name."""
+    """
+    Map composite_section_field_key -> regulatory tier for UI row coloring.
+
+    Prefer pipeline citation metadata (`_regulatory_tiers_composite`) when present.
+    Otherwise use per-field reference URLs, then card-level metadata text.
+    """
+    if citations:
+        try:
+            from core.source_regulatory import (
+                regulatory_by_key_from_citations,
+                regulatory_by_key_from_field_citations,
+            )
+
+            by_cites = regulatory_by_key_from_citations(sections, citations)
+            if by_cites and any(t != "gray" for t in by_cites.values()):
+                return by_cites
+            if refs:
+                cite_src = citations if citations else {
+                    "_sources_metadata": {u: {"url": u} for u in refs.values() if str(u).strip()}
+                }
+                by_refs = regulatory_by_key_from_field_citations(sections, cite_src, refs)
+                if by_refs and any(t != "gray" for t in by_refs.values()):
+                    return by_refs
+        except ImportError:
+            pass
+
+    card_tier: Optional[str] = None
+    if md_text:
+        card_tier = parse_regulatory_tier_frontmatter(md_text)
+    if card_tier is None:
+        card_tier = resolve_card_regulatory_tier(sections)
+
     out: Dict[str, str] = {}
     for sec_name, fields in sections.items():
         if sec_name.strip().lower() == "references":
             continue
         for field_name, raw_value in fields.items():
             ck = composite_section_field_key(sec_name, field_name)
-            out[ck] = classify_regulatory_status(raw_value)
+            # Color only the regulatory approval status row/badge.
+            if field_name.strip().lower() == _REGULATORY_STATUS_LABEL.lower():
+                out[ck] = card_tier if card_tier else classify_regulatory_status(raw_value)
+            else:
+                out[ck] = "gray"
     return out
+
+
+def regulatory_tier_for_card(card: Any) -> str:
+    """Tier from ClinicalModelCard enum when available."""
+    status = getattr(card, "regulatory_approval_status", None)
+    if status is not None:
+        return tier_for_regulatory_status(status)
+    return "gray"

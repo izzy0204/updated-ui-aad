@@ -3,34 +3,27 @@ columns:
   - 1) Metadata|||Developer
   - 1) Metadata|||Model Name
   B:
-  - 1) Metadata|||Application URL
+  - 1) Metadata|||Availability
   C:
   - 1) Metadata|||Summary
-  - 4) Trust Ingredients|||AI System Facts
-  - 4) Trust Ingredients|||Transparency Information
-  - 4) Trust Ingredients|||3rd Party Information, if applicable
-  - 6) Resources|||Stakeholders consulted during design of solution
+  - 5) Mechanism and Development|||Model Type
+  - 5) Mechanism and Development|||Training Data
   E:
-  - 2) Uses & Directions|||Intended Use & Workflow
-  - 4) Trust Ingredients|||Outcomes & Output
-  - 1) Metadata|||Keywords
+  - 3) Intended Use|||Medical Purpose
+  - 3) Intended Use|||Output
   - 1) Metadata|||Summary
-  - 5) Key Metrics — Usefulness / Efficacy|||Interpretation
-  - 4) Trust Ingredients|||Exclusion/Inclusion Criteria
-  - 4) Trust Ingredients|||Interaction with other systems
-  - 4) Trust Ingredients|||Type & Value of Solution Output
-  - 3) Warnings|||Developer-Supplied Warnings
-  - 4) Trust Ingredients|||AI System Facts
+  - 5) Mechanism and Development|||Performance
+  - 4) Risks and Limitations|||Known Failure Modes
+  - 3) Intended Use|||Acceptable Input
+  - 3) Intended Use|||Role in Decision-Making
   J:
-  - 1) Metadata|||Release Date
+  - 1) Metadata|||Last Updated
   - 1) Metadata|||Version
   V:
-  - 1) Metadata|||Regulatory Approval Status, if applicable
-  - 5) Key Metrics — Safety & Reliability|||Validation Process and Justification
-  - 5) Key Metrics — Safety & Reliability|||Goal of Metric(s)
-  - 4) Trust Ingredients|||Security and compliance environment practices or accreditations, if applicable
+  - 1) Metadata|||Regulatory Approval Status
+  - 5) Mechanism and Development|||Model Development & Validation
   W:
-  - 1) Metadata|||Inquiries or to report an issue
-  - 2) Uses & Directions|||Patient consent or disclosure required or suggested?
+  - 6) Governance and Monitoring|||Inquiries / Report an Issue
+  - 3) Intended Use|||Target Patient Population
 _meta:
-  description: Maps Excel column letters to CHAI field composite keys (section|||field). Edit manually when inference mis-assigns.
+  description: Maps Excel column letters to clinical model card composite keys (section|||label).

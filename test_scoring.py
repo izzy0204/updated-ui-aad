@@ -1,179 +1,157 @@
 #!/usr/bin/env python3
-"""
-Test Script for Model Card Scoring System
+"""Unit tests for clinical model card scoring (no live pipeline/API)."""
 
-This script tests the scoring system by generating a model card for the
-Derm Foundation model and evaluating its scoring capabilities.
+from __future__ import annotations
 
-Usage:
-    python test_scoring.py
-"""
-
-import asyncio
 import sys
+from datetime import date
 from pathlib import Path
 
-# Add src to path for imports
-sys.path.insert(0, str(Path(__file__).parent / "src"))
+import pytest
 
-from pipelines.cardgen_pipeline import CardGenPipeline
-from utils.model_card_scorer import ModelCardScorer, format_score_report, get_score_summary
-from core.chai_schema import CHAIModelCard
+sys.path.insert(0, str(Path(__file__).resolve().parent / "src"))
 
-async def test_scoring_system():
-    """Test the scoring system with Derm Foundation model"""
-    print(" TESTING MODEL CARD SCORING SYSTEM")
-    print("=" * 60)
-    print()
-    
-    model_name = "Derm Foundation"
-    developer_name = "Google Health"
-    
-    print(f" Testing with: {model_name} ({developer_name})")
-    print()
-    
-    # Initialize pipeline
-    async with CardGenPipeline(out_dir="test_outputs") as pipeline:
-        print(" Generating model card...")
-        
-        try:
-            # Generate model card with scoring
-            chai_card, sources, content = await pipeline.generate_model_card(
-                model_name=model_name,
-                developer_name=developer_name,
-                iters=2,  # Limited for testing
-                coverage_target=0.4,  # Lower threshold for testing
-                write_files=True
-            )
-            
-            print(" Model card generated successfully!")
-            print()
-            
-            # Display scoring information
-            if sources.get("scoring"):
-                scoring = sources["scoring"]
-                
-                print(" SCORING RESULTS:")
-                print("-" * 40)
-                print(f"Field Completion: {scoring['completion_percentage']:.1f}%")
-                print(f"Clinical Usability Score: {scoring['clinical_usability_score']:.3f}")
-                print(f"Clinical Usability Level: {scoring['clinical_usability_level'].upper()}")
-                print(f"Overall Rating: {scoring['overall_rating']}")
-                print(f"Total Fields: {scoring['total_fields']}")
-                print(f"Filled Fields: {scoring['filled_fields']}")
-                
-                if scoring.get("critical_missing_fields"):
-                    print(f"Critical Missing Fields: {', '.join(scoring['critical_missing_fields'])}")
-                
-                print(f"Recommendations: {scoring['recommendations_count']}")
-                print(f"Quality Issues: {scoring['quality_issues_count']}")
-                print()
-            
-            # Display detailed scoring report
-            if content.get("scoring_report"):
-                print(" DETAILED SCORING REPORT:")
-                print("=" * 60)
-                print(content["scoring_report"])
-                print()
-            
-            # Test individual field scoring
-            print(" TESTING INDIVIDUAL FIELD SCORING:")
-            print("-" * 40)
-            
-            scorer = ModelCardScorer()
-            model_card_dict = chai_card.model_dump() if hasattr(chai_card, 'model_dump') else chai_card.__dict__
-            
-            # Test a few key fields
-            test_fields = [
-                ("summary", model_card_dict.get("summary", "")),
-                ("intended_use_and_workflow", model_card_dict.get("intended_use_and_workflow", "")),
-                ("model_limitations", model_card_dict.get("model_limitations", "")),
-                ("validation_test_dataset", model_card_dict.get("validation_test_dataset", ""))
-            ]
-            
-            for field_name, field_content in test_fields:
-                field_score = scorer.clinical_scorer.score_field(field_name, field_content)
-                print(f"{field_name}:")
-                print(f"  Filled: {field_score.is_filled}")
-                print(f"  Quality: {field_score.content_quality:.2f}")
-                print(f"  Clinical Relevance: {field_score.clinical_relevance:.2f}")
-                print(f"  Completeness: {field_score.completeness_score:.2f}")
-                if field_score.issues:
-                    print(f"  Issues: {', '.join(field_score.issues[:2])}")  # Show first 2 issues
-                print()
-            
-            # Show file outputs
-            if content.get("paths"):
-                paths = content["paths"]
-                print(" GENERATED FILES:")
-                print("-" * 20)
-                if paths.json_path:
-                    print(f"JSON: {paths.json_path}")
-                if paths.md_path:
-                    print(f"Markdown: {paths.md_path}")
-                if paths.xml_path:
-                    print(f"XML: {paths.xml_path}")
-                if paths.scoring_txt:
-                    print(f"Scoring Report: {paths.scoring_txt}")
-                print()
-            
-            print(" SCORING SYSTEM TEST COMPLETED SUCCESSFULLY!")
-            
-        except Exception as e:
-            print(f" Error during testing: {e}")
-            import traceback
-            traceback.print_exc()
+from core.chai_schema import ClinicalModelCard, Performance, PerformanceMetric, TrainingData
+from utils.model_card_scorer import ClinicalUsabilityScorer, ModelCardScorer, _POINTS_TOTAL, _RAW_FIELD_POINTS
 
-async def test_scoring_with_sample_data():
-    """Test scoring with sample model card data"""
-    print("\n TESTING WITH SAMPLE DATA")
-    print("=" * 40)
-    
-    # Create sample model card data
-    sample_data = {
-        "summary": "Derm Foundation is a machine learning model designed for dermatology image analysis. It provides embeddings for skin lesion classification and can be used for clinical decision support in dermatology applications.",
-        "intended_use_and_workflow": "The model is intended for use by dermatologists and healthcare professionals to assist in the analysis of dermatology images. It should be used as a decision support tool, not as a standalone diagnostic system.",
-        "model_limitations": "The model has not been validated for all skin types and may have reduced accuracy on certain populations. It should not be used for final diagnostic decisions without clinical validation.",
-        "model_type": "Deep learning model based on transformer architecture",
-        "training_data": "Trained on large-scale dermatology image datasets with clinical annotations",
-        "validation_test_dataset": "Validated on multiple clinical datasets with performance metrics including sensitivity and specificity",
-        "skin_tone_diversity": "Model performance varies across different skin tones and additional validation is needed",
-        "foundation_models_used_in_application_if_applicable": "Based on pre-trained vision transformer models",
-        "uses": "Clinical decision support, dermatology education, research applications",
-        "warnings": "For research use only. Not approved for clinical diagnosis without additional validation."
-    }
-    
+
+def _clinical_card_dict(**overrides) -> dict:
+    base = ClinicalModelCard(
+        model_name="TestModel",
+        developer="Dev Co",
+        version="1.0",
+        last_updated=date(2026, 1, 15),
+        summary="Accepts images. Outputs labels. Supports clinician review.",
+        medical_purpose="Assist melanoma triage in dermatology clinics.",
+        acceptable_input="Dermoscopic images from clinical cameras.",
+        output="Risk score and lesion classification labels.",
+        role_in_decision_making="Advisory only; clinician confirms biopsy decisions.",
+        intended_users="Board-certified dermatologists.",
+        target_patient_population="Adults with pigmented lesions.",
+        known_failure_modes="Reduced accuracy on rare subtypes and darker skin tones.",
+        unsupported_clinical_scenarios="Pediatric self-screening without oversight.",
+        unsupported_use_cases="Consumer standalone diagnosis.",
+        required_clinician_oversight="Physician must review all outputs before clinical action.",
+        model_type="Convolutional neural network.",
+        training_data=TrainingData(description="12,000 dermoscopic images from 3 sites."),
+        performance=Performance(
+            summary="Sensitivity 92% on validation cohort.",
+            metrics=[PerformanceMetric(name="Sensitivity", value="92%", population="n=400")],
+        ),
+        performance_evaluation_limitations="External validation limited to single health system.",
+    )
+    d = base.to_dict_camel()
+    d.update(overrides)
+    return d
+
+
+@pytest.mark.unit
+def test_scorer_weights_sum_to_one() -> None:
+    total = sum(v / _POINTS_TOTAL for v in _RAW_FIELD_POINTS.values())
+    assert abs(total - 1.0) < 1e-9
+
+
+@pytest.mark.unit
+def test_scorer_clinical_fixture_completion() -> None:
     scorer = ModelCardScorer()
-    score = scorer.score_model_card(sample_data)
-    
-    print(" SAMPLE DATA SCORING:")
-    print(f"Completion: {score.completion_percentage:.1f}%")
-    print(f"Clinical Usability: {score.clinical_usability_score:.3f} ({score.clinical_usability_level.value.upper()})")
-    print(f"Overall Rating: {score.overall_rating}")
-    print()
-    
-    print(" RECOMMENDATIONS:")
-    for i, rec in enumerate(score.recommendations[:5], 1):  # Show first 5
-        print(f"{i}. {rec}")
-    print()
+    score = scorer.score_model_card(_clinical_card_dict())
+    assert score.total_fields > 0
+    assert score.filled_fields > 0
+    assert 0.0 <= score.completion_percentage <= 100.0
+    assert 0.0 <= score.clinical_usability_score <= 1.0
 
-async def main():
-    """Main test function"""
-    await test_scoring_system()
-    await test_scoring_with_sample_data()
-    
-    print(" SCORING SYSTEM FEATURES TESTED:")
-    print(" Field completion percentage calculation")
-    print(" Clinical usability scoring")
-    print(" Color-coded ratings (red/yellow/green)")
-    print(" Detailed scoring breakdown")
-    print(" Recommendations generation")
-    print(" Critical missing field identification")
-    print(" Quality issue detection")
-    print(" Integration with model card pipeline")
-    print(" File output generation")
-    print()
-    print(" The scoring system is ready for production use!")
 
-if __name__ == "__main__":
-    asyncio.run(main())
+@pytest.mark.unit
+def test_scorer_field_level_quality() -> None:
+    scorer = ClinicalUsabilityScorer()
+    good = scorer.score_field(
+        "medical_purpose",
+        "Intended for dermatologists to support melanoma triage with validated clinical workflow.",
+    )
+    assert good.is_filled
+    assert good.clinical_relevance > 0.3
+    bad = scorer.score_field("medical_purpose", "not specified")
+    assert not bad.is_filled or bad.clinical_relevance < good.clinical_relevance
+
+
+@pytest.mark.unit
+def test_scorer_honest_unknown_not_penalized() -> None:
+    scorer = ModelCardScorer()
+    honest = _clinical_card_dict(regulatoryApprovalStatus="UNKNOWN", availability="Status not publicly disclosed.")
+    score = scorer.score_model_card(honest)
+    assert score.clinical_usability_score >= 0.0
+
+
+@pytest.mark.unit
+def test_scorer_false_certainty_penalized() -> None:
+    scorer = ModelCardScorer()
+    contradictory = _clinical_card_dict(
+        regulatoryApprovalStatus="UNKNOWN",
+        availability="FDA cleared device available nationwide.",
+    )
+    honest = _clinical_card_dict(regulatoryApprovalStatus="UNKNOWN", availability="Limited public information.")
+    assert scorer.score_model_card(contradictory).clinical_usability_score < scorer.score_model_card(
+        honest
+    ).clinical_usability_score
+
+
+@pytest.mark.unit
+def test_scorer_metrics_bonus() -> None:
+    scorer = ModelCardScorer()
+    with_metrics = _clinical_card_dict()
+    without = _clinical_card_dict(performance={"summary": "Validated.", "metrics": []})
+    assert scorer.score_model_card(with_metrics).clinical_usability_score >= scorer.score_model_card(
+        without
+    ).clinical_usability_score
+
+
+@pytest.mark.unit
+def test_scorer_summary_penalty() -> None:
+    scorer = ModelCardScorer()
+    long_summary = _clinical_card_dict(
+        summary="One. Two. Three. Four sentences here.",
+    )
+    short_summary = _clinical_card_dict(summary="One. Two. Three.")
+    assert scorer.score_model_card(long_summary).clinical_usability_score <= scorer.score_model_card(
+        short_summary
+    ).clinical_usability_score
+
+
+@pytest.mark.unit
+def test_scorer_low_confidence_regulatory_penalized() -> None:
+    scorer = ModelCardScorer()
+    sidecar = {"regulatory_status_confidence": "unknown", "regulatory_status_source": [{"url": "https://fda.gov"}]}
+    penalized = scorer.score_model_card(
+        _clinical_card_dict(regulatoryApprovalStatus="FDA_CLEARED"),
+        citations=sidecar,
+    )
+    trusted = scorer.score_model_card(
+        _clinical_card_dict(regulatoryApprovalStatus="FDA_CLEARED"),
+        citations={
+            "regulatory_status_confidence": "authoritative",
+            "regulatory_status_evidence": [{"url": "https://fda.gov"}],
+        },
+    )
+    assert penalized.clinical_usability_score < trusted.clinical_usability_score
+    assert any("authoritative or cited_explicit" in issue for issue in penalized.quality_issues)
+
+
+@pytest.mark.unit
+def test_scorer_fda_without_evidence_critical() -> None:
+    scorer = ModelCardScorer()
+    score = scorer.score_model_card(
+        _clinical_card_dict(regulatoryApprovalStatus="FDA_APPROVED"),
+        citations={"regulatory_status_confidence": "authoritative"},
+    )
+    assert any("regulatory_status_evidence" in issue for issue in score.quality_issues)
+
+
+@pytest.mark.unit
+def test_scorer_unknown_regulatory_not_penalized() -> None:
+    scorer = ModelCardScorer()
+    score = scorer.score_model_card(
+        _clinical_card_dict(regulatoryApprovalStatus="UNKNOWN"),
+        citations={"regulatory_status_confidence": "unknown"},
+    )
+    assert not any("regulatory_status_evidence" in issue for issue in score.quality_issues)
+    assert not any("authoritative or cited_explicit" in issue for issue in score.quality_issues)

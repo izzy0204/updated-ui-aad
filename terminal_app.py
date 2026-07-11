@@ -4,8 +4,8 @@ Terminal-based AI Model Card Generator (updated)
 
 - Uses CardGenPipeline.generate_model_card(...)
 - Works with GOOGLE_API_KEY (preferred) or GEMINI_API_KEY
-- Prints a concise summary of the CHAI model card
-- Shows where artifacts were written (JSON/MD/XML/Citations)
+- Prints a concise summary of the clinical model card
+- Shows where artifacts were written (.clinical.json / .clinical.md / .citations.json)
 
 Run:
   python terminal_app.py --model-name "DermNetX" --developer "ACME Health" --application-url "https://example.com/model-docs"
@@ -33,7 +33,8 @@ if str(SRC_DIR) not in sys.path:
     sys.path.insert(0, str(SRC_DIR))
 
 from pipelines.cardgen_pipeline import CardGenPipeline
-from core.chai_schema import CHAIModelCard           # noqa: E402
+from core.chai_schema import ClinicalModelCard  # noqa: E402
+from core.clinical_display import terminal_card_lines  # noqa: E402
 
 
 # ----------------------------- UI helpers -----------------------------
@@ -80,63 +81,19 @@ def _print_if(value: str, title: str) -> None:
         print(f"   {title}: {value}")
 
 
-def print_card_summary(card: CHAIModelCard) -> None:
-    """Pretty-print a concise summary using common CHAI fields (safe if missing)."""
+def print_card_summary(card: ClinicalModelCard) -> None:
+    """Pretty-print a concise clinical model card summary."""
     print("\n" + "=" * 60)
     print("GENERATED MODEL CARD (summary)")
     print("=" * 60)
 
-    # Headline
     model_name = _safe_get(card, "model_name", "Unknown model")
     developer = _safe_get(card, "developer", "Not specified")
     print(f"\nModel: {model_name}")
     print(f"Developer: {developer}")
 
-    # Metadata
-    version = _safe_get(card, "version")
-    release_stage = _safe_get(card, "release_stage")
-    release_date = _safe_get(card, "release_date")
-    _print_if(version, "Version")
-    _print_if(release_stage, "Release Stage")
-    _print_if(release_date, "Release Date")
-
-    # Summary
-    summary = _safe_get(card, "summary")
-    if summary:
-        print("\nSummary:")
-        print("   " + summary.replace("\n", "\n   "))
-
-    # Use & workflow
-    intended_use = _safe_get(card, "intended_use_and_workflow")
-    primary_users = _safe_get(card, "primary_intended_users")
-    how_to_use = _safe_get(card, "how_to_use")
-    if intended_use or primary_users or how_to_use:
-        print("\nIntended Use:")
-        _print_if(intended_use, "Workflow")
-        _print_if(primary_users, "Primary Users")
-        _print_if(how_to_use, "How to Use")
-
-    # Technical
-    model_type = _safe_get(card, "model_type")
-    foundation_models = _safe_get(card, "foundation_models_used_in_application_if_applicable")
-    _print_if(model_type, "Model Type")
-    _print_if(foundation_models, "Foundation Models")
-
-    # Data
-    training_data = _safe_get(card, "training_data")
-    validation_ds = _safe_get(card, "validation_test_dataset")
-    skin_tones = _safe_get(card, "skin_tone_diversity")
-    _print_if(training_data, "Training Data")
-    _print_if(validation_ds, "Validation/Test Dataset")
-    _print_if(skin_tones, "Skin Tone Diversity")
-
-    # Limitations / risk
-    limitations = _safe_get(card, "model_limitations")
-    clinical_risk = _safe_get(card, "clinical_risk_level")
-    if limitations or clinical_risk:
-        print("\nLimitations & Risk:")
-        _print_if(limitations, "Limitations")
-        _print_if(clinical_risk, "Clinical Risk Level")
+    for line in terminal_card_lines(card):
+        print(line)
 
 
 def print_sources_summary(sources: dict) -> None:
@@ -189,13 +146,11 @@ def print_artifacts(paths: Optional[Any]) -> None:
     print("ARTIFACTS")
     print("=" * 60)
     if getattr(paths, "json_path", None):
-        print(f"   JSON:      {paths.json_path}")
+        print(f"   Clinical JSON: {paths.json_path}")
     if getattr(paths, "md_path", None):
-        print(f"   Markdown:  {paths.md_path}")
-    if getattr(paths, "xml_path", None):
-        print(f"   XML:       {paths.xml_path}")
+        print(f"   Clinical MD:   {paths.md_path}")
     if getattr(paths, "citations_json_path", None):
-        print(f"   Citations: {paths.citations_json_path}")
+        print(f"   Citations:     {paths.citations_json_path}")
     if getattr(paths, "scoring_txt", None):
         print(f"   Scoring:   {paths.scoring_txt}")
 

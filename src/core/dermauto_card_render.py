@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import html
 import re
-from typing import Callable, Dict, List, Optional, Set, Tuple
+from typing import Any, Callable, Dict, List, Optional, Set, Tuple
 from urllib.parse import quote as url_quote
 
 # Full card: wider wrap; inline styles for Streamlit HTML rendering.
@@ -53,7 +53,7 @@ PROVENANCE_ROW_STYLE = REGULATORY_ROW_STYLE
 CITATION_IN_TEXT = re.compile(r"\[(\s*\d+(?:\s*,\s*\d+)*\s*)\]")
 SECTIONLIKE_H1 = re.compile(r"^\s*#\s+\*{0,2}\s*\d+\s*\\?[.)]\s+.+", re.IGNORECASE)
 HEADING_BOLD_WRAPPER = re.compile(r"^\s*(\*{1,2})(.+?)\1\s*$")
-MD_LINK = re.compile(r"\[([^\]]+)\]\((https?://[^)]+)\)")
+MD_LINK = re.compile(r"\[([^\]]+)\]\((https?://[^)]+|mailto:[^)]+)\)")
 URL = re.compile(r"(https?://[^\s<>()]+)")
 # After markdown links become <a>...</a>, avoid wrapping the same URL again (nested/broken anchors).
 _ANCHOR_BLOCKS = re.compile(r"(<a\b[^>]*>.*?</a>)", re.IGNORECASE | re.DOTALL)
@@ -171,7 +171,334 @@ def strip_chai_model_card_suffix(title: Optional[str]) -> Optional[str]:
     if not title:
         return None
     t = re.sub(r"\s*[—–-]\s*CHAI Model Card\s*$", "", title.strip(), flags=re.IGNORECASE).strip()
+    t = re.sub(r"\s*[—–-]\s*Clinical Model Card\s*$", "", t, flags=re.IGNORECASE).strip()
     return t or None
+
+
+def parse_schema_version(md_text: str) -> Optional[str]:
+    lines = md_text.splitlines()
+    if not lines or lines[0].strip() != "---":
+        return None
+    for line in lines[1:]:
+        stripped = line.strip()
+        if stripped == "---":
+            break
+        m = re.match(r"^schema_version:\s*(.+)$", stripped, re.I)
+        if m:
+            return m.group(1).strip()
+    return None
+
+
+def is_clinical_markdown(md_text: str) -> bool:
+    sv = parse_schema_version(md_text)
+    return bool(sv and sv.startswith("clinical-model-card"))
+
+
+def is_v03_markdown(md_text: str) -> bool:
+    if is_clinical_markdown(md_text):
+        return False
+    return "CHAI Model Card" in md_text or "## 4) Trust Ingredients" in md_text
+
+
+def _is_http_url(url: Optional[str]) -> bool:
+    if not url or not str(url).strip():
+        return False
+    u = str(url).strip()
+    return u.lower().startswith("http://") or u.lower().startswith("https://")
+
+
+def format_training_data(td: Any) -> str:
+    """Plain text with optional ``[Dataset](url)`` markdown link for citation pass."""
+    desc = (getattr(td, "description", None) or "").strip()
+    url = getattr(td, "dataset_url", None)
+    parts: List[str] = []
+    if desc:
+        parts.append(desc)
+    if _is_http_url(url):
+        parts.append(f"[Dataset]({str(url).strip()})")
+    return " ".join(parts) if parts else "Not disclosed"
+
+
+def format_development(mdv: Any) -> str:
+    """Description plus optional publication link label."""
+    desc = (getattr(mdv, "description", None) or "").strip()
+    pub = getattr(mdv, "publication_url", None)
+    parts: List[str] = []
+    if desc:
+        parts.append(desc)
+    if _is_http_url(pub):
+        parts.append(f"[Publication]({str(pub).strip()})")
+    elif pub and str(pub).strip():
+        parts.append(str(pub).strip())
+    return " ".join(parts) if parts else "Not disclosed"
+
+
+def format_clinical_trial(ct: Any) -> Optional[str]:
+    """Identifier, linked URL, and description; ``None`` when all empty."""
+    identifier = (getattr(ct, "identifier", None) or "").strip()
+    url = getattr(ct, "url", None)
+    desc = (getattr(ct, "description", None) or "").strip()
+    if not identifier and not desc and not _is_http_url(url):
+        return None
+    parts: List[str] = []
+    if identifier:
+        if _is_http_url(url):
+            parts.append(f"{identifier} ([Trial]({str(url).strip()}))")
+        else:
+            parts.append(identifier)
+    elif _is_http_url(url):
+        parts.append(f"[Clinical trial]({str(url).strip()})")
+    if desc:
+        parts.append(desc)
+    return " — ".join(parts)
+
+
+def format_contact(c: Any) -> str:
+    """``mailto:`` for email and labeled link for URL."""
+    parts: List[str] = []
+    email = (getattr(c, "email", None) or "").strip()
+    url = getattr(c, "url", None)
+    if email:
+        parts.append(f"[{email}](mailto:{email})")
+    if _is_http_url(url):
+        parts.append(f"[Contact page]({str(url).strip()})")
+    elif url and str(url).strip():
+        parts.append(str(url).strip())
+    return " · ".join(parts) if parts else "Not disclosed"
+
+
+def format_performance_summary(perf: Any) -> str:
+    summary = (getattr(perf, "summary", None) or "").strip()
+    return summary if summary else "Not disclosed"
+
+
+def format_performance_metrics_table_html(
+    metrics: List[Any],
+    *,
+    cell_html: Optional[Callable[[str], str]] = None,
+) -> str:
+    """Build metrics table HTML (name, value, population, CI)."""
+    if not metrics:
+        return ""
+    fmt = cell_html or (lambda t: html.escape(t))
+    header = (
+        "<table style=\"width:100%;border-collapse:collapse;font-size:13px;margin-top:4px;\">"
+        "<thead><tr>"
+        "<th style=\"text-align:left;border-bottom:2px solid #111;padding:6px 8px;\">Metric</th>"
+        "<th style=\"text-align:left;border-bottom:2px solid #111;padding:6px 8px;\">Value</th>"
+        "<th style=\"text-align:left;border-bottom:2px solid #111;padding:6px 8px;\">Population</th>"
+        "<th style=\"text-align:left;border-bottom:2px solid #111;padding:6px 8px;\">95% CI</th>"
+        "</tr></thead><tbody>"
+    )
+    rows: List[str] = []
+    for m in metrics:
+        name = fmt((getattr(m, "name", None) or "").strip() or "—")
+        value = fmt((getattr(m, "value", None) or "").strip() or "—")
+        pop = getattr(m, "population", None)
+        ci = getattr(m, "confidence_interval", None)
+        pop_cell = fmt(str(pop).strip()) if pop and str(pop).strip() else "—"
+        ci_cell = fmt(str(ci).strip()) if ci and str(ci).strip() else "—"
+        rows.append(
+            "<tr>"
+            f"<td style=\"border-top:1px solid #ccc;padding:6px 8px;vertical-align:top;\">{name}</td>"
+            f"<td style=\"border-top:1px solid #ccc;padding:6px 8px;vertical-align:top;\">{value}</td>"
+            f"<td style=\"border-top:1px solid #ccc;padding:6px 8px;vertical-align:top;\">{pop_cell}</td>"
+            f"<td style=\"border-top:1px solid #ccc;padding:6px 8px;vertical-align:top;\">{ci_cell}</td>"
+            "</tr>"
+        )
+    return header + "".join(rows) + "</tbody></table>"
+
+
+def render_doc_title_html(doc_title: str, application_url: Optional[str] = None) -> str:
+    """Linked model title when ``application_url`` is a valid HTTP(S) URL."""
+    safe_title = html.escape(doc_title)
+    if _is_http_url(application_url):
+        safe_href = html.escape(href(str(application_url).strip()), quote=True)
+        return (
+            f'<a href="{safe_href}" target="_blank" rel="noopener noreferrer" '
+            f'style="color:#111111;font-weight:900;text-decoration:underline;">'
+            f"{safe_title}</a>"
+        )
+    return safe_title
+
+
+def card_to_sections(card: Any) -> Dict[str, Dict[str, str]]:
+    """Build display sections dict from ClinicalModelCard."""
+    from core.chai_schema import REGULATORY_STATUS_LABELS
+
+    status_label = REGULATORY_STATUS_LABELS.get(
+        card.regulatory_approval_status, str(card.regulatory_approval_status.value)
+    )
+
+    def d(val: Optional[str]) -> str:
+        if val is None or not str(val).strip():
+            return "Not disclosed"
+        return str(val).strip()
+
+    sections: Dict[str, Dict[str, str]] = {
+        "1) Metadata": {
+            "Model Name": card.model_name,
+            "Developer": card.developer,
+            "Regulatory Approval Status": status_label,
+            "Regulatory Approval Date": d(
+                card.regulatory_approval_date.isoformat() if card.regulatory_approval_date else None
+            ),
+            "Version": card.version or "Not disclosed",
+            "Last Updated": card.last_updated.isoformat() if card.last_updated else "",
+            "Availability": d(card.availability),
+        },
+        "2) Summary": {"Summary": card.summary},
+        "3) Intended Use": {
+            "Medical Purpose": card.medical_purpose,
+            "Acceptable Input": card.acceptable_input,
+            "Output": card.output,
+            "Role in Decision-Making": card.role_in_decision_making,
+            "Intended Users": card.intended_users,
+            "Target Patient Population": card.target_patient_population,
+        },
+        "4) Risks and Limitations": {
+            "Known Failure Modes": card.known_failure_modes,
+            "Unsupported Clinical Scenarios": card.unsupported_clinical_scenarios,
+            "Unsupported Use Cases": card.unsupported_use_cases,
+            "Required Clinician Oversight": card.required_clinician_oversight,
+        },
+        "5) Mechanism and Development": {
+            "Model Type": card.model_type,
+            "Training Data": format_training_data(card.training_data),
+            "Model Development & Validation": format_development(card.model_development_and_validation),
+            "Performance": format_performance_summary(card.performance),
+            "Limitations in Evaluating Performance": card.performance_evaluation_limitations,
+        },
+        "6) Governance and Monitoring": {
+            "Plans for Ongoing Monitoring": d(card.ongoing_monitoring_plan),
+            "Scheduled Updates": d(card.scheduled_updates),
+            "Inquiries / Report an Issue": format_contact(card.contact),
+        },
+    }
+    ct_text = format_clinical_trial(card.clinical_trial) if card.clinical_trial else None
+    if ct_text:
+        sections["5) Mechanism and Development"]["Clinical Trial"] = ct_text
+    return sections
+
+
+def render_from_card(
+    card: Any,
+    *,
+    source_label: str,
+    hide_citations: bool = False,
+    citations: Optional[Dict[str, Any]] = None,
+) -> str:
+    """Render HTML directly from ClinicalModelCard (canonical JSON path)."""
+    import logging
+
+    from core.citation_render import (
+        apply_render_time_citations,
+        inject_citations_into_text,
+        normalize_citation_sidecar,
+        references_url_map,
+        strip_inline_citation_markers,
+    )
+
+    logger = logging.getLogger(__name__)
+
+    sections = card_to_sections(card)
+    normalized = normalize_citation_sidecar(citations)
+    citations_available = normalized.available
+
+    if citations is None:
+        logger.warning("Citation sidecar missing for %s — rendering without linked citations", source_label)
+    elif not citations_available:
+        logger.warning("Citation sidecar empty for %s — rendering without linked citations", source_label)
+
+    if citations_available:
+        sections = apply_render_time_citations(sections, card=card, normalized=normalized)
+    else:
+        sections = {
+            sec: {lbl: strip_inline_citation_markers(val) for lbl, val in fields.items()}
+            for sec, fields in sections.items()
+        }
+
+    tier = __import__("core.card_regulatory", fromlist=["regulatory_tier_for_card"]).regulatory_tier_for_card(card)
+    regulatory_by_key: Dict[str, str] = {}
+    for sec_name, fields in sections.items():
+        for field_name in fields:
+            ck = composite_section_field_key(sec_name, field_name)
+            if field_name == "Regulatory Approval Status":
+                regulatory_by_key[ck] = tier
+            else:
+                regulatory_by_key[ck] = "gray"
+
+    refs = references_url_map(normalized.references) if citations_available else {}
+
+    doc_title = strip_inline_citation_markers(card.model_name) if citations_available else card.model_name
+    doc_title_html = render_doc_title_html(doc_title, card.application_url)
+
+    metrics_table_html = ""
+    metrics = getattr(getattr(card, "performance", None), "metrics", None) or []
+    if metrics:
+
+        def _metric_cell(text: str, field_key: str) -> str:
+            clean = strip_inline_citation_markers(text)
+            if citations_available:
+                spans = normalized.field_spans.get(field_key) or normalized.field_spans.get(
+                    field_key.split(".")[0]
+                )
+                fallback: List[int] = []
+                if spans:
+                    for span in spans:
+                        if span.get("sentence_level"):
+                            raw = span.get("citationIds") or span.get("citation_ids") or []
+                            fallback = [int(x) for x in raw if str(x).strip().isdigit()]
+                            break
+                clean = inject_citations_into_text(clean, spans, fallback_ids=fallback or None)
+            return format_field(clean, refs, hide_citations, linkify_urls_flag=True)
+
+        rows_html: List[str] = []
+        header = (
+            '<table style="width:100%;border-collapse:collapse;font-size:13px;margin-top:4px;">'
+            "<thead><tr>"
+            '<th style="text-align:left;border-bottom:2px solid #111;padding:6px 8px;">Metric</th>'
+            '<th style="text-align:left;border-bottom:2px solid #111;padding:6px 8px;">Value</th>'
+            '<th style="text-align:left;border-bottom:2px solid #111;padding:6px 8px;">Population</th>'
+            '<th style="text-align:left;border-bottom:2px solid #111;padding:6px 8px;">95% CI</th>'
+            "</tr></thead><tbody>"
+        )
+        for i, m in enumerate(metrics):
+            fk = f"performance.metrics[{i}]"
+            name = _metric_cell((getattr(m, "name", None) or "").strip() or "—", f"{fk}.name")
+            value = _metric_cell((getattr(m, "value", None) or "").strip() or "—", fk)
+            pop = getattr(m, "population", None)
+            ci = getattr(m, "confidence_interval", None)
+            pop_cell = _metric_cell(str(pop).strip(), f"{fk}.population") if pop and str(pop).strip() else "—"
+            ci_cell = (
+                _metric_cell(str(ci).strip(), f"{fk}.confidence_interval")
+                if ci and str(ci).strip()
+                else "—"
+            )
+            rows_html.append(
+                "<tr>"
+                f'<td style="border-top:1px solid #ccc;padding:6px 8px;vertical-align:top;">{name}</td>'
+                f'<td style="border-top:1px solid #ccc;padding:6px 8px;vertical-align:top;">{value}</td>'
+                f'<td style="border-top:1px solid #ccc;padding:6px 8px;vertical-align:top;">{pop_cell}</td>'
+                f'<td style="border-top:1px solid #ccc;padding:6px 8px;vertical-align:top;">{ci_cell}</td>'
+                "</tr>"
+            )
+        metrics_table_html = header + "".join(rows_html) + "</tbody></table>"
+
+    return render_full_card_html(
+        sections=sections,
+        refs=refs,
+        doc_title=doc_title,
+        doc_title_html=doc_title_html,
+        source_label=source_label,
+        hide_citations=hide_citations,
+        manual_linkify=True,
+        regulatory_by_key=regulatory_by_key,
+        citations_unavailable=not citations_available,
+        metrics_table_html=metrics_table_html or None,
+        metrics_table_section="5) Mechanism and Development",
+        metrics_table_after_field="Performance",
+    )
 
 
 def body_before_references(md_text: str, *, allow_sources_heading: bool) -> str:
@@ -274,11 +601,14 @@ def linkify_citations(escaped_text: str, refs: Dict[int, str]) -> str:
                 pieces.append(
                     f'<a href="{safe_url}" target="_blank" rel="noopener noreferrer" '
                     f'title="Source [{n}]" '
-                    'style="color:#0b57d0;font-weight:700;text-decoration:underline;">'
+                    'style="color:#0b57d0;font-weight:700;text-decoration:underline;" '
+                    f'tabindex="0">'
                     f"{n}</a>"
                 )
             else:
-                pieces.append(f'<span style="color:#666;font-weight:600;" title="No URL for [{n}]">{n}</span>')
+                pieces.append(
+                    f'<span style="color:#666;font-weight:600;" title="No URL for [{n}]">{n}</span>'
+                )
         inner_html = "".join(pieces)
         return (
             f'<sup style="font-size:0.72em;white-space:nowrap;line-height:1;">'
@@ -421,7 +751,7 @@ def references_block(refs: Dict[int, str]) -> str:
         u = refs[n]
         safe_href = html.escape(href(u), quote=True)
         rows.append(
-            f'<div style="{REF_ROW}">'
+            f'<div id="ref-{n}" style="{REF_ROW}">'
             f'<span style="font-weight:800;">[{n}]</span> '
             f'<a href="{safe_href}" target="_blank" rel="noopener noreferrer" '
             'style="color:#0b57d0;font-weight:600;word-break:break-all;text-decoration:underline;">'
@@ -447,6 +777,11 @@ def render_full_card_html(
     manual_linkify: bool,
     regulatory_by_key: Optional[Dict[str, str]] = None,
     provenance_by_key: Optional[Dict[str, str]] = None,
+    citations_unavailable: bool = False,
+    doc_title_html: Optional[str] = None,
+    metrics_table_html: Optional[str] = None,
+    metrics_table_section: Optional[str] = None,
+    metrics_table_after_field: Optional[str] = None,
 ) -> str:
     fmt: Callable[[str], str] = lambda t: format_field(t, refs, hide_citations, linkify_urls_flag=manual_linkify)
     parts: List[str] = [
@@ -455,7 +790,8 @@ def render_full_card_html(
         f'<div style="{SUB}">Source · <span style="{MONO}">{html.escape(source_label)}</span></div>',
     ]
     if doc_title:
-        parts.append(f'<div style="{DOC_TITLE}">{html.escape(doc_title)}</div>')
+        title_html = doc_title_html if doc_title_html is not None else html.escape(doc_title)
+        parts.append(f'<div style="{DOC_TITLE}">{title_html}</div>')
     parts.append(f'<div style="{RULE_THICK}"></div>')
 
     refs_heading_only = "references"
@@ -475,10 +811,31 @@ def render_full_card_html(
             if tier_map:
                 tier = tier_map.get(ck)
             parts.append(block_rich(field_name, fmt(value), regulatory_tier=tier))
+            if (
+                metrics_table_html
+                and metrics_table_section
+                and metrics_table_after_field
+                and sec_name == metrics_table_section
+                and field_name == metrics_table_after_field
+            ):
+                parts.append(
+                    block_rich(
+                        "Performance Metrics",
+                        metrics_table_html,
+                        regulatory_tier=tier_map.get(ck) if tier_map else None,
+                    )
+                )
 
-    ref_html = references_block(refs)
+    ref_html = references_block(refs) if not hide_citations else ""
     if ref_html:
         parts.append(ref_html)
+
+    if citations_unavailable and not hide_citations:
+        parts.append(
+            f'<div style="{FOOT};color:#8b4513;font-weight:600;">'
+            "Citations unavailable — source links could not be loaded."
+            "</div>"
+        )
 
     parts.append(
         f'<div style="{FOOT}">Citation markers link to numbered URLs when shown.</div>'

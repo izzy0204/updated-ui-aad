@@ -11,12 +11,13 @@ from typing import Any, Dict, List, Optional
 
 import pandas as pd
 
-# Optional: if your project has CHAIModelCard dataclass already, we’ll use it.
+# Optional: if your project has ClinicalModelCard dataclass already, we’ll use it.
 # If import fails, we’ll fall back to a plain dict with the same fields.
 try:
-    from core.chai_schema import CHAIModelCard  # type: ignore
+    from core.chai_schema import CLINICAL_AGENT_EXTRACT_FIELDS, ClinicalModelCard  # type: ignore
 except Exception:
-    CHAIModelCard = None  # we’ll build dicts manually
+    CLINICAL_AGENT_EXTRACT_FIELDS = []
+    ClinicalModelCard = None  # we’ll build dicts manually
 
 
 # ---------------------------- Helpers ----------------------------
@@ -43,137 +44,125 @@ def now_iso() -> str:
 
 # ------------------------ CHAI card builders ----------------------
 
-CHAI_FIELDS: List[str] = [
+CHAI_FIELDS: List[str] = list(CLINICAL_AGENT_EXTRACT_FIELDS) if CLINICAL_AGENT_EXTRACT_FIELDS else [
     "model_name",
     "developer",
-    "inquiries_or_to_report_an_issue",
-    "release_stage",
-    "release_date",
-    "version",
-    "regulatory_approval_status_if_applicable",
-    "global_availability",
     "summary",
-    "keywords",
-    "intended_use_and_workflow",
-    "primary_intended_users",
-    "necessary_knowledge_expertise",
-    "how_to_use",
-    "targeted_patient_population",
-    "patient_consent_or_disclosure_required_or_suggested",
-    "developer_supplied_warnings",
-    "model_limitations",
-    "skin_type_representation_and_equity",
-    "clinical_risk_level",
-    "ai_system_facts",
+    "medical_purpose",
+    "acceptable_input",
+    "output",
+    "role_in_decision_making",
+    "intended_users",
+    "target_patient_population",
+    "known_failure_modes",
+    "unsupported_clinical_scenarios",
+    "unsupported_use_cases",
+    "required_clinician_oversight",
     "model_type",
-    "interaction_with_other_systems",
-    "outcomes_and_output",
-    "type_and_value_of_solution_output",
-    "explanation_for_how_an_output_is_generated",
-    "foundation_models_used_in_application_if_applicable",
-    "input_data_source",
-    "output_input_data_type",
-    "development_data_characterization",
     "training_data",
-    "exclusion_inclusion_criteria",
-    "demographic_representativeness",
-    "dataset_doi_if_applicable",
-    "dataset_transparency",
-    "validation_test_dataset",
-    "timeline_of_data_collection",
-    "skin_tone_diversity",
-    "did_the_data_collection_process_undergo_ethical_review",
-    "ethical_review_board_oversight",
-    "irb_approval",
-    "relevance_of_training_data_to_intended_population",
-    "bias_mitigation_approaches",
-    "ongoing_maintenance",
-    "security_and_compliance_environment_practices_or_accreditations_if_applicable",
-    "transparency_intelligibility_and_accountability_mechanisms_if_applicable",
-    "transparency_information",
-    "funding_source_of_the_technical_implementation",
-    "third_party_information_if_applicable",
-    "usefulness_efficacy_goal_of_metrics",
-    "usefulness_efficacy_result",
-    "usefulness_efficacy_interpretation",
-    "usefulness_efficacy_test_type",
-    "usefulness_efficacy_testing_data_description",
-    "usefulness_efficacy_validation_process_and_justification",
-    "usefulness_efficacy_auroc_accuracy_etc",
-    "fairness_equity_goal_of_metrics",
-    "fairness_equity_result",
-    "fairness_equity_interpretation",
-    "fairness_equity_test_type",
-    "fairness_equity_testing_data_description",
-    "fairness_equity_validation_process_and_justification",
-    "safety_reliability_goal_of_metrics",
-    "safety_reliability_result",
-    "safety_reliability_interpretation",
-    "safety_reliability_test_type",
-    "safety_reliability_testing_data_description",
-    "safety_reliability_validation_process_and_justification",
-    "evaluation_references_if_available",
-    "clinical_trial_if_available",
-    "peer_reviewed_publications",
-    "reimbursement_status_if_applicable",
-    "stakeholders_consulted_during_design_of_solution",
-    "extraction_timestamp",
+    "model_development_and_validation",
+    "clinical_trial",
+    "performance",
+    "performance_evaluation_limitations",
+    "regulatory_approval_status",
+    "version",
+    "availability",
+    "ongoing_monitoring_plan",
+    "scheduled_updates",
+    "contact",
 ]
 
 def make_card_dict(model_name: str, developer: str, email: str) -> Dict[str, Any]:
     # Default everything to "" or sensible defaults, no LLM
-    card: Dict[str, Any] = {k: "" for k in CHAI_FIELDS}
+    card: Dict[str, Any] = {k: "" for k in CHAI_FIELDS if k not in {"training_data", "model_development_and_validation", "clinical_trial", "performance", "contact"}}
     card["model_name"] = model_name
     card["developer"] = developer
-    card["inquiries_or_to_report_an_issue"] = email
+    card["contact"] = {"email": email, "url": ""}
+    card["training_data"] = {"description": "", "dataset_url": None}
+    card["model_development_and_validation"] = {"description": "", "publication_url": None}
+    card["clinical_trial"] = {"identifier": "", "url": "", "description": ""}
+    card["performance"] = {"summary": "", "metrics": []}
     card["summary"] = ""  # leave empty (no LLM in this script)
-    card["foundation_models_used_in_application_if_applicable"] = []
-    card["keywords"] = []
-    card["extraction_timestamp"] = now_iso()
     return card
 
 def make_card_dataclass(model_name: str, developer: str, email: str):
-    # Only used if CHAIModelCard import succeeded and its ctor allows default empties
-    card_dict = make_card_dict(model_name, developer, email)
-    # Keep only keys accepted by the dataclass (avoid mismatch)
-    accepted = {f: card_dict.get(f, "") for f in CHAI_FIELDS}
-    return CHAIModelCard(**accepted)  # type: ignore
+    if ClinicalModelCard is None:
+        return make_card_dict(model_name, developer, email)
+    from core.chai_schema import Contact, ModelDevelopmentValidation, Performance, TrainingData
+
+    return ClinicalModelCard(
+        model_name=model_name,
+        developer=developer,
+        contact=Contact(email=email or None, url=None),
+        training_data=TrainingData(),
+        model_development_and_validation=ModelDevelopmentValidation(),
+        performance=Performance(),
+    )
 
 
 # ------------------------ Markdown render -------------------------
 
-def to_markdown(card: Dict[str, Any]) -> str:
+def to_markdown(card: Any) -> str:
+    if hasattr(card, "to_markdown") and callable(card.to_markdown):
+        return card.to_markdown()
+    if ClinicalModelCard is not None and isinstance(card, dict):
+        try:
+            return ClinicalModelCard.from_dict(card).to_markdown()
+        except Exception:
+            pass
+
     def val(k: str) -> str:
-        v = card.get(k)
+        v = card.get(k) if isinstance(card, dict) else ""
+        if isinstance(v, dict):
+            if k == "contact":
+                email = str(v.get("email") or "").strip()
+                url = str(v.get("url") or "").strip()
+                return email or url or "Not specified"
+            if k == "training_data":
+                return str(v.get("description") or "").strip() or "Not specified"
+            if k == "performance":
+                return str(v.get("summary") or "").strip() or "Not specified"
+            return "Not specified"
         if isinstance(v, list):
             return ", ".join(map(str, v))
         return str(v or "").strip() or "Not specified"
 
     lines = [
-        f"# Model Card — {val('model_name')}",
+        "---",
+        "schema_version: clinical-model-card-1.0",
+        "---",
         "",
-        f"**Developer:** {val('developer')}",
-        f"**Contact:** {val('inquiries_or_to_report_an_issue')}",
-        f"**Extracted:** {val('extraction_timestamp')}",
+        f"# {val('model_name')}",
         "",
-        "## Summary",
-        val("summary"),
+        "## 1) Metadata",
+        f"- **Model Name:** {val('model_name')}",
+        f"- **Developer:** {val('developer')}",
+        f"- **Summary:** {val('summary')}",
         "",
-        "## Intended Use & Workflow",
-        val("intended_use_and_workflow"),
+        "## 2) Intended Use & Workflow",
+        f"- **Medical Purpose:** {val('medical_purpose')}",
+        f"- **Acceptable Input:** {val('acceptable_input')}",
+        f"- **Output:** {val('output')}",
+        f"- **Role in Decision-Making:** {val('role_in_decision_making')}",
+        f"- **Intended Users:** {val('intended_users')}",
+        f"- **Target Patient Population:** {val('target_patient_population')}",
         "",
-        "## Model Type",
-        val("model_type"),
+        "## 3) Warnings & Limitations",
+        f"- **Known Failure Modes:** {val('known_failure_modes')}",
+        f"- **Unsupported Clinical Scenarios:** {val('unsupported_clinical_scenarios')}",
+        f"- **Unsupported Use Cases:** {val('unsupported_use_cases')}",
+        f"- **Required Clinician Oversight:** {val('required_clinician_oversight')}",
         "",
-        "## Training Data",
-        val("training_data"),
+        "## 4) Model Development",
+        f"- **Model Type:** {val('model_type')}",
+        f"- **Training Data:** {val('training_data')}",
+        f"- **Performance:** {val('performance')}",
         "",
-        "## Validation / Test Dataset",
-        val("validation_test_dataset"),
+        "## 5) Regulatory Status",
+        f"- **Regulatory Approval Status:** {val('regulatory_approval_status')}",
         "",
-        "## Limitations",
-        val("model_limitations"),
-        "",
+        "## 6) Governance and Monitoring",
+        f"- **Contact:** {val('contact')}",
     ]
     return "\n".join(lines).strip()
 
@@ -225,7 +214,7 @@ def write_artifacts(card_obj: Any, out_dir: Path, basename: str):
     json_path = out_dir / f"{basename}.json"
     md_path = out_dir / f"{basename}.md"
 
-    if CHAIModelCard and hasattr(card_obj, "__dataclass_fields__"):
+    if ClinicalModelCard and hasattr(card_obj, "__dataclass_fields__"):
         card_dict = asdict(card_obj)
     else:
         card_dict = card_obj
@@ -277,7 +266,7 @@ def main():
         developer = r["developer"]
         email = r["email"]
 
-        if CHAIModelCard:
+        if ClinicalModelCard:
             card = make_card_dataclass(model_name, developer, email)
         else:
             card = make_card_dict(model_name, developer, email)

@@ -1,447 +1,645 @@
-from dataclasses import dataclass, field
-from typing import Dict, List, Optional
+"""Clinical model card schema v1.0 — clinician-centered structure."""
+
+from __future__ import annotations
+
 import json
-import xml.etree.ElementTree as ET
-from datetime import datetime
 import re
+from dataclasses import asdict, dataclass, field, fields
+from datetime import date, datetime
+from enum import Enum
+from typing import Any, Dict, Iterator, List, Optional, Tuple
+
+from utils.sentence_utils import count_sentences
+
+SCHEMA_VERSION = "clinical-model-card-1.0"
+CITATIONS_SCHEMA_VERSION = "clinical-model-card-citations-1.0"
+
+
+class RegulatoryApprovalStatus(str, Enum):
+    NOT_AUTHORIZED_CONSUMER_TOOL = "NOT_AUTHORIZED_CONSUMER_TOOL"
+    INVESTIGATIONAL_RESEARCH_USE_ONLY = "INVESTIGATIONAL_RESEARCH_USE_ONLY"
+    EUA_AUTHORIZED = "EUA_AUTHORIZED"
+    FDA_APPROVED = "FDA_APPROVED"
+    FDA_CLEARED = "FDA_CLEARED"
+    CE_MARKED = "CE_MARKED"
+    UNKNOWN = "UNKNOWN"
+
+
+REGULATORY_STATUS_LABELS: Dict[RegulatoryApprovalStatus, str] = {
+    RegulatoryApprovalStatus.NOT_AUTHORIZED_CONSUMER_TOOL: "Not Authorized / Consumer Tool",
+    RegulatoryApprovalStatus.INVESTIGATIONAL_RESEARCH_USE_ONLY: "Investigational / Research Use Only",
+    RegulatoryApprovalStatus.EUA_AUTHORIZED: "EUA Authorized",
+    RegulatoryApprovalStatus.FDA_APPROVED: "FDA Approved",
+    RegulatoryApprovalStatus.FDA_CLEARED: "FDA Cleared",
+    RegulatoryApprovalStatus.CE_MARKED: "CE Marked",
+    RegulatoryApprovalStatus.UNKNOWN: "Regulatory Status Unknown",
+}
 
 
 @dataclass
-class CHAIModelCard:
-    """
-    CHAI Applied Model Card Data Structure (v0.3)
-    Categories: Metadata, Uses & Directions, Warnings, Trust Ingredients,
-    Key Metrics, and Resources.
-    """
+class TrainingData:
+    description: str = ""
+    dataset_url: Optional[str] = None
 
-    # 1) METADATA
-    model_name: str = ""
-    developer: str = ""
-    application_url: str = ""
-    inquiries_or_to_report_an_issue: str = ""
-    release_stage: str = ""
-    release_date: str = ""
-    version: str = ""
-    regulatory_approval_status_if_applicable: str = ""
-    global_availability: str = ""
+
+@dataclass
+class ModelDevelopmentValidation:
+    description: Optional[str] = None
+    publication_url: Optional[str] = None
+
+
+@dataclass
+class ClinicalTrial:
+    identifier: Optional[str] = None
+    url: Optional[str] = None
+    description: Optional[str] = None
+
+
+@dataclass
+class PerformanceMetric:
+    name: str = ""
+    value: str = ""
+    population: Optional[str] = None
+    confidence_interval: Optional[str] = None
+
+
+@dataclass
+class Performance:
     summary: str = ""
-    keywords: List[str] = field(default_factory=list)
+    metrics: List[PerformanceMetric] = field(default_factory=list)
 
-    # 2) USES & DIRECTIONS
-    intended_use_and_workflow: str = ""
-    primary_intended_users: str = ""
-    necessary_knowledge_expertise: str = ""
-    how_to_use: str = ""
-    targeted_patient_population: str = ""
-    patient_consent_or_disclosure_required_or_suggested: str = ""
 
-    # 3) WARNINGS
-    developer_supplied_warnings: str = ""
-    model_limitations: str = ""
-    skin_type_representation_and_equity: str = ""
-    clinical_risk_level: str = ""
+@dataclass
+class Contact:
+    email: Optional[str] = None
+    url: Optional[str] = None
 
-    # 4) TRUST INGREDIENTS
-    ai_system_facts: str = ""
+
+@dataclass
+class ValidationResult:
+    errors: List[str] = field(default_factory=list)
+    warnings: List[str] = field(default_factory=list)
+
+    @property
+    def ok(self) -> bool:
+        return not self.errors
+
+
+def _parse_date(val: Any) -> Optional[date]:
+    if val is None or val == "":
+        return None
+    if isinstance(val, date) and not isinstance(val, datetime):
+        return val
+    s = str(val).strip()
+    if not s:
+        return None
+    try:
+        return date.fromisoformat(s[:10])
+    except ValueError:
+        return None
+
+
+def _date_to_iso(d: Optional[date]) -> Optional[str]:
+    if d is None:
+        return None
+    return d.isoformat()
+
+
+def iter_field_placements() -> Iterator[Tuple[str, str, str]]:
+    """Yield (section, field_name, display_label) in export order."""
+    yield ("1) Metadata", "model_name", "Model Name")
+    yield ("1) Metadata", "developer", "Developer")
+    yield ("1) Metadata", "regulatory_approval_status", "Regulatory Approval Status")
+    yield ("1) Metadata", "regulatory_approval_date", "Regulatory Approval Date")
+    yield ("1) Metadata", "version", "Version")
+    yield ("1) Metadata", "last_updated", "Last Updated")
+    yield ("1) Metadata", "availability", "Availability")
+
+    yield ("2) Summary", "summary", "Summary")
+
+    yield ("3) Intended Use", "medical_purpose", "Medical Purpose")
+    yield ("3) Intended Use", "acceptable_input", "Acceptable Input")
+    yield ("3) Intended Use", "output", "Output")
+    yield ("3) Intended Use", "role_in_decision_making", "Role in Decision-Making")
+    yield ("3) Intended Use", "intended_users", "Intended Users")
+    yield ("3) Intended Use", "target_patient_population", "Target Patient Population")
+
+    yield ("4) Risks and Limitations", "known_failure_modes", "Known Failure Modes")
+    yield ("4) Risks and Limitations", "unsupported_clinical_scenarios", "Unsupported Clinical Scenarios")
+    yield ("4) Risks and Limitations", "unsupported_use_cases", "Unsupported Use Cases")
+    yield ("4) Risks and Limitations", "required_clinician_oversight", "Required Clinician Oversight")
+
+    yield ("5) Mechanism and Development", "model_type", "Model Type")
+    yield ("5) Mechanism and Development", "training_data", "Training Data")
+    yield ("5) Mechanism and Development", "model_development_and_validation", "Model Development & Validation")
+    yield ("5) Mechanism and Development", "clinical_trial", "Clinical Trial")
+    yield ("5) Mechanism and Development", "performance", "Performance")
+    yield (
+        "5) Mechanism and Development",
+        "performance_evaluation_limitations",
+        "Limitations in Evaluating Performance",
+    )
+
+    yield ("6) Governance and Monitoring", "ongoing_monitoring_plan", "Plans for Ongoing Monitoring")
+    yield ("6) Governance and Monitoring", "scheduled_updates", "Scheduled Updates")
+    yield ("6) Governance and Monitoring", "contact", "Inquiries / Report an Issue")
+
+
+@dataclass
+class ClinicalModelCard:
+    """Clinician-centered model card (v1.0)."""
+
+    model_name: str = ""
+    application_url: Optional[str] = None
+    developer: str = ""
+    regulatory_approval_status: RegulatoryApprovalStatus = RegulatoryApprovalStatus.UNKNOWN
+    regulatory_approval_date: Optional[date] = None
+    version: str = ""
+    last_updated: Optional[date] = None
+    availability: Optional[str] = None
+
+    summary: str = ""
+
+    medical_purpose: str = ""
+    acceptable_input: str = ""
+    output: str = ""
+    role_in_decision_making: str = ""
+    intended_users: str = ""
+    target_patient_population: str = ""
+
+    known_failure_modes: str = ""
+    unsupported_clinical_scenarios: str = ""
+    unsupported_use_cases: str = ""
+    required_clinician_oversight: str = ""
+
     model_type: str = ""
-    interaction_with_other_systems: str = ""
-    outcomes_and_output: str = ""
-    type_and_value_of_solution_output: str = ""
-    explanation_for_how_an_output_is_generated: str = ""
-    foundation_models_used_in_application_if_applicable: List[str] = field(default_factory=list)
-    input_data_source: str = ""
-    output_input_data_type: str = ""
-    development_data_characterization: str = ""
-    training_data: str = ""
-    exclusion_inclusion_criteria: str = ""
-    demographic_representativeness: str = ""
-    dataset_doi_if_applicable: str = ""
-    dataset_transparency: str = ""
-    validation_test_dataset: str = ""
-    timeline_of_data_collection: str = ""
-    skin_tone_diversity: str = ""
-    did_the_data_collection_process_undergo_ethical_review: str = ""
-    ethical_review_board_oversight: str = ""
-    irb_approval: str = ""
-    relevance_of_training_data_to_intended_population: str = ""
-    bias_mitigation_approaches: str = ""
-    ongoing_maintenance: str = ""
-    security_and_compliance_environment_practices_or_accreditations_if_applicable: str = ""
-    transparency_intelligibility_and_accountability_mechanisms_if_applicable: str = ""
-    transparency_information: str = ""
-    funding_source_of_the_technical_implementation: str = ""
-    third_party_information_if_applicable: str = ""
+    training_data: TrainingData = field(default_factory=TrainingData)
+    model_development_and_validation: ModelDevelopmentValidation = field(
+        default_factory=ModelDevelopmentValidation
+    )
+    clinical_trial: Optional[ClinicalTrial] = None
+    performance: Performance = field(default_factory=Performance)
+    performance_evaluation_limitations: str = ""
 
-    # 5) KEY METRICS
-    # Usefulness / Efficacy
-    usefulness_efficacy_goal_of_metrics: str = ""
-    usefulness_efficacy_result: str = ""
-    usefulness_efficacy_interpretation: str = ""
-    usefulness_efficacy_test_type: str = ""
-    usefulness_efficacy_testing_data_description: str = ""
-    usefulness_efficacy_validation_process_and_justification: str = ""
-    usefulness_efficacy_auroc_accuracy_etc: str = ""
+    ongoing_monitoring_plan: Optional[str] = None
+    scheduled_updates: Optional[str] = None
+    contact: Contact = field(default_factory=Contact)
 
-    # Fairness & Equity
-    fairness_equity_goal_of_metrics: str = ""
-    fairness_equity_result: str = ""
-    fairness_equity_interpretation: str = ""
-    fairness_equity_test_type: str = ""
-    fairness_equity_testing_data_description: str = ""
-    fairness_equity_validation_process_and_justification: str = ""
+    schema_version: str = SCHEMA_VERSION
 
-    # Safety & Reliability
-    safety_reliability_goal_of_metrics: str = ""
-    safety_reliability_result: str = ""
-    safety_reliability_interpretation: str = ""
-    safety_reliability_test_type: str = ""
-    safety_reliability_testing_data_description: str = ""
-    safety_reliability_validation_process_and_justification: str = ""
+    def __post_init__(self) -> None:
+        if isinstance(self.regulatory_approval_status, str):
+            try:
+                self.regulatory_approval_status = RegulatoryApprovalStatus(self.regulatory_approval_status)
+            except ValueError:
+                self.regulatory_approval_status = RegulatoryApprovalStatus.UNKNOWN
+        if isinstance(self.training_data, dict):
+            self.training_data = TrainingData(**self.training_data)
+        if isinstance(self.model_development_and_validation, dict):
+            self.model_development_and_validation = ModelDevelopmentValidation(
+                **self.model_development_and_validation
+            )
+        if isinstance(self.clinical_trial, dict):
+            self.clinical_trial = ClinicalTrial(**self.clinical_trial)
+        if isinstance(self.performance, dict):
+            metrics = self.performance.get("metrics", [])
+            self.performance = Performance(
+                summary=self.performance.get("summary", ""),
+                metrics=[PerformanceMetric(**m) if isinstance(m, dict) else m for m in metrics],
+            )
+        if isinstance(self.contact, dict):
+            self.contact = Contact(**self.contact)
+        if self.last_updated is None:
+            self.last_updated = date.today()
+        if isinstance(self.regulatory_approval_date, str):
+            self.regulatory_approval_date = _parse_date(self.regulatory_approval_date)
+        if isinstance(self.last_updated, str):
+            parsed = _parse_date(self.last_updated)
+            if parsed:
+                self.last_updated = parsed
 
-    # 6) RESOURCES
-    evaluation_references_if_available: str = ""
-    clinical_trial_if_available: str = ""
-    peer_reviewed_publications: str = ""
-    reimbursement_status_if_applicable: str = ""
-    stakeholders_consulted_during_design_of_solution: str = ""
+    def to_dict_camel(self) -> Dict[str, Any]:
+        def _metric(m: PerformanceMetric) -> Dict[str, Any]:
+            d: Dict[str, Any] = {"name": m.name, "value": m.value}
+            if m.population:
+                d["population"] = m.population
+            if m.confidence_interval:
+                d["confidenceInterval"] = m.confidence_interval
+            return d
 
-    # --- generation metadata ---
-    extraction_timestamp: str = field(default_factory=lambda: datetime.now().isoformat())
+        def _trial(t: Optional[ClinicalTrial]) -> Optional[Dict[str, Any]]:
+            if t is None:
+                return None
+            d: Dict[str, Any] = {}
+            if t.identifier:
+                d["identifier"] = t.identifier
+            if t.url:
+                d["url"] = t.url
+            if t.description:
+                d["description"] = t.description
+            return d or None
 
-    # ---------- EXPORTS ----------
+        return {
+            "schemaVersion": self.schema_version,
+            "modelName": self.model_name,
+            "applicationUrl": self.application_url,
+            "developer": self.developer,
+            "regulatoryApprovalStatus": self.regulatory_approval_status.value,
+            "regulatoryApprovalDate": _date_to_iso(self.regulatory_approval_date),
+            "version": self.version,
+            "lastUpdated": _date_to_iso(self.last_updated),
+            "availability": self.availability,
+            "summary": self.summary,
+            "medicalPurpose": self.medical_purpose,
+            "acceptableInput": self.acceptable_input,
+            "output": self.output,
+            "roleInDecisionMaking": self.role_in_decision_making,
+            "intendedUsers": self.intended_users,
+            "targetPatientPopulation": self.target_patient_population,
+            "knownFailureModes": self.known_failure_modes,
+            "unsupportedClinicalScenarios": self.unsupported_clinical_scenarios,
+            "unsupportedUseCases": self.unsupported_use_cases,
+            "requiredClinicianOversight": self.required_clinician_oversight,
+            "modelType": self.model_type,
+            "trainingData": {
+                "description": self.training_data.description,
+                "datasetUrl": self.training_data.dataset_url,
+            },
+            "modelDevelopmentAndValidation": {
+                "description": self.model_development_and_validation.description,
+                "publicationUrl": self.model_development_and_validation.publication_url,
+            },
+            "clinicalTrial": _trial(self.clinical_trial),
+            "performance": {
+                "summary": self.performance.summary,
+                "metrics": [_metric(m) for m in self.performance.metrics],
+            },
+            "performanceEvaluationLimitations": self.performance_evaluation_limitations,
+            "ongoingMonitoringPlan": self.ongoing_monitoring_plan,
+            "scheduledUpdates": self.scheduled_updates,
+            "contact": {
+                "email": self.contact.email,
+                "url": self.contact.url,
+            },
+        }
+
+    @classmethod
+    def from_dict(cls, data: Dict[str, Any]) -> "ClinicalModelCard":
+        """Load from camelCase or snake_case dict."""
+
+        def _get(*keys: str, default: Any = None) -> Any:
+            for k in keys:
+                if k in data:
+                    return data[k]
+            return default
+
+        td = _get("trainingData", "training_data") or {}
+        mdv = _get("modelDevelopmentAndValidation", "model_development_and_validation") or {}
+        ct = _get("clinicalTrial", "clinical_trial")
+        perf = _get("performance") or {}
+        contact = _get("contact") or {}
+        metrics_raw = perf.get("metrics", []) if isinstance(perf, dict) else []
+
+        status_raw = _get("regulatoryApprovalStatus", "regulatory_approval_status", default="UNKNOWN")
+        try:
+            status = RegulatoryApprovalStatus(status_raw)
+        except ValueError:
+            status = RegulatoryApprovalStatus.UNKNOWN
+
+        return cls(
+            schema_version=_get("schemaVersion", "schema_version", default=SCHEMA_VERSION),
+            model_name=_get("modelName", "model_name", default=""),
+            application_url=_get("applicationUrl", "application_url"),
+            developer=_get("developer", default=""),
+            regulatory_approval_status=status,
+            regulatory_approval_date=_parse_date(_get("regulatoryApprovalDate", "regulatory_approval_date")),
+            version=_get("version", default=""),
+            last_updated=_parse_date(_get("lastUpdated", "last_updated")) or date.today(),
+            availability=_get("availability"),
+            summary=_get("summary", default=""),
+            medical_purpose=_get("medicalPurpose", "medical_purpose", default=""),
+            acceptable_input=_get("acceptableInput", "acceptable_input", default=""),
+            output=_get("output", default=""),
+            role_in_decision_making=_get("roleInDecisionMaking", "role_in_decision_making", default=""),
+            intended_users=_get("intendedUsers", "intended_users", default=""),
+            target_patient_population=_get("targetPatientPopulation", "target_patient_population", default=""),
+            known_failure_modes=_get("knownFailureModes", "known_failure_modes", default=""),
+            unsupported_clinical_scenarios=_get(
+                "unsupportedClinicalScenarios", "unsupported_clinical_scenarios", default=""
+            ),
+            unsupported_use_cases=_get("unsupportedUseCases", "unsupported_use_cases", default=""),
+            required_clinician_oversight=_get(
+                "requiredClinicianOversight", "required_clinician_oversight", default=""
+            ),
+            model_type=_get("modelType", "model_type", default=""),
+            training_data=TrainingData(
+                description=td.get("description", "") if isinstance(td, dict) else "",
+                dataset_url=td.get("datasetUrl") or td.get("dataset_url") if isinstance(td, dict) else None,
+            ),
+            model_development_and_validation=ModelDevelopmentValidation(
+                description=mdv.get("description") if isinstance(mdv, dict) else None,
+                publication_url=(
+                    mdv.get("publicationUrl") or mdv.get("publication_url") if isinstance(mdv, dict) else None
+                ),
+            ),
+            clinical_trial=(
+                ClinicalTrial(
+                    identifier=ct.get("identifier"),
+                    url=ct.get("url"),
+                    description=ct.get("description"),
+                )
+                if isinstance(ct, dict)
+                else None
+            ),
+            performance=Performance(
+                summary=perf.get("summary", "") if isinstance(perf, dict) else "",
+                metrics=[
+                    PerformanceMetric(
+                        name=m.get("name", ""),
+                        value=m.get("value", ""),
+                        population=m.get("population"),
+                        confidence_interval=m.get("confidenceInterval") or m.get("confidence_interval"),
+                    )
+                    for m in metrics_raw
+                    if isinstance(m, dict)
+                ],
+            ),
+            performance_evaluation_limitations=_get(
+                "performanceEvaluationLimitations", "performance_evaluation_limitations", default=""
+            ),
+            ongoing_monitoring_plan=_get("ongoingMonitoringPlan", "ongoing_monitoring_plan"),
+            scheduled_updates=_get("scheduledUpdates", "scheduled_updates"),
+            contact=Contact(
+                email=contact.get("email") if isinstance(contact, dict) else None,
+                url=contact.get("url") if isinstance(contact, dict) else None,
+            ),
+        )
+
     def to_json(self) -> str:
-        """Export model card to JSON format."""
-        return json.dumps(self.__dict__, indent=2, default=str)
+        return json.dumps(self.to_dict_camel(), indent=2, default=str)
 
-    def to_xml(self) -> str:
-        """Export model card to a simple CHAI XML."""
-        root = ET.Element("AppliedModelCard", attrib={"xmlns": "https://mc.chai.org/v0.3/schema.xsd"})
+    def _render_disclosed(self, val: Optional[str]) -> str:
+        if val is None or not str(val).strip():
+            return "Not disclosed"
+        return str(val).strip()
 
-        # Metadata
-        meta = ET.SubElement(root, "Metadata")
-        ET.SubElement(meta, "ModelName").text = self.model_name
-        ET.SubElement(meta, "Developer").text = self.developer
-        ET.SubElement(meta, "ApplicationURL").text = self.application_url
-        ET.SubElement(meta, "InquiriesOrToReportAnIssue").text = self.inquiries_or_to_report_an_issue
-        ET.SubElement(meta, "ReleaseStage").text = self.release_stage
-        ET.SubElement(meta, "ReleaseDate").text = self.release_date
-        ET.SubElement(meta, "Version").text = self.version
-        ET.SubElement(meta, "RegulatoryApprovalStatusIfApplicable").text = self.regulatory_approval_status_if_applicable
-        ET.SubElement(meta, "GlobalAvailability").text = self.global_availability
-        ET.SubElement(meta, "Summary").text = self.summary
-        ET.SubElement(meta, "Keywords").text = ", ".join(self.keywords) if self.keywords else ""
+    def _cite_suffix(self, field_name: str, citations: Optional[Dict[str, Any]], url_to_num: Dict[str, int]) -> str:
+        if not citations:
+            return ""
+        lst = citations.get("fields", {}).get(field_name) or citations.get(field_name)
+        if not isinstance(lst, list):
+            return ""
+        nums = sorted(
+            {
+                url_to_num[u]
+                for item in lst
+                if isinstance(item, dict)
+                for u in [item.get("url", "").strip()]
+                if u and u in url_to_num
+            }
+        )
+        return f" [{','.join(map(str, nums))}]" if nums else ""
 
-        # Uses & Directions
-        uses = ET.SubElement(root, "UsesAndDirections")
-        ET.SubElement(uses, "IntendedUseAndWorkflow").text = self.intended_use_and_workflow
-        ET.SubElement(uses, "PrimaryIntendedUsers").text = self.primary_intended_users
-        ET.SubElement(uses, "NecessaryKnowledgeExpertise").text = self.necessary_knowledge_expertise
-        ET.SubElement(uses, "HowToUse").text = self.how_to_use
-        ET.SubElement(uses, "TargetedPatientPopulation").text = self.targeted_patient_population
-        ET.SubElement(uses, "PatientConsentOrDisclosureRequiredOrSuggested").text = self.patient_consent_or_disclosure_required_or_suggested
-
-        # Warnings
-        warn = ET.SubElement(root, "Warnings")
-        ET.SubElement(warn, "DeveloperSuppliedWarnings").text = self.developer_supplied_warnings
-        ET.SubElement(warn, "ModelLimitations").text = self.model_limitations
-        ET.SubElement(warn, "SkinTypeRepresentationAndEquity").text = self.skin_type_representation_and_equity
-        ET.SubElement(warn, "ClinicalRiskLevel").text = self.clinical_risk_level
-
-        # Trust Ingredients
-        trust = ET.SubElement(root, "TrustIngredients")
-        ET.SubElement(trust, "AISystemFacts").text = self.ai_system_facts
-        ET.SubElement(trust, "ModelType").text = self.model_type
-        ET.SubElement(trust, "InteractionWithOtherSystems").text = self.interaction_with_other_systems
-        ET.SubElement(trust, "OutcomesAndOutput").text = self.outcomes_and_output
-        ET.SubElement(trust, "TypeAndValueOfSolutionOutput").text = self.type_and_value_of_solution_output
-        ET.SubElement(trust, "ExplanationForHowAnOutputIsGenerated").text = self.explanation_for_how_an_output_is_generated
-        ET.SubElement(trust, "FoundationModelsUsedInApplicationIfApplicable").text = ", ".join(self.foundation_models_used_in_application_if_applicable) if self.foundation_models_used_in_application_if_applicable else ""
-        ET.SubElement(trust, "InputDataSource").text = self.input_data_source
-        ET.SubElement(trust, "OutputInputDataType").text = self.output_input_data_type
-        ET.SubElement(trust, "DevelopmentDataCharacterization").text = self.development_data_characterization
-        ET.SubElement(trust, "TrainingData").text = self.training_data
-        ET.SubElement(trust, "ExclusionInclusionCriteria").text = self.exclusion_inclusion_criteria
-        ET.SubElement(trust, "DemographicRepresentativeness").text = self.demographic_representativeness
-        ET.SubElement(trust, "DatasetDOIIfApplicable").text = self.dataset_doi_if_applicable
-        ET.SubElement(trust, "DatasetTransparency").text = self.dataset_transparency
-        ET.SubElement(trust, "ValidationTestDataset").text = self.validation_test_dataset
-        ET.SubElement(trust, "TimelineOfDataCollection").text = self.timeline_of_data_collection
-        ET.SubElement(trust, "SkinToneDiversity").text = self.skin_tone_diversity
-        ET.SubElement(trust, "DidTheDataCollectionProcessUndergoEthicalReview").text = self.did_the_data_collection_process_undergo_ethical_review
-        ET.SubElement(trust, "EthicalReviewBoardOversight").text = self.ethical_review_board_oversight
-        ET.SubElement(trust, "IRBApproval").text = self.irb_approval
-        ET.SubElement(trust, "RelevanceOfTrainingDataToIntendedPopulation").text = self.relevance_of_training_data_to_intended_population
-        ET.SubElement(trust, "BiasMitigationApproaches").text = self.bias_mitigation_approaches
-        ET.SubElement(trust, "OngoingMaintenance").text = self.ongoing_maintenance
-        ET.SubElement(trust, "SecurityAndComplianceEnvironmentPracticesOrAccreditationsIfApplicable").text = self.security_and_compliance_environment_practices_or_accreditations_if_applicable
-        ET.SubElement(trust, "TransparencyIntelligibilityAndAccountabilityMechanismsIfApplicable").text = self.transparency_intelligibility_and_accountability_mechanisms_if_applicable
-        ET.SubElement(trust, "TransparencyInformation").text = self.transparency_information
-        ET.SubElement(trust, "FundingSourceOfTheTechnicalImplementation").text = self.funding_source_of_the_technical_implementation
-        ET.SubElement(trust, "ThirdPartyInformationIfApplicable").text = self.third_party_information_if_applicable
-
-        # Key Metrics
-        km = ET.SubElement(root, "KeyMetrics")
-
-        u = ET.SubElement(km, "UsefulnessEfficacy")
-        ET.SubElement(u, "GoalOfMetrics").text = self.usefulness_efficacy_goal_of_metrics
-        ET.SubElement(u, "Result").text = self.usefulness_efficacy_result
-        ET.SubElement(u, "Interpretation").text = self.usefulness_efficacy_interpretation
-        ET.SubElement(u, "TestType").text = self.usefulness_efficacy_test_type
-        ET.SubElement(u, "TestingDataDescription").text = self.usefulness_efficacy_testing_data_description
-        ET.SubElement(u, "ValidationProcessAndJustification").text = self.usefulness_efficacy_validation_process_and_justification
-        ET.SubElement(u, "AUROCAccuracyEtc").text = self.usefulness_efficacy_auroc_accuracy_etc
-
-        f = ET.SubElement(km, "FairnessEquity")
-        ET.SubElement(f, "GoalOfMetrics").text = self.fairness_equity_goal_of_metrics
-        ET.SubElement(f, "Result").text = self.fairness_equity_result
-        ET.SubElement(f, "Interpretation").text = self.fairness_equity_interpretation
-        ET.SubElement(f, "TestType").text = self.fairness_equity_test_type
-        ET.SubElement(f, "TestingDataDescription").text = self.fairness_equity_testing_data_description
-        ET.SubElement(f, "ValidationProcessAndJustification").text = self.fairness_equity_validation_process_and_justification
-
-        s = ET.SubElement(km, "SafetyReliability")
-        ET.SubElement(s, "GoalOfMetrics").text = self.safety_reliability_goal_of_metrics
-        ET.SubElement(s, "Result").text = self.safety_reliability_result
-        ET.SubElement(s, "Interpretation").text = self.safety_reliability_interpretation
-        ET.SubElement(s, "TestType").text = self.safety_reliability_test_type
-        ET.SubElement(s, "TestingDataDescription").text = self.safety_reliability_testing_data_description
-        ET.SubElement(s, "ValidationProcessAndJustification").text = self.safety_reliability_validation_process_and_justification
-
-        # Resources
-        res = ET.SubElement(root, "Resources")
-        ET.SubElement(res, "EvaluationReferencesIfAvailable").text = self.evaluation_references_if_available
-        ET.SubElement(res, "ClinicalTrialIfAvailable").text = self.clinical_trial_if_available
-        ET.SubElement(res, "PeerReviewedPublications").text = self.peer_reviewed_publications
-        ET.SubElement(res, "ReimbursementStatusIfApplicable").text = self.reimbursement_status_if_applicable
-        ET.SubElement(res, "StakeholdersConsultedDuringDesignOfSolution").text = self.stakeholders_consulted_during_design_of_solution
-
-        return ET.tostring(root, encoding="unicode")
-
-    def to_markdown(self, citations: Optional[Dict[str, List[Dict[str, str]]]] = None) -> str:
-        """Export model card to Markdown format (covers all required fields).
-
-        Citation policy:
-        - If citations are provided, every non-placeholder sentence in the model card body
-          receives at least one inline numeric citation like " [3]" or " [2,5]".
-        """
-
-        def _is_placeholder(val: object) -> bool:
-            if val is None:
-                return True
-            if isinstance(val, list):
-                return len([x for x in val if str(x).strip()]) == 0
-            s = str(val).strip()
-            return (not s) or s.lower() in {"not specified", "unknown", "tbd", "n/a", "na"}
-
-        def _urls_from_citations(field_name: str) -> List[str]:
-            if not citations or not isinstance(citations, dict):
-                return []
-            urls: List[str] = []
-            for key in (field_name, f"postfill.{field_name}"):
-                lst = citations.get(key)
-                if not isinstance(lst, list):
-                    continue
-                for item in lst:
-                    if not isinstance(item, dict):
-                        continue
-                    u = (item.get("url") or "").strip()
-                    if u and u not in urls:
-                        urls.append(u)
-            return urls
-
-        def _append_citations_per_sentence(text: str, cite_suffix: str) -> str:
-            """Append citations to every sentence that doesn't already end with a citation."""
-            if not text or not cite_suffix:
-                return text
-
-            # Keep existing explicit numeric citations if already present at sentence end.
-            parts = re.split(r"(\n+)", text)  # preserve paragraph breaks
-            out: List[str] = []
-            for part in parts:
-                if part.startswith("\n"):
-                    out.append(part)
-                    continue
-
-                chunk = part.strip()
-                if not chunk:
-                    out.append(part)
-                    continue
-
-                # Sentence-ish split; good enough for model card prose.
-                sentences = re.split(r"(?<=[.!?])\s+", chunk)
-                patched: List[str] = []
-                for s in sentences:
-                    ss = s.strip()
-                    if not ss:
-                        continue
-                    if re.search(r"\s\[\d+(?:,\d+)*\]\s*$", ss):
-                        patched.append(ss)
-                    else:
-                        patched.append(ss + cite_suffix)
-                out.append(" ".join(patched))
-            return "".join(out)
-
-        def _format_value(field_name: str, value: object) -> str:
-            if isinstance(value, list):
-                v = ", ".join(str(x).strip() for x in value if str(x).strip())
-            else:
-                v = str(value).strip() if value is not None else ""
-
-            if _is_placeholder(v):
-                return "Not specified"
-
-            if not citations:
-                return v
-
-            urls = _urls_from_citations(field_name)
-            nums = sorted({url_to_num.get(u) for u in urls if u in url_to_num})
-            nums = [n for n in nums if isinstance(n, int)]
-            cite_suffix = f" [{','.join(map(str, nums))}]" if nums else ""
-            rendered = _append_citations_per_sentence(v, cite_suffix)
-            # Keep multi-line values inside the bullet list item.
-            rendered = rendered.replace("\n", "\n  ")
-            return rendered
-
-        # --- Build reference numbering ---
+    def to_markdown(self, citations: Optional[Dict[str, Any]] = None) -> str:
+        """Derive human-readable markdown from the card (viewing format)."""
         url_to_num: Dict[str, int] = {}
         ordered_urls: List[str] = []
-
         if citations and isinstance(citations, dict):
-            sources_metadata = citations.get("_sources_metadata", {}) if isinstance(citations.get("_sources_metadata", {}), dict) else {}
-
-            # Prefer the explicit metadata list if present (it includes implicit + explicit sources),
-            # otherwise fall back to URLs observed in field citation lists.
-            candidate_urls: List[str] = []
-            if sources_metadata:
-                candidate_urls = list(sources_metadata.keys())
-            else:
-                seen = set()
-                for k, lst in citations.items():
-                    if k == "_sources_metadata" or not isinstance(lst, list):
-                        continue
-                    for it in lst:
-                        if not isinstance(it, dict):
-                            continue
+            fields_cites = citations.get("fields", citations)
+            seen: set[str] = set()
+            for _k, lst in fields_cites.items():
+                if not isinstance(lst, list):
+                    continue
+                for it in lst:
+                    if isinstance(it, dict):
                         u = (it.get("url") or "").strip()
                         if u and u not in seen:
                             seen.add(u)
-                            candidate_urls.append(u)
-
-            ordered_urls = sorted([u for u in candidate_urls if str(u).strip()])
+                            ordered_urls.append(u)
+            ordered_urls.sort()
             url_to_num = {u: i for i, u in enumerate(ordered_urls, 1)}
 
-        def _line(field_name: str, label: str, value: object) -> str:
-            return f"- **{label}:** {_format_value(field_name, value)}"
+        def line(label: str, field_name: str, value: str) -> str:
+            cite = self._cite_suffix(field_name, citations, url_to_num)
+            return f"- **{label}:** {value}{cite}"
 
-        lines: List[str] = []
-        lines.append(f"# {self.model_name or 'Unnamed Model'} — CHAI Model Card (v0.3)")
-        lines.append("")
-        lines.append("## 1) Metadata")
-        lines.append(_line("model_name", "Model Name", self.model_name))
-        lines.append(_line("developer", "Developer", self.developer))
-        lines.append(_line("application_url", "Application URL", self.application_url))
-        lines.append(_line("inquiries_or_to_report_an_issue", "Inquiries or to report an issue", self.inquiries_or_to_report_an_issue))
-        lines.append(_line("release_stage", "Release Stage", self.release_stage))
-        lines.append(_line("release_date", "Release Date", self.release_date))
-        lines.append(_line("version", "Version", self.version))
-        lines.append(_line("regulatory_approval_status_if_applicable", "Regulatory Approval Status, if applicable", self.regulatory_approval_status_if_applicable))
-        lines.append(_line("global_availability", "Global Availability", self.global_availability))
-        lines.append(_line("summary", "Summary", self.summary))
-        lines.append(_line("keywords", "Keywords", self.keywords))
-        lines.append("")
+        title = self.model_name or "Unnamed Model"
+        if self.application_url:
+            title_md = f"[{title}]({self.application_url})"
+        else:
+            title_md = title
 
-        lines.append("## 2) Uses & Directions")
-        lines.append(_line("intended_use_and_workflow", "Intended Use & Workflow", self.intended_use_and_workflow))
-        lines.append(_line("primary_intended_users", "Primary Intended Users", self.primary_intended_users))
-        lines.append(_line("necessary_knowledge_expertise", "Necessary knowledge/expertise", self.necessary_knowledge_expertise))
-        lines.append(_line("how_to_use", "How to Use", self.how_to_use))
-        lines.append(_line("targeted_patient_population", "Targeted patient population", self.targeted_patient_population))
-        lines.append(_line("patient_consent_or_disclosure_required_or_suggested", "Patient consent or disclosure required or suggested?", self.patient_consent_or_disclosure_required_or_suggested))
-        lines.append("")
+        status_label = REGULATORY_STATUS_LABELS.get(
+            self.regulatory_approval_status, self.regulatory_approval_status.value
+        )
 
-        lines.append("## 3) Warnings")
-        lines.append(_line("developer_supplied_warnings", "Developer-Supplied Warnings", self.developer_supplied_warnings))
-        lines.append(_line("model_limitations", "Model Limitations", self.model_limitations))
-        lines.append(_line("skin_type_representation_and_equity", "Skin type representation & equity", self.skin_type_representation_and_equity))
-        lines.append(_line("clinical_risk_level", "Clinical Risk Level", self.clinical_risk_level))
-        lines.append("")
+        lines: List[str] = [
+            "---",
+            f"schema_version: {self.schema_version}",
+            "---",
+            "",
+            f"# {title_md} — Clinical Model Card",
+            "",
+            "## 1) Metadata",
+            line("Model Name", "model_name", self.model_name),
+            line("Developer", "developer", self.developer),
+            line("Regulatory Approval Status", "regulatory_approval_status", status_label),
+            line(
+                "Regulatory Approval Date",
+                "regulatory_approval_date",
+                self._render_disclosed(_date_to_iso(self.regulatory_approval_date)),
+            ),
+            line("Version", "version", self.version or "Not disclosed"),
+            line("Last Updated", "last_updated", _date_to_iso(self.last_updated) or ""),
+            line("Availability", "availability", self._render_disclosed(self.availability)),
+            "",
+            "## 2) Summary",
+            line("Summary", "summary", self.summary),
+            "",
+            "## 3) Intended Use",
+            line("Medical Purpose", "medical_purpose", self.medical_purpose),
+            line("Acceptable Input", "acceptable_input", self.acceptable_input),
+            line("Output", "output", self.output),
+            line("Role in Decision-Making", "role_in_decision_making", self.role_in_decision_making),
+            line("Intended Users", "intended_users", self.intended_users),
+            line("Target Patient Population", "target_patient_population", self.target_patient_population),
+            "",
+            "## 4) Risks and Limitations",
+            line("Known Failure Modes", "known_failure_modes", self.known_failure_modes),
+            line("Unsupported Clinical Scenarios", "unsupported_clinical_scenarios", self.unsupported_clinical_scenarios),
+            line("Unsupported Use Cases", "unsupported_use_cases", self.unsupported_use_cases),
+            line("Required Clinician Oversight", "required_clinician_oversight", self.required_clinician_oversight),
+            "",
+            "## 5) Mechanism and Development",
+            line("Model Type", "model_type", self.model_type),
+        ]
 
-        lines.append("## 4) Trust Ingredients")
-        lines.append(_line("ai_system_facts", "AI System Facts", self.ai_system_facts))
-        lines.append(_line("model_type", "Model Type", self.model_type))
-        lines.append(_line("interaction_with_other_systems", "Interaction with other systems", self.interaction_with_other_systems))
-        lines.append(_line("outcomes_and_output", "Outcomes & Output", self.outcomes_and_output))
-        lines.append(_line("type_and_value_of_solution_output", "Type & Value of Solution Output", self.type_and_value_of_solution_output))
-        lines.append(_line("explanation_for_how_an_output_is_generated", "Explanation for how an output is generated", self.explanation_for_how_an_output_is_generated))
-        lines.append(_line("foundation_models_used_in_application_if_applicable", "Foundation Models Used in application, if applicable", self.foundation_models_used_in_application_if_applicable))
-        lines.append(_line("input_data_source", "Input Data Source", self.input_data_source))
-        lines.append(_line("output_input_data_type", "Output/Input Data Type", self.output_input_data_type))
-        lines.append(_line("development_data_characterization", "Development Data Characterization", self.development_data_characterization))
-        lines.append(_line("training_data", "Training Data", self.training_data))
-        lines.append(_line("exclusion_inclusion_criteria", "Exclusion/Inclusion Criteria", self.exclusion_inclusion_criteria))
-        lines.append(_line("demographic_representativeness", "Demographic representativeness", self.demographic_representativeness))
-        lines.append(_line("dataset_doi_if_applicable", "Dataset (DOI if applicable)", self.dataset_doi_if_applicable))
-        lines.append(_line("dataset_transparency", "Dataset Transparency", self.dataset_transparency))
-        lines.append(_line("validation_test_dataset", "Validation/Test Dataset", self.validation_test_dataset))
-        lines.append(_line("timeline_of_data_collection", "Timeline of Data collection", self.timeline_of_data_collection))
-        lines.append(_line("skin_tone_diversity", "Skin tone diversity", self.skin_tone_diversity))
-        lines.append(_line("did_the_data_collection_process_undergo_ethical_review", "Did the data collection process undergo ethical review", self.did_the_data_collection_process_undergo_ethical_review))
-        lines.append(_line("ethical_review_board_oversight", "Ethical Review Board Oversight", self.ethical_review_board_oversight))
-        lines.append(_line("irb_approval", "IRB Approval", self.irb_approval))
-        lines.append(_line("relevance_of_training_data_to_intended_population", "Relevance of training data to intended population", self.relevance_of_training_data_to_intended_population))
-        lines.append(_line("bias_mitigation_approaches", "Bias Mitigation Approaches", self.bias_mitigation_approaches))
-        lines.append(_line("ongoing_maintenance", "Ongoing Maintenance", self.ongoing_maintenance))
-        lines.append(_line("security_and_compliance_environment_practices_or_accreditations_if_applicable", "Security and compliance environment practices or accreditations, if applicable", self.security_and_compliance_environment_practices_or_accreditations_if_applicable))
-        lines.append(_line("transparency_intelligibility_and_accountability_mechanisms_if_applicable", "Transparency, Intelligibility, and Accountability mechanisms, if applicable", self.transparency_intelligibility_and_accountability_mechanisms_if_applicable))
-        lines.append(_line("transparency_information", "Transparency Information", self.transparency_information))
-        lines.append(_line("funding_source_of_the_technical_implementation", "Funding Source of the technical implementation", self.funding_source_of_the_technical_implementation))
-        lines.append(_line("third_party_information_if_applicable", "3rd Party Information, if applicable", self.third_party_information_if_applicable))
-        lines.append("")
+        td = self.training_data.description or "Not disclosed"
+        if self.training_data.dataset_url:
+            td += f" [Dataset]({self.training_data.dataset_url})"
+        lines.append(line("Training Data", "training_data", td))
 
-        lines.append("## 5) Key Metrics")
-        lines.append("### Usefulness / Efficacy")
-        lines.append(_line("usefulness_efficacy_goal_of_metrics", "Goal of Metric(s)", self.usefulness_efficacy_goal_of_metrics))
-        lines.append(_line("usefulness_efficacy_result", "Result", self.usefulness_efficacy_result))
-        lines.append(_line("usefulness_efficacy_interpretation", "Interpretation", self.usefulness_efficacy_interpretation))
-        lines.append(_line("usefulness_efficacy_test_type", "Test Type", self.usefulness_efficacy_test_type))
-        lines.append(_line("usefulness_efficacy_testing_data_description", "Testing Data Description", self.usefulness_efficacy_testing_data_description))
-        lines.append(_line("usefulness_efficacy_validation_process_and_justification", "Validation Process and Justification", self.usefulness_efficacy_validation_process_and_justification))
-        lines.append(_line("usefulness_efficacy_auroc_accuracy_etc", "AUROC/Accuracy/etc.", self.usefulness_efficacy_auroc_accuracy_etc))
-        lines.append("")
+        mdv_parts = []
+        if self.model_development_and_validation.description:
+            mdv_parts.append(self.model_development_and_validation.description)
+        if self.model_development_and_validation.publication_url:
+            mdv_parts.append(f"[Publication]({self.model_development_and_validation.publication_url})")
+        lines.append(
+            line(
+                "Model Development & Validation",
+                "model_development_and_validation",
+                " ".join(mdv_parts) if mdv_parts else "Not disclosed",
+            )
+        )
 
-        lines.append("### Fairness & Equity")
-        lines.append(_line("fairness_equity_goal_of_metrics", "Goal of Metric(s)", self.fairness_equity_goal_of_metrics))
-        lines.append(_line("fairness_equity_result", "Result", self.fairness_equity_result))
-        lines.append(_line("fairness_equity_interpretation", "Interpretation", self.fairness_equity_interpretation))
-        lines.append(_line("fairness_equity_test_type", "Test Type", self.fairness_equity_test_type))
-        lines.append(_line("fairness_equity_testing_data_description", "Testing Data Description", self.fairness_equity_testing_data_description))
-        lines.append(_line("fairness_equity_validation_process_and_justification", "Validation Process and Justification", self.fairness_equity_validation_process_and_justification))
-        lines.append("")
+        if self.clinical_trial:
+            ct_parts = []
+            if self.clinical_trial.identifier:
+                ct_parts.append(self.clinical_trial.identifier)
+            if self.clinical_trial.url:
+                ct_parts.append(f"[ClinicalTrials.gov]({self.clinical_trial.url})")
+            if self.clinical_trial.description:
+                ct_parts.append(self.clinical_trial.description)
+            lines.append(line("Clinical Trial", "clinical_trial", " — ".join(ct_parts)))
+        else:
+            lines.append(line("Clinical Trial", "clinical_trial", "Not disclosed"))
 
-        lines.append("### Safety & Reliability")
-        lines.append(_line("safety_reliability_goal_of_metrics", "Goal of Metric(s)", self.safety_reliability_goal_of_metrics))
-        lines.append(_line("safety_reliability_result", "Result", self.safety_reliability_result))
-        lines.append(_line("safety_reliability_interpretation", "Interpretation", self.safety_reliability_interpretation))
-        lines.append(_line("safety_reliability_test_type", "Test Type", self.safety_reliability_test_type))
-        lines.append(_line("safety_reliability_testing_data_description", "Testing Data Description", self.safety_reliability_testing_data_description))
-        lines.append(_line("safety_reliability_validation_process_and_justification", "Validation Process and Justification", self.safety_reliability_validation_process_and_justification))
-        lines.append("")
+        lines.append(line("Performance", "performance", self.performance.summary or "Not disclosed"))
+        for i, m in enumerate(self.performance.metrics):
+            pop = f" ({m.population})" if m.population else ""
+            ci = f", CI: {m.confidence_interval}" if m.confidence_interval else ""
+            lines.append(
+                line(
+                    f"Performance — {m.name}",
+                    f"performance.metrics[{i}]",
+                    f"{m.value}{pop}{ci}",
+                )
+            )
+        lines.append(
+            line(
+                "Limitations in Evaluating Performance",
+                "performance_evaluation_limitations",
+                self.performance_evaluation_limitations,
+            )
+        )
+        lines.extend(
+            [
+                "",
+                "## 6) Governance and Monitoring",
+                line(
+                    "Plans for Ongoing Monitoring",
+                    "ongoing_monitoring_plan",
+                    self._render_disclosed(self.ongoing_monitoring_plan),
+                ),
+                line(
+                    "Scheduled Updates",
+                    "scheduled_updates",
+                    self._render_disclosed(self.scheduled_updates),
+                ),
+            ]
+        )
+        contact_parts = []
+        if self.contact.email:
+            contact_parts.append(self.contact.email)
+        if self.contact.url:
+            contact_parts.append(self.contact.url)
+        lines.append(
+            line(
+                "Inquiries / Report an Issue",
+                "contact",
+                " | ".join(contact_parts) if contact_parts else "Not disclosed",
+            )
+        )
 
-        lines.append("## 6) Resources")
-        lines.append(_line("evaluation_references_if_available", "Evaluation References, if available", self.evaluation_references_if_available))
-        lines.append(_line("clinical_trial_if_available", "Clinical Trial, if available", self.clinical_trial_if_available))
-        lines.append(_line("peer_reviewed_publications", "Peer-Reviewed Publication(s)", self.peer_reviewed_publications))
-        lines.append(_line("reimbursement_status_if_applicable", "Reimbursement status, if applicable", self.reimbursement_status_if_applicable))
-        lines.append(_line("stakeholders_consulted_during_design_of_solution", "Stakeholders consulted during design of solution", self.stakeholders_consulted_during_design_of_solution))
+        if ordered_urls:
+            lines.extend(["", "## References"])
+            lines.extend(f"[{i}] {u}" for i, u in enumerate(ordered_urls, 1))
 
-        if citations and ordered_urls:
-            lines.append("")
-            lines.append("## References")
-            lines.extend([f"[{i}] {u}" for i, u in enumerate(ordered_urls, 1)])
-        elif citations:
-            lines.append("")
-            lines.append("## References")
-            lines.append("No sources available.")
-
-        lines.append(f"\n---\n*Generated on {self.extraction_timestamp} (CHAI Schema v0.3)*")
         return "\n".join(lines) + "\n"
+
+
+def validate_model_card(card: ClinicalModelCard) -> ValidationResult:
+    result = ValidationResult()
+    required_strings = [
+        "model_name",
+        "developer",
+        "version",
+        "summary",
+        "medical_purpose",
+        "acceptable_input",
+        "output",
+        "role_in_decision_making",
+        "intended_users",
+        "target_patient_population",
+        "known_failure_modes",
+        "unsupported_clinical_scenarios",
+        "unsupported_use_cases",
+        "required_clinician_oversight",
+        "model_type",
+        "performance_evaluation_limitations",
+    ]
+    for fname in required_strings:
+        val = getattr(card, fname, None)
+        if not val or not str(val).strip():
+            result.errors.append(f"missing_required:{fname}")
+
+    if not card.training_data.description or not card.training_data.description.strip():
+        result.errors.append("missing_required:training_data.description")
+    if not card.performance.summary or not card.performance.summary.strip():
+        result.errors.append("missing_required:performance.summary")
+
+    if not card.contact.email and not card.contact.url:
+        result.errors.append("missing_required:contact")
+
+    if card.last_updated is None:
+        result.errors.append("missing_required:last_updated")
+
+    if count_sentences(card.summary) > 3:
+        result.warnings.append("summary_exceeds_three_sentences")
+
+    for i, m in enumerate(card.performance.metrics):
+        if not m.name or not m.value:
+            result.errors.append(f"invalid_metric:performance.metrics[{i}]")
+
+    if card.regulatory_approval_status not in RegulatoryApprovalStatus:
+        result.errors.append("invalid:regulatory_approval_status")
+
+    return result
+
+
+# Primary export type
+CLINICAL_CARD_FIELD_NAMES: List[str] = [
+    f.name
+    for f in fields(ClinicalModelCard)
+    if f.name
+    not in {
+        "schema_version",
+        "training_data",
+        "model_development_and_validation",
+        "clinical_trial",
+        "performance",
+        "contact",
+        "regulatory_approval_date",
+        "last_updated",
+        "application_url",
+        "availability",
+        "ongoing_monitoring_plan",
+        "scheduled_updates",
+    }
+]
+
+# Documented nested JSON shapes for agent extraction and post-fill
+CLINICAL_NESTED_FIELD_SPECS: Dict[str, Dict[str, str]] = {
+    "training_data": {"description": "string", "dataset_url": "string?"},
+    "model_development_and_validation": {"description": "string?", "publication_url": "string?"},
+    "clinical_trial": {"identifier": "string?", "url": "string?", "description": "string?"},
+    "performance": {
+        "summary": "string",
+        "metrics": "array[{name,value,population?,confidence_interval?}]",
+    },
+    "contact": {"email": "string?", "url": "string?"},
+}
+
+CLINICAL_AGENT_EXTRACT_FIELDS: List[str] = CLINICAL_CARD_FIELD_NAMES + list(
+    CLINICAL_NESTED_FIELD_SPECS.keys()
+)

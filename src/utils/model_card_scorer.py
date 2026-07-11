@@ -19,6 +19,8 @@ from typing import Dict, List, Any, Optional, Tuple
 from enum import Enum
 import re
 
+from utils.sentence_utils import count_sentences
+
 logger = logging.getLogger(__name__)
 
 class ClinicalUsabilityLevel(Enum):
@@ -61,51 +63,58 @@ class ModelCardScore:
     critical_missing_fields: List[str]
     quality_issues: List[str]
 
+_RAW_FIELD_POINTS: Dict[str, int] = {
+    "medical_purpose": 12,
+    "role_in_decision_making": 12,
+    "required_clinician_oversight": 10,
+    "known_failure_modes": 10,
+    "performance": 12,
+    "regulatory_approval_status": 8,
+    "acceptable_input": 8,
+    "output": 8,
+    "summary": 8,
+    "unsupported_clinical_scenarios": 8,
+    "target_patient_population": 6,
+    "intended_users": 6,
+    "model_type": 4,
+    "training_data": 4,
+    "model_development_and_validation": 4,
+    "performance_evaluation_limitations": 4,
+    "unsupported_use_cases": 4,
+    "ongoing_monitoring_plan": 2,
+    "scheduled_updates": 2,
+    "contact": 2,
+    "developer": 2,
+    "model_name": 2,
+    "version": 2,
+    "last_updated": 1,
+    "availability": 1,
+}
+_POINTS_TOTAL = sum(_RAW_FIELD_POINTS.values())
+
+_FALSE_CERTAINTY_PATTERNS = [
+    re.compile(r"\bfda\s+(cleared|approved)\b", re.IGNORECASE),
+    re.compile(r"\bce\s+marked\b", re.IGNORECASE),
+    re.compile(r"\beua\s+authorized\b", re.IGNORECASE),
+]
+
+_METRICS_BONUS_CAP = 0.10
+_SUMMARY_PENALTY = 0.05
+_FALSE_CERTAINTY_PENALTY = 0.08
+_REGULATORY_CONFIDENCE_PENALTY = 0.05
+_REGULATORY_MISSING_EVIDENCE_PENALTY = 0.10
+_TRUSTED_REGULATORY_CONFIDENCE = frozenset({"authoritative", "cited_explicit"})
+
+
 class ClinicalUsabilityScorer:
     """Scores model cards for clinical usability"""
-    
-    # Critical fields for clinical use
+
+    RAW_FIELD_POINTS = _RAW_FIELD_POINTS
+
+    # Critical fields for clinical use (normalized weights)
     CRITICAL_CLINICAL_FIELDS = {
-        'intended_use_and_workflow': {
-            'weight': 0.15,
-            'required_elements': ['clinical_indication', 'workflow', 'target_users']
-        },
-        'model_limitations': {
-            'weight': 0.12,
-            'required_elements': ['clinical_limitations', 'safety_considerations', 'contraindications']
-        },
-        'validation_test_dataset': {
-            'weight': 0.12,
-            'required_elements': ['dataset_description', 'performance_metrics', 'validation_methodology']
-        },
-        'training_data': {
-            'weight': 0.10,
-            'required_elements': ['data_source', 'data_quality', 'bias_considerations']
-        },
-        'model_type': {
-            'weight': 0.08,
-            'required_elements': ['architecture', 'modality', 'clinical_domain']
-        },
-        'summary': {
-            'weight': 0.08,
-            'required_elements': ['clinical_purpose', 'key_capabilities', 'target_population']
-        },
-        'skin_tone_diversity': {
-            'weight': 0.10,
-            'required_elements': ['diversity_metrics', 'bias_assessment', 'fairness_considerations']
-        },
-        'foundation_models_used_in_application_if_applicable': {
-            'weight': 0.08,
-            'required_elements': ['foundation_model', 'fine_tuning', 'adaptation_methods']
-        },
-        'uses': {
-            'weight': 0.07,
-            'required_elements': ['use_cases', 'clinical_scenarios', 'integration_requirements']
-        },
-        'warnings': {
-            'weight': 0.10,
-            'required_elements': ['safety_warnings', 'risk_assessment', 'monitoring_requirements']
-        }
+        k: {"weight": v / _POINTS_TOTAL, "required_elements": ["clinical"]}
+        for k, v in _RAW_FIELD_POINTS.items()
     }
     
     # Quality indicators for clinical content
@@ -289,8 +298,13 @@ class ModelCardScorer:
     def __init__(self):
         self.clinical_scorer = ClinicalUsabilityScorer()
     
-    def score_model_card(self, model_card_data: Dict[str, Any]) -> ModelCardScore:
-        """Score a complete model card"""
+    def score_model_card(
+        self,
+        model_card_data: Dict[str, Any],
+        *,
+        citations: Optional[Dict[str, Any]] = None,
+    ) -> ModelCardScore:
+        """Score a complete model card."""
         logger.info("Starting model card scoring")
         
         # Organize fields by category
@@ -319,6 +333,23 @@ class ModelCardScorer:
         # Calculate overall scores
         completion_percentage = (filled_fields / total_fields * 100) if total_fields > 0 else 0.0
         clinical_usability_score = (weighted_clinical_score / total_weight) if total_weight > 0 else 0.0
+
+        metrics_bonus = self._metrics_bonus(model_card_data)
+        clinical_usability_score = min(1.0, clinical_usability_score + metrics_bonus)
+
+        summary_text = str(model_card_data.get("summary") or "")
+        if count_sentences(summary_text) > 3:
+            clinical_usability_score = max(0.0, clinical_usability_score - _SUMMARY_PENALTY)
+
+        if self._has_false_regulatory_certainty(model_card_data):
+            clinical_usability_score = max(0.0, clinical_usability_score - _FALSE_CERTAINTY_PENALTY)
+
+        evidence_issues, evidence_penalty = self._regulatory_evidence_issues(
+            model_card_data, citations
+        )
+        clinical_usability_score = max(0.0, clinical_usability_score - evidence_penalty)
+
+        clinical_usability_score = max(0.0, min(1.0, clinical_usability_score))
         
         # Determine clinical usability level
         clinical_usability_level = self._determine_clinical_level(clinical_usability_score, completion_percentage)
@@ -331,6 +362,7 @@ class ModelCardScorer:
         
         # Identify quality issues
         quality_issues = self._identify_quality_issues(category_scores)
+        quality_issues.extend(evidence_issues)
         
         # Determine overall rating
         overall_rating = self._determine_overall_rating(completion_percentage, clinical_usability_score)
@@ -351,41 +383,164 @@ class ModelCardScorer:
     def _organize_fields_by_category(self, model_card_data: Dict[str, Any]) -> Dict[str, List[Tuple[str, str]]]:
         """Organize model card fields by category"""
         categories = {
-            'summary': [],
-            'intended_use_and_workflow': [],
-            'model_limitations': [],
-            'model_type': [],
-            'training_data': [],
-            'validation_test_dataset': [],
-            'skin_tone_diversity': [],
-            'foundation_models_used_in_application_if_applicable': [],
-            'uses': [],
-            'warnings': [],
-            'trust': [],
-            'metadata': []
+            "summary": [],
+            "medical_purpose": [],
+            "acceptable_input": [],
+            "output": [],
+            "role_in_decision_making": [],
+            "intended_users": [],
+            "target_patient_population": [],
+            "known_failure_modes": [],
+            "unsupported_clinical_scenarios": [],
+            "unsupported_use_cases": [],
+            "required_clinician_oversight": [],
+            "model_type": [],
+            "training_data": [],
+            "model_development_and_validation": [],
+            "performance": [],
+            "performance_evaluation_limitations": [],
+            "regulatory_approval_status": [],
+            "metadata": [],
         }
-        
-        # Map fields to categories
+
+        camel_to_snake = {
+            "modelName": "model_name",
+            "medicalPurpose": "medical_purpose",
+            "acceptableInput": "acceptable_input",
+            "roleInDecisionMaking": "role_in_decision_making",
+            "intendedUsers": "intended_users",
+            "targetPatientPopulation": "target_patient_population",
+            "knownFailureModes": "known_failure_modes",
+            "regulatoryApprovalStatus": "regulatory_approval_status",
+            "performanceEvaluationLimitations": "performance_evaluation_limitations",
+        }
+
         for field_name, field_value in model_card_data.items():
+            fname = camel_to_snake.get(field_name, field_name)
+            if fname == "schemaVersion" or fname == "schema_version":
+                continue
             if isinstance(field_value, str):
-                # Direct field mapping
-                if field_name in categories:
-                    categories[field_name].append((field_name, field_value))
+                if fname in categories:
+                    categories[fname].append((fname, field_value))
                 else:
-                    # Handle nested fields
-                    if '.' in field_name:
-                        category = field_name.split('.')[0]
-                        if category in categories:
-                            categories[category].append((field_name, field_value))
-                    else:
-                        categories['metadata'].append((field_name, field_value))
+                    categories["metadata"].append((fname, field_value))
             elif isinstance(field_value, dict):
-                # Handle nested dictionaries
-                for nested_field, nested_value in field_value.items():
-                    if isinstance(nested_value, str):
-                        categories['metadata'].append((f"{field_name}.{nested_field}", nested_value))
+                if fname == "trainingData" or fname == "training_data":
+                    desc = field_value.get("description", "")
+                    if desc:
+                        categories["training_data"].append(("training_data.description", str(desc)))
+                elif fname == "performance":
+                    summ = field_value.get("summary", "")
+                    if summ:
+                        categories["performance"].append(("performance.summary", str(summ)))
+                    for i, metric in enumerate(field_value.get("metrics") or []):
+                        if not isinstance(metric, dict):
+                            continue
+                        name = str(metric.get("name") or "").strip()
+                        value = str(metric.get("value") or "").strip()
+                        if name and value:
+                            categories["performance"].append(
+                                (f"performance.metrics[{i}]", f"{name}: {value}")
+                            )
+                elif fname in categories:
+                    categories[fname].append((fname, json.dumps(field_value)))
+            elif field_value is not None:
+                if fname in categories:
+                    categories[fname].append((fname, str(field_value)))
         
         return categories
+
+    def _metrics_bonus(self, model_card_data: Dict[str, Any]) -> float:
+        perf = model_card_data.get("performance") or {}
+        if not isinstance(perf, dict):
+            return 0.0
+        meaningful = 0
+        for metric in perf.get("metrics") or []:
+            if not isinstance(metric, dict):
+                continue
+            if str(metric.get("name") or "").strip() and str(metric.get("value") or "").strip():
+                meaningful += 1
+        if meaningful == 0:
+            return 0.0
+        return min(_METRICS_BONUS_CAP, 0.03 * meaningful)
+
+    def _has_false_regulatory_certainty(self, model_card_data: Dict[str, Any]) -> bool:
+        status = (
+            model_card_data.get("regulatoryApprovalStatus")
+            or model_card_data.get("regulatory_approval_status")
+            or ""
+        )
+        if str(status).upper() != "UNKNOWN":
+            return False
+        corpus = " ".join(
+            str(v)
+            for v in model_card_data.values()
+            if isinstance(v, str) and v.strip()
+        )
+        return any(pat.search(corpus) for pat in _FALSE_CERTAINTY_PATTERNS)
+
+    def _has_regulatory_evidence(self, sidecar: Dict[str, Any]) -> bool:
+        for key in (
+            "regulatory_status_evidence",
+            "regulatoryStatusEvidence",
+            "regulatory_status_source",
+            "regulatoryStatusSource",
+        ):
+            val = sidecar.get(key)
+            if isinstance(val, list) and val:
+                return True
+            if isinstance(val, dict) and val:
+                return True
+            if isinstance(val, str) and val.strip():
+                return True
+        field_citations = sidecar.get("field_citations") or sidecar.get("fieldCitations") or {}
+        if not isinstance(field_citations, dict):
+            return False
+        for reg_key in ("regulatory_approval_status", "regulatoryApprovalStatus"):
+            cites = field_citations.get(reg_key)
+            if isinstance(cites, list) and cites:
+                return True
+        return False
+
+    def _regulatory_evidence_issues(
+        self,
+        model_card_data: Dict[str, Any],
+        citations: Optional[Dict[str, Any]],
+    ) -> Tuple[List[str], float]:
+        """Evidence-quality penalties from citation sidecar (separate from completion)."""
+        status = (
+            model_card_data.get("regulatoryApprovalStatus")
+            or model_card_data.get("regulatory_approval_status")
+            or "UNKNOWN"
+        )
+        status_upper = str(status).upper()
+        if status_upper == "UNKNOWN":
+            return [], 0.0
+
+        sidecar = citations if isinstance(citations, dict) else {}
+        confidence = str(
+            sidecar.get("regulatory_status_confidence")
+            or sidecar.get("regulatoryStatusConfidence")
+            or model_card_data.get("regulatory_status_confidence")
+            or "unknown"
+        ).lower()
+
+        issues: List[str] = []
+        penalty = 0.0
+        if confidence not in _TRUSTED_REGULATORY_CONFIDENCE:
+            issues.append(
+                f"Regulatory status '{status_upper}' lacks authoritative or cited_explicit "
+                f"confidence (got '{confidence}')"
+            )
+            penalty += _REGULATORY_CONFIDENCE_PENALTY
+
+        if status_upper in ("FDA_CLEARED", "FDA_APPROVED") and not self._has_regulatory_evidence(sidecar):
+            issues.append(
+                f"Critical: {status_upper} regulatory status has no regulatory_status_evidence"
+            )
+            penalty += _REGULATORY_MISSING_EVIDENCE_PENALTY
+
+        return issues, penalty
     
     def _score_category(self, category_name: str, fields: List[Tuple[str, str]]) -> CategoryScore:
         """Score a category of fields"""

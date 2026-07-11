@@ -174,3 +174,6 @@ secrets.json
 api_keys.json
 src/service-account-key.secret.json
 **/service-account-key.secret.json
+
+.cursor/
+.pytest_deps/

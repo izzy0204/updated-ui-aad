@@ -34,7 +34,18 @@ except Exception:
     find_510k_for_product = None  # type: ignore
 
 # === CHAI schema: single source of truth ===
-from core.chai_schema import CHAIModelCard
+from core.chai_schema import (
+    CLINICAL_CARD_FIELD_NAMES,
+    CLINICAL_NESTED_FIELD_SPECS,
+    ClinicalModelCard,
+    validate_model_card,
+)
+from pipelines.clinical_card_mapper import (
+    _map_agent_dump_to_card,
+    apply_nested_postfill,
+    enforce_summary_length,
+)
+from core.citation_sidecar import build_sidecar_from_evidence, merge_citation_sidecars
 
 # === Gemini agent (planning/fetch/fill/validate/backfill/finalize) ===
 from agents.gemini_agent.agent import run_async as gemini_run_async
@@ -82,7 +93,7 @@ def _is_placeholder_value(val: object) -> bool:
 
 
 def _ensure_field_level_citations(
-    chai_card: CHAIModelCard,
+    chai_card: ClinicalModelCard,
     citations: Dict[str, Any],
     *,
     fallback_urls: List[str],
@@ -107,8 +118,9 @@ def _ensure_field_level_citations(
     else:
         field_names = list(getattr(chai_card, "__dict__", {}).keys())
 
+    skip = {"schema_version", "regulatory_approval_date", "last_updated", "application_url", "availability", "clinical_trial", "training_data", "model_development_and_validation", "performance", "contact", "ongoing_monitoring_plan", "scheduled_updates", "regulatory_approval_status"}
     for fname in field_names:
-        if fname == "extraction_timestamp":
+        if fname in skip:
             continue
         v = getattr(chai_card, fname, None)
         if _is_placeholder_value(v):
@@ -165,578 +177,16 @@ def _flatten_with_normalization(d: dict) -> dict:
             flat[_norm_key(k)] = v
     return flat
 
-# Canonical legacy agent keys (dotted paths / common aliases) → CHAI field names
-_AGENT_TO_CHAI: dict[str, str] = {
-    # ---------- METADATA ----------
-    "metadata.name": "model_name",
-    "metadata.model": "model_name",
-    "name": "model_name",
-    "model": "model_name",
 
-    "metadata.developer": "developer",
-    "metadata.organization": "developer",
-    "metadata.publisher": "developer",
-    "developer": "developer",
-
-    "metadata.support_contact": "inquiries_or_to_report_an_issue",
-    "metadata.contact": "inquiries_or_to_report_an_issue",
-    "metadata.support": "inquiries_or_to_report_an_issue",
-    "contact": "inquiries_or_to_report_an_issue",
-
-    "metadata.stage": "release_stage",
-    "metadata.maturity": "release_stage",
-    "release.stage": "release_stage",
-    "stage": "release_stage",
-
-    "metadata.release_date": "release_date",
-    "metadata.release_date_iso": "release_date",
-    "metadata.date": "release_date",
-    "release.date": "release_date",
-    "date": "release_date",
-
-    "metadata.version": "version",
-    "metadata.version_tag": "version",
-    "version": "version",
-
-    "metadata.regulatory_status": "regulatory_approval_status_if_applicable",
-    "metadata.approval_status": "regulatory_approval_status_if_applicable",
-
-    "metadata.availability": "global_availability",
-    "availability": "global_availability",
-
-    "metadata.summary": "summary",
-    "overview": "summary",
-    "abstract": "summary",
-    "description": "summary",
-    "summary": "summary",
-
-    "metadata.keywords": "keywords",
-    "tags": "keywords",
-    "keywords": "keywords",
-
-    # ---------- USES & DIRECTIONS ----------
-    "uses.purpose": "intended_use_and_workflow",
-    "uses.intended_use": "intended_use_and_workflow",
-    "purpose": "intended_use_and_workflow",
-
-    "uses.primary_users": "primary_intended_users",
-    "users": "primary_intended_users",
-
-    "uses.expertise_required": "necessary_knowledge_expertise",
-    "required.expertise": "necessary_knowledge_expertise",
-
-    "uses.how_to_use": "how_to_use",
-    "instructions": "how_to_use",
-    "usage": "how_to_use",
-
-    "uses.target_population": "targeted_patient_population",
-    "target.population": "targeted_patient_population",
-
-    "uses.patient_consent_required": "patient_consent_or_disclosure_required_or_suggested",
-    "patient.consent": "patient_consent_or_disclosure_required_or_suggested",
-
-    # ---------- WARNINGS ----------
-    "warnings.developer_warnings": "developer_supplied_warnings",
-    "developer.warnings": "developer_supplied_warnings",
-
-    "warnings.limitations": "model_limitations",
-    "limitations": "model_limitations",
-
-    "warnings.skin_type_representation_and_equity": "skin_type_representation_and_equity",
-    "skin.tone.representation": "skin_type_representation_and_equity",
-
-    "warnings.clinical_risk_level": "clinical_risk_level",
-    "risk.level": "clinical_risk_level",
-
-    # ---------- TRUST INGREDIENTS ----------
-    "trust.ai_system_facts": "ai_system_facts",
-
-    "trust.model_type": "model_type",
-    "architecture": "model_type",
-    "model.architecture": "model_type",
-
-    "trust.interaction_with_other_systems": "interaction_with_other_systems",
-    "system.integration": "interaction_with_other_systems",
-
-    "trust.outcomes_output": "outcomes_and_output",
-    "outputs": "outcomes_and_output",
-
-    "trust.type_value_output": "type_and_value_of_solution_output",
-    "output.value": "type_and_value_of_solution_output",
-
-    "trust.explainability": "explanation_for_how_an_output_is_generated",
-    "explainability": "explanation_for_how_an_output_is_generated",
-
-    "trust.foundation_models": "foundation_models_used_in_application_if_applicable",
-    "foundation.models": "foundation_models_used_in_application_if_applicable",
-
-    "trust.input_data_source": "input_data_source",
-    "data.source": "input_data_source",
-
-    "trust.output_input_data_type": "output_input_data_type",
-    "data.types": "output_input_data_type",
-    "modalities": "output_input_data_type",
-
-    "trust.development_data_characterization": "development_data_characterization",
-
-    "trust.training_data": "training_data",
-    "training.dataset": "training_data",
-
-    "trust.exclusion_criteria": "exclusion_inclusion_criteria",
-    "trust.inclusion_criteria": "exclusion_inclusion_criteria",
-
-    "trust.demographics": "demographic_representativeness",
-    "demographic.representation": "demographic_representativeness",
-
-    "trust.dataset_doi": "dataset_doi_if_applicable",
-    "dataset.doi": "dataset_doi_if_applicable",
-
-    "trust.dataset_transparency": "dataset_transparency",
-
-    "trust.validation_test_dataset": "validation_test_dataset",
-    "validation.dataset": "validation_test_dataset",
-    "test.dataset": "validation_test_dataset",
-
-    "trust.data_timeline": "timeline_of_data_collection",
-    "data.collection.timeline": "timeline_of_data_collection",
-
-    "trust.skin_tone_diversity": "skin_tone_diversity",
-
-    "trust.did_the_data_collection_process_undergo_ethical_review": "did_the_data_collection_process_undergo_ethical_review",
-    "ethical.review": "did_the_data_collection_process_undergo_ethical_review",
-
-    "trust.ethical_review_board_oversight": "ethical_review_board_oversight",
-    "ethics.board.oversight": "ethical_review_board_oversight",
-
-    "trust.irb_approval": "irb_approval",
-
-    "trust.relevance_of_training_data_to_intended_population": "relevance_of_training_data_to_intended_population",
-
-    "trust.bias_mitigation_approaches": "bias_mitigation_approaches",
-
-    "trust.ongoing_maintenance": "ongoing_maintenance",
-
-    "trust.security_and_compliance_environment_practices_or_accreditations_if_applicable":
-        "security_and_compliance_environment_practices_or_accreditations_if_applicable",
-
-    "trust.transparency_intelligibility_and_accountability_mechanisms_if_applicable":
-        "transparency_intelligibility_and_accountability_mechanisms_if_applicable",
-
-    "trust.transparency_information": "transparency_information",
-
-    "trust.funding_source_of_the_technical_implementation": "funding_source_of_the_technical_implementation",
-
-    "trust.third_party_information_if_applicable": "third_party_information_if_applicable",
-
-    # ---------- KEY METRICS: Usefulness / Efficacy ----------
-    "metrics.usefulness.goal": "usefulness_efficacy_goal_of_metrics",
-    "metrics.usefulness.result": "usefulness_efficacy_result",
-    "metrics.usefulness.interpretation": "usefulness_efficacy_interpretation",
-    "metrics.usefulness.test_type": "usefulness_efficacy_test_type",
-    "metrics.usefulness.testing_data_description": "usefulness_efficacy_testing_data_description",
-    "metrics.usefulness.validation_process_and_justification": "usefulness_efficacy_validation_process_and_justification",
-    "metrics.usefulness.auroc_accuracy_etc": "usefulness_efficacy_auroc_accuracy_etc",
-
-    # ---------- KEY METRICS: Fairness & Equity ----------
-    "metrics.fairness.goal": "fairness_equity_goal_of_metrics",
-    "metrics.fairness.result": "fairness_equity_result",
-    "metrics.fairness.interpretation": "fairness_equity_interpretation",
-    "metrics.fairness.test_type": "fairness_equity_test_type",
-    "metrics.fairness.testing_data_description": "fairness_equity_testing_data_description",
-    "metrics.fairness.validation_process_and_justification": "fairness_equity_validation_process_and_justification",
-
-    # ---------- KEY METRICS: Safety & Reliability ----------
-    "metrics.safety.goal": "safety_reliability_goal_of_metrics",
-    "metrics.safety.result": "safety_reliability_result",
-    "metrics.safety.interpretation": "safety_reliability_interpretation",
-    "metrics.safety.test_type": "safety_reliability_test_type",
-    "metrics.safety.testing_data_description": "safety_reliability_testing_data_description",
-    "metrics.safety.validation_process_and_justification": "safety_reliability_validation_process_and_justification",
-
-    # ---------- RESOURCES ----------
-    "resources.evaluation_references": "evaluation_references_if_available",
-    "resources.evaluation.references": "evaluation_references_if_available",
-
-    "resources.clinical_trial": "clinical_trial_if_available",
-    "clinical.trial": "clinical_trial_if_available",
-
-    "resources.publications": "peer_reviewed_publications",
-    "publications": "peer_reviewed_publications",
-
-    "resources.reimbursement_status": "reimbursement_status_if_applicable",
-    "reimbursement.status": "reimbursement_status_if_applicable",
-
-    "resources.stakeholders_consulted": "stakeholders_consulted_during_design_of_solution",
-    "stakeholders.consulted": "stakeholders_consulted_during_design_of_solution",
-}
-
-# For fields where Gemini is inconsistent, list multiple candidate keys per CHAI field.
-_FALLBACKS: dict[str, list[str]] = {
-    # ---------- Key Metrics: Usefulness / Efficacy ----------
-    "usefulness_efficacy_goal_of_metrics": [
-        "metrics.usefulness.goal", "key_metrics.usefulness.goal",
-        "usefulness.efficacy.goal", "usefulness.goal", "efficacy.goal",
-        "usefulness.and.efficacy.goal", "usefulness/efficacy.goal",
-        "usefulness . efficacy.goal", "usefulness.efficacy.goal.of.metrics",
-        "usefulness / efficacy.goal", "usefulness \\ efficacy.goal",
-    ],
-    "usefulness_efficacy_result": [
-        "metrics.usefulness.result", "key_metrics.usefulness.result",
-        "usefulness.efficacy.result", "usefulness.result", "efficacy.result",
-    ],
-    "usefulness_efficacy_interpretation": [
-        "metrics.usefulness.interpretation", "key_metrics.usefulness.interpretation",
-        "usefulness.efficacy.interpretation", "usefulness.interpretation", "efficacy.interpretation",
-    ],
-    "usefulness_efficacy_test_type": [
-        "metrics.usefulness.test_type", "key_metrics.usefulness.test_type",
-        "usefulness.efficacy.test.type", "usefulness.test.type", "efficacy.test.type",
-    ],
-    "usefulness_efficacy_testing_data_description": [
-        "metrics.usefulness.testing_data_description",
-        "key_metrics.usefulness.testing_data_description",
-        "usefulness.efficacy.testing.data.description",
-        "usefulness.testing.data.description", "efficacy.testing.data.description",
-    ],
-    "usefulness_efficacy_validation_process_and_justification": [
-        "metrics.usefulness.validation_process_and_justification",
-        "key_metrics.usefulness.validation_process_and_justification",
-        "usefulness.efficacy.validation.process.and.justification",
-        "usefulness.validation.process.and.justification",
-        "efficacy.validation.process.and.justification",
-    ],
-    "usefulness_efficacy_auroc_accuracy_etc": [
-        "metrics.usefulness.auroc_accuracy_etc",
-        "key_metrics.usefulness.auroc_accuracy_etc",
-        "usefulness.efficacy.auroc.accuracy.etc", "usefulness.auroc", "efficacy.auroc",
-    ],
-
-    # ---------- Key Metrics: Fairness & Equity ----------
-    "fairness_equity_goal_of_metrics": [
-        "metrics.fairness.goal", "key_metrics.fairness.goal",
-        "fairness.and.equity.goal", "fairness/equity.goal", "fairness.equity.goal",
-    ],
-    "fairness_equity_result": [
-        "metrics.fairness.result", "key_metrics.fairness.result",
-        "fairness.equity.result", "equity.result", "fairness.result",
-    ],
-    "fairness_equity_interpretation": [
-        "metrics.fairness.interpretation", "key_metrics.fairness.interpretation",
-        "fairness.equity.interpretation",
-    ],
-    "fairness_equity_test_type": [
-        "metrics.fairness.test_type", "key_metrics.fairness.test_type",
-        "fairness.equity.test.type",
-    ],
-    "fairness_equity_testing_data_description": [
-        "metrics.fairness.testing_data_description",
-        "key_metrics.fairness.testing_data_description",
-        "fairness.equity.testing.data.description",
-    ],
-    "fairness_equity_validation_process_and_justification": [
-        "metrics.fairness.validation_process_and_justification",
-        "key_metrics.fairness.validation_process_and_justification",
-        "fairness.equity.validation.process.and.justification",
-    ],
-
-    # ---------- Key Metrics: Safety & Reliability ----------
-    "safety_reliability_goal_of_metrics": [
-        "metrics.safety.goal", "key_metrics.safety.goal",
-        "safety.and.reliability.goal", "safety/reliability.goal", "safety.reliability.goal",
-    ],
-    "safety_reliability_result": [
-        "metrics.safety.result", "key_metrics.safety.result", "safety.reliability.result",
-    ],
-    "safety_reliability_interpretation": [
-        "metrics.safety.interpretation", "key_metrics.safety.interpretation",
-        "safety.reliability.interpretation",
-    ],
-    "safety_reliability_test_type": [
-        "metrics.safety.test_type", "key_metrics.safety.test_type",
-        "safety.reliability.test.type",
-    ],
-    "safety_reliability_testing_data_description": [
-        "metrics.safety.testing_data_description",
-        "key_metrics.safety.testing_data_description",
-        "safety.reliability.testing.data.description",
-    ],
-    "safety_reliability_validation_process_and_justification": [
-        "metrics.safety.validation_process_and_justification",
-        "key_metrics.safety.validation_process_and_justification",
-        "safety.reliability.validation.process.and.justification",
-    ],
-
-    # ---------- Resources ----------
-    "evaluation_references_if_available": [
-        "resources.evaluation_references", "resources.evaluation.references",
-        "resources.evaluation.refs", "evaluation.references",
-    ],
-    "clinical_trial_if_available": [
-        "resources.clinical_trial", "resources.clinical.trial", "clinical.trial",
-    ],
-    "peer_reviewed_publications": [
-        "resources.publications", "resources.peer.reviewed.publications",
-        "peer.reviewed.publications", "publications",
-    ],
-    "reimbursement_status_if_applicable": [
-        "resources.reimbursement_status", "reimbursement.status",
-    ],
-    "stakeholders_consulted_during_design_of_solution": [
-        "resources.stakeholders_consulted", "stakeholders.consulted",
-    ],
-
-    # ---------- Helpful metadata/uses/warnings/trust synonyms ----------
-    "model_name": [
-        "metadata.name", "metadata.model", "name", "model", "metadata.model_title", "model.title",
-    ],
-    "developer": [
-        "metadata.maker", "metadata.publisher", "metadata.organization",
-        "maker", "publisher", "organization", "company", "lab", "team",
-    ],
-    "release_stage": [
-        "metadata.stage", "metadata.maturity", "stage", "maturity", "release.status", "status",
-    ],
-    "release_date": [
-        "metadata.release_date_iso", "metadata.date", "release.date", "date",
-        "publication.date", "published.date",
-    ],
-    "version": [
-        "metadata.version_tag", "metadata.ver", "ver", "release.version",
-    ],
-    "regulatory_approval_status_if_applicable": [
-        "metadata.approval_status", "metadata.regulatory_status",
-        "approval.status", "regulatory.status", "clearance.status",
-    ],
-    "global_availability": [
-        "metadata.availability", "availability", "markets", "regions",
-        "countries.available", "distribution",
-    ],
-    "summary": [
-        "metadata.summary", "overview", "abstract", "description", "executive.summary",
-    ],
-    "keywords": [
-        "metadata.keywords", "tags", "topics", "labels",
-    ],
-    "intended_use_and_workflow": [
-        "uses.purpose", "uses.intended_use", "purpose", "intended.use",
-        "workflow", "intended.workflow", "clinical.workflow",
-    ],
-    "primary_intended_users": [
-        "uses.primary_users", "users", "intended.users", "end.users", "target.users",
-    ],
-    "necessary_knowledge_expertise": [
-        "uses.expertise_required", "expertise.required", "required.expertise",
-        "required.knowledge", "skills.required",
-    ],
-    "how_to_use": [
-        "uses.how_to_use", "instructions", "usage", "user.guide", "directions",
-    ],
-    "targeted_patient_population": [
-        "uses.target.population", "target.population", "patient.population", "intended.population",
-    ],
-    "patient_consent_or_disclosure_required_or_suggested": [
-        "uses.patient_consent_required", "patient.consent", "disclosure.required",
-        "consent", "informed.consent",
-    ],
-    "developer_supplied_warnings": [
-        "warnings.developer_warnings", "warnings", "cautions", "contraindications", "developer.warnings",
-    ],
-    "model_limitations": [
-        "warnings.limitations", "limitations", "known.limitations", "model.limits",
-    ],
-    "skin_type_representation_and_equity": [
-        "warnings.skin_type_representation_and_equity", "skin.tone.representation",
-        "fitzpatrick.representation", "representation.and.equity",
-    ],
-    "clinical_risk_level": [
-        "warnings.clinical_risk_level", "risk.level", "clinical.risk", "harm.risk",
-    ],
-    "ai_system_facts": [
-        "trust.ai_system_facts", "system.facts", "model.facts",
-    ],
-    "model_type": [
-        "trust.model_type", "architecture", "model.architecture", "type",
-    ],
-    "interaction_with_other_systems": [
-        "trust.interaction_with_other_systems", "system.integration",
-        "integrations", "dependencies", "interop",
-    ],
-    "outcomes_and_output": [
-        "trust.outcomes_output", "outputs", "outcomes", "model.outputs",
-    ],
-    "type_and_value_of_solution_output": [
-        "trust.type_value_output", "output.value", "value.of.output", "benefits", "utility",
-    ],
-    "explanation_for_how_an_output_is_generated": [
-        "trust.explainability", "explainability", "explanation",
-        "how.output.is.generated", "interpretability",
-    ],
-    "foundation_models_used_in_application_if_applicable": [
-        "trust.foundation_models", "foundation.models", "base.models", "pretrained.models",
-    ],
-    "input_data_source": [
-        "trust.input_data_source", "inputs.source", "data.source", "input.source", "ingestion.source",
-    ],
-    "output_input_data_type": [
-        "trust.output_input_data_type", "data.types", "input.output.types", "modalities", "modality",
-    ],
-    "development_data_characterization": [
-        "trust.development_data_characterization", "dev.data.characterization", "development.dataset.characteristics",
-    ],
-    "training_data": [
-        "trust.training_data", "training.dataset", "training.data.set", "train.data",
-    ],
-    "exclusion_inclusion_criteria": [
-        "trust.exclusion_criteria", "trust.inclusion_criteria", "inclusion.criteria", "exclusion.criteria",
-    ],
-    "demographic_representativeness": [
-        "trust.demographics", "demographic.representation", "population.representation",
-    ],
-    "dataset_doi_if_applicable": [
-        "trust.dataset_doi", "metadata.dataset_doi", "dataset.doi", "doi",
-    ],
-    "dataset_transparency": [
-        "trust.dataset_transparency", "dataset.transparency", "data.transparency",
-    ],
-    "validation_test_dataset": [
-        "trust.validation_test_dataset", "validation.dataset", "test.dataset", "eval.dataset",
-    ],
-    "timeline_of_data_collection": [
-        "trust.data_timeline", "data.collection.timeline", "timeline", "collection.timeline",
-    ],
-    "skin_tone_diversity": [
-        "trust.skin_tone_diversity", "skin.tone.diversity", "fitzpatrick.diversity",
-    ],
-    "did_the_data_collection_process_undergo_ethical_review": [
-        "trust.did_the_data_collection_process_undergo_ethical_review",
-        "ethical.review", "ethics.review", "irb.reviewed",
-    ],
-    "ethical_review_board_oversight": [
-        "trust.ethical_review_board_oversight", "ethics.board.oversight", "irb.oversight",
-    ],
-    "irb_approval": [
-        "trust.irb_approval", "irb", "irb.approval", "ethics.approval",
-    ],
-    "relevance_of_training_data_to_intended_population": [
-        "trust.relevance_of_training_data_to_intended_population",
-        "data.relevance.to.population", "relevance.to.intended.population",
-    ],
-    "bias_mitigation_approaches": [
-        "trust.bias_mitigation_approaches", "bias.mitigation", "debiasing.methods",
-    ],
-    "ongoing_maintenance": [
-        "trust.ongoing_maintenance", "maintenance", "updates", "lifecycle.management",
-    ],
-    "security_and_compliance_environment_practices_or_accreditations_if_applicable": [
-        "trust.security_and_compliance_environment_practices_or_accreditations_if_applicable",
-        "security.and.compliance", "compliance.certifications", "security.certifications",
-    ],
-    "transparency_intelligibility_and_accountability_mechanisms_if_applicable": [
-        "trust.transparency_intelligibility_and_accountability_mechanisms_if_applicable",
-        "transparency.mechanisms", "accountability.mechanisms", "intelligibility.mechanisms",
-    ],
-    "transparency_information": [
-        "trust.transparency_information", "transparency.info", "disclosures", "documentation.transparency",
-    ],
-    "funding_source_of_the_technical_implementation": [
-        "trust.funding_source_of_the_technical_implementation", "funding.source", "grants", "sponsors",
-    ],
-    "third_party_information_if_applicable": [
-        "trust.third_party_information_if_applicable", "third.party.info", "third.parties", "vendors",
-    ],
-
-    # helpful metadata synonym
-    "inquiries_or_to_report_an_issue": [
-        "metadata.support_contact", "metadata.contact", "metadata.support", "contact", "support",
-        "inquiries.or.to.report.an.issue",
-    ],
-}
-
-
-def _coerce_scalar_or_join(value: Any) -> str | None:
-    """Join lists to a sentence; pass scalars through; preserve None."""
-    if value is None:
-        return None
-    if isinstance(value, list):
-        return "; ".join(str(x).strip() for x in value if str(x).strip())
-    return str(value)
-
-
-def _map_agent_dump_to_chai(agent_dump: Dict[str, Any], *, user_model_name: str = "", user_developer_name: str = "", user_application_url: str = "") -> CHAIModelCard:
-    """
-    Prefer flat CHAI keys directly. Fall back to your normalization + aliasing map
-    for backward compatibility with older agent outputs.
-    
-    Args:
-        agent_dump: Agent output dictionary
-        user_model_name: User-provided model name (takes precedence)
-        user_developer_name: User-provided developer name (takes precedence)
-        user_application_url: User-provided application URL (takes precedence)
-    """
-    # 0) If the agent already returned CHAI-shaped flat keys, use them (type-safe)
-    chai_field_names = {f.name for f in dc_fields(CHAIModelCard)}
-    direct = {k: v for k, v in (agent_dump or {}).items() if k in chai_field_names}
-
-    if direct:
-        card = CHAIModelCard()  # correct typed defaults
-        for k, v in direct.items():
-            if k in ("keywords", "foundation_models_used_in_application_if_applicable"):
-                if isinstance(v, list):
-                    setattr(card, k, [str(x).strip() for x in v if str(x).strip()])
-                elif v is None or (isinstance(v, str) and not v.strip()):
-                    setattr(card, k, [])
-                else:
-                    setattr(card, k, [str(v).strip()])
-            else:
-                setattr(card, k, None if v is None else str(v).strip())
-        
-        # Override with user input if provided
-        if user_model_name:
-            card.model_name = user_model_name
-        if user_developer_name:
-            card.developer = user_developer_name
-        if user_application_url:
-            card.application_url = user_application_url
-            
-        return card
-
-    # --- Legacy / mixed keys path (uses your existing normalization & fallbacks) ---
-    flat = _flatten_with_normalization(agent_dump)
-    kwargs: Dict[str, Any] = {}
-
-    # 2) Direct one-to-one mappings (your existing _AGENT_TO_CHAI), if you keep it
-    for agent_key, chai_field in _AGENT_TO_CHAI.items():
-        candidates = [agent_key, _norm_key(agent_key)]
-        for c in candidates:
-            if c in flat:
-                val = flat[c]
-                if chai_field in ("keywords", "foundation_models_used_in_application_if_applicable") and isinstance(val, list):
-                    kwargs[chai_field] = [str(x).strip() for x in val if str(x).strip()]
-                else:
-                    kwargs[chai_field] = _coerce_scalar_or_join(val)
-                break
-
-    # 3) Fallbacks
-    for chai_field, cand_keys in _FALLBACKS.items():
-        if chai_field in kwargs:
-            continue
-        for ck in cand_keys:
-            nk = _norm_key(ck)
-            if nk in flat:
-                val = flat[nk]
-                kwargs[chai_field] = _coerce_scalar_or_join(val)
-                break
-
-    # Override with user input if provided
-    if user_model_name:
-        kwargs["model_name"] = user_model_name
-    if user_developer_name:
-        kwargs["developer"] = user_developer_name
-    if user_application_url:
-        kwargs["application_url"] = user_application_url
-
-    return CHAIModelCard(**kwargs)
-
+def _map_agent_dump_to_chai(agent_dump: Dict[str, Any], *, user_model_name: str = "", user_developer_name: str = "", user_application_url: str = "", fda_records: Optional[List[Dict[str, Any]]] = None) -> ClinicalModelCard:
+    """Map agent output to ClinicalModelCard (v1.0)."""
+    return _map_agent_dump_to_card(
+        agent_dump,
+        user_model_name=user_model_name,
+        user_developer_name=user_developer_name,
+        user_application_url=user_application_url,
+        fda_records=fda_records,
+    )
 
 
 # ------------------------- enrichment helpers -------------------------
@@ -808,18 +258,79 @@ async def _fetch_fda_records(model_name: str, developer_name: str) -> tuple[list
 
 # ------------------------- post-fill helpers -------------------------
 
-def _collect_empty_chai_fields(card: CHAIModelCard) -> list[str]:
-    """Return CHAI field names that are empty ('' or empty list)."""
+def _collect_empty_clinical_fields(card: ClinicalModelCard) -> list[str]:
+    """Return clinical field paths that are empty (including nested subfields)."""
     empties: list[str] = []
     if not is_dataclass(card):
         return empties
+    skip = {
+        "schema_version",
+        "regulatory_approval_date",
+        "last_updated",
+        "application_url",
+        "availability",
+        "ongoing_monitoring_plan",
+        "scheduled_updates",
+        "regulatory_approval_status",
+    }
     for f in dc_fields(card):
-        if f.name == "extraction_timestamp":
+        if f.name in skip:
             continue
         val = getattr(card, f.name, None)
-        if (isinstance(val, str) and not val.strip()) or (isinstance(val, list) and not any(str(x).strip() for x in val)):
+        if f.name == "training_data":
+            if not (getattr(val, "description", None) or "").strip():
+                empties.append("training_data.description")
+            continue
+        if f.name == "model_development_and_validation":
+            if not (getattr(val, "description", None) or "").strip():
+                empties.append("model_development_and_validation.description")
+            continue
+        if f.name == "clinical_trial":
+            ct = val
+            if ct is None or not any(
+                (getattr(ct, "identifier", None) or "").strip()
+                or (getattr(ct, "url", None) or "").strip()
+                or (getattr(ct, "description", None) or "").strip()
+            ):
+                empties.append("clinical_trial.description")
+            continue
+        if f.name == "performance":
+            if not (getattr(val, "summary", None) or "").strip():
+                empties.append("performance.summary")
+            for i, m in enumerate(getattr(val, "metrics", None) or []):
+                if not (getattr(m, "name", None) or "").strip() or not (getattr(m, "value", None) or "").strip():
+                    empties.append(f"performance.metrics[{i}]")
+            continue
+        if f.name == "contact":
+            if not (getattr(val, "email", None) or "").strip() and not (getattr(val, "url", None) or "").strip():
+                empties.append("contact.url")
+            continue
+        if isinstance(val, str) and not val.strip():
             empties.append(f.name)
     return empties
+
+
+def _is_clinical_field_filled(card: ClinicalModelCard, field_name: str) -> bool:
+    if field_name == "training_data":
+        return bool((card.training_data.description or "").strip())
+    if field_name == "performance":
+        return bool((card.performance.summary or "").strip()) or bool(card.performance.metrics)
+    if field_name == "contact":
+        return bool(card.contact.email or card.contact.url)
+    val = getattr(card, field_name, None)
+    if isinstance(val, str):
+        return bool(val.strip())
+    return val is not None
+
+
+def _apply_postfill_value(card: ClinicalModelCard, field_name: str, val: str) -> None:
+    if "." in field_name or field_name.startswith("performance.metrics"):
+        apply_nested_postfill(card, field_name, val)
+    else:
+        setattr(card, field_name, val)
+
+
+_collect_empty_chai_fields = _collect_empty_clinical_fields
 
 
 def _build_context_block(seed_pages: list[dict], citations: dict, max_chars: int = 40000) -> str:
@@ -1041,11 +552,11 @@ Respond as JSON:
 
 
 async def _postfill_one_critical_field(
-    chai_card: CHAIModelCard,
+    chai_card: ClinicalModelCard,
     field_name: str,
     seed_pages: list[dict],
     citations: dict,
-) -> tuple[CHAIModelCard, dict]:
+) -> tuple[ClinicalModelCard, dict]:
     """Post-fill a single critical field with enhanced context."""
     client, model, config = _postfill_client()
     if client is None or not model:
@@ -1055,7 +566,7 @@ async def _postfill_one_critical_field(
     val, ev = await _postfill_one_field(client, model, field_name, context_block, config=config)
     
     if val:
-        setattr(chai_card, field_name, val)
+        _apply_postfill_value(chai_card, field_name, val)
         if ev:
             citations[f"postfill.{field_name}"] = ev
     
@@ -1063,18 +574,20 @@ async def _postfill_one_critical_field(
 
 
 async def _postfill_missing_fields(
-    chai_card: CHAIModelCard,
+    chai_card: ClinicalModelCard,
     seed_pages: list[dict],
     citations: dict,
     *,
-    max_fields: int = 74,  # Process all CHAI fields
+    max_fields: int = 0,
     pass_name: str = "default",
-) -> tuple[CHAIModelCard, dict]:
+) -> tuple[ClinicalModelCard, dict]:
     """
-    For any empty CHAI field, ask Gemini to fill it using (seed_pages + citations) as context.
+    For any empty clinical field, ask Gemini to fill it using (seed_pages + citations) as context.
     Adds citations under 'postfill.<field>'.
     """
-    empty_fields = _collect_empty_chai_fields(chai_card)[:max_fields]
+    empty_fields = _collect_empty_clinical_fields(chai_card)
+    cap = max_fields if max_fields > 0 else len(CLINICAL_CARD_FIELD_NAMES) + len(CLINICAL_NESTED_FIELD_SPECS)
+    empty_fields = empty_fields[:cap]
     if not empty_fields:
         return chai_card, citations
 
@@ -1087,7 +600,7 @@ async def _postfill_missing_fields(
     for fname in empty_fields:
         val, ev = await _postfill_one_field(client, model, fname, context_block, config=config)
         if val:
-            setattr(chai_card, fname, val)
+            _apply_postfill_value(chai_card, fname, val)
             if ev:
                 citations[f"postfill.{fname}"] = ev
 
@@ -1099,7 +612,7 @@ async def _postfill_missing_fields(
 
 class CardGenPipeline:
     """
-    Gemini-as-Agent pipeline that outputs a CHAIModelCard and artifacts.
+    Gemini-as-Agent pipeline that outputs a ClinicalModelCard and artifacts.
     Public return shape: (chai_card, sources, content)
     """
 
@@ -1107,6 +620,25 @@ class CardGenPipeline:
         self.out_dir = Path(out_dir)
         self.out_dir.mkdir(parents=True, exist_ok=True)
         self.use_web_discovery = use_web_discovery
+        self._rewrite_summary_callback = self._gemini_rewrite_summary
+
+    def _gemini_rewrite_summary(self, original: str) -> Optional[str]:
+        """Rewrite an over-long summary via Gemini (sync); returns None when unavailable."""
+        client, model, config = _postfill_client()
+        if client is None or not model:
+            return None
+        prompt = (
+            "Rewrite the following clinical AI model card summary in at most three complete sentences. "
+            "Preserve factual claims only; do not add new claims. Return only the rewritten summary.\n\n"
+            f"{original}"
+        )
+        try:
+            resp = client.models.generate_content(model=model, contents=prompt, config=config)
+            text = (getattr(resp, "text", None) or "").strip()
+            return text or None
+        except Exception as exc:
+            print(f"Warning: summary rewrite failed: {exc}")
+            return None
 
     async def __aenter__(self):
         return self
@@ -1200,7 +732,7 @@ class CardGenPipeline:
             "extracted_content": "Content extraction placeholder"
         }
 
-    async def generate_chai_model_card(self, model_name: str, extracted_content: Dict[str, Any], developer_name: str = "", application_url: str = "") -> CHAIModelCard:
+    async def generate_chai_model_card(self, model_name: str, extracted_content: Dict[str, Any], developer_name: str = "", application_url: str = "") -> ClinicalModelCard:
         """
         Generate a CHAI model card using the extracted content and user inputs.
         """
@@ -1222,13 +754,13 @@ class CardGenPipeline:
         finalize_policy: str = "not_specified",  # or "none"
         write_files: bool = True,
         file_prefix: str | None = None,
-    ) -> Tuple[CHAIModelCard, Dict, Dict]:
+    ) -> Tuple[ClinicalModelCard, Dict, Dict]:
         """
         Generate model card with adaptive iteration count based on initial completeness.
         """
         """
         Returns:
-          - chai_card: CHAIModelCard (flat dataclass)
+          - chai_card: ClinicalModelCard (flat dataclass)
           - sources:   {"agent": "gemini", "citations": {...}, "hint": str,
                         "web_search": {...}, "publications": [...], "fda": [...],
                         "postfill": {"ran": bool}}
@@ -1342,10 +874,7 @@ class CardGenPipeline:
         else:
             agent_dump = getattr(agent_card_like, "__dict__", {}) or {}
 
-        # 3) Map nested agent fields → CHAI flat dataclass
-        chai_card = _map_agent_dump_to_chai(agent_dump, user_model_name=model_name, user_developer_name=developer_name, user_application_url=application_url)
-
-        # ---- NOW fetch Publications + FDA (late) and use them for post-fill only ----
+        # 3) Fetch Publications + FDA before mapping (regulatory evidence)
         publications: List[Dict[str, Any]] = []
         seed_pages_pubs: List[Dict[str, Any]] = []
         try:
@@ -1360,6 +889,15 @@ class CardGenPipeline:
                 fda_records, seed_pages_fda = await _fetch_fda_records(model_name, developer_name)
             except Exception:
                 fda_records, seed_pages_fda = ([], [])
+
+        # Re-classify regulatory status with FDA evidence
+        chai_card = _map_agent_dump_to_chai(
+            agent_dump,
+            user_model_name=model_name,
+            user_developer_name=developer_name,
+            user_application_url=application_url,
+            fda_records=fda_records,
+        )
 
         # Merge all seed pages (web + pubs + fda) for POST-FILL
         seed_pages_post: List[Dict[str, Any]] = []
@@ -1381,7 +919,6 @@ class CardGenPipeline:
                 chai_card=chai_card,
                 seed_pages=seed_pages_post,
                 citations=citations,
-                max_fields=74,  # Process all CHAI fields
                 pass_name="seed_pages"
             )
             
@@ -1390,18 +927,17 @@ class CardGenPipeline:
                 chai_card=chai_card,
                 seed_pages=[],  # Use only citations in this pass
                 citations=citations,
-                max_fields=74,
                 pass_name="citations"
             )
             
             # Pass 3: Targeted fill for critical missing fields
             critical_missing = [
-                "release_date", "global_availability", "how_to_use",
-                "developer_supplied_warnings", "model_limitations",
-                "training_data", "usefulness_efficacy_result"
+                "medical_purpose", "acceptable_input", "output",
+                "known_failure_modes", "performance",
+                "training_data",
             ]
             for field in critical_missing:
-                if not getattr(chai_card, field, None) or not str(getattr(chai_card, field, "")).strip():
+                if not _is_clinical_field_filled(chai_card, field):
                     chai_card, citations = await _postfill_one_critical_field(
                         chai_card=chai_card,
                         field_name=field,
@@ -1425,10 +961,33 @@ class CardGenPipeline:
             # Never fail generation just because the citation-enforcer failed
             pass
 
+        # 3.8) Tag each field's sources with regulatory tier (for UI color-coding)
+        try:
+            from core.source_regulatory import (
+                attach_fda_records_to_citations,
+                compute_regulatory_tiers_for_card,
+            )
+
+            citations = attach_fda_records_to_citations(citations, fda_records)
+            compute_regulatory_tiers_for_card(chai_card, citations)
+        except Exception as exc:
+            print(f"Warning: regulatory tier tagging failed: {exc}")
+
         # 4) Build artifacts
+        chai_card, summary_warnings = enforce_summary_length(
+            chai_card,
+            rewrite_callback=getattr(self, "_rewrite_summary_callback", None),
+        )
+        validation = validate_model_card(chai_card)
+
+        try:
+            span_sidecar = build_sidecar_from_evidence(chai_card, citations)
+            citations = merge_citation_sidecars(citations, span_sidecar)
+        except Exception as exc:
+            print(f"Warning: citation span builder failed: {exc}")
+
         json_text = chai_card.to_json()
         md_text = chai_card.to_markdown(citations=citations)
-        xml_text = chai_card.to_xml()
 
         outputs: Optional[PipelineOutputs] = None
         if write_files:
@@ -1438,7 +997,6 @@ class CardGenPipeline:
                 base_name=(file_prefix or _slugify(model_name)) + "-" + _now_stamp(),
                 json_text=json_text,
                 md_text=md_text,
-                xml_text=xml_text,
             )
 
         sources = {
@@ -1452,17 +1010,17 @@ class CardGenPipeline:
             "publications": publications,
             "fda": fda_records,
             "postfill": {"ran": postfill_ran},
+            "validation": {"errors": validation.errors, "warnings": validation.warnings + summary_warnings},
         }
         content = {
             "json": json_text,
             "markdown": md_text,
-            "xml": xml_text,
             "paths": outputs,
         }
         # Generate scoring report
         scorer = ModelCardScorer()
-        model_card_dict = chai_card.model_dump() if hasattr(chai_card, 'model_dump') else chai_card.__dict__
-        score = scorer.score_model_card(model_card_dict)
+        model_card_dict = chai_card.to_dict_camel()
+        score = scorer.score_model_card(model_card_dict, citations=citations)
         
         # Add scoring information to sources
         sources["scoring"] = {
@@ -1495,32 +1053,31 @@ class CardGenPipeline:
     def _write_all(
         self,
         *,
-        chai_card: CHAIModelCard,
+        chai_card: ClinicalModelCard,
         citations: Dict,
         base_name: str,
         json_text: str,
         md_text: str,
-        xml_text: str,
     ) -> PipelineOutputs:
         base = self.out_dir / base_name
-        json_path = base.with_suffix(".json")
-        md_path = base.with_suffix(".md")
-        xml_path = base.with_suffix(".xml")
+        json_path = base.with_suffix(".clinical.json")
+        md_path = base.with_suffix(".clinical.md")
         cites_path = base.with_suffix(".citations.json")
 
         json_path.write_text(json_text, encoding="utf-8")
         md_path.write_text(md_text, encoding="utf-8")
-        xml_path.write_text(xml_text, encoding="utf-8")
 
         if citations:
-            cites_path.write_text(json.dumps(citations, indent=2), encoding="utf-8")
+            sidecar = dict(citations)
+            sidecar.setdefault("schema_version", "clinical-model-card-citations-1.0")
+            cites_path.write_text(json.dumps(sidecar, indent=2), encoding="utf-8")
         else:
             cites_path = None
 
         return PipelineOutputs(
             json_path=json_path,
             md_path=md_path,
-            xml_path=xml_path,
+            xml_path=None,
             citations_json_path=cites_path,
         )
 
