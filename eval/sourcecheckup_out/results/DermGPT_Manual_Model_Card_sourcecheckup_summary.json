@@ -1,0 +1,10 @@
+{
+  "name": "DermGPT_Manual_Model_Card",
+  "pairs_csv": "/Users/isabellegatmaitan/eval/sourcecheckup_out/pairs/DermGPT_Manual_Model_Card_pairs.csv",
+  "total_pairs": 26,
+  "supported": 0,
+  "partial": 0,
+  "unsupported": 26,
+  "strict_score": 0.0,
+  "partial_credit_score": 0.0
+}

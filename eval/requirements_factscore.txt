@@ -1,0 +1,7 @@
+factscore
+openai
+requests
+beautifulsoup4
+readability-lxml
+pdfminer.six
+tqdm

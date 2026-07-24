@@ -1,0 +1,20 @@
+[
+  {
+    "name": "dermgpt",
+    "total_facts": 30,
+    "supported": 0,
+    "partial": 0,
+    "unsupported": 30,
+    "score_strict": 0.0,
+    "score_partial_credit": 0.0
+  },
+  {
+    "name": "skin_analytics",
+    "total_facts": 46,
+    "supported": 24,
+    "partial": 8,
+    "unsupported": 14,
+    "score_strict": 0.5217391304347826,
+    "score_partial_credit": 0.6086956521739131
+  }
+]

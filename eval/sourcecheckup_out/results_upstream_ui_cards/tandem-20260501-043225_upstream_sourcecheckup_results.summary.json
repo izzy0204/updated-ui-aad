@@ -1,0 +1,8 @@
+{
+  "pairs_csv": "/Users/isabellegatmaitan/eval/sourcecheckup_out/pairs_ui_cards/tandem-20260501-043225_pairs.csv",
+  "output_csv": "/Users/isabellegatmaitan/eval/sourcecheckup_out/results_upstream_ui_cards/tandem-20260501-043225_upstream_sourcecheckup_results.csv",
+  "rows": 52,
+  "unique_statements": 52,
+  "statements_with_at_least_one_found": 48,
+  "fraction_supported": 0.9230769230769231
+}

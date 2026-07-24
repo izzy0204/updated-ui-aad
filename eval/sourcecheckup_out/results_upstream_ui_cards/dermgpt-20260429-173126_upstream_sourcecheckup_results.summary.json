@@ -1,0 +1,8 @@
+{
+  "pairs_csv": "/Users/isabellegatmaitan/eval/sourcecheckup_out/pairs_ui_cards/dermgpt-20260429-173126_pairs.csv",
+  "output_csv": "/Users/isabellegatmaitan/eval/sourcecheckup_out/results_upstream_ui_cards/dermgpt-20260429-173126_upstream_sourcecheckup_results.csv",
+  "rows": 146,
+  "unique_statements": 66,
+  "statements_with_at_least_one_found": 7,
+  "fraction_supported": 0.10606060606060606
+}

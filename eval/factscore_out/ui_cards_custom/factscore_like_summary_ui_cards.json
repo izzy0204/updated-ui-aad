@@ -1,0 +1,56 @@
+[
+  {
+    "name": "DermGPT updated",
+    "total_facts": 21,
+    "supported": 17,
+    "partial": 3,
+    "unsupported": 1,
+    "score_strict": 0.8095238095238095,
+    "score_partial_credit": 0.8809523809523809
+  },
+  {
+    "name": "Dermasensor",
+    "total_facts": 61,
+    "supported": 30,
+    "partial": 18,
+    "unsupported": 13,
+    "score_strict": 0.4918032786885246,
+    "score_partial_credit": 0.639344262295082
+  },
+  {
+    "name": "Tandem updated",
+    "total_facts": 40,
+    "supported": 28,
+    "partial": 2,
+    "unsupported": 10,
+    "score_strict": 0.7,
+    "score_partial_credit": 0.725
+  },
+  {
+    "name": "dermasensor-20260501-192348",
+    "total_facts": 104,
+    "supported": 56,
+    "partial": 7,
+    "unsupported": 41,
+    "score_strict": 0.5384615384615384,
+    "score_partial_credit": 0.5721153846153846
+  },
+  {
+    "name": "dermgpt-20260429-173126",
+    "total_facts": 53,
+    "supported": 19,
+    "partial": 15,
+    "unsupported": 19,
+    "score_strict": 0.3584905660377358,
+    "score_partial_credit": 0.5
+  },
+  {
+    "name": "tandem-20260501-043225",
+    "total_facts": 34,
+    "supported": 18,
+    "partial": 2,
+    "unsupported": 14,
+    "score_strict": 0.5294117647058824,
+    "score_partial_credit": 0.5588235294117647
+  }
+]

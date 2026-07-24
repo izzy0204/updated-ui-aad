@@ -1,0 +1,10 @@
+{
+  "name": "DermGPT_updated",
+  "pairs_csv": "/Users/isabellegatmaitan/eval/sourcecheckup_out/pairs/DermGPT_updated_pairs.csv",
+  "total_pairs": 50,
+  "supported": 0,
+  "partial": 0,
+  "unsupported": 50,
+  "strict_score": 0.0,
+  "partial_credit_score": 0.0
+}

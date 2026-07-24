@@ -1,0 +1,10 @@
+{
+  "name": "dermgpt-20260429-173126",
+  "pairs_csv": "/Users/isabellegatmaitan/eval/sourcecheckup_out/pairs/dermgpt-20260429-173126_pairs.csv",
+  "total_pairs": 146,
+  "supported": 0,
+  "partial": 0,
+  "unsupported": 146,
+  "strict_score": 0.0,
+  "partial_credit_score": 0.0
+}

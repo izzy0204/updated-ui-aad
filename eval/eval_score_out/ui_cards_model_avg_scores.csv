@@ -1,0 +1,13 @@
+source,model_family,card_variant,n_cards,score_strict_mean,score_partial_credit_mean,fraction_supported_mean
+factscore_like,DermGPT,Auto,1,0.3584905660377358,0.5,
+factscore_like,DermGPT,Manual,1,0.8095238095238095,0.8809523809523809,
+factscore_like,Dermasensor,Auto,1,0.5384615384615384,0.5721153846153846,
+factscore_like,Dermasensor,Manual,1,0.4918032786885246,0.639344262295082,
+factscore_like,Tandem,Auto,1,0.5294117647058824,0.5588235294117647,
+factscore_like,Tandem,Manual,1,0.7,0.725,
+sourcecheckup,DermGPT,Auto,1,,,0.10606060606060606
+sourcecheckup,DermGPT,Manual,1,,,0.6451612903225806
+sourcecheckup,Dermasensor,Auto,1,,,0.14074074074074075
+sourcecheckup,Dermasensor,Manual,1,,,0.15217391304347827
+sourcecheckup,Tandem,Auto,1,,,0.9230769230769231
+sourcecheckup,Tandem,Manual,1,,,0.45652173913043476

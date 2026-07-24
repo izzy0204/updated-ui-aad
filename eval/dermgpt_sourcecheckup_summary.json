@@ -1,0 +1,9 @@
+{
+  "name": "dermgpt",
+  "total_pairs": 2148,
+  "supported": 301,
+  "partial": 118,
+  "unsupported": 1729,
+  "strict_score": 0.14013035381750466,
+  "partial_credit_score": 0.16759776536312848
+}

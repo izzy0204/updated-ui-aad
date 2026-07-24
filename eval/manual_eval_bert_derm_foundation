@@ -1,0 +1,119 @@
+import re
+from pathlib import Path
+from bert_score import score
+import numpy as np
+import json
+
+# ---------------------------
+# Parse GENERATED model card
+# ---------------------------
+def parse_md_sections(path):
+    text = Path(path).read_text(encoding="utf-8")
+
+    # Split on Markdown headings (## or ###)
+    chunks = re.split(r"\n(?=##+\s)", text)
+
+    sections = {}
+    for chunk in chunks:
+        lines = chunk.strip().splitlines()
+        if not lines:
+            continue
+
+        header = lines[0]
+        body = "\n".join(lines[1:]).strip()
+
+        key = header.lower()
+        key = re.sub(r"[^a-z\s]", "", key)
+        key = key.replace(" ", "_").strip("_")
+
+        sections[key] = body
+
+    return sections
+
+
+# ---------------------------
+# BERTScore against evidence
+# ---------------------------
+def bertscore_section_vs_evidence(cand, evidence, model="roberta-large"):
+    if not cand.strip():
+        return None
+
+    P, R, F1 = score(
+        [cand],
+        [evidence],
+        model_type=model,
+        lang="en",
+        rescale_with_baseline=True
+    )
+
+    return {
+        "precision": float(P[0]),
+        "recall": float(R[0]),
+        "f1": float(F1[0])
+    }
+
+
+# ---------------------------
+# Evaluation logic
+# ---------------------------
+def evaluate_model_card(generated_md, reference_md):
+    # Parse generated card into sections
+    gen_sections = parse_md_sections(generated_md)
+
+    # Load reference as RAW EVIDENCE (not sections)
+    evidence_text = Path(reference_md).read_text(encoding="utf-8")
+
+    results = {}
+
+    for section_name, section_text in gen_sections.items():
+        score_out = bertscore_section_vs_evidence(section_text, evidence_text)
+
+        results[section_name] = {
+            "missing_generated": not bool(section_text.strip()),
+            "score": score_out
+        }
+
+    return results
+
+
+# ---------------------------
+# Summary metrics
+# ---------------------------
+def summarize(results, recall_weight=0.6):
+    f1s = []
+    recalls = []
+    precisions = []
+
+    for v in results.values():
+        if v["score"] is not None:
+            f1s.append(v["score"]["f1"])
+            recalls.append(v["score"]["recall"])
+            precisions.append(v["score"]["precision"])
+
+    summary = {
+        "coverage": len(f1s) / len(results),
+        "mean_f1": float(np.mean(f1s)) if f1s else None,
+        "mean_recall": float(np.mean(recalls)) if recalls else None,
+        "mean_precision": float(np.mean(precisions)) if precisions else None,
+        "weighted_score": (
+            recall_weight * np.mean(recalls)
+            + (1 - recall_weight) * np.mean(precisions)
+        ) if recalls else None
+    }
+
+    return summary
+
+
+# ---------------------------
+# Run evaluation
+# ---------------------------
+results = evaluate_model_card(
+    generated_md="derm-foundation-20251017-151830.md",
+    reference_md="Derm Foundation Manual Model Card.md"
+)
+
+summary = summarize(results)
+
+print(json.dumps(results, indent=2))
+print("\nSUMMARY:")
+print(json.dumps(summary, indent=2))

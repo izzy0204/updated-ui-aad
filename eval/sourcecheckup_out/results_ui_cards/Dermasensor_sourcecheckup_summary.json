@@ -1,0 +1,10 @@
+{
+  "name": "Dermasensor",
+  "pairs_csv": "/Users/isabellegatmaitan/eval/sourcecheckup_out/pairs_ui_cards/Dermasensor_pairs.csv",
+  "total_pairs": 88,
+  "supported": 0,
+  "partial": 0,
+  "unsupported": 88,
+  "strict_score": 0.0,
+  "partial_credit_score": 0.0
+}

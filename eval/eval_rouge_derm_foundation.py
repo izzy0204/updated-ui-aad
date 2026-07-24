@@ -1,0 +1,202 @@
+#!/usr/bin/env python3
+"""
+Evaluate a generated Derm Foundation model card using Rouge-L
+against scraped website text, implemented in pure Python
+(no ignite / no torch dependencies).
+
+Usage:
+    /usr/local/bin/python3 eval_rouge_derm_foundation.py \
+        --website derm_foundation_website.md \
+        --card derm-foundation-20251017-151830.md
+"""
+
+import argparse
+import re
+from pathlib import Path
+from typing import List, Dict
+
+
+# -------------------------
+# Tokenizer
+# -------------------------
+def tokenize(text: str) -> List[str]:
+    """
+    Very simple tokenizer: lowercase + split into words/punctuation.
+    """
+    return re.findall(r"\w+|\S", text.lower())
+
+
+# -------------------------
+# Longest Common Subsequence (LCS)
+# -------------------------
+def lcs_length(seq1: List[str], seq2: List[str]) -> int:
+    """
+    Compute length of the Longest Common Subsequence between two token lists.
+    O(m * n) dynamic programming.
+    """
+    m, n = len(seq1), len(seq2)
+    if m == 0 or n == 0:
+        return 0
+
+    # dp[i][j] = LCS length of seq1[:i] and seq2[:j]
+    dp = [[0] * (n + 1) for _ in range(m + 1)]
+
+    for i in range(1, m + 1):
+        a = seq1[i - 1]
+        row = dp[i]
+        prev_row = dp[i - 1]
+        for j in range(1, n + 1):
+            b = seq2[j - 1]
+            if a == b:
+                row[j] = prev_row[j - 1] + 1
+            else:
+                row[j] = max(prev_row[j], row[j - 1])
+
+    return dp[m][n]
+
+
+# -------------------------
+# Rouge-L for one candidate + one reference
+# -------------------------
+def rouge_l_pair(candidate_tokens: List[str],
+                 reference_tokens: List[str]) -> Dict[str, float]:
+    """
+    Compute Rouge-L precision, recall, and F1 for a single candidate-reference pair.
+    """
+    if not candidate_tokens or not reference_tokens:
+        return {"Rouge-L-P": 0.0, "Rouge-L-R": 0.0, "Rouge-L-F": 0.0}
+
+    L = lcs_length(candidate_tokens, reference_tokens)
+    m = len(candidate_tokens)
+    n = len(reference_tokens)
+
+    precision = L / m if m > 0 else 0.0
+    recall = L / n if n > 0 else 0.0
+
+    if precision + recall == 0:
+        f1 = 0.0
+    else:
+        f1 = 2 * precision * recall / (precision + recall)
+
+    return {"Rouge-L-P": precision, "Rouge-L-R": recall, "Rouge-L-F": f1}
+
+
+# -------------------------
+# Multi-reference wrapper
+# -------------------------
+def rouge_l(candidate_text: str,
+            reference_texts: List[str],
+            multiref: str = "best") -> Dict[str, float]:
+    """
+    Compute Rouge-L for a candidate vs multiple references.
+
+    multiref:
+        - "best": take the reference that gives the highest F1
+        - "average": average P/R/F across references
+    """
+    cand_tokens = tokenize(candidate_text)
+    ref_tokens_list = [tokenize(r) for r in reference_texts if r.strip()]
+
+    if not ref_tokens_list:
+        return {"Rouge-L-P": 0.0, "Rouge-L-R": 0.0, "Rouge-L-F": 0.0}
+
+    scores = [rouge_l_pair(cand_tokens, rt) for rt in ref_tokens_list]
+
+    if multiref == "best":
+        best = max(scores, key=lambda s: s["Rouge-L-F"])
+        return best
+
+    # average
+    P = sum(s["Rouge-L-P"] for s in scores) / len(scores)
+    R = sum(s["Rouge-L-R"] for s in scores) / len(scores)
+    F = sum(s["Rouge-L-F"] for s in scores) / len(scores)
+    return {"Rouge-L-P": P, "Rouge-L-R": R, "Rouge-L-F": F}
+
+
+# -------------------------
+# File helpers
+# -------------------------
+def load_text(path: Path) -> str:
+    if not path.exists():
+        raise FileNotFoundError(f"File not found: {path}")
+    return path.read_text(encoding="utf-8")
+
+
+def split_website_references(website_text: str, min_words: int = 20) -> List[str]:
+    """
+    Split your scraped website file into separate reference chunks.
+
+    Assumes '---' is used as a separator between sites.
+    Filters out chunks shorter than min_words.
+    """
+    raw_blocks = [blk.strip() for blk in website_text.split('---') if blk.strip()]
+    refs = [blk for blk in raw_blocks if len(blk.split()) >= min_words]
+    return refs
+
+
+def extract_summary(card_text: str) -> str:
+    """
+    Try to extract the 'Summary:' line from the CHAI model card.
+    Falls back to full card if not found.
+    """
+    m = re.search(r"^Summary:\s*(.+)$", card_text, flags=re.MULTILINE)
+    if m:
+        return m.group(1).strip()
+    return card_text
+
+
+# -------------------------
+# Main
+# -------------------------
+def main():
+    parser = argparse.ArgumentParser(
+        description="Evaluate Derm Foundation model card with Rouge-L (pure Python)."
+    )
+    parser.add_argument(
+        "--website",
+        type=str,
+        default="derm_foundation_website.md",
+        help="Path to scraped website aggregate markdown file.",
+    )
+    parser.add_argument(
+        "--card",
+        type=str,
+        default="derm-foundation-20251017-151830.md",
+        help="Path to generated model card markdown file.",
+    )
+    args = parser.parse_args()
+
+    website_path = Path(args.website)
+    card_path = Path(args.card)
+
+    print(f"Loading website text from: {website_path}")
+    website_text = load_text(website_path)
+
+    print(f"Loading model card from:   {card_path}")
+    card_text = load_text(card_path)
+
+    # ----- References from website scrape -----
+    refs = split_website_references(website_text, min_words=20)
+    if not refs:
+        print("Warning: no reference chunks found; using whole website text as a single reference.")
+        refs = [website_text]
+    print(f"Number of reference chunks: {len(refs)}")
+
+    # ----- 1. Summary vs multi-reference -----
+    summary_text = extract_summary(card_text)
+    print("\n=== Rouge-L: Summary vs website references (multiref='best') ===")
+    summary_scores = rouge_l(summary_text, refs, multiref="best")
+    for k, v in summary_scores.items():
+        print(f"{k}: {v:.4f}")
+
+    # ----- 2. Full card vs full website (single reference) -----
+    print("\n=== Rouge-L: Full card vs full website (single reference, multiref='average') ===")
+    full_card_scores = rouge_l(card_text, [website_text], multiref="average")
+    for k, v in full_card_scores.items():
+        print(f"{k}: {v:.4f}")
+
+    print("\nDone.")
+
+
+if __name__ == "__main__":
+    main()

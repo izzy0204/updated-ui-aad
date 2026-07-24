@@ -1,0 +1,10 @@
+{
+  "name": "Tandem_updated",
+  "pairs_csv": "/Users/isabellegatmaitan/eval/sourcecheckup_out/pairs/Tandem_updated_pairs.csv",
+  "total_pairs": 62,
+  "supported": 0,
+  "partial": 0,
+  "unsupported": 62,
+  "strict_score": 0.0,
+  "partial_credit_score": 0.0
+}

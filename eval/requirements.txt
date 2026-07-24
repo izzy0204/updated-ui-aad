@@ -1,0 +1,6 @@
+# Python 3.11+
+pandas>=2.0.0
+# textstat 0.7+ uses NLTK cmudict for syllables (requires nltk.download("cmudict")).
+# 0.6.x uses a built-in syllable heuristic and works offline after pip install.
+textstat>=0.6.2,<0.7
+matplotlib>=3.7.0

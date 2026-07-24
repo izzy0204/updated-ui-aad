@@ -1,0 +1,10 @@
+{
+  "name": "dermasensor-20260501-192348",
+  "pairs_csv": "/Users/isabellegatmaitan/eval/sourcecheckup_out/pairs/dermasensor-20260501-192348_pairs.csv",
+  "total_pairs": 334,
+  "supported": 0,
+  "partial": 0,
+  "unsupported": 334,
+  "strict_score": 0.0,
+  "partial_credit_score": 0.0
+}

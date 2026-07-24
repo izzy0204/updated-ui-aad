@@ -1,0 +1,10 @@
+{
+  "name": "dermgpt_reference",
+  "pairs_csv": "/Users/isabellegatmaitan/eval/sourcecheckup_out/pairs/dermgpt_reference_pairs.csv",
+  "total_pairs": 0,
+  "supported": 0,
+  "partial": 0,
+  "unsupported": 0,
+  "strict_score": 0.0,
+  "partial_credit_score": 0.0
+}

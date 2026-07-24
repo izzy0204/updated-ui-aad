@@ -1,0 +1,10 @@
+{
+  "name": "SkinVision_Manual_Model_Card",
+  "pairs_csv": "/Users/isabellegatmaitan/eval/sourcecheckup_out/pairs/SkinVision_Manual_Model_Card_pairs.csv",
+  "total_pairs": 18,
+  "supported": 0,
+  "partial": 0,
+  "unsupported": 18,
+  "strict_score": 0.0,
+  "partial_credit_score": 0.0
+}

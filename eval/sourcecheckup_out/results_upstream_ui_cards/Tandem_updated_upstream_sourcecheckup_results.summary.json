@@ -1,0 +1,8 @@
+{
+  "pairs_csv": "/Users/isabellegatmaitan/eval/sourcecheckup_out/pairs_ui_cards/Tandem_updated_pairs.csv",
+  "output_csv": "/Users/isabellegatmaitan/eval/sourcecheckup_out/results_upstream_ui_cards/Tandem_updated_upstream_sourcecheckup_results.csv",
+  "rows": 62,
+  "unique_statements": 46,
+  "statements_with_at_least_one_found": 21,
+  "fraction_supported": 0.45652173913043476
+}

@@ -1,0 +1,50 @@
+[
+  {
+    "pairs_csv": "/Users/isabellegatmaitan/eval/sourcecheckup_out/pairs_ui_cards/DermGPT_updated_pairs.csv",
+    "output_csv": "/Users/isabellegatmaitan/eval/sourcecheckup_out/results_upstream_ui_cards/DermGPT_updated_upstream_sourcecheckup_results.csv",
+    "rows": 50,
+    "unique_statements": 31,
+    "statements_with_at_least_one_found": 20,
+    "fraction_supported": 0.6451612903225806
+  },
+  {
+    "pairs_csv": "/Users/isabellegatmaitan/eval/sourcecheckup_out/pairs_ui_cards/Dermasensor_pairs.csv",
+    "output_csv": "/Users/isabellegatmaitan/eval/sourcecheckup_out/results_upstream_ui_cards/Dermasensor_upstream_sourcecheckup_results.csv",
+    "rows": 88,
+    "unique_statements": 46,
+    "statements_with_at_least_one_found": 7,
+    "fraction_supported": 0.15217391304347827
+  },
+  {
+    "pairs_csv": "/Users/isabellegatmaitan/eval/sourcecheckup_out/pairs_ui_cards/Tandem_updated_pairs.csv",
+    "output_csv": "/Users/isabellegatmaitan/eval/sourcecheckup_out/results_upstream_ui_cards/Tandem_updated_upstream_sourcecheckup_results.csv",
+    "rows": 62,
+    "unique_statements": 46,
+    "statements_with_at_least_one_found": 21,
+    "fraction_supported": 0.45652173913043476
+  },
+  {
+    "pairs_csv": "/Users/isabellegatmaitan/eval/sourcecheckup_out/pairs_ui_cards/dermasensor-20260501-192348_pairs.csv",
+    "output_csv": "/Users/isabellegatmaitan/eval/sourcecheckup_out/results_upstream_ui_cards/dermasensor-20260501-192348_upstream_sourcecheckup_results.csv",
+    "rows": 334,
+    "unique_statements": 135,
+    "statements_with_at_least_one_found": 19,
+    "fraction_supported": 0.14074074074074075
+  },
+  {
+    "pairs_csv": "/Users/isabellegatmaitan/eval/sourcecheckup_out/pairs_ui_cards/dermgpt-20260429-173126_pairs.csv",
+    "output_csv": "/Users/isabellegatmaitan/eval/sourcecheckup_out/results_upstream_ui_cards/dermgpt-20260429-173126_upstream_sourcecheckup_results.csv",
+    "rows": 146,
+    "unique_statements": 66,
+    "statements_with_at_least_one_found": 7,
+    "fraction_supported": 0.10606060606060606
+  },
+  {
+    "pairs_csv": "/Users/isabellegatmaitan/eval/sourcecheckup_out/pairs_ui_cards/tandem-20260501-043225_pairs.csv",
+    "output_csv": "/Users/isabellegatmaitan/eval/sourcecheckup_out/results_upstream_ui_cards/tandem-20260501-043225_upstream_sourcecheckup_results.csv",
+    "rows": 52,
+    "unique_statements": 52,
+    "statements_with_at_least_one_found": 48,
+    "fraction_supported": 0.9230769230769231
+  }
+]

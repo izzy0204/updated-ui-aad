@@ -1,0 +1,971 @@
+{
+  "name": "dermgpt",
+  "total_facts": 30,
+  "supported": 0,
+  "partial": 0,
+  "unsupported": 30,
+  "score_strict": 0.0,
+  "score_partial_credit": 0.0,
+  "details": [
+    {
+      "fact": "The model is in a soft launch phase.",
+      "label": "UNSUPPORTED",
+      "reason": "The evidence does not provide any information regarding the model being in a soft launch phase.",
+      "evidence": [
+        {
+          "title": "https://www.dermgpt.com/",
+          "text": "_[Warning: very little text extracted]_",
+          "score": 0.0
+        },
+        {
+          "title": "https://www.dermgpt.com/sla",
+          "text": "_[Warning: very little text extracted]_",
+          "score": 0.0
+        },
+        {
+          "title": "https://www.jaad.org/article/S0190-9622(25)01529-4/abstract",
+          "text": "_ERROR scraping this source: 403 Client Error: Forbidden for url: https://www.jaad.org/article/S0190-9622(25)01529-4/abstract_",
+          "score": 0.0
+        },
+        {
+          "title": "https://pubmed.ncbi.nlm.nih.gov/38754096/",
+          "text": "_ERROR scraping this source: 403 Client Error: Forbidden for url: https://pubmed.ncbi.nlm.nih.gov/38754096/_",
+          "score": 0.0
+        },
+        {
+          "title": "https://www.sciencedirect.com/science/article/pii/S2667102625000919",
+          "text": "_ERROR scraping this source: 403 Client Error: Forbidden for url: https://www.sciencedirect.com/science/article/pii/S2667102625000919_",
+          "score": 0.0
+        }
+      ]
+    },
+    {
+      "fact": "DermGPT was soft-launched or publicly available by 2023.",
+      "label": "UNSUPPORTED",
+      "reason": "The evidence does not provide any information regarding the availability or launch status of DermGPT by 2023.",
+      "evidence": [
+        {
+          "title": "https://www.dermgpt.com/",
+          "text": "_[Warning: very little text extracted]_",
+          "score": 0.4483337189807719
+        },
+        {
+          "title": "https://www.dermgpt.com/sla",
+          "text": "_[Warning: very little text extracted]_",
+          "score": 0.43540930043231907
+        },
+        {
+          "title": "https://www.jaad.org/article/S0190-9622(25)01529-4/abstract",
+          "text": "_ERROR scraping this source: 403 Client Error: Forbidden for url: https://www.jaad.org/article/S0190-9622(25)01529-4/abstract_",
+          "score": 0.0
+        },
+        {
+          "title": "https://pubmed.ncbi.nlm.nih.gov/38754096/",
+          "text": "_ERROR scraping this source: 403 Client Error: Forbidden for url: https://pubmed.ncbi.nlm.nih.gov/38754096/_",
+          "score": 0.0
+        },
+        {
+          "title": "https://www.sciencedirect.com/science/article/pii/S2667102625000919",
+          "text": "_ERROR scraping this source: 403 Client Error: Forbidden for url: https://www.sciencedirect.com/science/article/pii/S2667102625000919_",
+          "score": 0.0
+        }
+      ]
+    },
+    {
+      "fact": "The version used in a study published in 2025 was described as 'DermGPT’s only available model'.",
+      "label": "UNSUPPORTED",
+      "reason": "There is no evidence provided that confirms the claim about the version used in a study published in 2025 being described as 'DermGPT’s only available model'.",
+      "evidence": [
+        {
+          "title": "https://www.dermgpt.com/",
+          "text": "_[Warning: very little text extracted]_",
+          "score": 0.4483337189807719
+        },
+        {
+          "title": "https://www.dermgpt.com/sla",
+          "text": "_[Warning: very little text extracted]_",
+          "score": 0.43540930043231907
+        },
+        {
+          "title": "https://www.jaad.org/article/S0190-9622(25)01529-4/abstract",
+          "text": "_ERROR scraping this source: 403 Client Error: Forbidden for url: https://www.jaad.org/article/S0190-9622(25)01529-4/abstract_",
+          "score": 0.0
+        },
+        {
+          "title": "https://pubmed.ncbi.nlm.nih.gov/38754096/",
+          "text": "_ERROR scraping this source: 403 Client Error: Forbidden for url: https://pubmed.ncbi.nlm.nih.gov/38754096/_",
+          "score": 0.0
+        },
+        {
+          "title": "https://www.sciencedirect.com/science/article/pii/S2667102625000919",
+          "text": "_ERROR scraping this source: 403 Client Error: Forbidden for url: https://www.sciencedirect.com/science/article/pii/S2667102625000919_",
+          "score": 0.0
+        }
+      ]
+    },
+    {
+      "fact": "The official website has a 2023 copyright.",
+      "label": "UNSUPPORTED",
+      "reason": "The evidence does not provide any information regarding a 2023 copyright on the official website.",
+      "evidence": [
+        {
+          "title": "https://www.dermgpt.com/",
+          "text": "_[Warning: very little text extracted]_",
+          "score": 0.0
+        },
+        {
+          "title": "https://www.dermgpt.com/sla",
+          "text": "_[Warning: very little text extracted]_",
+          "score": 0.0
+        },
+        {
+          "title": "https://www.jaad.org/article/S0190-9622(25)01529-4/abstract",
+          "text": "_ERROR scraping this source: 403 Client Error: Forbidden for url: https://www.jaad.org/article/S0190-9622(25)01529-4/abstract_",
+          "score": 0.0
+        },
+        {
+          "title": "https://pubmed.ncbi.nlm.nih.gov/38754096/",
+          "text": "_ERROR scraping this source: 403 Client Error: Forbidden for url: https://pubmed.ncbi.nlm.nih.gov/38754096/_",
+          "score": 0.0
+        },
+        {
+          "title": "https://www.sciencedirect.com/science/article/pii/S2667102625000919",
+          "text": "_ERROR scraping this source: 403 Client Error: Forbidden for url: https://www.sciencedirect.com/science/article/pii/S2667102625000919_",
+          "score": 0.0
+        }
+      ]
+    },
+    {
+      "fact": "DermGPT is used by thousands of dermatologists nationwide.",
+      "label": "UNSUPPORTED",
+      "reason": "The evidence does not provide any information regarding the number of dermatologists using DermGPT.",
+      "evidence": [
+        {
+          "title": "https://www.dermgpt.com/",
+          "text": "_[Warning: very little text extracted]_",
+          "score": 0.4483337189807719
+        },
+        {
+          "title": "https://www.dermgpt.com/sla",
+          "text": "_[Warning: very little text extracted]_",
+          "score": 0.43540930043231907
+        },
+        {
+          "title": "https://www.jaad.org/article/S0190-9622(25)01529-4/abstract",
+          "text": "_ERROR scraping this source: 403 Client Error: Forbidden for url: https://www.jaad.org/article/S0190-9622(25)01529-4/abstract_",
+          "score": 0.0
+        },
+        {
+          "title": "https://pubmed.ncbi.nlm.nih.gov/38754096/",
+          "text": "_ERROR scraping this source: 403 Client Error: Forbidden for url: https://pubmed.ncbi.nlm.nih.gov/38754096/_",
+          "score": 0.0
+        },
+        {
+          "title": "https://www.sciencedirect.com/science/article/pii/S2667102625000919",
+          "text": "_ERROR scraping this source: 403 Client Error: Forbidden for url: https://www.sciencedirect.com/science/article/pii/S2667102625000919_",
+          "score": 0.0
+        }
+      ]
+    },
+    {
+      "fact": "DermGPT integrates technologies like YOLOv8 and GPT-3.5.",
+      "label": "UNSUPPORTED",
+      "reason": "The evidence does not provide any information regarding the integration of YOLOv8 and GPT-3.5 in DermGPT.",
+      "evidence": [
+        {
+          "title": "https://www.dermgpt.com/",
+          "text": "_[Warning: very little text extracted]_",
+          "score": 0.4483337189807719
+        },
+        {
+          "title": "https://www.dermgpt.com/sla",
+          "text": "_[Warning: very little text extracted]_",
+          "score": 0.43540930043231907
+        },
+        {
+          "title": "https://www.jaad.org/article/S0190-9622(25)01529-4/abstract",
+          "text": "_ERROR scraping this source: 403 Client Error: Forbidden for url: https://www.jaad.org/article/S0190-9622(25)01529-4/abstract_",
+          "score": 0.0
+        },
+        {
+          "title": "https://pubmed.ncbi.nlm.nih.gov/38754096/",
+          "text": "_ERROR scraping this source: 403 Client Error: Forbidden for url: https://pubmed.ncbi.nlm.nih.gov/38754096/_",
+          "score": 0.0
+        },
+        {
+          "title": "https://www.sciencedirect.com/science/article/pii/S2667102625000919",
+          "text": "_ERROR scraping this source: 403 Client Error: Forbidden for url: https://www.sciencedirect.com/science/article/pii/S2667102625000919_",
+          "score": 0.0
+        }
+      ]
+    },
+    {
+      "fact": "DermGPT aims to improve answer clarity and conciseness for dermatology-related queries.",
+      "label": "UNSUPPORTED",
+      "reason": "The evidence provided does not contain any information that supports the claim about DermGPT's aim to improve answer clarity and conciseness for dermatology-related queries.",
+      "evidence": [
+        {
+          "title": "https://www.dermgpt.com/",
+          "text": "_[Warning: very little text extracted]_",
+          "score": 0.4483337189807719
+        },
+        {
+          "title": "https://www.dermgpt.com/sla",
+          "text": "_[Warning: very little text extracted]_",
+          "score": 0.43540930043231907
+        },
+        {
+          "title": "https://pubmed.ncbi.nlm.nih.gov/38754096/",
+          "text": "_ERROR scraping this source: 403 Client Error: Forbidden for url: https://pubmed.ncbi.nlm.nih.gov/38754096/_",
+          "score": 0.09927806520392997
+        },
+        {
+          "title": "https://www.sciencedirect.com/science/article/pii/S2667102625000919",
+          "text": "_ERROR scraping this source: 403 Client Error: Forbidden for url: https://www.sciencedirect.com/science/article/pii/S2667102625000919_",
+          "score": 0.09536091225857543
+        },
+        {
+          "title": "https://www.jaad.org/article/S0190-9622(25)01529-4/abstract",
+          "text": "_ERROR scraping this source: 403 Client Error: Forbidden for url: https://www.jaad.org/article/S0190-9622(25)01529-4/abstract_",
+          "score": 0.08526783256049023
+        }
+      ]
+    },
+    {
+      "fact": "DermGPT aims to reduce hallucinations by providing citations.",
+      "label": "UNSUPPORTED",
+      "reason": "The evidence does not provide any information regarding DermGPT's aim to reduce hallucinations or its use of citations.",
+      "evidence": [
+        {
+          "title": "https://www.dermgpt.com/",
+          "text": "_[Warning: very little text extracted]_",
+          "score": 0.4483337189807719
+        },
+        {
+          "title": "https://www.dermgpt.com/sla",
+          "text": "_[Warning: very little text extracted]_",
+          "score": 0.43540930043231907
+        },
+        {
+          "title": "https://www.jaad.org/article/S0190-9622(25)01529-4/abstract",
+          "text": "_ERROR scraping this source: 403 Client Error: Forbidden for url: https://www.jaad.org/article/S0190-9622(25)01529-4/abstract_",
+          "score": 0.0
+        },
+        {
+          "title": "https://pubmed.ncbi.nlm.nih.gov/38754096/",
+          "text": "_ERROR scraping this source: 403 Client Error: Forbidden for url: https://pubmed.ncbi.nlm.nih.gov/38754096/_",
+          "score": 0.0
+        },
+        {
+          "title": "https://www.sciencedirect.com/science/article/pii/S2667102625000919",
+          "text": "_ERROR scraping this source: 403 Client Error: Forbidden for url: https://www.sciencedirect.com/science/article/pii/S2667102625000919_",
+          "score": 0.0
+        }
+      ]
+    },
+    {
+      "fact": "DermGPT supports dermatologists in tasks such as drafting notes, authorizations, and generating patient education materials (PEMs).",
+      "label": "UNSUPPORTED",
+      "reason": "The evidence provided does not contain any information that supports the claim about DermGPT assisting dermatologists with specific tasks.",
+      "evidence": [
+        {
+          "title": "https://www.dermgpt.com/",
+          "text": "_[Warning: very little text extracted]_",
+          "score": 0.4483337189807719
+        },
+        {
+          "title": "https://www.dermgpt.com/sla",
+          "text": "_[Warning: very little text extracted]_",
+          "score": 0.43540930043231907
+        },
+        {
+          "title": "https://www.jaad.org/article/S0190-9622(25)01529-4/abstract",
+          "text": "_ERROR scraping this source: 403 Client Error: Forbidden for url: https://www.jaad.org/article/S0190-9622(25)01529-4/abstract_",
+          "score": 0.0
+        },
+        {
+          "title": "https://pubmed.ncbi.nlm.nih.gov/38754096/",
+          "text": "_ERROR scraping this source: 403 Client Error: Forbidden for url: https://pubmed.ncbi.nlm.nih.gov/38754096/_",
+          "score": 0.0
+        },
+        {
+          "title": "https://www.sciencedirect.com/science/article/pii/S2667102625000919",
+          "text": "_ERROR scraping this source: 403 Client Error: Forbidden for url: https://www.sciencedirect.com/science/article/pii/S2667102625000919_",
+          "score": 0.0
+        }
+      ]
+    },
+    {
+      "fact": "DermGPT ranked highest for overall ease of reading, patient understandability, and accuracy (98%) in PEM generation for common dermatologic conditions.",
+      "label": "UNSUPPORTED",
+      "reason": "The evidence provided does not contain any information that supports the claim regarding DermGPT's ranking for ease of reading, patient understandability, or accuracy in PEM generation.",
+      "evidence": [
+        {
+          "title": "https://www.dermgpt.com/",
+          "text": "_[Warning: very little text extracted]_",
+          "score": 0.4483337189807719
+        },
+        {
+          "title": "https://www.dermgpt.com/sla",
+          "text": "_[Warning: very little text extracted]_",
+          "score": 0.43540930043231907
+        },
+        {
+          "title": "https://pubmed.ncbi.nlm.nih.gov/38754096/",
+          "text": "_ERROR scraping this source: 403 Client Error: Forbidden for url: https://pubmed.ncbi.nlm.nih.gov/38754096/_",
+          "score": 0.19855613040785994
+        },
+        {
+          "title": "https://www.sciencedirect.com/science/article/pii/S2667102625000919",
+          "text": "_ERROR scraping this source: 403 Client Error: Forbidden for url: https://www.sciencedirect.com/science/article/pii/S2667102625000919_",
+          "score": 0.19072182451715086
+        },
+        {
+          "title": "https://www.jaad.org/article/S0190-9622(25)01529-4/abstract",
+          "text": "_ERROR scraping this source: 403 Client Error: Forbidden for url: https://www.jaad.org/article/S0190-9622(25)01529-4/abstract_",
+          "score": 0.17053566512098045
+        }
+      ]
+    },
+    {
+      "fact": "DermGPT is purpose-built for dermatology workflows.",
+      "label": "UNSUPPORTED",
+      "reason": "The evidence provided does not contain any information that supports the claim about DermGPT being purpose-built for dermatology workflows.",
+      "evidence": [
+        {
+          "title": "https://www.dermgpt.com/",
+          "text": "_[Warning: very little text extracted]_",
+          "score": 0.4483337189807719
+        },
+        {
+          "title": "https://www.dermgpt.com/sla",
+          "text": "_[Warning: very little text extracted]_",
+          "score": 0.43540930043231907
+        },
+        {
+          "title": "https://pubmed.ncbi.nlm.nih.gov/38754096/",
+          "text": "_ERROR scraping this source: 403 Client Error: Forbidden for url: https://pubmed.ncbi.nlm.nih.gov/38754096/_",
+          "score": 0.09927806520392997
+        },
+        {
+          "title": "https://www.sciencedirect.com/science/article/pii/S2667102625000919",
+          "text": "_ERROR scraping this source: 403 Client Error: Forbidden for url: https://www.sciencedirect.com/science/article/pii/S2667102625000919_",
+          "score": 0.09536091225857543
+        },
+        {
+          "title": "https://www.jaad.org/article/S0190-9622(25)01529-4/abstract",
+          "text": "_ERROR scraping this source: 403 Client Error: Forbidden for url: https://www.jaad.org/article/S0190-9622(25)01529-4/abstract_",
+          "score": 0.08526783256049023
+        }
+      ]
+    },
+    {
+      "fact": "DermGPT is intended to provide personalized dermatology support and skin health monitoring.",
+      "label": "UNSUPPORTED",
+      "reason": "The evidence provided does not contain any information that supports the claim about DermGPT's intended purpose.",
+      "evidence": [
+        {
+          "title": "https://www.dermgpt.com/",
+          "text": "_[Warning: very little text extracted]_",
+          "score": 0.4483337189807719
+        },
+        {
+          "title": "https://www.dermgpt.com/sla",
+          "text": "_[Warning: very little text extracted]_",
+          "score": 0.43540930043231907
+        },
+        {
+          "title": "https://www.jaad.org/article/S0190-9622(25)01529-4/abstract",
+          "text": "_ERROR scraping this source: 403 Client Error: Forbidden for url: https://www.jaad.org/article/S0190-9622(25)01529-4/abstract_",
+          "score": 0.0
+        },
+        {
+          "title": "https://pubmed.ncbi.nlm.nih.gov/38754096/",
+          "text": "_ERROR scraping this source: 403 Client Error: Forbidden for url: https://pubmed.ncbi.nlm.nih.gov/38754096/_",
+          "score": 0.0
+        },
+        {
+          "title": "https://www.sciencedirect.com/science/article/pii/S2667102625000919",
+          "text": "_ERROR scraping this source: 403 Client Error: Forbidden for url: https://www.sciencedirect.com/science/article/pii/S2667102625000919_",
+          "score": 0.0
+        }
+      ]
+    },
+    {
+      "fact": "DermGPT may issue disclaimers instead of direct answers.",
+      "label": "UNSUPPORTED",
+      "reason": "The evidence provided does not contain any information regarding DermGPT issuing disclaimers or direct answers.",
+      "evidence": [
+        {
+          "title": "https://www.dermgpt.com/",
+          "text": "_[Warning: very little text extracted]_",
+          "score": 0.4483337189807719
+        },
+        {
+          "title": "https://www.dermgpt.com/sla",
+          "text": "_[Warning: very little text extracted]_",
+          "score": 0.43540930043231907
+        },
+        {
+          "title": "https://www.jaad.org/article/S0190-9622(25)01529-4/abstract",
+          "text": "_ERROR scraping this source: 403 Client Error: Forbidden for url: https://www.jaad.org/article/S0190-9622(25)01529-4/abstract_",
+          "score": 0.0
+        },
+        {
+          "title": "https://pubmed.ncbi.nlm.nih.gov/38754096/",
+          "text": "_ERROR scraping this source: 403 Client Error: Forbidden for url: https://pubmed.ncbi.nlm.nih.gov/38754096/_",
+          "score": 0.0
+        },
+        {
+          "title": "https://www.sciencedirect.com/science/article/pii/S2667102625000919",
+          "text": "_ERROR scraping this source: 403 Client Error: Forbidden for url: https://www.sciencedirect.com/science/article/pii/S2667102625000919_",
+          "score": 0.0
+        }
+      ]
+    },
+    {
+      "fact": "DermGPT has issued disclaimers for 3 out of 20 questions in a comparative study.",
+      "label": "UNSUPPORTED",
+      "reason": "The evidence does not provide any information regarding the number of disclaimers issued by DermGPT for the questions in the comparative study.",
+      "evidence": [
+        {
+          "title": "https://www.dermgpt.com/",
+          "text": "_[Warning: very little text extracted]_",
+          "score": 0.4483337189807719
+        },
+        {
+          "title": "https://www.dermgpt.com/sla",
+          "text": "_[Warning: very little text extracted]_",
+          "score": 0.43540930043231907
+        },
+        {
+          "title": "https://pubmed.ncbi.nlm.nih.gov/38754096/",
+          "text": "_ERROR scraping this source: 403 Client Error: Forbidden for url: https://pubmed.ncbi.nlm.nih.gov/38754096/_",
+          "score": 0.09927806520392997
+        },
+        {
+          "title": "https://www.sciencedirect.com/science/article/pii/S2667102625000919",
+          "text": "_ERROR scraping this source: 403 Client Error: Forbidden for url: https://www.sciencedirect.com/science/article/pii/S2667102625000919_",
+          "score": 0.09536091225857543
+        },
+        {
+          "title": "https://www.jaad.org/article/S0190-9622(25)01529-4/abstract",
+          "text": "_ERROR scraping this source: 403 Client Error: Forbidden for url: https://www.jaad.org/article/S0190-9622(25)01529-4/abstract_",
+          "score": 0.08526783256049023
+        }
+      ]
+    },
+    {
+      "fact": "In a study, DermGPT's generated patient education materials (PEMs) for common conditions were rated 14.75/15 (98%) for overall ease of reading.",
+      "label": "UNSUPPORTED",
+      "reason": "The evidence does not provide any information regarding the ratings of DermGPT's generated patient education materials.",
+      "evidence": [
+        {
+          "title": "https://www.dermgpt.com/",
+          "text": "_[Warning: very little text extracted]_",
+          "score": 0.4483337189807719
+        },
+        {
+          "title": "https://www.dermgpt.com/sla",
+          "text": "_[Warning: very little text extracted]_",
+          "score": 0.43540930043231907
+        },
+        {
+          "title": "https://pubmed.ncbi.nlm.nih.gov/38754096/",
+          "text": "_ERROR scraping this source: 403 Client Error: Forbidden for url: https://pubmed.ncbi.nlm.nih.gov/38754096/_",
+          "score": 0.19855613040785994
+        },
+        {
+          "title": "https://www.sciencedirect.com/science/article/pii/S2667102625000919",
+          "text": "_ERROR scraping this source: 403 Client Error: Forbidden for url: https://www.sciencedirect.com/science/article/pii/S2667102625000919_",
+          "score": 0.19072182451715086
+        },
+        {
+          "title": "https://www.jaad.org/article/S0190-9622(25)01529-4/abstract",
+          "text": "_ERROR scraping this source: 403 Client Error: Forbidden for url: https://www.jaad.org/article/S0190-9622(25)01529-4/abstract_",
+          "score": 0.17053566512098045
+        }
+      ]
+    },
+    {
+      "fact": "At the fifth-grade Flesch-Kincaid reading level, GPT-4 was found to outperform DermGPT (P<.001 and P=.03, respectively).",
+      "label": "UNSUPPORTED",
+      "reason": "The evidence does not provide any information regarding the performance of GPT-4 or DermGPT at the fifth-grade Flesch-Kincaid reading level, nor does it mention any statistical results (P<.001 and P=.03).",
+      "evidence": [
+        {
+          "title": "https://www.jaad.org/article/S0190-9622(25)01529-4/abstract",
+          "text": "_ERROR scraping this source: 403 Client Error: Forbidden for url: https://www.jaad.org/article/S0190-9622(25)01529-4/abstract_",
+          "score": 1.3213437470137432
+        },
+        {
+          "title": "https://www.dermgpt.com/",
+          "text": "_[Warning: very little text extracted]_",
+          "score": 0.4483337189807719
+        },
+        {
+          "title": "https://www.dermgpt.com/sla",
+          "text": "_[Warning: very little text extracted]_",
+          "score": 0.43540930043231907
+        },
+        {
+          "title": "https://pubmed.ncbi.nlm.nih.gov/38754096/",
+          "text": "_ERROR scraping this source: 403 Client Error: Forbidden for url: https://pubmed.ncbi.nlm.nih.gov/38754096/_",
+          "score": 0.0
+        },
+        {
+          "title": "https://www.sciencedirect.com/science/article/pii/S2667102625000919",
+          "text": "_ERROR scraping this source: 403 Client Error: Forbidden for url: https://www.sciencedirect.com/science/article/pii/S2667102625000919_",
+          "score": 0.0
+        }
+      ]
+    },
+    {
+      "fact": "DermGPT is an AI platform and chatbot developed under the Palo Alto Medical Foundation.",
+      "label": "UNSUPPORTED",
+      "reason": "The evidence does not provide any information confirming that DermGPT is developed under the Palo Alto Medical Foundation.",
+      "evidence": [
+        {
+          "title": "https://www.dermgpt.com/",
+          "text": "_[Warning: very little text extracted]_",
+          "score": 0.4483337189807719
+        },
+        {
+          "title": "https://www.dermgpt.com/sla",
+          "text": "_[Warning: very little text extracted]_",
+          "score": 0.43540930043231907
+        },
+        {
+          "title": "https://www.jaad.org/article/S0190-9622(25)01529-4/abstract",
+          "text": "_ERROR scraping this source: 403 Client Error: Forbidden for url: https://www.jaad.org/article/S0190-9622(25)01529-4/abstract_",
+          "score": 0.0
+        },
+        {
+          "title": "https://pubmed.ncbi.nlm.nih.gov/38754096/",
+          "text": "_ERROR scraping this source: 403 Client Error: Forbidden for url: https://pubmed.ncbi.nlm.nih.gov/38754096/_",
+          "score": 0.0
+        },
+        {
+          "title": "https://www.sciencedirect.com/science/article/pii/S2667102625000919",
+          "text": "_ERROR scraping this source: 403 Client Error: Forbidden for url: https://www.sciencedirect.com/science/article/pii/S2667102625000919_",
+          "score": 0.0
+        }
+      ]
+    },
+    {
+      "fact": "DermGPT is powered by GoDaddy.",
+      "label": "UNSUPPORTED",
+      "reason": "The evidence does not provide any information indicating that DermGPT is powered by GoDaddy.",
+      "evidence": [
+        {
+          "title": "https://www.dermgpt.com/",
+          "text": "_[Warning: very little text extracted]_",
+          "score": 0.4483337189807719
+        },
+        {
+          "title": "https://www.dermgpt.com/sla",
+          "text": "_[Warning: very little text extracted]_",
+          "score": 0.43540930043231907
+        },
+        {
+          "title": "https://www.jaad.org/article/S0190-9622(25)01529-4/abstract",
+          "text": "_ERROR scraping this source: 403 Client Error: Forbidden for url: https://www.jaad.org/article/S0190-9622(25)01529-4/abstract_",
+          "score": 0.0
+        },
+        {
+          "title": "https://pubmed.ncbi.nlm.nih.gov/38754096/",
+          "text": "_ERROR scraping this source: 403 Client Error: Forbidden for url: https://pubmed.ncbi.nlm.nih.gov/38754096/_",
+          "score": 0.0
+        },
+        {
+          "title": "https://www.sciencedirect.com/science/article/pii/S2667102625000919",
+          "text": "_ERROR scraping this source: 403 Client Error: Forbidden for url: https://www.sciencedirect.com/science/article/pii/S2667102625000919_",
+          "score": 0.0
+        }
+      ]
+    },
+    {
+      "fact": "DermGPT utilizes a GPT base model, specifically GPT-3.5.",
+      "label": "UNSUPPORTED",
+      "reason": "The evidence provided does not mention or confirm that DermGPT utilizes a GPT base model, specifically GPT-3.5.",
+      "evidence": [
+        {
+          "title": "https://www.dermgpt.com/",
+          "text": "_[Warning: very little text extracted]_",
+          "score": 0.4483337189807719
+        },
+        {
+          "title": "https://www.dermgpt.com/sla",
+          "text": "_[Warning: very little text extracted]_",
+          "score": 0.43540930043231907
+        },
+        {
+          "title": "https://www.jaad.org/article/S0190-9622(25)01529-4/abstract",
+          "text": "_ERROR scraping this source: 403 Client Error: Forbidden for url: https://www.jaad.org/article/S0190-9622(25)01529-4/abstract_",
+          "score": 0.0
+        },
+        {
+          "title": "https://pubmed.ncbi.nlm.nih.gov/38754096/",
+          "text": "_ERROR scraping this source: 403 Client Error: Forbidden for url: https://pubmed.ncbi.nlm.nih.gov/38754096/_",
+          "score": 0.0
+        },
+        {
+          "title": "https://www.sciencedirect.com/science/article/pii/S2667102625000919",
+          "text": "_ERROR scraping this source: 403 Client Error: Forbidden for url: https://www.sciencedirect.com/science/article/pii/S2667102625000919_",
+          "score": 0.0
+        }
+      ]
+    },
+    {
+      "fact": "DermGPT's GPT base model is trained on vast internet data.",
+      "label": "UNSUPPORTED",
+      "reason": "The evidence does not provide any information regarding the training data of DermGPT's GPT base model.",
+      "evidence": [
+        {
+          "title": "https://www.dermgpt.com/",
+          "text": "_[Warning: very little text extracted]_",
+          "score": 0.4483337189807719
+        },
+        {
+          "title": "https://www.dermgpt.com/sla",
+          "text": "_[Warning: very little text extracted]_",
+          "score": 0.43540930043231907
+        },
+        {
+          "title": "https://www.jaad.org/article/S0190-9622(25)01529-4/abstract",
+          "text": "_ERROR scraping this source: 403 Client Error: Forbidden for url: https://www.jaad.org/article/S0190-9622(25)01529-4/abstract_",
+          "score": 0.0
+        },
+        {
+          "title": "https://pubmed.ncbi.nlm.nih.gov/38754096/",
+          "text": "_ERROR scraping this source: 403 Client Error: Forbidden for url: https://pubmed.ncbi.nlm.nih.gov/38754096/_",
+          "score": 0.0
+        },
+        {
+          "title": "https://www.sciencedirect.com/science/article/pii/S2667102625000919",
+          "text": "_ERROR scraping this source: 403 Client Error: Forbidden for url: https://www.sciencedirect.com/science/article/pii/S2667102625000919_",
+          "score": 0.0
+        }
+      ]
+    },
+    {
+      "fact": "DermGPT's research database is tailored for dermatology.",
+      "label": "UNSUPPORTED",
+      "reason": "The evidence does not provide any information about DermGPT's research database or its focus on dermatology.",
+      "evidence": [
+        {
+          "title": "https://www.dermgpt.com/",
+          "text": "_[Warning: very little text extracted]_",
+          "score": 0.4483337189807719
+        },
+        {
+          "title": "https://www.dermgpt.com/sla",
+          "text": "_[Warning: very little text extracted]_",
+          "score": 0.43540930043231907
+        },
+        {
+          "title": "https://pubmed.ncbi.nlm.nih.gov/38754096/",
+          "text": "_ERROR scraping this source: 403 Client Error: Forbidden for url: https://pubmed.ncbi.nlm.nih.gov/38754096/_",
+          "score": 0.09927806520392997
+        },
+        {
+          "title": "https://www.sciencedirect.com/science/article/pii/S2667102625000919",
+          "text": "_ERROR scraping this source: 403 Client Error: Forbidden for url: https://www.sciencedirect.com/science/article/pii/S2667102625000919_",
+          "score": 0.09536091225857543
+        },
+        {
+          "title": "https://www.jaad.org/article/S0190-9622(25)01529-4/abstract",
+          "text": "_ERROR scraping this source: 403 Client Error: Forbidden for url: https://www.jaad.org/article/S0190-9622(25)01529-4/abstract_",
+          "score": 0.08526783256049023
+        }
+      ]
+    },
+    {
+      "fact": "The study comparing DermGPT and ChatGPT involved 19 participants.",
+      "label": "UNSUPPORTED",
+      "reason": "The evidence provided does not mention the number of participants in the study comparing DermGPT and ChatGPT.",
+      "evidence": [
+        {
+          "title": "https://www.dermgpt.com/",
+          "text": "_[Warning: very little text extracted]_",
+          "score": 0.4483337189807719
+        },
+        {
+          "title": "https://www.dermgpt.com/sla",
+          "text": "_[Warning: very little text extracted]_",
+          "score": 0.43540930043231907
+        },
+        {
+          "title": "https://www.jaad.org/article/S0190-9622(25)01529-4/abstract",
+          "text": "_ERROR scraping this source: 403 Client Error: Forbidden for url: https://www.jaad.org/article/S0190-9622(25)01529-4/abstract_",
+          "score": 0.0
+        },
+        {
+          "title": "https://pubmed.ncbi.nlm.nih.gov/38754096/",
+          "text": "_ERROR scraping this source: 403 Client Error: Forbidden for url: https://pubmed.ncbi.nlm.nih.gov/38754096/_",
+          "score": 0.0
+        },
+        {
+          "title": "https://www.sciencedirect.com/science/article/pii/S2667102625000919",
+          "text": "_ERROR scraping this source: 403 Client Error: Forbidden for url: https://www.sciencedirect.com/science/article/pii/S2667102625000919_",
+          "score": 0.0
+        }
+      ]
+    },
+    {
+      "fact": "The study comparing DermGPT and ChatGPT had an overall response rate of approximately 20%.",
+      "label": "UNSUPPORTED",
+      "reason": "There is no evidence provided that supports the claim regarding the overall response rate of the study comparing DermGPT and ChatGPT.",
+      "evidence": [
+        {
+          "title": "https://www.dermgpt.com/",
+          "text": "_[Warning: very little text extracted]_",
+          "score": 0.4483337189807719
+        },
+        {
+          "title": "https://www.dermgpt.com/sla",
+          "text": "_[Warning: very little text extracted]_",
+          "score": 0.43540930043231907
+        },
+        {
+          "title": "https://www.jaad.org/article/S0190-9622(25)01529-4/abstract",
+          "text": "_ERROR scraping this source: 403 Client Error: Forbidden for url: https://www.jaad.org/article/S0190-9622(25)01529-4/abstract_",
+          "score": 0.0
+        },
+        {
+          "title": "https://pubmed.ncbi.nlm.nih.gov/38754096/",
+          "text": "_ERROR scraping this source: 403 Client Error: Forbidden for url: https://pubmed.ncbi.nlm.nih.gov/38754096/_",
+          "score": 0.0
+        },
+        {
+          "title": "https://www.sciencedirect.com/science/article/pii/S2667102625000919",
+          "text": "_ERROR scraping this source: 403 Client Error: Forbidden for url: https://www.sciencedirect.com/science/article/pii/S2667102625000919_",
+          "score": 0.0
+        }
+      ]
+    },
+    {
+      "fact": "DermGPT's answers were preferred by 48.1% of total responses compared to 28.4% for ChatGPT (P=.04).",
+      "label": "UNSUPPORTED",
+      "reason": "The evidence does not provide any information regarding the preference percentages for DermGPT and ChatGPT.",
+      "evidence": [
+        {
+          "title": "https://www.jaad.org/article/S0190-9622(25)01529-4/abstract",
+          "text": "_ERROR scraping this source: 403 Client Error: Forbidden for url: https://www.jaad.org/article/S0190-9622(25)01529-4/abstract_",
+          "score": 1.4066115795742336
+        },
+        {
+          "title": "https://www.dermgpt.com/",
+          "text": "_[Warning: very little text extracted]_",
+          "score": 0.4483337189807719
+        },
+        {
+          "title": "https://www.dermgpt.com/sla",
+          "text": "_[Warning: very little text extracted]_",
+          "score": 0.43540930043231907
+        },
+        {
+          "title": "https://pubmed.ncbi.nlm.nih.gov/38754096/",
+          "text": "_ERROR scraping this source: 403 Client Error: Forbidden for url: https://pubmed.ncbi.nlm.nih.gov/38754096/_",
+          "score": 0.09927806520392997
+        },
+        {
+          "title": "https://www.sciencedirect.com/science/article/pii/S2667102625000919",
+          "text": "_ERROR scraping this source: 403 Client Error: Forbidden for url: https://www.sciencedirect.com/science/article/pii/S2667102625000919_",
+          "score": 0.09536091225857543
+        }
+      ]
+    },
+    {
+      "fact": "ChatGPT's references were preferred in 46% of total responses compared to 23.5% for DermGPT (P=.50).",
+      "label": "UNSUPPORTED",
+      "reason": "The evidence provided does not contain any information that supports or contradicts the claim regarding the preference percentages for ChatGPT and DermGPT.",
+      "evidence": [
+        {
+          "title": "https://www.dermgpt.com/",
+          "text": "_[Warning: very little text extracted]_",
+          "score": 0.4483337189807719
+        },
+        {
+          "title": "https://www.dermgpt.com/sla",
+          "text": "_[Warning: very little text extracted]_",
+          "score": 0.43540930043231907
+        },
+        {
+          "title": "https://pubmed.ncbi.nlm.nih.gov/38754096/",
+          "text": "_ERROR scraping this source: 403 Client Error: Forbidden for url: https://pubmed.ncbi.nlm.nih.gov/38754096/_",
+          "score": 0.09927806520392997
+        },
+        {
+          "title": "https://www.sciencedirect.com/science/article/pii/S2667102625000919",
+          "text": "_ERROR scraping this source: 403 Client Error: Forbidden for url: https://www.sciencedirect.com/science/article/pii/S2667102625000919_",
+          "score": 0.09536091225857543
+        },
+        {
+          "title": "https://www.jaad.org/article/S0190-9622(25)01529-4/abstract",
+          "text": "_ERROR scraping this source: 403 Client Error: Forbidden for url: https://www.jaad.org/article/S0190-9622(25)01529-4/abstract_",
+          "score": 0.08526783256049023
+        }
+      ]
+    },
+    {
+      "fact": "DermGPT was developed by Dr. Faranak Kamangar, a board-certified dermatologist.",
+      "label": "UNSUPPORTED",
+      "reason": "The evidence provided does not contain any information about Dr. Faranak Kamangar or her involvement in the development of DermGPT.",
+      "evidence": [
+        {
+          "title": "https://www.dermgpt.com/",
+          "text": "_[Warning: very little text extracted]_",
+          "score": 0.4483337189807719
+        },
+        {
+          "title": "https://www.dermgpt.com/sla",
+          "text": "_[Warning: very little text extracted]_",
+          "score": 0.43540930043231907
+        },
+        {
+          "title": "https://www.jaad.org/article/S0190-9622(25)01529-4/abstract",
+          "text": "_ERROR scraping this source: 403 Client Error: Forbidden for url: https://www.jaad.org/article/S0190-9622(25)01529-4/abstract_",
+          "score": 0.0
+        },
+        {
+          "title": "https://pubmed.ncbi.nlm.nih.gov/38754096/",
+          "text": "_ERROR scraping this source: 403 Client Error: Forbidden for url: https://pubmed.ncbi.nlm.nih.gov/38754096/_",
+          "score": 0.0
+        },
+        {
+          "title": "https://www.sciencedirect.com/science/article/pii/S2667102625000919",
+          "text": "_ERROR scraping this source: 403 Client Error: Forbidden for url: https://www.sciencedirect.com/science/article/pii/S2667102625000919_",
+          "score": 0.0
+        }
+      ]
+    },
+    {
+      "fact": "The study comparing DermGPT and ChatGPT did not require institutional review board review.",
+      "label": "UNSUPPORTED",
+      "reason": "The evidence does not provide any information regarding whether the study required institutional review board review.",
+      "evidence": [
+        {
+          "title": "https://www.dermgpt.com/",
+          "text": "_[Warning: very little text extracted]_",
+          "score": 0.4483337189807719
+        },
+        {
+          "title": "https://www.dermgpt.com/sla",
+          "text": "_[Warning: very little text extracted]_",
+          "score": 0.43540930043231907
+        },
+        {
+          "title": "https://www.jaad.org/article/S0190-9622(25)01529-4/abstract",
+          "text": "_ERROR scraping this source: 403 Client Error: Forbidden for url: https://www.jaad.org/article/S0190-9622(25)01529-4/abstract_",
+          "score": 0.0
+        },
+        {
+          "title": "https://pubmed.ncbi.nlm.nih.gov/38754096/",
+          "text": "_ERROR scraping this source: 403 Client Error: Forbidden for url: https://pubmed.ncbi.nlm.nih.gov/38754096/_",
+          "score": 0.0
+        },
+        {
+          "title": "https://www.sciencedirect.com/science/article/pii/S2667102625000919",
+          "text": "_ERROR scraping this source: 403 Client Error: Forbidden for url: https://www.sciencedirect.com/science/article/pii/S2667102625000919_",
+          "score": 0.0
+        }
+      ]
+    },
+    {
+      "fact": "DermGPT aims to reduce hallucinations by sourcing answers from a research database.",
+      "label": "UNSUPPORTED",
+      "reason": "The evidence provided does not contain any information regarding DermGPT's aim to reduce hallucinations or its method of sourcing answers from a research database.",
+      "evidence": [
+        {
+          "title": "https://www.dermgpt.com/",
+          "text": "_[Warning: very little text extracted]_",
+          "score": 0.4483337189807719
+        },
+        {
+          "title": "https://www.dermgpt.com/sla",
+          "text": "_[Warning: very little text extracted]_",
+          "score": 0.43540930043231907
+        },
+        {
+          "title": "https://www.jaad.org/article/S0190-9622(25)01529-4/abstract",
+          "text": "_ERROR scraping this source: 403 Client Error: Forbidden for url: https://www.jaad.org/article/S0190-9622(25)01529-4/abstract_",
+          "score": 0.0
+        },
+        {
+          "title": "https://pubmed.ncbi.nlm.nih.gov/38754096/",
+          "text": "_ERROR scraping this source: 403 Client Error: Forbidden for url: https://pubmed.ncbi.nlm.nih.gov/38754096/_",
+          "score": 0.0
+        },
+        {
+          "title": "https://www.sciencedirect.com/science/article/pii/S2667102625000919",
+          "text": "_ERROR scraping this source: 403 Client Error: Forbidden for url: https://www.sciencedirect.com/science/article/pii/S2667102625000919_",
+          "score": 0.0
+        }
+      ]
+    },
+    {
+      "fact": "DermGPT's answers were preferred for clarity and conciseness (48.1% vs ChatGPT's 28.4%, P=.04).",
+      "label": "UNSUPPORTED",
+      "reason": "The evidence does not provide any information regarding the clarity and conciseness of DermGPT's answers compared to ChatGPT's.",
+      "evidence": [
+        {
+          "title": "https://www.jaad.org/article/S0190-9622(25)01529-4/abstract",
+          "text": "_ERROR scraping this source: 403 Client Error: Forbidden for url: https://www.jaad.org/article/S0190-9622(25)01529-4/abstract_",
+          "score": 1.4066115795742336
+        },
+        {
+          "title": "https://www.dermgpt.com/",
+          "text": "_[Warning: very little text extracted]_",
+          "score": 0.4483337189807719
+        },
+        {
+          "title": "https://www.dermgpt.com/sla",
+          "text": "_[Warning: very little text extracted]_",
+          "score": 0.43540930043231907
+        },
+        {
+          "title": "https://pubmed.ncbi.nlm.nih.gov/38754096/",
+          "text": "_ERROR scraping this source: 403 Client Error: Forbidden for url: https://pubmed.ncbi.nlm.nih.gov/38754096/_",
+          "score": 0.09927806520392997
+        },
+        {
+          "title": "https://www.sciencedirect.com/science/article/pii/S2667102625000919",
+          "text": "_ERROR scraping this source: 403 Client Error: Forbidden for url: https://www.sciencedirect.com/science/article/pii/S2667102625000919_",
+          "score": 0.09536091225857543
+        }
+      ]
+    },
+    {
+      "fact": "The study's reliability evaluation was limited by a small rater sample (n=19).",
+      "label": "UNSUPPORTED",
+      "reason": "There is no evidence provided that discusses the study's reliability evaluation or the size of the rater sample.",
+      "evidence": [
+        {
+          "title": "https://www.dermgpt.com/",
+          "text": "_[Warning: very little text extracted]_",
+          "score": 0.0
+        },
+        {
+          "title": "https://www.dermgpt.com/sla",
+          "text": "_[Warning: very little text extracted]_",
+          "score": 0.0
+        },
+        {
+          "title": "https://www.jaad.org/article/S0190-9622(25)01529-4/abstract",
+          "text": "_ERROR scraping this source: 403 Client Error: Forbidden for url: https://www.jaad.org/article/S0190-9622(25)01529-4/abstract_",
+          "score": 0.0
+        },
+        {
+          "title": "https://pubmed.ncbi.nlm.nih.gov/38754096/",
+          "text": "_ERROR scraping this source: 403 Client Error: Forbidden for url: https://pubmed.ncbi.nlm.nih.gov/38754096/_",
+          "score": 0.0
+        },
+        {
+          "title": "https://www.sciencedirect.com/science/article/pii/S2667102625000919",
+          "text": "_ERROR scraping this source: 403 Client Error: Forbidden for url: https://www.sciencedirect.com/science/article/pii/S2667102625000919_",
+          "score": 0.0
+        }
+      ]
+    }
+  ]
+}

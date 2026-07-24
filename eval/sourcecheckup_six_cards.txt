@@ -1,0 +1,9 @@
+# One markdown filename per line (paths relative to this file’s directory).
+# Copy missing cards into eval/ if a line shows [SKIP] during extraction.
+
+dermasensor-20260501-192348.md
+DermGPT updated.md
+dermgpt-20260429-173126.md
+tandem-20260501-043225.md
+dermasensor-20260501-042020.md
+dermasensor-20260501-041222.md

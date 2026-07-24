@@ -1,0 +1,202 @@
+[
+  {
+    "name": "DermGPT_Manual_Model_Card",
+    "pairs_csv": "/Users/isabellegatmaitan/eval/sourcecheckup_out/pairs/DermGPT_Manual_Model_Card_pairs.csv",
+    "total_pairs": 26,
+    "supported": 0,
+    "partial": 0,
+    "unsupported": 26,
+    "strict_score": 0.0,
+    "partial_credit_score": 0.0
+  },
+  {
+    "name": "DermGPT_updated",
+    "pairs_csv": "/Users/isabellegatmaitan/eval/sourcecheckup_out/pairs/DermGPT_updated_pairs.csv",
+    "total_pairs": 50,
+    "supported": 0,
+    "partial": 0,
+    "unsupported": 50,
+    "strict_score": 0.0,
+    "partial_credit_score": 0.0
+  },
+  {
+    "name": "Derm_Foundation_Manual_Model_Card",
+    "pairs_csv": "/Users/isabellegatmaitan/eval/sourcecheckup_out/pairs/Derm_Foundation_Manual_Model_Card_pairs.csv",
+    "total_pairs": 0,
+    "supported": 0,
+    "partial": 0,
+    "unsupported": 0,
+    "strict_score": 0.0,
+    "partial_credit_score": 0.0
+  },
+  {
+    "name": "Dermasensor",
+    "pairs_csv": "/Users/isabellegatmaitan/eval/sourcecheckup_out/pairs/Dermasensor_pairs.csv",
+    "total_pairs": 88,
+    "supported": 0,
+    "partial": 0,
+    "unsupported": 88,
+    "strict_score": 0.0,
+    "partial_credit_score": 0.0
+  },
+  {
+    "name": "SkinVision_Manual_Model_Card",
+    "pairs_csv": "/Users/isabellegatmaitan/eval/sourcecheckup_out/pairs/SkinVision_Manual_Model_Card_pairs.csv",
+    "total_pairs": 18,
+    "supported": 0,
+    "partial": 0,
+    "unsupported": 18,
+    "strict_score": 0.0,
+    "partial_credit_score": 0.0
+  },
+  {
+    "name": "Tandem_updated",
+    "pairs_csv": "/Users/isabellegatmaitan/eval/sourcecheckup_out/pairs/Tandem_updated_pairs.csv",
+    "total_pairs": 62,
+    "supported": 0,
+    "partial": 0,
+    "unsupported": 62,
+    "strict_score": 0.0,
+    "partial_credit_score": 0.0
+  },
+  {
+    "name": "derm-20260216-194019",
+    "pairs_csv": "/Users/isabellegatmaitan/eval/sourcecheckup_out/pairs/derm-20260216-194019_pairs.csv",
+    "total_pairs": 0,
+    "supported": 0,
+    "partial": 0,
+    "unsupported": 0,
+    "strict_score": 0.0,
+    "partial_credit_score": 0.0
+  },
+  {
+    "name": "derm-foundation-20251017-151830",
+    "pairs_csv": "/Users/isabellegatmaitan/eval/sourcecheckup_out/pairs/derm-foundation-20251017-151830_pairs.csv",
+    "total_pairs": 0,
+    "supported": 0,
+    "partial": 0,
+    "unsupported": 0,
+    "strict_score": 0.0,
+    "partial_credit_score": 0.0
+  },
+  {
+    "name": "derm_foundation_website",
+    "pairs_csv": "/Users/isabellegatmaitan/eval/sourcecheckup_out/pairs/derm_foundation_website_pairs.csv",
+    "total_pairs": 0,
+    "supported": 0,
+    "partial": 0,
+    "unsupported": 0,
+    "strict_score": 0.0,
+    "partial_credit_score": 0.0
+  },
+  {
+    "name": "derm_gpt_website",
+    "pairs_csv": "/Users/isabellegatmaitan/eval/sourcecheckup_out/pairs/derm_gpt_website_pairs.csv",
+    "total_pairs": 0,
+    "supported": 0,
+    "partial": 0,
+    "unsupported": 0,
+    "strict_score": 0.0,
+    "partial_credit_score": 0.0
+  },
+  {
+    "name": "dermasensor-20260501-192348",
+    "pairs_csv": "/Users/isabellegatmaitan/eval/sourcecheckup_out/pairs/dermasensor-20260501-192348_pairs.csv",
+    "total_pairs": 334,
+    "supported": 0,
+    "partial": 0,
+    "unsupported": 334,
+    "strict_score": 0.0,
+    "partial_credit_score": 0.0
+  },
+  {
+    "name": "dermgpt-20251208-204354_copy",
+    "pairs_csv": "/Users/isabellegatmaitan/eval/sourcecheckup_out/pairs/dermgpt-20251208-204354_copy_pairs.csv",
+    "total_pairs": 0,
+    "supported": 0,
+    "partial": 0,
+    "unsupported": 0,
+    "strict_score": 0.0,
+    "partial_credit_score": 0.0
+  },
+  {
+    "name": "dermgpt-20260216-022503_1",
+    "pairs_csv": "/Users/isabellegatmaitan/eval/sourcecheckup_out/pairs/dermgpt-20260216-022503_1_pairs.csv",
+    "total_pairs": 0,
+    "supported": 0,
+    "partial": 0,
+    "unsupported": 0,
+    "strict_score": 0.0,
+    "partial_credit_score": 0.0
+  },
+  {
+    "name": "dermgpt-20260429-173126",
+    "pairs_csv": "/Users/isabellegatmaitan/eval/sourcecheckup_out/pairs/dermgpt-20260429-173126_pairs.csv",
+    "total_pairs": 146,
+    "supported": 0,
+    "partial": 0,
+    "unsupported": 146,
+    "strict_score": 0.0,
+    "partial_credit_score": 0.0
+  },
+  {
+    "name": "dermgpt_reference",
+    "pairs_csv": "/Users/isabellegatmaitan/eval/sourcecheckup_out/pairs/dermgpt_reference_pairs.csv",
+    "total_pairs": 0,
+    "supported": 0,
+    "partial": 0,
+    "unsupported": 0,
+    "strict_score": 0.0,
+    "partial_credit_score": 0.0
+  },
+  {
+    "name": "rouge_results",
+    "pairs_csv": "/Users/isabellegatmaitan/eval/sourcecheckup_out/pairs/rouge_results_pairs.csv",
+    "total_pairs": 0,
+    "supported": 0,
+    "partial": 0,
+    "unsupported": 0,
+    "strict_score": 0.0,
+    "partial_credit_score": 0.0
+  },
+  {
+    "name": "skin_analytics_reference",
+    "pairs_csv": "/Users/isabellegatmaitan/eval/sourcecheckup_out/pairs/skin_analytics_reference_pairs.csv",
+    "total_pairs": 0,
+    "supported": 0,
+    "partial": 0,
+    "unsupported": 0,
+    "strict_score": 0.0,
+    "partial_credit_score": 0.0
+  },
+  {
+    "name": "skinvision-20251208-204754",
+    "pairs_csv": "/Users/isabellegatmaitan/eval/sourcecheckup_out/pairs/skinvision-20251208-204754_pairs.csv",
+    "total_pairs": 0,
+    "supported": 0,
+    "partial": 0,
+    "unsupported": 0,
+    "strict_score": 0.0,
+    "partial_credit_score": 0.0
+  },
+  {
+    "name": "skinvision_reference",
+    "pairs_csv": "/Users/isabellegatmaitan/eval/sourcecheckup_out/pairs/skinvision_reference_pairs.csv",
+    "total_pairs": 0,
+    "supported": 0,
+    "partial": 0,
+    "unsupported": 0,
+    "strict_score": 0.0,
+    "partial_credit_score": 0.0
+  },
+  {
+    "name": "tandem-20260501-043225",
+    "pairs_csv": "/Users/isabellegatmaitan/eval/sourcecheckup_out/pairs/tandem-20260501-043225_pairs.csv",
+    "total_pairs": 52,
+    "supported": 0,
+    "partial": 0,
+    "unsupported": 52,
+    "strict_score": 0.0,
+    "partial_credit_score": 0.0
+  }
+]

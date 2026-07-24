@@ -1,0 +1,8 @@
+{
+  "pairs_csv": "/Users/isabellegatmaitan/eval/sourcecheckup_out/pairs_ui_cards/dermasensor-20260501-192348_pairs.csv",
+  "output_csv": "/Users/isabellegatmaitan/eval/sourcecheckup_out/results_upstream_ui_cards/dermasensor-20260501-192348_upstream_sourcecheckup_results.csv",
+  "rows": 334,
+  "unique_statements": 135,
+  "statements_with_at_least_one_found": 19,
+  "fraction_supported": 0.14074074074074075
+}
