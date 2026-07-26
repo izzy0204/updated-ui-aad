@@ -1,0 +1,10 @@
+{
+  "name": "Dermasensor",
+  "pairs_csv": "/Users/kenna/izzy-work/aad-model-card-generator/eval/sourcecheckup_out/pairs_eval2_cards/Dermasensor_pairs.csv",
+  "total_pairs": 34,
+  "supported": 5,
+  "partial": 8,
+  "unsupported": 21,
+  "strict_score": 0.14705882352941177,
+  "partial_credit_score": 0.2647058823529412
+}

@@ -1,4 +1,4 @@
-#!/Users/isabellegatmaitan/eval/custom-factscore-venv/bin/python3.11
+#!/Users/kenna/izzy-work/aad-model-card-generator/eval/custom-factscore-venv/bin/python
 # -*- coding: utf-8 -*-
 import re
 import sys

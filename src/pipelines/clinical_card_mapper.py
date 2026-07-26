@@ -194,7 +194,8 @@ def _map_agent_dump_to_card(
         "roleInDecisionMaking": "role_in_decision_making",
         "intendedUsers": "intended_users",
         "targetPatientPopulation": "target_patient_population",
-        "knownFailureModes": "known_failure_modes",
+        "knownPerformanceLimitations": "known_performance_limitations",
+        "skinTypeRepresentationEquity": "skin_type_representation_equity",
         "modelType": "model_type",
     }
     for ck, sk in key_map.items():
@@ -242,16 +243,16 @@ def _map_agent_dump_to_card(
         target_patient_population=_s(
             flat.get("target_patient_population") or flat.get("targeted_patient_population")
         ),
-        known_failure_modes=_merge_unique(
-            _s(flat.get("known_failure_modes")),
+        known_performance_limitations=_merge_unique(
+            _s(flat.get("known_failure_modes") or flat.get("known_performance_limitations")),
             _s(flat.get("model_limitations")),
-            _s(flat.get("skin_type_representation_and_equity")),
-        ),
-        unsupported_clinical_scenarios=_merge_unique(
             _s(flat.get("unsupported_clinical_scenarios")),
             _s(flat.get("developer_supplied_warnings")),
+            _s(flat.get("unsupported_use_cases")),
         ),
-        unsupported_use_cases=_s(flat.get("unsupported_use_cases") or flat.get("model_limitations")),
+        skin_type_representation_equity=_s(
+            flat.get("skin_type_representation_equity") or flat.get("skin_type_representation_and_equity")
+        ),
         required_clinician_oversight=_merge_unique(
             _s(flat.get("required_clinician_oversight")),
             _s(flat.get("how_to_use")),

@@ -1,0 +1,131 @@
+============================================================
+MODEL CARD SCORING REPORT
+============================================================
+
+OVERALL SCORES:
+   Field Completion: 11.1% (2/18 fields)
+   Clinical Usability: 0.00 (RED)
+   Overall Rating: POOR - Not ready for clinical use
+
+[RED] CLINICAL USABILITY: RED
+
+CATEGORY BREAKDOWN:
+   Summary:
+     Completion: 0.0%
+     Quality: 0.00
+     Clinical Relevance: 0.00
+   Medical Purpose:
+     Completion: 0.0%
+     Quality: 0.00
+     Clinical Relevance: 0.00
+   Acceptable Input:
+     Completion: 0.0%
+     Quality: 0.00
+     Clinical Relevance: 0.00
+   Output:
+     Completion: 0.0%
+     Quality: 0.00
+     Clinical Relevance: 0.00
+   Role In Decision Making:
+     Completion: 0.0%
+     Quality: 0.00
+     Clinical Relevance: 0.00
+   Intended Users:
+     Completion: 0.0%
+     Quality: 0.00
+     Clinical Relevance: 0.00
+   Target Patient Population:
+     Completion: 0.0%
+     Quality: 0.00
+     Clinical Relevance: 0.00
+   Known Performance Limitations:
+     Completion: 0.0%
+     Quality: 0.00
+     Clinical Relevance: 0.00
+   Skin Type Representation Equity:
+     Completion: 0.0%
+     Quality: 0.00
+     Clinical Relevance: 0.00
+   Performance Evaluation Limitations:
+     Completion: 0.0%
+     Quality: 0.00
+     Clinical Relevance: 0.00
+   Regulatory Approval Status:
+     Completion: 0.0%
+     Quality: 0.00
+     Clinical Relevance: 0.00
+   Metadata:
+     Completion: 28.6%
+     Quality: 0.02
+     Clinical Relevance: 0.14
+
+CRITICAL MISSING FIELDS:
+   • Summary
+   • Medical Purpose
+   • Acceptable Input
+   • Output
+   • Role In Decision Making
+   • Intended Users
+   • Target Patient Population
+   • Known Performance Limitations
+   • Skin Type Representation Equity
+   • Required Clinician Oversight
+   • Model Type
+   • Training Data
+   • Model Development And Validation
+   • Performance
+   • Performance Evaluation Limitations
+   • Regulatory Approval Status
+
+QUALITY ISSUES:
+   • Low quality content in summary
+   • summary: Field is empty or not specified
+   • Low quality content in medical_purpose
+   • medical_purpose: Field is empty or not specified
+   • Low quality content in acceptable_input
+   • acceptable_input: Field is empty or not specified
+   • Low quality content in output
+   • output: Field is empty or not specified
+   • Low quality content in role_in_decision_making
+   • role_in_decision_making: Field is empty or not specified
+   ... and 25 more issues
+
+RECOMMENDATIONS:
+   1. [CRITICAL] Less than 50% of fields are filled. Focus on completing basic model information first.
+   2. [CRITICAL] Low clinical relevance. Add clinical terminology, validation data, and safety information.
+   3. Complete Summary section with detailed information
+   4. Add clinical context to Summary section
+   5. Complete Medical Purpose section with detailed information
+   6. Add clinical context to Medical Purpose section
+   7. Complete Acceptable Input section with detailed information
+   8. Add clinical context to Acceptable Input section
+   9. Complete Output section with detailed information
+   10. Add clinical context to Output section
+   11. Complete Role In Decision Making section with detailed information
+   12. Add clinical context to Role In Decision Making section
+   13. Complete Intended Users section with detailed information
+   14. Add clinical context to Intended Users section
+   15. Complete Target Patient Population section with detailed information
+   16. Add clinical context to Target Patient Population section
+   17. Complete Known Performance Limitations section with detailed information
+   18. Add clinical context to Known Performance Limitations section
+   19. Complete Skin Type Representation Equity section with detailed information
+   20. Add clinical context to Skin Type Representation Equity section
+   21. Complete Required Clinician Oversight section with detailed information
+   22. Add clinical context to Required Clinician Oversight section
+   23. Complete Model Type section with detailed information
+   24. Add clinical context to Model Type section
+   25. Complete Training Data section with detailed information
+   26. Add clinical context to Training Data section
+   27. Complete Model Development And Validation section with detailed information
+   28. Add clinical context to Model Development And Validation section
+   29. Complete Performance section with detailed information
+   30. Add clinical context to Performance section
+   31. Complete Performance Evaluation Limitations section with detailed information
+   32. Add clinical context to Performance Evaluation Limitations section
+   33. Complete Regulatory Approval Status section with detailed information
+   34. Add clinical context to Regulatory Approval Status section
+   35. Complete Metadata section with detailed information
+   36. Add clinical context to Metadata section
+
+============================================================

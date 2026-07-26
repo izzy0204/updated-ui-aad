@@ -68,6 +68,7 @@ from dataclasses import fields as dc_fields
 
 from pipelines.cardgen_pipeline import CardGenPipeline
 from core.chai_schema import ClinicalModelCard, REGULATORY_STATUS_LABELS
+from core.dermauto_card_render import format_version_with_date
 from ai_extractors.ai_extractor import RateLimitExceededError, QuotaExceededError
 
 
@@ -540,8 +541,7 @@ def display_model_card_output(chai_model_card):
                 <h3 style="margin: 0; color: white;"> Basic Info</h3>
                 <hr style="border-color: rgba(255,255,255,0.3);">
                 <p><strong>Type:</strong> {chai_model_card.model_type or 'Not specified'}</p>
-                <p><strong>Version:</strong> {_card_version(chai_model_card) or 'Not specified'}</p>
-                <p><strong>Last Updated:</strong> {chai_model_card.last_updated or 'Not specified'}</p>
+                <p><strong>Version:</strong> {format_version_with_date(_card_version(chai_model_card), chai_model_card.last_updated)}</p>
             </div>
             """,
             unsafe_allow_html=True
@@ -565,7 +565,7 @@ def display_model_card_output(chai_model_card):
                 <h3 style="margin: 0; color: white;"> Decision Role</h3>
                 <hr style="border-color: rgba(255,255,255,0.3);">
                 <p style="font-size: 1.2rem; font-weight: bold;">{risk_level[:80]}</p>
-                <p><strong>Failure modes:</strong> {(chai_model_card.known_failure_modes or 'Not specified')[:50]}...</p>
+                <p><strong>Performance limitations:</strong> {(chai_model_card.known_performance_limitations or 'Not specified')[:50]}...</p>
             </div>
             """,
             unsafe_allow_html=True

@@ -1,0 +1,42 @@
+{
+  "schemaVersion": "clinical-model-card-2.0",
+  "modelName": "Tandem",
+  "applicationUrl": "http://withtandem.com",
+  "developer": "Tandem Technology, Inc.",
+  "regulatoryApprovalStatus": "UNKNOWN",
+  "regulatoryApprovalDate": null,
+  "version": "",
+  "lastUpdated": "2026-07-25",
+  "availability": null,
+  "summary": "",
+  "medicalPurpose": "",
+  "acceptableInput": "",
+  "output": "",
+  "roleInDecisionMaking": "",
+  "intendedUsers": "",
+  "targetPatientPopulation": "",
+  "knownPerformanceLimitations": "",
+  "skinTypeRepresentationEquity": "",
+  "requiredClinicianOversight": "",
+  "modelType": "",
+  "trainingData": {
+    "description": "",
+    "datasetUrl": null
+  },
+  "modelDevelopmentAndValidation": {
+    "description": null,
+    "publicationUrl": null
+  },
+  "clinicalTrial": null,
+  "performance": {
+    "summary": "",
+    "metrics": []
+  },
+  "performanceEvaluationLimitations": "",
+  "ongoingMonitoringPlan": null,
+  "scheduledUpdates": null,
+  "contact": {
+    "email": null,
+    "url": "http://withtandem.com"
+  }
+}

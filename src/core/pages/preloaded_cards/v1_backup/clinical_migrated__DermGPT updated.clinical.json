@@ -1,0 +1,45 @@
+{
+  "schemaVersion": "clinical-model-card-1.0",
+  "modelName": "DermGPT",
+  "applicationUrl": "https://www.dermgpt.com/",
+  "developer": "Dr. Faranak \u201cFara\u201d Kamangar MD (board-certified dermatologist).",
+  "regulatoryApprovalStatus": "NOT_AUTHORIZED_CONSUMER_TOOL",
+  "regulatoryApprovalDate": null,
+  "version": "Not specified; described as a dermatology-focused language model built on (3,000+) peer-reviewed articles/texts.",
+  "lastUpdated": "2026-07-11",
+  "availability": "Not specified.",
+  "summary": "Intended as an assistant for dermatologists and staff to support practice management tasks and access dermatology knowledge; not a stand-alone decision maker or replacement for medical care/decision-making.",
+  "medicalPurpose": "Intended as an assistant for dermatologists and staff to support practice management tasks and access dermatology knowledge; not a stand-alone decision maker or replacement for medical care/decision-making.",
+  "acceptableInput": "Input: natural language text; Output: natural language text (with citations), plus generated documents/letters.",
+  "output": "Natural-language answers and drafts for clinical/admin tasks (e.g.., patient education, prior authorizations, messaging responses, study support).",
+  "roleInDecisionMaking": "Intended as an assistant for dermatologists and staff to support practice management tasks and access dermatology knowledge; not a stand-alone decision maker or replacement for medical care/decision-making.",
+  "intendedUsers": "Dermatologists and dermatology staff (RNs, MAs, ancillary staff); some sources describe broader audiences, but primary positioning is clinical workflow support. No special technical expertise described; clinical expertise required to appropriately apply outputs.",
+  "targetPatientPopulation": "Not specified; tool is primarily provider-facing.",
+  "knownFailureModes": "",
+  "unsupportedClinicalScenarios": "",
+  "unsupportedUseCases": "Not a standalone diagnostic device.",
+  "requiredClinicianOversight": "Definitive diagnosis requires clinician judgment and biopsy or pathology confirmation where clinically indicated.",
+  "modelType": "Not disclosed",
+  "trainingData": {
+    "description": "Dermatology peer-reviewed literature and published sources; full dataset not specified.",
+    "datasetUrl": null
+  },
+  "modelDevelopmentAndValidation": {
+    "description": null,
+    "publicationUrl": "Examples of related publications include [10,11]."
+  },
+  "clinicalTrial": {
+    "description": "Not specified."
+  },
+  "performance": {
+    "summary": "Not specified.",
+    "metrics": []
+  },
+  "performanceEvaluationLimitations": "Not disclosed",
+  "ongoingMonitoringPlan": "Described as continuously updated and improved. Service/uptime terms are published at https://www.dermgpt.com/sla.",
+  "scheduledUpdates": null,
+  "contact": {
+    "email": null,
+    "url": "No clear contact / FAQ located in the reviewed sources."
+  }
+}

@@ -1,0 +1,42 @@
+{
+  "schemaVersion": "clinical-model-card-2.0",
+  "modelName": "Forus",
+  "applicationUrl": "https://forus.com/stories",
+  "developer": "Forus (formerly Tandem Technology, Inc.)",
+  "regulatoryApprovalStatus": "UNKNOWN",
+  "regulatoryApprovalDate": null,
+  "version": "",
+  "lastUpdated": "2026-07-25",
+  "availability": null,
+  "summary": "Forus is an AI-powered platform embedded into EHR workflows that automates prior authorizations, appeals, financial assistance, and pharmacy routing. It takes prescription and patient information as input to provide comprehensive support for medication access. The platform's role is to accelerate time to therapy and ensure patients receive their prescribed treatments.",
+  "medicalPurpose": "To accelerate and simplify patient access to prescribed medications by automating administrative processes such as prior authorizations, appeals, financial assistance, and pharmacy routing across all drugs, insurance plans, and pharmacies nationwide.",
+  "acceptableInput": "The platform integrates with electronic health record (EHR) systems and physician workflows to accept prescription information and patient data.",
+  "output": "Automated insurance authorizations, generated appeal letters, identification of financial assistance programs, optimized pharmacy routing, coverage checks for insurance and out-of-pocket costs, cost-saving options like coupons, and real-time updates for patients and providers.",
+  "roleInDecisionMaking": "Forus assists clinicians by automating administrative tasks and providing clear, proactive information about the medication access path, thereby giving doctors confidence to prescribe effective treatments and manage the process more efficiently.",
+  "intendedUsers": "The intended users are clinicians (doctors, medical practices, health systems), pharmacies, payers, and biopharma companies. Clinicians use it to manage prescription access for their patients.",
+  "targetPatientPopulation": "The platform supports millions of patients annually across various specialties, including those with digestive diseases and dermatology conditions such as acne, eczema, and psoriasis.",
+  "knownPerformanceLimitations": "",
+  "skinTypeRepresentationEquity": "",
+  "requiredClinicianOversight": "Clinicians need to oversee the access path, understanding what was submitted, payer responses, outstanding items, and next steps to ensure confidence and accuracy in the process.",
+  "modelType": "AI-powered automation platform.",
+  "trainingData": {
+    "description": "The model leverages an AI-powered network to automate medication access processes across all drugs, insurance plans, and pharmacies nationwide.",
+    "datasetUrl": null
+  },
+  "modelDevelopmentAndValidation": {
+    "description": "Forus (formerly Tandem) developed an AI-powered platform that connects doctors, pharmacies, payers, and biopharma to streamline medication access. It is embedded into physician workflows and supports every drug, payer, and pharmacy in the country.",
+    "publicationUrl": null
+  },
+  "clinicalTrial": null,
+  "performance": {
+    "summary": "Forus provider adoption grew 10x year-over-year for the last two years. The platform is used by thousands of medical practices and health systems in all 50 states, supporting millions of patients annually.",
+    "metrics": []
+  },
+  "performanceEvaluationLimitations": "",
+  "ongoingMonitoringPlan": null,
+  "scheduledUpdates": null,
+  "contact": {
+    "email": null,
+    "url": "https://forus.com"
+  }
+}

@@ -11,8 +11,9 @@ from agents.gemini_agent.agent import (
     _gather_targets_async,
     _log_batch_failure,
     _normalize_extractor_output,
+    _prep_seed_context,
 )
-from agents.gemini_agent.prompts import build_extractor_prompt
+from agents.gemini_agent.prompts import EXTRACTOR_HEAD, build_extractor_prompt
 from utils.enhanced_publication_finder import EnhancedPublicationFinder
 from utils.web_search import _classify_and_extract_text, _ddg_search_once
 
@@ -29,6 +30,69 @@ def test_build_extractor_prompt_literal_description_json_no_keyerror():
   assert "training_data" in prompt
   assert '{"description": "dermatology embeddings"}' in prompt
   assert "{allowed_fields}" not in prompt
+
+
+@pytest.mark.unit
+def test_prep_seed_context_tags_application_url_as_primary_source():
+  """The user-provided Application URL must be marked so the model prioritizes it."""
+  pages = [
+      {"url": "https://example.com/app", "text": "App page content.", "priority": "user_inputted"},
+      {"url": "https://other.com/page", "text": "Other discovered content."},
+  ]
+  ctx, urls = _prep_seed_context(pages)
+  assert "PRIMARY SOURCE" in ctx
+  assert ctx.index("PRIMARY SOURCE") < ctx.index("[SEED 2]")
+  assert urls == ["https://example.com/app", "https://other.com/page"]
+
+
+@pytest.mark.unit
+def test_prep_seed_context_no_primary_tag_without_priority_flag():
+  pages = [{"url": "https://other.com/page", "text": "Other discovered content."}]
+  ctx, _urls = _prep_seed_context(pages)
+  assert "PRIMARY SOURCE" not in ctx
+
+
+@pytest.mark.unit
+def test_extractor_prompt_includes_field_guidance_and_source_priority():
+  assert "SOURCE PRIORITY" in EXTRACTOR_HEAD
+  assert "FIELD GUIDANCE" in EXTRACTOR_HEAD
+  assert "clinicaltrials.gov" in EXTRACTOR_HEAD
+  assert "peer-reviewed" in EXTRACTOR_HEAD
+  assert "underrepresented" in EXTRACTOR_HEAD
+
+
+@pytest.mark.unit
+def test_planner_prompt_includes_source_priority_guardrail_when_primary_present(tmp_path):
+  from agents.gemini_agent import agent as agent_module
+  from utils.cache_system import cache_context
+
+  captured = {}
+  orig = agent_module._gemini_json
+
+  async def fake_gemini_json(client, model_name, *, prompt):
+    captured["prompt"] = prompt
+    return {"targets": [], "fields_priority": []}
+
+  async def _run():
+    async with cache_context(str(tmp_path / "test_cache")):
+      agent_module._gemini_json = fake_gemini_json
+      try:
+        await agent_module._plan_targets(
+            None,
+            "TestModel",
+            "TestModel",
+            developer="",
+            seed_context=(
+                "[SEED 1] URL: https://example.com/app — PRIMARY SOURCE "
+                "(developer-provided Application URL)\nCONTENT:\nhi\n"
+            ),
+        )
+      finally:
+        agent_module._gemini_json = orig
+
+  asyncio.run(_run())
+
+  assert "SOURCE PRIORITY" in captured["prompt"]
 
 
 @pytest.mark.unit

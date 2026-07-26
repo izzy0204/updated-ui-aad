@@ -51,6 +51,10 @@ def infer_model_family(model_name: str) -> str:
         return "Dermasensor"
     if s.startswith("tandem"):
         return "Tandem"
+    if s.startswith("skinanalytics") or s.startswith("skin-analytics") or s.startswith("skin analytics"):
+        return "SkinAnalytics"
+    if s.startswith("skinvision") or s.startswith("skin-vision") or s.startswith("skin vision"):
+        return "SkinVision"
     # fallback: best-effort title case
     return model_name.strip()
 
@@ -609,7 +613,7 @@ def plot_overall_auto_vs_manual_boxplot(
 
         ax.boxplot(
             [m_manual, m_auto],
-            labels=["Manual", "Auto"],
+            tick_labels=["Manual", "Auto"],
             showmeans=True,
             meanline=True,
             notch=True,
@@ -688,7 +692,10 @@ def plot_mode_comparison_boxplots(
 
     from matplotlib.gridspec import GridSpec  # local import
 
-    fig = plt.figure(figsize=(11.5, 7.2))
+    # constrained_layout must be enabled at figure creation (not after adding
+    # axes) for it to actually reserve space for the suptitle -- otherwise it
+    # overlaps the top-row subplot titles.
+    fig = plt.figure(figsize=(11.5, 7.2), constrained_layout=True)
     gs = GridSpec(2, 2, figure=fig, width_ratios=[1.0, 1.0], height_ratios=[1.0, 1.0], wspace=0.35, hspace=0.35)
 
     ax_a = fig.add_subplot(gs[0, 0])
@@ -701,7 +708,7 @@ def plot_mode_comparison_boxplots(
 
     stats_lines: list[str] = []
     stats_lines.append(title)
-    stats_lines.append("Groups: Manual vs Auto (values are % per model; n=3 each group)")
+    stats_lines.append("Groups: Manual vs Auto (values are % per model; see n= below per metric)")
     stats_lines.append("")
 
     for idx, (ax, (metric_name, manual_vals, auto_vals)) in enumerate(zip(axes, metrics, strict=False)):
@@ -710,7 +717,7 @@ def plot_mode_comparison_boxplots(
 
         ax.boxplot(
             [manual_vals, auto_vals],
-            labels=["Manual", "Auto"],
+            tick_labels=["Manual", "Auto"],
             showmeans=True,
             meanline=True,
             notch=True,
@@ -746,12 +753,7 @@ def plot_mode_comparison_boxplots(
         bbox=dict(boxstyle="round,pad=0.45", facecolor="white", edgecolor="#dddddd"),
     )
 
-    fig.suptitle(title, y=0.99)
-    # Use constrained layout to avoid tight_layout issues with mixed axes.
-    try:
-        fig.set_constrained_layout(True)
-    except Exception:
-        pass
+    fig.suptitle(title)
     fig.savefig(out_path, dpi=150, bbox_inches="tight")
     plt.close(fig)
     return out_path

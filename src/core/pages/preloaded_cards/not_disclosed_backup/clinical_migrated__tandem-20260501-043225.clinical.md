@@ -1,0 +1,43 @@
+---
+schema_version: clinical-model-card-2.0
+---
+
+# [Tandem](https://tandembrowser.org/) — Clinical Model Card
+
+## 1) Metadata
+- **Model Name:** Tandem
+- **Developer:** hydro13 (an individual AI Architect with 35 years of IT experience and maintainer of OpenClaw)
+- **Regulatory Approval Status:** Regulatory Status Unknown
+- **Regulatory Approval Date:** Not disclosed
+- **Version:** 1.11.0
+- **Last Updated:** 2026-05-08
+- **Availability:** Available for macOS Apple Silicon and Windows 11 x64, with best-effort support for Linux. No specific geographic restrictions are mentioned.
+
+## 2) Summary
+- **Summary:** Tandem Browser is an open-source, local-first Electron browser for AI agents that integrates the AI directly into the user's real browser session. The system is designed for human-AI co-browsing, where the AI can read the accessibility tree, watch the network, rewrite UI, and pause to ask for human assistance when encountering CAPTCHAs, judgment calls, or unclear forms. The workflow involves the AI agent operating within the user's browser, seeing the same DOM, network requests, and accessibility tree.
+
+## 3) Intended Use
+- **Medical Purpose:** Tandem Browser is intended for users who want to integrate AI agents directly into their daily browsing experience, enabling them to automate web tasks, rewrite live UI, and gather information from websites in a shared human-AI workspace. The workflow involves the AI agent operating within the user's browser, seeing the same DOM, network requests, and accessibility tree.
+- **Acceptable Input:** For Tandem Engine/Browser: Input data for the AI agent comes directly from the user's real browser session, including the accessibility tree, the rendered DOM, live network requests, console output, DevTools, and user input (clicks, types, commands, responses to prompts). It can also accept input from external applications or custom clients connected via MCP or HTTP API. Users can then interact with the AI agent within their browser session for various tasks.
+- **Output:** For Tandem Diabetes Care products: The Tandem Mobi and t:slim X2 insulin pumps, powered by Control-IQ+ technology, deliver insulin subcutaneously at set and variable rates, predict and help prevent highs and lows, and can deliver correction boluses.
+- **Role in Decision-Making:** Provides adjunctive referral support for physicians evaluating suspicious lesions; does not replace clinician judgment, biopsy, or definitive diagnosis.
+- **Intended Users:** The primary intended users include individuals who use AI models (Claude, GPT, Gemini, local Ollama, LM Studio, custom scripts) and want them to operate within their real browser sessions, teams and developers seeking a serious browser surface behind MCP without custom wrappers, users prioritizing local-first control, authenticated sessions, and strong security, and companies testing secure browser-based AI workflows and human-in-the-loop systems. It is also for desktop users, server admins deploying autonomous agents remotely, and developers building custom clients or programmatically triggering agent workflows for the Tandem Engine. Users connecting AI agents to Tandem Browser need to understand how to configure their AI agent to speak MCP (Model Context Protocol) or HTTP and paste connection instructions. Developers require knowledge of building custom clients, connecting external tools via MCP, or programmatically triggering agent workflows. For advanced use, understanding concepts like accessibility trees, DOM, network requests, and developer tools can be beneficial.
+- **Target Patient Population:** Persons requiring insulin for the management of diabetes mellitus. Specifically, for Control-IQ+ technology: individuals 2 years of age and greater with type 1 diabetes mellitus, and individuals 18 years of age and greater with type 2 diabetes mellitus. It should not be used in anyone under the age of 2 years old with type 1 diabetes or under the age of 18 years old with type 2 diabetes, or in patients who require less than a total daily insulin amount.
+
+## 4) Risks and Limitations
+- **Known Performance Limitations:** Control-IQ+ technology is not intended for use in individuals under 2 years old with type 1 diabetes or under 18 years old with type 2 diabetes.
+- **Skin Type Representation & Equity:** Not disclosed
+- **Required Clinician Oversight:** Definitive diagnosis requires clinician judgment and biopsy or pathology confirmation where clinically indicated.
+
+## 5) Mechanism and Development
+- **Model Type:** AI/ML classifier analyzing Elastic Scattering Spectroscopy (ESS) recordings from intact skin lesions.
+- **Training Data:** Tandem Browser is a model-agnostic platform that enables AI agents to operate within a real browser session. It does not have its own training data in the traditional sense of an AI model. Instead, it works with any connected AI agent that speaks Model Context Protocol (MCP) or HTTP, such as Claude, GPT, Gemini, OpenClaw, local Ollama models, LM Studio, or custom scripts. The capability resides in the connected AI model, not in Tandem Browser itself, which provides the browser environment for these agents. [Dataset](Not specified)
+- **Model Development & Validation:** Not specified [Publication](Beck RW, et al. [7] Diabetes Technol Ther. [7] 2023;25(5):329-342. [7])
+- **Clinical Trial:** A study was conducted using a t:slim X2 insulin pump with Control-IQ technology and Dexcom G6 sensor, referenced as: Beck RW, et al. Diabetes Technol Ther. 2023;25(5):329-342. This appears to be a clinical evaluation or trial for the Tandem Diabetes Care product.
+- **Performance:** For Tandem Diabetes Care products, user testimonials indicate improved A1c and reduced instances of waking up with lows, suggesting the system acts as a 'safety net'. For Tandem Browser, the security pipeline incorporates an 811K+ entry blocklist, YARA-style threat rules, AST fingerprinting, Shannon entropy detection, a confidence-weighted pipeline, and 51 automated tests to achieve its safety and reliability goals.
+- **Limitations in Evaluating Performance:** Not disclosed
+
+## 6) Governance and Monitoring
+- **Plans for Ongoing Monitoring:** Tandem Browser is built and maintained full-time by one person. Sponsorship helps keep the project moving in areas like product development, security maintenance, cross-platform work, documentation, and community support. The project is currently in development preview (v1.11.0) and has a CHANGELOG.md for release history and CONTRIBUTING.md for contributions, including bug reports and feature requests. Tandem Diabetes Care's insulin pumps are capable of remote software updates, and their Support Team is available 24/7, 365 days a year. The Tandem language learning app also receives updates, with a new version of Tandem Web announced with new features, improved performance, and a sleek new design.
+- **Scheduled Updates:** Not disclosed
+- **Inquiries / Report an Issue:** For questions or to share workflows, use GitHub Discussions. For bugs and concrete feature requests, open an issue on GitHub. Tandem Engine documentation also mentions a 'Bug Monitor And Issue Reporter' for turning failures and operator findings into governed drafts, approvals, and published issues.

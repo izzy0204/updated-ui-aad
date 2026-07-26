@@ -14,6 +14,8 @@ from core.dermauto_card_render import (
     format_development,
     format_performance_summary,
     format_training_data,
+    format_version_with_date,
+    regulatory_tooltip_html,
 )
 
 
@@ -37,10 +39,9 @@ def field_value_for_display(card: Any, field_name: str) -> Optional[str]:
         d = card.regulatory_approval_date
         return d.isoformat() if isinstance(d, date) else _disclosed(str(d) if d else None)
     if field_name == "version":
-        return _disclosed(card.version)
+        return format_version_with_date(card.version, card.last_updated)
     if field_name == "last_updated":
-        d = card.last_updated
-        return d.isoformat() if isinstance(d, date) else _disclosed(str(d) if d else None)
+        return None
     if field_name == "availability":
         return _disclosed(card.availability)
     if field_name == "training_data":
@@ -63,7 +64,7 @@ def iter_display_sections(card: Any) -> Iterator[Tuple[str, str, str, str]]:
     """Yield ``(section, field_name, label, display_text)`` in export order."""
     for section, field_name, label in iter_field_placements():
         text = field_value_for_display(card, field_name)
-        if field_name == "clinical_trial" and text is None:
+        if field_name in ("clinical_trial", "last_updated") and text is None:
             continue
         yield section, field_name, label, text or "Not disclosed"
 
@@ -91,6 +92,7 @@ def regulatory_status_badge_md(status: Any, label: str = "Regulatory Approval St
         f"**{label}:** "
         f'<span style="background-color:{bg};border:2px solid {accent};'
         f'padding:2px 8px;border-radius:4px;font-weight:700;">{text}</span>'
+        f"{regulatory_tooltip_html()}"
     )
 
 

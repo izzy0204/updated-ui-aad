@@ -1,0 +1,313 @@
+{
+  "schema_version": "clinical-model-card-citations-1.0",
+  "references": {
+    "1": {
+      "url": "https://www.skinvision.com/getting-started#explore-skinvision",
+      "title": "",
+      "source": ""
+    },
+    "2": {
+      "url": "https://www.skinvision.com/about/",
+      "title": "",
+      "source": ""
+    },
+    "3": {
+      "url": "https://www.skinvision.com/contact-us",
+      "title": "",
+      "source": ""
+    },
+    "5": {
+      "url": "https://www.skinvision.com/instructions-for-use",
+      "title": "",
+      "source": ""
+    },
+    "6": {
+      "url": "https://www.skinvision.com/scientific-evidence",
+      "title": "",
+      "source": ""
+    },
+    "7": {
+      "url": "https://www.skinvision.com/press-release/skinvision-earns-europes-top-medical-certification-for-ai-powered-skin-cancer-detection",
+      "title": "",
+      "source": ""
+    },
+    "9": {
+      "url": "https://www.skinvision.com/press-release/skinvision-achieves-milestone-with-three-certifications",
+      "title": "",
+      "source": ""
+    },
+    "10": {
+      "url": "https://repub.eur.nl/pub/119322/Repub_119322_O-A.pdf",
+      "title": "",
+      "source": ""
+    },
+    "14": {
+      "url": "https://content.skinvision.com/website/en/instructions-for-use-6-0-20.pdf",
+      "title": "",
+      "source": ""
+    },
+    "15": {
+      "url": "https://www.skinvision.com/getting-started",
+      "title": "",
+      "source": ""
+    },
+    "16": {
+      "url": "https://skinvision-static-content.s3-eu-west-1.amazonaws.com/website/eifu/2.10/Instructions_for_Use_SkinVision_Service_6.0_-_EN_-_v2.10.pdf",
+      "title": "",
+      "source": ""
+    },
+    "17": {
+      "url": "https://skinvision-static-content.s3-eu-west-1.amazonaws.com/website/en/Privacy_Policy_SkinVision.pdf",
+      "title": "",
+      "source": ""
+    },
+    "19": {
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC7027514/",
+      "title": "",
+      "source": ""
+    },
+    "20": {
+      "url": "https://pubmed.ncbi.nlm.nih.gov/31494983/",
+      "title": "",
+      "source": ""
+    },
+    "21": {
+      "url": "https://medicalxpress.com/news/2019-09-skinvision-skin-cancer.html",
+      "title": "",
+      "source": ""
+    },
+    "23": {
+      "url": "https://www.skinvision.com/articles/how-does-skinvisions-algorithm-detect-skin-cancer",
+      "title": "",
+      "source": ""
+    },
+    "24": {
+      "url": "https://www.skinvision.com/clinical-research",
+      "title": "",
+      "source": ""
+    },
+    "26": {
+      "url": "https://www.ajmc.com/view/review-examines-pros-and-cons-in-ai-detection-of-skin-cancer",
+      "title": "",
+      "source": ""
+    },
+    "28": {
+      "url": "https://www.sciencedirect.com/science/article/pii/S0022202X23029640",
+      "title": "",
+      "source": ""
+    },
+    "29": {
+      "url": "https://medicalfuturist.com/aspiring-dermatology-app-under-the-microscope-the-skinvision-review",
+      "title": "",
+      "source": ""
+    },
+    "30": {
+      "url": "https://www.solbari.com.au/pages/how-to-skincheck",
+      "title": "",
+      "source": ""
+    },
+    "32": {
+      "url": "https://www.skinvision.com/articles/how-machine-learning-detects-skin-cancer",
+      "title": "",
+      "source": ""
+    }
+  },
+  "field_citations": {
+    "model_name": [
+      {
+        "citationIds": [
+          "1"
+        ],
+        "sentence_level": true
+      }
+    ],
+    "developer": [
+      {
+        "citationIds": [
+          "2"
+        ],
+        "sentence_level": true
+      }
+    ],
+    "regulatory_approval_status": [
+      {
+        "citationIds": [
+          "7"
+        ],
+        "sentence_level": true
+      }
+    ],
+    "version": [
+      {
+        "citationIds": [
+          "6"
+        ],
+        "sentence_level": true
+      }
+    ],
+    "availability": [
+      {
+        "citationIds": [
+          "9"
+        ],
+        "sentence_level": true
+      }
+    ],
+    "summary": [
+      {
+        "citationIds": [
+          "2"
+        ],
+        "sentence_level": true
+      }
+    ],
+    "medical_purpose": [
+      {
+        "citationIds": [
+          "10"
+        ],
+        "sentence_level": true
+      }
+    ],
+    "acceptable_input": [
+      {
+        "citationIds": [
+          "15",
+          "16"
+        ],
+        "sentence_level": true
+      }
+    ],
+    "output": [
+      {
+        "citationIds": [
+          "29"
+        ],
+        "sentence_level": true
+      }
+    ],
+    "role_in_decision_making": [
+      {
+        "citationIds": [
+          "30"
+        ],
+        "sentence_level": true
+      }
+    ],
+    "intended_users": [
+      {
+        "citationIds": [
+          "14",
+          "15"
+        ],
+        "sentence_level": true
+      }
+    ],
+    "target_patient_population": [
+      {
+        "citationIds": [
+          "15"
+        ],
+        "sentence_level": true
+      }
+    ],
+    "known_performance_limitations": [
+      {
+        "citationIds": [
+          "19",
+          "20",
+          "21"
+        ],
+        "sentence_level": true
+      }
+    ],
+    "skin_type_representation_equity": [
+      {
+        "citationIds": [
+          "23",
+          "24"
+        ],
+        "sentence_level": true
+      }
+    ],
+    "required_clinician_oversight": [
+      {
+        "citationIds": [
+          "15"
+        ],
+        "sentence_level": true
+      }
+    ],
+    "model_type": [
+      {
+        "citationIds": [
+          "23"
+        ],
+        "sentence_level": true
+      }
+    ],
+    "training_data.description": [
+      {
+        "citationIds": [
+          "20",
+          "23"
+        ],
+        "sentence_level": true
+      }
+    ],
+    "model_development_and_validation.description": [
+      {
+        "citationIds": [
+          "7",
+          "20"
+        ],
+        "sentence_level": true
+      }
+    ],
+    "performance.summary": [
+      {
+        "citationIds": [
+          "6",
+          "26",
+          "28"
+        ],
+        "sentence_level": true
+      }
+    ],
+    "performance_evaluation_limitations": [
+      {
+        "citationIds": [
+          "20",
+          "23"
+        ],
+        "sentence_level": true
+      }
+    ],
+    "ongoing_monitoring_plan": [
+      {
+        "citationIds": [
+          "17",
+          "32"
+        ],
+        "sentence_level": true
+      }
+    ],
+    "scheduled_updates": [
+      {
+        "citationIds": [
+          "32"
+        ],
+        "sentence_level": true
+      }
+    ],
+    "contact": [
+      {
+        "citationIds": [
+          "3",
+          "5"
+        ],
+        "sentence_level": true
+      }
+    ]
+  }
+}

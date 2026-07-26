@@ -1,5 +1,5 @@
 ---
-schema_version: clinical-model-card-1.0
+schema_version: clinical-model-card-2.0
 ---
 
 # DermaSensor — Clinical Model Card
@@ -25,9 +25,8 @@ schema_version: clinical-model-card-1.0
 - **Target Patient Population:** Patients (often 40+) with lesions already judged suspicious for melanoma/BCC/SCC where a referral decision is being considered.
 
 ## 4) Risks and Limitations
-- **Known Failure Modes:** 
-- **Unsupported Clinical Scenarios:** 
-- **Unsupported Use Cases:** Not for screening or unsupervised population triage. Not the sole basis for diagnosis or referral decisions.
+- **Known Performance Limitations:** Not for screening or unsupervised population triage. Not the sole basis for diagnosis or referral decisions.
+- **Skin Type Representation & Equity:** Not disclosed
 - **Required Clinician Oversight:** Independent clinical assessment, including visual lesion evaluation, is required before and alongside device use. Definitive diagnosis requires clinician judgment and biopsy or pathology confirmation where clinically indicated.
 
 ## 5) Mechanism and Development

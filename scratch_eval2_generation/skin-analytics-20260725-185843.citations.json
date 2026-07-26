@@ -1,0 +1,879 @@
+{
+  "_sources_metadata": {
+    "https://skin-analytics.com/ai-pathways": {
+      "usage": "implicit",
+      "reason": "Included in context, informed reasoning but not directly quoted",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    },
+    "https://getcare.skinanalytics.co.uk/about-us": {
+      "usage": "implicit",
+      "reason": "Included in context, informed reasoning but not directly quoted",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    },
+    "https://getcare.skinanalytics.co.uk/": {
+      "usage": "both",
+      "reason": "Included in context and directly cited",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    },
+    "https://sbrihealthcare.co.uk/nhs-cancer-programme/case-studies/skin-analytics": {
+      "usage": "both",
+      "reason": "Included in context and directly cited",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    },
+    "https://ov2.link/": {
+      "usage": "implicit",
+      "reason": "Included in context, informed reasoning but not directly quoted",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    },
+    "https://skin-analytics.com/wp-content/uploads/2025/04/SA-001165-LB-13-DERM-Instructions-for-Use.pdf": {
+      "usage": "both",
+      "reason": "Included in context and directly cited",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    },
+    "https://skin-analytics.com/": {
+      "usage": "both",
+      "reason": "Included in context and directly cited",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    },
+    "https://webapp.skin-analytics-derm.com/": {
+      "usage": "implicit",
+      "reason": "Included in context, informed reasoning but not directly quoted",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    },
+    "https://skin-analytics.com/about-us": {
+      "usage": "implicit",
+      "reason": "Included in context, informed reasoning but not directly quoted",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    }
+  },
+  "model_name": [
+    {
+      "url": "https://skin-analytics.com/",
+      "snippet": "DERM (Deep Ensemble for the Recognition of Malignancy)",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    }
+  ],
+  "developer": [
+    {
+      "url": "https://skin-analytics.com/wp-content/uploads/2025/04/SA-001165-LB-13-DERM-Instructions-for-Use.pdf",
+      "snippet": "DERM is manufactured by Skin Analytics Limited",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    }
+  ],
+  "regulatory_approval_status": [
+    {
+      "url": "https://skin-analytics.com/",
+      "snippet": "Skin Analytics\u2019 Class III CE marked AI as a Medical Device (AIaMD), DERM",
+      "source_type": "ce_marking",
+      "regulatory_tier": "blue"
+    },
+    {
+      "url": "https://skin-analytics.com/wp-content/uploads/2025/04/SA-001165-LB-13-DERM-Instructions-for-Use.pdf",
+      "snippet": "This device fulfils the provisions of the UK Medical Device Regulation 2002 (as amended), EU Medical Device Regulation 2017/745",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    }
+  ],
+  "version": [
+    {
+      "url": "https://skin-analytics.com/wp-content/uploads/2025/04/SA-001165-LB-13-DERM-Instructions-for-Use.pdf",
+      "snippet": "Page 2 of 24 Issue 13",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    }
+  ],
+  "summary": [
+    {
+      "url": "https://skin-analytics.com/wp-content/uploads/2025/04/SA-001165-LB-13-DERM-Instructions-for-Use.pdf",
+      "snippet": "DERM is a standalone software device that employs artificial intelligence (AI)-based algorithms to analyse a dermoscopic image of a skin lesion and return a suspected diagnosis and referral recommendation for the lesion.",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    },
+    {
+      "url": "https://skin-analytics.com/wp-content/uploads/2025/04/SA-001165-LB-13-DERM-Instructions-for-Use.pdf",
+      "snippet": "intended for use in the screening, triage and assessment of skin lesions suspicious for skin cancer.",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    },
+    {
+      "url": "https://skin-analytics.com/",
+      "snippet": "DERM safely triages patients with non-cancerous lesions away from cancer pathways, allowing dermatologists to focus on the patients that need them most.",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    }
+  ],
+  "medical_purpose": [
+    {
+      "url": "https://skin-analytics.com/wp-content/uploads/2025/04/SA-001165-LB-13-DERM-Instructions-for-Use.pdf",
+      "snippet": "DERM is an artificial-intelligence (AI)-based skin lesion analysis device intended for use in the screening, triage and assessment of skin lesions suspicious for skin cancer.",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    },
+    {
+      "url": "https://skin-analytics.com/",
+      "snippet": "to help triage patients into the right place, at the right time and to conserve dermatologist capacity for patients who need it.",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    },
+    {
+      "url": "https://skin-analytics.com/",
+      "snippet": "DERM (Deep Ensemble for the Recognition of Malignancy), is built around our custom built teledermatology platform to help triage patients into the right place, at the right time and to conserve dermatologist capacity for patients who need i",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    },
+    {
+      "url": "https://skin-analytics.com/wp-content/uploads/2025/04/SA-001165-LB-13-DERM-Instructions-for-Use.pdf",
+      "snippet": "DERM is an artificial-intelligence (AI)-based skin lesion analysis device intended for use in the screening, triage and assessment of skin lesions suspicious for skin cancer.",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    }
+  ],
+  "acceptable_input": [
+    {
+      "url": "https://skin-analytics.com/wp-content/uploads/2025/04/SA-001165-LB-13-DERM-Instructions-for-Use.pdf",
+      "snippet": "DERM is indicated for use on dermoscopic images of cutaneous lesions where there is a suspicion of skin cancer in patients aged 18 years or over",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    },
+    {
+      "url": "https://skin-analytics.com/wp-content/uploads/2025/04/SA-001165-LB-13-DERM-Instructions-for-Use.pdf",
+      "snippet": "Only images captured by approved dermoscopic hardware systems are permitted for submission to DERM for analysis.",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    },
+    {
+      "url": "https://skin-analytics.com/wp-content/uploads/2025/04/SA-001165-LB-13-DERM-Instructions-for-Use.pdf",
+      "snippet": "Images other than dermoscopic images of skin lesions",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    },
+    {
+      "url": "https://skin-analytics.com/wp-content/uploads/2025/04/SA-001165-LB-13-DERM-Instructions-for-Use.pdf",
+      "snippet": "The dermoscopic images sent to DERM should not be captured with the use of an immersion fluid",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    },
+    {
+      "url": "https://skin-analytics.com/wp-content/uploads/2025/04/SA-001165-LB-13-DERM-Instructions-for-Use.pdf",
+      "snippet": "The dermoscopic image sent to DERM should not contain any other external objects or markers",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    },
+    {
+      "url": "https://skin-analytics.com/wp-content/uploads/2025/04/SA-001165-LB-13-DERM-Instructions-for-Use.pdf",
+      "snippet": "DERM is a standalone software device that employs artificial intelligence (AI)-based algorithms to analyse a dermoscopic image of a skin lesion... Only images captured by approved dermoscopic hardware systems are permitted for submission to",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    },
+    {
+      "url": "https://skin-analytics.com/wp-content/uploads/2025/04/SA-001165-LB-13-DERM-Instructions-for-Use.pdf",
+      "snippet": "DERM is indicated for use on dermoscopic images of cutaneous lesions where there is a suspicion of skin cancer",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    },
+    {
+      "url": "https://skin-analytics.com/wp-content/uploads/2025/04/SA-001165-LB-13-DERM-Instructions-for-Use.pdf",
+      "snippet": "The dermoscopic images sent to DERM should not be captured with the use of an immersion fluid as immersion fluid may introduce image artefacts that could adversely impact the performance of DERM.",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    },
+    {
+      "url": "https://skin-analytics.com/wp-content/uploads/2025/04/SA-001165-LB-13-DERM-Instructions-for-Use.pdf",
+      "snippet": "The dermoscopic image sent to DERM should not contain any other external objects or markers within the image and/or obscuring the lesion",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    }
+  ],
+  "output": [
+    {
+      "url": "https://skin-analytics.com/wp-content/uploads/2025/04/SA-001165-LB-13-DERM-Instructions-for-Use.pdf",
+      "snippet": "DERM is a standalone software device that employs artificial intelligence (AI)-based algorithms to analyse a dermoscopic image of a skin lesion and return a suspected diagnosis and referral recommendation for the lesion.",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    },
+    {
+      "url": "https://skin-analytics.com/wp-content/uploads/2025/04/SA-001165-LB-13-DERM-Instructions-for-Use.pdf",
+      "snippet": "the outputs from DERM may be used to issue management instructions without a second read from a human clinician, such as 'refer', 'discharge' or 'monitor'.",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    },
+    {
+      "url": "https://skin-analytics.com/wp-content/uploads/2025/04/SA-001165-LB-13-DERM-Instructions-for-Use.pdf",
+      "snippet": "DERM will analyse a dermoscopic image of a skin lesion and return a suspected diagnosis and, if applicable, a referral recommendation for the lesion.",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    },
+    {
+      "url": "https://skin-analytics.com/wp-content/uploads/2025/04/SA-001165-LB-13-DERM-Instructions-for-Use.pdf",
+      "snippet": "the outputs from DERM may be used to issue management instructions without a second read from a human clinician, such as 'refer', 'discharge' or 'monitor'.",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    },
+    {
+      "url": "https://skin-analytics.com/wp-content/uploads/2025/04/SA-001165-LB-13-DERM-Instructions-for-Use.pdf",
+      "snippet": "Lesion Classification returned by DERM e.g. possible Melanoma, probable BCC",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    }
+  ],
+  "role_in_decision_making": [
+    {
+      "url": "https://skin-analytics.com/wp-content/uploads/2025/04/SA-001165-LB-13-DERM-Instructions-for-Use.pdf",
+      "snippet": "the outputs from DERM may be used to issue management instructions without a second read from a human clinician, such as 'refer', 'discharge' or 'monitor'.",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    },
+    {
+      "url": "https://skin-analytics.com/wp-content/uploads/2025/04/SA-001165-LB-13-DERM-Instructions-for-Use.pdf",
+      "snippet": "These users may use DERM and its outputs as an automated clinical management tool or to augment other clinical data points to support clinical decision-making.",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    },
+    {
+      "url": "https://skin-analytics.com/wp-content/uploads/2025/04/SA-001165-LB-13-DERM-Instructions-for-Use.pdf",
+      "snippet": "DERM is primarily intended to be used by healthcare organisations as an automated clinical management tool to help screen, triage or assess patients... the outputs from DERM may be used to issue management instructions without a second read",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    },
+    {
+      "url": "https://skin-analytics.com/wp-content/uploads/2025/04/SA-001165-LB-13-DERM-Instructions-for-Use.pdf",
+      "snippet": "These users may use DERM and its outputs as an automated clinical management tool or to augment other clinical data points to support clinical decision-making.",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    },
+    {
+      "url": "https://getcare.skinanalytics.co.uk/",
+      "snippet": "DERM, is an autonomous AI system that analyzes skin lesion images to assess and triage patients, potentially reducing waiting times for skin cancer checks. DERM has received regulatory approval for clinical use in Europe, making it the worl",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    }
+  ],
+  "known_performance_limitations": [
+    {
+      "url": "https://skin-analytics.com/wp-content/uploads/2025/04/SA-001165-LB-13-DERM-Instructions-for-Use.pdf",
+      "snippet": "DERM does not provide a definitive diagnosis for skin cancer.",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    },
+    {
+      "url": "https://skin-analytics.com/wp-content/uploads/2025/04/SA-001165-LB-13-DERM-Instructions-for-Use.pdf",
+      "snippet": "DERM should not be used on: \u25cf Patients under the age of 18",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    },
+    {
+      "url": "https://skin-analytics.com/wp-content/uploads/2025/04/SA-001165-LB-13-DERM-Instructions-for-Use.pdf",
+      "snippet": "Open or ulcerated skin lesions",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    },
+    {
+      "url": "https://skin-analytics.com/wp-content/uploads/2025/04/SA-001165-LB-13-DERM-Instructions-for-Use.pdf",
+      "snippet": "Skin lesions obscured by hair, tattoos or scars",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    },
+    {
+      "url": "https://skin-analytics.com/wp-content/uploads/2025/04/SA-001165-LB-13-DERM-Instructions-for-Use.pdf",
+      "snippet": "Skin lesions beneath nails, in eyes or on mucosal surfaces or on soles of feet or palms of hands",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    },
+    {
+      "url": "https://skin-analytics.com/wp-content/uploads/2025/04/SA-001165-LB-13-DERM-Instructions-for-Use.pdf",
+      "snippet": "DERM should be used with caution on Fitzpatrick skin types V - VI.",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    },
+    {
+      "url": "https://skin-analytics.com/wp-content/uploads/2025/04/SA-001165-LB-13-DERM-Instructions-for-Use.pdf",
+      "snippet": "DERM does not provide a definitive diagnosis for skin cancer.",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    },
+    {
+      "url": "https://skin-analytics.com/wp-content/uploads/2025/04/SA-001165-LB-13-DERM-Instructions-for-Use.pdf",
+      "snippet": "DERM should be used with caution on lesions of other skin types.",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    },
+    {
+      "url": "https://skin-analytics.com/wp-content/uploads/2025/04/SA-001165-LB-13-DERM-Instructions-for-Use.pdf",
+      "snippet": "DERM should not be used for cases or excluded lesions listed in the \u2018Contraindications\u2019 section.",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    },
+    {
+      "url": "https://skin-analytics.com/wp-content/uploads/2025/04/SA-001165-LB-13-DERM-Instructions-for-Use.pdf",
+      "snippet": "DERM does not screen for any lesions not listed in the \u201cProduct Information - Device Inputs and Outputs\u201d section (e.g. rare malignant lesions such as Merkel Cell Carcinoma).",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    },
+    {
+      "url": "https://skin-analytics.com/wp-content/uploads/2025/04/SA-001165-LB-13-DERM-Instructions-for-Use.pdf",
+      "snippet": "The dermoscopic images sent to DERM should not be captured with the use of an immersion fluid as immersion fluid may introduce image artefacts that could adversely impact the performance of DERM.",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    },
+    {
+      "url": "https://skin-analytics.com/wp-content/uploads/2025/04/SA-001165-LB-13-DERM-Instructions-for-Use.pdf",
+      "snippet": "The dermoscopic image sent to DERM should not contain any other external objects or markers within the image and/or obscuring the lesion, e.g. felt-tip marker, sticker, ruler, as this could adversely impact the DERM assessment.",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    }
+  ],
+  "skin_type_representation_equity": [
+    {
+      "url": "https://skin-analytics.com/wp-content/uploads/2025/04/SA-001165-LB-13-DERM-Instructions-for-Use.pdf",
+      "snippet": "DERM has been tested on images of skin lesions that represent the population of patients and lesions DERM may be used on, in powered prospective studies, run in the UK, US and Italy.",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    },
+    {
+      "url": "https://skin-analytics.com/wp-content/uploads/2025/04/SA-001165-LB-13-DERM-Instructions-for-Use.pdf",
+      "snippet": "Given the prevalence of the disease in the general population, DERM has primarily been evaluated on patients with Fitzpatrick skin types I-IV.",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    },
+    {
+      "url": "https://skin-analytics.com/wp-content/uploads/2025/04/SA-001165-LB-13-DERM-Instructions-for-Use.pdf",
+      "snippet": "DERM should be used with caution on lesions of other skin types.",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    },
+    {
+      "url": "https://skin-analytics.com/wp-content/uploads/2025/04/SA-001165-LB-13-DERM-Instructions-for-Use.pdf",
+      "snippet": "Given the prevalence of the disease in the general population, DERM has primarily been evaluated on patients with Fitzpatrick skin types I-IV.",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    },
+    {
+      "url": "https://skin-analytics.com/wp-content/uploads/2025/04/SA-001165-LB-13-DERM-Instructions-for-Use.pdf",
+      "snippet": "DERM should be used with caution on lesions of other skin types.",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    }
+  ],
+  "performance": [
+    {
+      "url": "https://sbrihealthcare.co.uk/nhs-cancer-programme/case-studies/skin-analytics",
+      "snippet": "DERM can recognise melanoma with a similar accuracy to skin cancer specialists.",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    },
+    {
+      "url": "https://sbrihealthcare.co.uk/nhs-cancer-programme/case-studies/skin-analytics",
+      "snippet": "The most recent post-market surveillance data demonstrated that DERM continues to perform at or above the level of specialists.",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    },
+    {
+      "url": "https://sbrihealthcare.co.uk/nhs-cancer-programme/case-studies/skin-analytics",
+      "snippet": "99.9% Negative Predictive Value accuracy rate ruling out melanoma",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    },
+    {
+      "url": "https://sbrihealthcare.co.uk/nhs-cancer-programme/case-studies/skin-analytics",
+      "snippet": "99.9% Negative Predictive Value accuracy rate ruling out melanoma",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    },
+    {
+      "url": "https://sbrihealthcare.co.uk/nhs-cancer-programme/case-studies/skin-analytics",
+      "snippet": "The most recent post-market surveillance data demonstrated that DERM continues to perform at or above the level of specialists.",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    },
+    {
+      "url": "https://sbrihealthcare.co.uk/nhs-cancer-programme/case-studies/skin-analytics",
+      "snippet": "Across pre-referral sites, DERM avoids Urgent Suspected Cancer Referrals (USCRs) for 60-70% of patients including 35-50% of patients being routed towards discharge.",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    },
+    {
+      "url": "https://sbrihealthcare.co.uk/nhs-cancer-programme/case-studies/skin-analytics",
+      "snippet": "Helped Secondary Care organisations avoid up to 95% of NHS face-to-face USCRs",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    }
+  ],
+  "training_data": [
+    {
+      "url": "https://skin-analytics.com/wp-content/uploads/2025/04/SA-001165-LB-13-DERM-Instructions-for-Use.pdf",
+      "snippet": "DERM has been tested on images of skin lesions that represent the population of patients and lesions DERM may be used on, in powered prospective studies, run in the UK, US and Italy.",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    }
+  ],
+  "intended_users": [
+    {
+      "url": "https://skin-analytics.com/wp-content/uploads/2025/04/SA-001165-LB-13-DERM-Instructions-for-Use.pdf",
+      "snippet": "DERM is intended to be used by primary care clinicians / providers (e.g. general practitioners, nurse practitioners) and secondary care clinicians / providers (e.g. dermatologists).",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    },
+    {
+      "url": "https://skin-analytics.com/wp-content/uploads/2025/04/SA-001165-LB-13-DERM-Instructions-for-Use.pdf",
+      "snippet": "Medical photographers and patients may be authorised to capture images to submit to DERM but are not intended to be users of the outputs generated by DERM.",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    }
+  ],
+  "target_patient_population": [
+    {
+      "url": "https://skin-analytics.com/wp-content/uploads/2025/04/SA-001165-LB-13-DERM-Instructions-for-Use.pdf",
+      "snippet": "DERM is indicated for use on dermoscopic images of cutaneous lesions where there is a suspicion of skin cancer in patients aged 18 years or over in any body location except where specific exclusions apply.",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    },
+    {
+      "url": "https://skin-analytics.com/wp-content/uploads/2025/04/SA-001165-LB-13-DERM-Instructions-for-Use.pdf",
+      "snippet": "DERM should not be used on: \u25cf Patients under the age of 18",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    },
+    {
+      "url": "https://skin-analytics.com/wp-content/uploads/2025/04/SA-001165-LB-13-DERM-Instructions-for-Use.pdf",
+      "snippet": "Open or ulcerated skin lesions",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    },
+    {
+      "url": "https://skin-analytics.com/wp-content/uploads/2025/04/SA-001165-LB-13-DERM-Instructions-for-Use.pdf",
+      "snippet": "Skin lesions obscured by hair, tattoos or scars",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    },
+    {
+      "url": "https://skin-analytics.com/wp-content/uploads/2025/04/SA-001165-LB-13-DERM-Instructions-for-Use.pdf",
+      "snippet": "Skin lesions beneath nails, in eyes or on mucosal surfaces or on soles of feet or palms of hands",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    }
+  ],
+  "required_clinician_oversight": [
+    {
+      "url": "https://skin-analytics.com/wp-content/uploads/2025/04/SA-001165-LB-13-DERM-Instructions-for-Use.pdf",
+      "snippet": "the outputs from DERM may be used to issue management instructions without a second read from a human clinician",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    },
+    {
+      "url": "https://skin-analytics.com/wp-content/uploads/2025/04/SA-001165-LB-13-DERM-Instructions-for-Use.pdf",
+      "snippet": "When DERM is used to augment other clinical data points, or support a clinical decision on a patient, the result provided should be viewed alongside all other clinical information before issuing a clinical management decision.",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    }
+  ],
+  "model_type": [
+    {
+      "url": "https://skin-analytics.com/wp-content/uploads/2025/04/SA-001165-LB-13-DERM-Instructions-for-Use.pdf",
+      "snippet": "DERM is a standalone software device that employs artificial intelligence (AI)-based algorithms",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    }
+  ],
+  "performance_evaluation_limitations": [
+    {
+      "url": "https://skin-analytics.com/wp-content/uploads/2025/04/SA-001165-LB-13-DERM-Instructions-for-Use.pdf",
+      "snippet": "Given the prevalence of the disease in the general population, DERM has been evaluated mostly on Fitzpatrick skin types I-IV.",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    }
+  ],
+  "contact": [
+    {
+      "url": "https://skin-analytics.com/wp-content/uploads/2025/04/SA-001165-LB-13-DERM-Instructions-for-Use.pdf",
+      "snippet": "Email: support@skinanalytics.co.uk Website :https://skin-analytics.com/",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    },
+    {
+      "url": "https://skin-analytics.com/wp-content/uploads/2025/04/SA-001165-LB-13-DERM-Instructions-for-Use.pdf",
+      "snippet": "For questions or help, please contact Skin Analytics Support at support@skinanalytics.co.uk",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    }
+  ],
+  "_regulatory_tiers": {
+    "model_name": "gray",
+    "developer": "gray",
+    "regulatory_approval_status": "gray",
+    "regulatory_approval_date": "gray",
+    "version": "gray",
+    "last_updated": "gray",
+    "availability": "gray",
+    "summary": "gray",
+    "medical_purpose": "gray",
+    "acceptable_input": "gray",
+    "output": "gray",
+    "role_in_decision_making": "gray",
+    "intended_users": "gray",
+    "target_patient_population": "gray",
+    "known_performance_limitations": "gray",
+    "skin_type_representation_equity": "gray",
+    "required_clinician_oversight": "gray",
+    "model_type": "gray",
+    "training_data": "gray",
+    "model_development_and_validation": "gray",
+    "clinical_trial": "gray",
+    "performance": "gray",
+    "performance_evaluation_limitations": "gray",
+    "ongoing_monitoring_plan": "gray",
+    "scheduled_updates": "gray",
+    "contact": "gray"
+  },
+  "_regulatory_tiers_composite": {
+    "1) Metadata|||Model Name": "gray",
+    "1) Metadata|||Developer": "gray",
+    "1) Metadata|||Regulatory Approval Status": "gray",
+    "1) Metadata|||Regulatory Approval Date": "gray",
+    "1) Metadata|||Version": "gray",
+    "1) Metadata|||Last Updated": "gray",
+    "1) Metadata|||Availability": "gray",
+    "2) Summary|||Summary": "gray",
+    "3) Intended Use|||Medical Purpose": "gray",
+    "3) Intended Use|||Acceptable Input": "gray",
+    "3) Intended Use|||Output": "gray",
+    "3) Intended Use|||Role in Decision-Making": "gray",
+    "3) Intended Use|||Intended Users": "gray",
+    "3) Intended Use|||Target Patient Population": "gray",
+    "4) Risks and Limitations|||Known Performance Limitations": "gray",
+    "4) Risks and Limitations|||Skin Type Representation & Equity": "gray",
+    "4) Risks and Limitations|||Required Clinician Oversight": "gray",
+    "5) Mechanism and Development|||Model Type": "gray",
+    "5) Mechanism and Development|||Training Data": "gray",
+    "5) Mechanism and Development|||Model Development & Validation": "gray",
+    "5) Mechanism and Development|||Clinical Trial": "gray",
+    "5) Mechanism and Development|||Performance": "gray",
+    "5) Mechanism and Development|||Limitations in Evaluating Performance": "gray",
+    "6) Governance and Monitoring|||Plans for Ongoing Monitoring": "gray",
+    "6) Governance and Monitoring|||Scheduled Updates": "gray",
+    "6) Governance and Monitoring|||Inquiries / Report an Issue": "gray"
+  },
+  "schema_version": "clinical-model-card-citations-1.0",
+  "references": {
+    "1": {
+      "url": "https://skin-analytics.com/",
+      "snippet": "DERM (Deep Ensemble for the Recognition of Malignancy)"
+    },
+    "2": {
+      "url": "https://skin-analytics.com/wp-content/uploads/2025/04/SA-001165-LB-13-DERM-Instructions-for-Use.pdf",
+      "snippet": "DERM is manufactured by Skin Analytics Limited"
+    },
+    "3": {
+      "url": "https://getcare.skinanalytics.co.uk/",
+      "snippet": "DERM, is an autonomous AI system that analyzes skin lesion images to assess and triage patients, potentially reducing waiting times for skin cancer checks. DERM has received regulatory approval for clinical use in Europe, making it the worl"
+    },
+    "4": {
+      "url": "https://sbrihealthcare.co.uk/nhs-cancer-programme/case-studies/skin-analytics",
+      "snippet": "DERM can recognise melanoma with a similar accuracy to skin cancer specialists."
+    }
+  },
+  "field_citations": {
+    "model_name": [
+      {
+        "citationIds": [
+          "1"
+        ],
+        "sentence_level": true
+      }
+    ],
+    "developer": [
+      {
+        "citationIds": [
+          "2"
+        ],
+        "sentence_level": true
+      }
+    ],
+    "regulatory_approval_status": [
+      {
+        "citationIds": [
+          "1",
+          "2"
+        ],
+        "sentence_level": true
+      }
+    ],
+    "version": [
+      {
+        "citationIds": [
+          "2"
+        ],
+        "sentence_level": true
+      }
+    ],
+    "summary": [
+      {
+        "citationIds": [
+          "2",
+          "2",
+          "1"
+        ],
+        "sentence_level": true
+      }
+    ],
+    "medical_purpose": [
+      {
+        "citationIds": [
+          "2",
+          "1",
+          "1",
+          "2"
+        ],
+        "sentence_level": true
+      }
+    ],
+    "acceptable_input": [
+      {
+        "citationIds": [
+          "2",
+          "2",
+          "2",
+          "2",
+          "2",
+          "2",
+          "2",
+          "2",
+          "2"
+        ],
+        "sentence_level": true
+      }
+    ],
+    "output": [
+      {
+        "citationIds": [
+          "2",
+          "2",
+          "2",
+          "2",
+          "2"
+        ],
+        "sentence_level": true
+      }
+    ],
+    "role_in_decision_making": [
+      {
+        "citationIds": [
+          "2",
+          "2",
+          "2",
+          "2",
+          "3"
+        ],
+        "sentence_level": true
+      }
+    ],
+    "known_performance_limitations": [
+      {
+        "citationIds": [
+          "2",
+          "2",
+          "2",
+          "2",
+          "2",
+          "2",
+          "2",
+          "2",
+          "2",
+          "2",
+          "2",
+          "2"
+        ],
+        "sentence_level": true
+      }
+    ],
+    "skin_type_representation_equity": [
+      {
+        "citationIds": [
+          "2",
+          "2",
+          "2",
+          "2",
+          "2"
+        ],
+        "sentence_level": true
+      }
+    ],
+    "performance": [
+      {
+        "citationIds": [
+          "4",
+          "4",
+          "4",
+          "4",
+          "4",
+          "4",
+          "4"
+        ],
+        "sentence_level": true
+      }
+    ],
+    "training_data": [
+      {
+        "citationIds": [
+          "2"
+        ],
+        "sentence_level": true
+      }
+    ],
+    "intended_users": [
+      {
+        "citationIds": [
+          "2",
+          "2"
+        ],
+        "sentence_level": true
+      }
+    ],
+    "target_patient_population": [
+      {
+        "citationIds": [
+          "2",
+          "2",
+          "2",
+          "2",
+          "2"
+        ],
+        "sentence_level": true
+      }
+    ],
+    "required_clinician_oversight": [
+      {
+        "citationIds": [
+          "2",
+          "2"
+        ],
+        "sentence_level": true
+      }
+    ],
+    "model_type": [
+      {
+        "citationIds": [
+          "2"
+        ],
+        "sentence_level": true
+      }
+    ],
+    "performance_evaluation_limitations": [
+      {
+        "citationIds": [
+          "2"
+        ],
+        "sentence_level": true
+      }
+    ],
+    "contact": [
+      {
+        "citationIds": [
+          "2",
+          "2"
+        ],
+        "sentence_level": true
+      }
+    ]
+  },
+  "_alignment_warnings": [
+    "snippet_mismatch:model_name",
+    "sentence_level_fallback:model_name",
+    "snippet_mismatch:developer",
+    "sentence_level_fallback:developer",
+    "snippet_mismatch:regulatory_approval_status",
+    "snippet_mismatch:regulatory_approval_status",
+    "sentence_level_fallback:regulatory_approval_status",
+    "snippet_mismatch:version",
+    "sentence_level_fallback:version",
+    "snippet_mismatch:summary",
+    "snippet_mismatch:summary",
+    "snippet_mismatch:summary",
+    "sentence_level_fallback:summary",
+    "snippet_mismatch:medical_purpose",
+    "snippet_mismatch:medical_purpose",
+    "snippet_mismatch:medical_purpose",
+    "snippet_mismatch:medical_purpose",
+    "sentence_level_fallback:medical_purpose",
+    "snippet_mismatch:acceptable_input",
+    "snippet_mismatch:acceptable_input",
+    "snippet_mismatch:acceptable_input",
+    "snippet_mismatch:acceptable_input",
+    "snippet_mismatch:acceptable_input",
+    "snippet_mismatch:acceptable_input",
+    "snippet_mismatch:acceptable_input",
+    "snippet_mismatch:acceptable_input",
+    "snippet_mismatch:acceptable_input",
+    "sentence_level_fallback:acceptable_input",
+    "snippet_mismatch:output",
+    "snippet_mismatch:output",
+    "snippet_mismatch:output",
+    "snippet_mismatch:output",
+    "snippet_mismatch:output",
+    "sentence_level_fallback:output",
+    "snippet_mismatch:role_in_decision_making",
+    "snippet_mismatch:role_in_decision_making",
+    "snippet_mismatch:role_in_decision_making",
+    "snippet_mismatch:role_in_decision_making",
+    "snippet_mismatch:role_in_decision_making",
+    "sentence_level_fallback:role_in_decision_making",
+    "snippet_mismatch:known_performance_limitations",
+    "snippet_mismatch:known_performance_limitations",
+    "snippet_mismatch:known_performance_limitations",
+    "snippet_mismatch:known_performance_limitations",
+    "snippet_mismatch:known_performance_limitations",
+    "snippet_mismatch:known_performance_limitations",
+    "snippet_mismatch:known_performance_limitations",
+    "snippet_mismatch:known_performance_limitations",
+    "snippet_mismatch:known_performance_limitations",
+    "snippet_mismatch:known_performance_limitations",
+    "snippet_mismatch:known_performance_limitations",
+    "snippet_mismatch:known_performance_limitations",
+    "sentence_level_fallback:known_performance_limitations",
+    "snippet_mismatch:skin_type_representation_equity",
+    "snippet_mismatch:skin_type_representation_equity",
+    "snippet_mismatch:skin_type_representation_equity",
+    "snippet_mismatch:skin_type_representation_equity",
+    "snippet_mismatch:skin_type_representation_equity",
+    "sentence_level_fallback:skin_type_representation_equity",
+    "snippet_mismatch:performance",
+    "snippet_mismatch:performance",
+    "snippet_mismatch:performance",
+    "snippet_mismatch:performance",
+    "snippet_mismatch:performance",
+    "snippet_mismatch:performance",
+    "snippet_mismatch:performance",
+    "sentence_level_fallback:performance",
+    "snippet_mismatch:training_data",
+    "sentence_level_fallback:training_data",
+    "snippet_mismatch:intended_users",
+    "snippet_mismatch:intended_users",
+    "sentence_level_fallback:intended_users",
+    "snippet_mismatch:target_patient_population",
+    "snippet_mismatch:target_patient_population",
+    "snippet_mismatch:target_patient_population",
+    "snippet_mismatch:target_patient_population",
+    "snippet_mismatch:target_patient_population",
+    "sentence_level_fallback:target_patient_population",
+    "snippet_mismatch:required_clinician_oversight",
+    "snippet_mismatch:required_clinician_oversight",
+    "sentence_level_fallback:required_clinician_oversight",
+    "snippet_mismatch:model_type",
+    "sentence_level_fallback:model_type",
+    "snippet_mismatch:performance_evaluation_limitations",
+    "sentence_level_fallback:performance_evaluation_limitations",
+    "snippet_mismatch:contact",
+    "snippet_mismatch:contact",
+    "sentence_level_fallback:contact"
+  ]
+}

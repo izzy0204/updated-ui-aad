@@ -1,0 +1,203 @@
+{
+  "name": "skin-vision-20260725-192820",
+  "total_facts": 16,
+  "supported": 9,
+  "partial": 2,
+  "unsupported": 5,
+  "score_strict": 0.5625,
+  "score_partial_credit": 0.625,
+  "details": [
+    {
+      "fact": "Model Name: Skin Vision",
+      "label": "SUPPORTED",
+      "reason": "The evidence states that SkinVision is a health technology company focused on increasing access to skin health awareness and care, which supports the claim about the model name being Skin Vision.",
+      "evidence": [
+        {
+          "title": "https://www.skinvision.com/en-us",
+          "text": "Making Skin Health More Accessible SkinVision is a health technology company focused on increasing access to skin health awareness and care. We are working toward making our services available in the United States.",
+          "score": -0.392361531667182
+        }
+      ]
+    },
+    {
+      "fact": "Developer: SkinVision",
+      "label": "SUPPORTED",
+      "reason": "The evidence confirms that SkinVision is a health technology company focused on skin health, which supports the claim that the developer is SkinVision.",
+      "evidence": [
+        {
+          "title": "https://www.skinvision.com/en-us",
+          "text": "Making Skin Health More Accessible SkinVision is a health technology company focused on increasing access to skin health awareness and care. We are working toward making our services available in the United States.",
+          "score": -0.392361531667182
+        }
+      ]
+    },
+    {
+      "fact": "Regulatory Approval Status: Regulatory Status Unknown",
+      "label": "SUPPORTED",
+      "reason": "The evidence indicates that the regulatory status of SkinVision is unknown as it mentions they are working toward making their services available in the United States, implying that regulatory approval has not yet been obtained.",
+      "evidence": [
+        {
+          "title": "https://www.skinvision.com/en-us",
+          "text": "Making Skin Health More Accessible SkinVision is a health technology company focused on increasing access to skin health awareness and care. We are working toward making our services available in the United States.",
+          "score": 0.0
+        }
+      ]
+    },
+    {
+      "fact": "Regulatory Approval Date: Not disclosed",
+      "label": "UNSUPPORTED",
+      "reason": "The evidence does not provide any information regarding the regulatory approval date.",
+      "evidence": [
+        {
+          "title": "https://www.skinvision.com/en-us",
+          "text": "Making Skin Health More Accessible SkinVision is a health technology company focused on increasing access to skin health awareness and care. We are working toward making our services available in the United States.",
+          "score": 0.0
+        }
+      ]
+    },
+    {
+      "fact": "Version: Not disclosed",
+      "label": "SUPPORTED",
+      "reason": "The evidence states that SkinVision is focused on increasing access to skin health awareness and care, which supports the claim of making skin health more accessible.",
+      "evidence": [
+        {
+          "title": "https://www.skinvision.com/en-us",
+          "text": "Making Skin Health More Accessible SkinVision is a health technology company focused on increasing access to skin health awareness and care. We are working toward making our services available in the United States.",
+          "score": 0.0
+        }
+      ]
+    },
+    {
+      "fact": "Last Updated: 2026-07-25",
+      "label": "UNSUPPORTED",
+      "reason": "The evidence does not provide any information about the last updated date of 2026-07-25.",
+      "evidence": [
+        {
+          "title": "https://www.skinvision.com/en-us",
+          "text": "Making Skin Health More Accessible SkinVision is a health technology company focused on increasing access to skin health awareness and care. We are working toward making our services available in the United States.",
+          "score": 0.0
+        }
+      ]
+    },
+    {
+      "fact": "Availability: Not disclosed",
+      "label": "PARTIAL",
+      "reason": "The evidence indicates that SkinVision is working toward making their services available in the United States, but it does not disclose the specific availability status.",
+      "evidence": [
+        {
+          "title": "https://www.skinvision.com/en-us",
+          "text": "Making Skin Health More Accessible SkinVision is a health technology company focused on increasing access to skin health awareness and care. We are working toward making our services available in the United States.",
+          "score": 0.0
+        }
+      ]
+    },
+    {
+      "fact": "SkinVision is a health technology company focused on increasing access to skin health awareness and care.",
+      "label": "SUPPORTED",
+      "reason": "The evidence directly states that SkinVision is a health technology company focused on increasing access to skin health awareness and care.",
+      "evidence": [
+        {
+          "title": "https://www.skinvision.com/en-us",
+          "text": "Making Skin Health More Accessible SkinVision is a health technology company focused on increasing access to skin health awareness and care. We are working toward making our services available in the United States.",
+          "score": -4.996070169895451
+        }
+      ]
+    },
+    {
+      "fact": "The service is currently not available in the United States, pending regulatory clearance.",
+      "label": "PARTIAL",
+      "reason": "The evidence indicates that the service is working toward being available in the United States, but does not confirm its current availability or the status of regulatory clearance.",
+      "evidence": [
+        {
+          "title": "https://www.skinvision.com/en-us",
+          "text": "Making Skin Health More Accessible SkinVision is a health technology company focused on increasing access to skin health awareness and care. We are working toward making our services available in the United States.",
+          "score": -1.9225715051691914
+        }
+      ]
+    },
+    {
+      "fact": "Medical Purpose: To increase access to skin health awareness and care.",
+      "label": "SUPPORTED",
+      "reason": "The evidence directly states that SkinVision is focused on increasing access to skin health awareness and care, which supports the claim.",
+      "evidence": [
+        {
+          "title": "https://www.skinvision.com/en-us",
+          "text": "Making Skin Health More Accessible SkinVision is a health technology company focused on increasing access to skin health awareness and care. We are working toward making our services available in the United States.",
+          "score": -2.498035084947725
+        }
+      ]
+    },
+    {
+      "fact": "Intended Users: Individuals seeking to increase their awareness and understanding of their skin health.",
+      "label": "SUPPORTED",
+      "reason": "The evidence states that SkinVision is focused on increasing access to skin health awareness, which aligns with the claim about individuals seeking to increase their awareness and understanding of their skin health.",
+      "evidence": [
+        {
+          "title": "https://www.skinvision.com/en-us",
+          "text": "Making Skin Health More Accessible SkinVision is a health technology company focused on increasing access to skin health awareness and care. We are working toward making our services available in the United States.",
+          "score": -1.6740758684466432
+        }
+      ]
+    },
+    {
+      "fact": "The target patient population includes individuals seeking to increase their skin health awareness and care.",
+      "label": "SUPPORTED",
+      "reason": "The evidence states that SkinVision is focused on increasing access to skin health awareness and care, which aligns with the claim about the target patient population.",
+      "evidence": [
+        {
+          "title": "https://www.skinvision.com/en-us",
+          "text": "Making Skin Health More Accessible SkinVision is a health technology company focused on increasing access to skin health awareness and care. We are working toward making our services available in the United States.",
+          "score": -2.223382012780698
+        }
+      ]
+    },
+    {
+      "fact": "SkinVision is not yet available in the United States.",
+      "label": "SUPPORTED",
+      "reason": "The evidence states that SkinVision is working toward making its services available in the United States, implying that it is not yet available.",
+      "evidence": [
+        {
+          "title": "https://www.skinvision.com/en-us",
+          "text": "Making Skin Health More Accessible SkinVision is a health technology company focused on increasing access to skin health awareness and care. We are working toward making our services available in the United States.",
+          "score": -2.040279964669346
+        }
+      ]
+    },
+    {
+      "fact": "U.S. availability is subject to FDA authorization.",
+      "label": "UNSUPPORTED",
+      "reason": "The evidence does not mention FDA authorization as a requirement for U.S. availability.",
+      "evidence": [
+        {
+          "title": "https://www.skinvision.com/en-us",
+          "text": "Making Skin Health More Accessible SkinVision is a health technology company focused on increasing access to skin health awareness and care. We are working toward making our services available in the United States.",
+          "score": -0.5493061443340548
+        }
+      ]
+    },
+    {
+      "fact": "U.S. launch is planned pending applicable regulatory clearance.",
+      "label": "UNSUPPORTED",
+      "reason": "The evidence does not mention any planned U.S. launch or regulatory clearance; it only states that services are being worked on for availability in the U.S.",
+      "evidence": [
+        {
+          "title": "https://www.skinvision.com/en-us",
+          "text": "Making Skin Health More Accessible SkinVision is a health technology company focused on increasing access to skin health awareness and care. We are working toward making our services available in the United States.",
+          "score": -0.2746530721670274
+        }
+      ]
+    },
+    {
+      "fact": "The company collaborates with medical experts, researchers, and leading institutions, including Mayo Clinic, for ongoing research and development in digital health.",
+      "label": "UNSUPPORTED",
+      "reason": "The evidence does not mention any collaboration with medical experts, researchers, or institutions like Mayo Clinic, nor does it provide information about ongoing research and development in digital health.",
+      "evidence": [
+        {
+          "title": "https://www.skinvision.com/en-us",
+          "text": "Making Skin Health More Accessible SkinVision is a health technology company focused on increasing access to skin health awareness and care. We are working toward making our services available in the United States.",
+          "score": -1.8310204811135158
+        }
+      ]
+    }
+  ]
+}

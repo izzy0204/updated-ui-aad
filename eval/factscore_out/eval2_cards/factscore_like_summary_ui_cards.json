@@ -1,0 +1,92 @@
+[
+  {
+    "name": "DermGPT",
+    "total_facts": 22,
+    "supported": 19,
+    "partial": 0,
+    "unsupported": 3,
+    "score_strict": 0.8636363636363636,
+    "score_partial_credit": 0.8636363636363636
+  },
+  {
+    "name": "Dermasensor",
+    "total_facts": 58,
+    "supported": 41,
+    "partial": 8,
+    "unsupported": 9,
+    "score_strict": 0.7068965517241379,
+    "score_partial_credit": 0.7758620689655172
+  },
+  {
+    "name": "SkinAnalytics",
+    "total_facts": 51,
+    "supported": 31,
+    "partial": 9,
+    "unsupported": 11,
+    "score_strict": 0.6078431372549019,
+    "score_partial_credit": 0.696078431372549
+  },
+  {
+    "name": "SkinVision",
+    "total_facts": 33,
+    "supported": 26,
+    "partial": 3,
+    "unsupported": 4,
+    "score_strict": 0.7878787878787878,
+    "score_partial_credit": 0.8333333333333334
+  },
+  {
+    "name": "Tandem",
+    "total_facts": 40,
+    "supported": 26,
+    "partial": 4,
+    "unsupported": 10,
+    "score_strict": 0.65,
+    "score_partial_credit": 0.7
+  },
+  {
+    "name": "dermasensor-20260725-192751",
+    "total_facts": 51,
+    "supported": 38,
+    "partial": 4,
+    "unsupported": 9,
+    "score_strict": 0.7450980392156863,
+    "score_partial_credit": 0.7843137254901961
+  },
+  {
+    "name": "dermgpt-20260725-192813",
+    "total_facts": 35,
+    "supported": 32,
+    "partial": 1,
+    "unsupported": 2,
+    "score_strict": 0.9142857142857143,
+    "score_partial_credit": 0.9285714285714286
+  },
+  {
+    "name": "skin-analytics-20260725-193021",
+    "total_facts": 36,
+    "supported": 20,
+    "partial": 3,
+    "unsupported": 13,
+    "score_strict": 0.5555555555555556,
+    "score_partial_credit": 0.5972222222222222
+  },
+  {
+    "name": "skin-vision-20260725-192820",
+    "total_facts": 16,
+    "supported": 9,
+    "partial": 2,
+    "unsupported": 5,
+    "score_strict": 0.5625,
+    "score_partial_credit": 0.625
+  },
+  {
+    "name": "tandem-20260725-194411",
+    "total_facts": 23,
+    "supported": 22,
+    "partial": 0,
+    "unsupported": 1,
+    "score_strict": 0.9565217391304348,
+    "score_partial_credit": 0.9565217391304348
+  }
+]

@@ -1,11 +1,11 @@
 {
-  "schemaVersion": "clinical-model-card-1.0",
+  "schemaVersion": "clinical-model-card-2.0",
   "modelName": "Tandem",
   "applicationUrl": null,
   "developer": "Tandem Technology, Inc. Founder & CEO is Sahir Jaggi. Clinical Intelligence led by Adam Harris, MD and Kathleen Alvarez, NP.",
   "regulatoryApprovalStatus": "UNKNOWN",
   "regulatoryApprovalDate": null,
-  "version": "Not specified.",
+  "version": "",
   "lastUpdated": "2026-07-11",
   "availability": "Available in the United States; availability abroad not clearly specified.",
   "summary": "Tandem is an AI-powered platform that automates end-to-end medication access workflows (prior authorization submission, appeals, pharmacy routing, affordability/patient assistance enrollment, and patient communication).",
@@ -15,27 +15,24 @@
   "roleInDecisionMaking": "Provides adjunctive referral support for physicians evaluating suspicious lesions; does not replace clinician judgment, biopsy, or definitive diagnosis.",
   "intendedUsers": "Physicians, nurse practitioners, and practice staff at outpatient practices; also used in workflows involving patients waiting to receive medications. No specialized technical knowledge described; requires provider e-prescribing capability.",
   "targetPatientPopulation": "U.S. patients requiring medications with prior authorization.",
-  "knownFailureModes": "Described limitations include scope focused on medication PAs (not all categories), variability in performance for complex cases or non-responsive patients, not a full replacement for PA specialists, and limited public disclosure of model error rates.",
-  "unsupportedClinicalScenarios": "",
-  "unsupportedUseCases": "",
+  "knownPerformanceLimitations": "Described limitations include scope focused on medication PAs (not all categories), variability in performance for complex cases or non-responsive patients, not a full replacement for PA specialists, and limited public disclosure of model error rates.",
+  "skinTypeRepresentationEquity": "",
   "requiredClinicianOversight": "A prescribing physician (not necessarily a dermatologist) must operate the device and interpret its output. Definitive diagnosis requires clinician judgment and biopsy or pathology confirmation where clinically indicated.",
   "modelType": "Workflow automation / administrative support with human review. AI-powered workflow automation platform using a human-in-the-loop approach; combines NLP and machine learning with payer/workflow automation.",
   "trainingData": {
-    "description": "Not disclosed",
+    "description": "",
     "datasetUrl": null
   },
   "modelDevelopmentAndValidation": {
-    "description": "Not specified.",
-    "publicationUrl": "Not specified."
+    "description": null,
+    "publicationUrl": null
   },
-  "clinicalTrial": {
-    "description": "Not specified."
-  },
+  "clinicalTrial": null,
   "performance": {
     "summary": "HIPAA-compliant; SOC 2 Type II certified; no reported breaches/incidents in cited materials; regulatory context includes CMS interoperability/prior authorization rules. Administrative + human review mitigates clinical risk; security certifications provide assurance of controls.",
     "metrics": []
   },
-  "performanceEvaluationLimitations": "Not disclosed",
+  "performanceEvaluationLimitations": "",
   "ongoingMonitoringPlan": "Continuous improvement described as platform scales.",
   "scheduledUpdates": null,
   "contact": {

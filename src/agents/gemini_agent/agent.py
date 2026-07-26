@@ -89,7 +89,7 @@ def _prep_seed_context(
 ) -> tuple[str, list[str]]:
     if not seed_pages:
         return "", []
-    cleaned: list[tuple[str, str]] = []
+    cleaned: list[tuple[str, str, bool]] = []
     seen: set[str] = set()
     for page in seed_pages:
         url = (page or {}).get("url", "").strip()
@@ -99,15 +99,21 @@ def _prep_seed_context(
         seen.add(url)
         snippet = txt[:max_chars_per_page].strip()
         if snippet:
-            cleaned.append((url, snippet))
+            cleaned.append((url, snippet, (page or {}).get("priority") == "user_inputted"))
         if len(cleaned) >= max_pages:
             break
 
     parts: list[str] = []
     ordered_urls: list[str] = []
-    for i, (u, snip) in enumerate(cleaned, 1):
+    for i, (u, snip, is_primary) in enumerate(cleaned, 1):
         ordered_urls.append(u)
-        parts.append(f"[SEED {i}] URL: {u}\nCONTENT:\n{snip}\n")
+        tag = (
+            " — PRIMARY SOURCE (developer-provided Application URL; prefer this source "
+            "when information conflicts)"
+            if is_primary
+            else ""
+        )
+        parts.append(f"[SEED {i}] URL: {u}{tag}\nCONTENT:\n{snip}\n")
     return ("\n\n".join(parts).strip(), ordered_urls)
 
 
@@ -236,6 +242,14 @@ async def _plan_targets(
             "DEVELOPER CONSTRAINT:\n"
             f"- The developer/owner of this AI model is **{developer}**.\n"
             "- Prefer sources on the developer's official domains.\n"
+        )
+    if "PRIMARY SOURCE" in seed_context:
+        guardrails.append(
+            "SOURCE PRIORITY:\n"
+            "- A SEED source below is labeled PRIMARY SOURCE — it is the developer-provided "
+            "Application URL.\n"
+            "- Treat it as the most authoritative source and prefer its content for field "
+            "filling when other sources conflict with it.\n"
         )
     guardrails.append(
         "DISAMBIGUATION:\n"
@@ -954,7 +968,7 @@ async def run(
             "developer",
             "summary",
             "medical_purpose",
-            "known_failure_modes",
+            "known_performance_limitations",
             "training_data",
             "performance",
         ]

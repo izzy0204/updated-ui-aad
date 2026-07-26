@@ -35,7 +35,7 @@ deactivate () {
 # unset irrelevant variables
 deactivate nondestructive
 
-VIRTUAL_ENV=/Users/isabellegatmaitan/eval/custom-factscore-venv
+VIRTUAL_ENV=/Users/kenna/izzy-work/aad-model-card-generator/eval/custom-factscore-venv
 export VIRTUAL_ENV
 
 _OLD_VIRTUAL_PATH="$PATH"

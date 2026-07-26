@@ -1,0 +1,110 @@
+============================================================
+MODEL CARD SCORING REPORT
+============================================================
+
+OVERALL SCORES:
+   Field Completion: 90.5% (19/21 fields)
+   Clinical Usability: 0.32 (YELLOW)
+   Overall Rating: FAIR - Needs significant improvements
+
+[YELLOW] CLINICAL USABILITY: YELLOW
+
+CATEGORY BREAKDOWN:
+   Summary:
+     Completion: 100.0%
+     Quality: 0.41
+     Clinical Relevance: 0.92
+   Medical Purpose:
+     Completion: 100.0%
+     Quality: 0.27
+     Clinical Relevance: 0.16
+   Acceptable Input:
+     Completion: 100.0%
+     Quality: 0.46
+     Clinical Relevance: 0.16
+   Output:
+     Completion: 100.0%
+     Quality: 0.29
+     Clinical Relevance: 0.24
+   Role In Decision Making:
+     Completion: 100.0%
+     Quality: 0.30
+     Clinical Relevance: 0.76
+   Intended Users:
+     Completion: 100.0%
+     Quality: 0.23
+     Clinical Relevance: 0.08
+   Target Patient Population:
+     Completion: 100.0%
+     Quality: 0.29
+     Clinical Relevance: 0.08
+   Known Performance Limitations:
+     Completion: 100.0%
+     Quality: 0.42
+     Clinical Relevance: 0.32
+   Skin Type Representation Equity:
+     Completion: 100.0%
+     Quality: 0.14
+     Clinical Relevance: 0.16
+   Training Data:
+     Completion: 100.0%
+     Quality: 0.13
+     Clinical Relevance: 0.50
+   Performance:
+     Completion: 100.0%
+     Quality: 0.25
+     Clinical Relevance: 0.50
+   Performance Evaluation Limitations:
+     Completion: 100.0%
+     Quality: 0.24
+     Clinical Relevance: 0.16
+   Regulatory Approval Status:
+     Completion: 0.0%
+     Quality: 0.00
+     Clinical Relevance: 0.00
+   Metadata:
+     Completion: 85.7%
+     Quality: 0.09
+     Clinical Relevance: 0.31
+
+CRITICAL MISSING FIELDS:
+   • Required Clinician Oversight
+   • Model Type
+   • Model Development And Validation
+   • Regulatory Approval Status
+
+QUALITY ISSUES:
+   • Low quality content in medical_purpose
+   • medical_purpose: Missing required elements: clinical
+   • acceptable_input: Missing required elements: clinical
+   • Low quality content in output
+   • output: Missing required elements: clinical
+   • Low quality content in intended_users
+   • intended_users: Missing required elements: clinical
+   • Low quality content in target_patient_population
+   • target_patient_population: Missing required elements: clinical
+   • known_performance_limitations: Missing required elements: clinical
+   ... and 18 more issues
+
+RECOMMENDATIONS:
+   1. [GOOD] Model card has good field completion. Focus on improving content quality.
+   2. [MODERATE] Moderate clinical relevance. Enhance clinical details and validation information.
+   3. Add clinical context to Medical Purpose section
+   4. Add clinical context to Acceptable Input section
+   5. Add clinical context to Output section
+   6. Add clinical context to Intended Users section
+   7. Add clinical context to Target Patient Population section
+   8. Add clinical context to Known Performance Limitations section
+   9. Add clinical context to Skin Type Representation Equity section
+   10. Complete Required Clinician Oversight section with detailed information
+   11. Add clinical context to Required Clinician Oversight section
+   12. Complete Model Type section with detailed information
+   13. Add clinical context to Model Type section
+   14. Complete Model Development And Validation section with detailed information
+   15. Add clinical context to Model Development And Validation section
+   16. Add clinical context to Performance Evaluation Limitations section
+   17. Complete Regulatory Approval Status section with detailed information
+   18. Add clinical context to Regulatory Approval Status section
+   19. Add clinical context to Metadata section
+
+============================================================

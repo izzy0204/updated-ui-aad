@@ -23,7 +23,7 @@ from migration_field_synthesis import (  # noqa: E402
     regulatory_status_display_text,
     synthesize_acceptable_input,
     synthesize_contact,
-    synthesize_known_failure_modes,
+    synthesize_known_performance_limitations,
     synthesize_medical_purpose,
     synthesize_model_type,
     synthesize_output,
@@ -31,9 +31,8 @@ from migration_field_synthesis import (  # noqa: E402
     synthesize_required_clinician_oversight,
     synthesize_role_in_decision_making,
     synthesize_scheduled_updates,
+    synthesize_skin_type_representation_equity,
     synthesize_summary,
-    synthesize_unsupported_clinical_scenarios,
-    synthesize_unsupported_use_cases,
     synthesize_version,
     validate_migrated_card,
 )
@@ -124,9 +123,8 @@ _CLINICAL_CITATION_SOURCES: Dict[str, List[str]] = {
     "role_in_decision_making": ["clinical_risk_level", "intended_use_and_workflow"],
     "intended_users": ["primary_intended_users", "necessary_knowledge_expertise"],
     "target_patient_population": ["targeted_patient_population"],
-    "known_failure_modes": ["model_limitations", "skin_type_representation_and_equity"],
-    "unsupported_clinical_scenarios": ["developer_supplied_warnings", "model_limitations"],
-    "unsupported_use_cases": ["model_limitations"],
+    "known_performance_limitations": ["model_limitations", "developer_supplied_warnings"],
+    "skin_type_representation_equity": ["skin_type_representation_and_equity"],
     "required_clinician_oversight": [
         "how_to_use",
         "clinical_risk_level",
@@ -210,7 +208,8 @@ def _build_citation_sidecar(
     for target, legacy_fields in {
         "regulatory_approval_status": ["regulatory_approval_status_if_applicable"],
         "summary": ["summary"],
-        "known_failure_modes": ["model_limitations", "skin_type_representation_and_equity"],
+        "known_performance_limitations": ["model_limitations", "developer_supplied_warnings"],
+        "skin_type_representation_equity": ["skin_type_representation_and_equity"],
         "performance.summary": ["usefulness_efficacy_result", "usefulness_efficacy_auroc_accuracy_etc"],
     }.items():
         cites = _union_citations(old_citations, target, legacy_fields)
@@ -369,9 +368,8 @@ def migrate_card(md_path: Path, fda_records: Optional[List[Dict]] = None) -> Tup
             )
         ),
         target_patient_population=_clean_field_text(legacy.get("targeted_patient_population", "").strip()),
-        known_failure_modes=synthesize_known_failure_modes(legacy),
-        unsupported_clinical_scenarios=synthesize_unsupported_clinical_scenarios(legacy),
-        unsupported_use_cases=synthesize_unsupported_use_cases(legacy),
+        known_performance_limitations=synthesize_known_performance_limitations(legacy),
+        skin_type_representation_equity=synthesize_skin_type_representation_equity(legacy),
         required_clinician_oversight=synthesize_required_clinician_oversight(legacy),
         model_type=synthesize_model_type(legacy),
         training_data=TrainingData(

@@ -28,9 +28,11 @@ def _clinical_card_dict(**overrides) -> dict:
         role_in_decision_making="Advisory only; clinician confirms biopsy decisions.",
         intended_users="Board-certified dermatologists.",
         target_patient_population="Adults with pigmented lesions.",
-        known_failure_modes="Reduced accuracy on rare subtypes and darker skin tones.",
-        unsupported_clinical_scenarios="Pediatric self-screening without oversight.",
-        unsupported_use_cases="Consumer standalone diagnosis.",
+        known_performance_limitations=(
+            "Reduced accuracy on rare subtypes. Not for pediatric self-screening or consumer "
+            "standalone diagnosis."
+        ),
+        skin_type_representation_equity="Reduced accuracy observed on darker skin tones.",
         required_clinician_oversight="Physician must review all outputs before clinical action.",
         model_type="Convolutional neural network.",
         training_data=TrainingData(description="12,000 dermoscopic images from 3 sites."),
@@ -70,6 +72,8 @@ def test_scorer_field_level_quality() -> None:
     )
     assert good.is_filled
     assert good.clinical_relevance > 0.3
+    not_disclosed = scorer.score_field("medical_purpose", "Not disclosed")
+    assert not not_disclosed.is_filled
     bad = scorer.score_field("medical_purpose", "not specified")
     assert not bad.is_filled or bad.clinical_relevance < good.clinical_relevance
 

@@ -1,0 +1,42 @@
+{
+  "schemaVersion": "clinical-model-card-2.0",
+  "modelName": "Forus",
+  "applicationUrl": "https://forus.com/",
+  "developer": "Forus (formerly Tandem Technology, Inc.)",
+  "regulatoryApprovalStatus": "UNKNOWN",
+  "regulatoryApprovalDate": null,
+  "version": "",
+  "lastUpdated": "2026-07-25",
+  "availability": null,
+  "summary": "",
+  "medicalPurpose": "The AI model is intended as an aid for medical professionals, providing preliminary diagnoses and treatment recommendations.",
+  "acceptableInput": "",
+  "output": "The AI model provides preliminary diagnoses and treatment recommendations.",
+  "roleInDecisionMaking": "",
+  "intendedUsers": "",
+  "targetPatientPopulation": "",
+  "knownPerformanceLimitations": "",
+  "skinTypeRepresentationEquity": "",
+  "requiredClinicianOversight": "The AI model is intended as an aid for medical professionals, not a replacement. Its preliminary diagnoses and treatment recommendations must be reviewed and approved by a licensed physician before implementation. Physicians retain full responsibility for patient care decisions. The model is not designed for independent use by patients or non-medical personnel. The system includes built-in safeguards that flag high-risk cases for immediate human review. Regular training for clinicians on how to interpret and validate AI-generated outputs is mandatory. The AI's output is explicitly labeled as 'AI-generated preliminary' to ensure clinicians understand its assistive nature.",
+  "modelType": "",
+  "trainingData": {
+    "description": "",
+    "datasetUrl": null
+  },
+  "modelDevelopmentAndValidation": {
+    "description": null,
+    "publicationUrl": null
+  },
+  "clinicalTrial": null,
+  "performance": {
+    "summary": "",
+    "metrics": []
+  },
+  "performanceEvaluationLimitations": "",
+  "ongoingMonitoringPlan": null,
+  "scheduledUpdates": null,
+  "contact": {
+    "email": null,
+    "url": null
+  }
+}

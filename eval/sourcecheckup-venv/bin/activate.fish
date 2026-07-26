@@ -33,7 +33,7 @@ end
 # Unset irrelevant variables.
 deactivate nondestructive
 
-set -gx VIRTUAL_ENV /Users/isabellegatmaitan/eval/sourcecheckup-venv
+set -gx VIRTUAL_ENV /Users/kenna/izzy-work/aad-model-card-generator/eval/sourcecheckup-venv
 
 set -gx _OLD_VIRTUAL_PATH $PATH
 set -gx PATH "$VIRTUAL_ENV/"bin $PATH

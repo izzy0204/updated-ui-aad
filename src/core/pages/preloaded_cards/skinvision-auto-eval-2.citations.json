@@ -1,0 +1,416 @@
+{
+  "_sources_metadata": {
+    "https://www.skinvision.com/en-us": {
+      "usage": "both",
+      "reason": "Included in context and directly cited",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    }
+  },
+  "model_name": [
+    {
+      "url": "https://www.skinvision.com/en-us",
+      "snippet": "SkinVision is a health technology company",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    }
+  ],
+  "developer": [
+    {
+      "url": "https://www.skinvision.com/en-us",
+      "snippet": "SkinVision was founded with a mission to improve access to skin health information",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    }
+  ],
+  "regulatory_approval_status": [
+    {
+      "url": "https://www.skinvision.com/en-us",
+      "snippet": "SkinVision is not yet available in the United States",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    },
+    {
+      "url": "https://www.skinvision.com/en-us",
+      "snippet": "U.S. availability is subject to FDA authorization",
+      "source_type": "web",
+      "regulatory_tier": "green"
+    },
+    {
+      "url": "https://www.skinvision.com/en-us",
+      "snippet": "U.S. launch is planned pending applicable regulatory clearance.",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    }
+  ],
+  "summary": [
+    {
+      "url": "https://www.skinvision.com/en-us",
+      "snippet": "SkinVision is a health technology company focused on increasing access to skin health awareness and care.",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    },
+    {
+      "url": "https://www.skinvision.com/en-us",
+      "snippet": "support individuals in becoming more aware of their skin over time.",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    },
+    {
+      "url": "https://www.skinvision.com/en-us",
+      "snippet": "helping people take a more active role in their health journey.",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    },
+    {
+      "url": "https://www.skinvision.com/en-us",
+      "snippet": "currently not available in the United States. U.S. launch is planned pending applicable regulatory clearance.",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    }
+  ],
+  "medical_purpose": [
+    {
+      "url": "https://www.skinvision.com/en-us",
+      "snippet": "focused on increasing access to skin health awareness and care.",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    },
+    {
+      "url": "https://www.skinvision.com/en-us",
+      "snippet": "improve access to skin health information and support individuals in becoming more aware of their skin over time.",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    },
+    {
+      "url": "https://www.skinvision.com/en-us",
+      "snippet": "SkinVision is a health technology company focused on increasing access to skin health awareness and care.",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    },
+    {
+      "url": "https://www.skinvision.com/en-us",
+      "snippet": "improve access to skin health information and support individuals in becoming more aware of their skin over time.",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    }
+  ],
+  "role_in_decision_making": [
+    {
+      "url": "https://www.skinvision.com/en-us",
+      "snippet": "helping people take a more active role in their health journey.",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    },
+    {
+      "url": "https://www.skinvision.com/en-us",
+      "snippet": "increasing awareness and accessibility in skin health can play an important role",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    },
+    {
+      "url": "https://www.skinvision.com/en-us",
+      "snippet": "helping people take a more active role in their health journey.",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    }
+  ],
+  "intended_users": [
+    {
+      "url": "https://www.skinvision.com/en-us",
+      "snippet": "support individuals in becoming more aware of their skin over time.",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    },
+    {
+      "url": "https://www.skinvision.com/en-us",
+      "snippet": "helping people take a more active role in their health journey.",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    }
+  ],
+  "model_development_and_validation": [
+    {
+      "url": "https://www.skinvision.com/en-us",
+      "snippet": "SkinVision collaborates with medical experts, researchers, and institutions to advance its work in digital health.",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    },
+    {
+      "url": "https://www.skinvision.com/en-us",
+      "snippet": "collaborates with leading institutions to support ongoing research and development in digital health.",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    },
+    {
+      "url": "https://www.skinvision.com/en-us",
+      "snippet": "Read more about our collaboration with Mayo Clinic",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    }
+  ],
+  "postfill.target_patient_population": [
+    {
+      "url": "https://www.skinvision.com/en-us",
+      "snippet": "focused on increasing access to skin health awareness and care.",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    },
+    {
+      "url": "https://www.skinvision.com/en-us",
+      "snippet": "support individuals in becoming more aware of their skin over time.",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    },
+    {
+      "url": "https://www.skinvision.com/en-us",
+      "snippet": "helping people take a more active role in their health journey.",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    }
+  ],
+  "postfill.known_performance_limitations": [
+    {
+      "url": "https://www.skinvision.com/en-us",
+      "snippet": "SkinVision is not yet available in the United States",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    },
+    {
+      "url": "https://www.skinvision.com/en-us",
+      "snippet": "U.S. availability is subject to FDA authorization",
+      "source_type": "web",
+      "regulatory_tier": "green"
+    },
+    {
+      "url": "https://www.skinvision.com/en-us",
+      "snippet": "U.S. launch is planned pending applicable regulatory clearance.",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    }
+  ],
+  "postfill.contact.url": [
+    {
+      "url": "https://www.skinvision.com/en-us",
+      "snippet": "https://www.skinvision.com/en-us",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    }
+  ],
+  "_regulatory_tiers": {
+    "model_name": "gray",
+    "developer": "gray",
+    "regulatory_approval_status": "gray",
+    "regulatory_approval_date": "gray",
+    "version": "gray",
+    "last_updated": "gray",
+    "availability": "gray",
+    "summary": "gray",
+    "medical_purpose": "gray",
+    "acceptable_input": "gray",
+    "output": "gray",
+    "role_in_decision_making": "gray",
+    "intended_users": "gray",
+    "target_patient_population": "gray",
+    "known_performance_limitations": "gray",
+    "skin_type_representation_equity": "gray",
+    "required_clinician_oversight": "gray",
+    "model_type": "gray",
+    "training_data": "gray",
+    "model_development_and_validation": "gray",
+    "clinical_trial": "gray",
+    "performance": "gray",
+    "performance_evaluation_limitations": "gray",
+    "ongoing_monitoring_plan": "gray",
+    "scheduled_updates": "gray",
+    "contact": "gray"
+  },
+  "_regulatory_tiers_composite": {
+    "1) Metadata|||Model Name": "gray",
+    "1) Metadata|||Developer": "gray",
+    "1) Metadata|||Regulatory Approval Status": "gray",
+    "1) Metadata|||Regulatory Approval Date": "gray",
+    "1) Metadata|||Version": "gray",
+    "1) Metadata|||Last Updated": "gray",
+    "1) Metadata|||Availability": "gray",
+    "2) Summary|||Summary": "gray",
+    "3) Intended Use|||Medical Purpose": "gray",
+    "3) Intended Use|||Acceptable Input": "gray",
+    "3) Intended Use|||Output": "gray",
+    "3) Intended Use|||Role in Decision-Making": "gray",
+    "3) Intended Use|||Intended Users": "gray",
+    "3) Intended Use|||Target Patient Population": "gray",
+    "4) Risks and Limitations|||Known Performance Limitations": "gray",
+    "4) Risks and Limitations|||Skin Type Representation & Equity": "gray",
+    "4) Risks and Limitations|||Required Clinician Oversight": "gray",
+    "5) Mechanism and Development|||Model Type": "gray",
+    "5) Mechanism and Development|||Training Data": "gray",
+    "5) Mechanism and Development|||Model Development & Validation": "gray",
+    "5) Mechanism and Development|||Clinical Trial": "gray",
+    "5) Mechanism and Development|||Performance": "gray",
+    "5) Mechanism and Development|||Limitations in Evaluating Performance": "gray",
+    "6) Governance and Monitoring|||Plans for Ongoing Monitoring": "gray",
+    "6) Governance and Monitoring|||Scheduled Updates": "gray",
+    "6) Governance and Monitoring|||Inquiries / Report an Issue": "gray"
+  },
+  "schema_version": "clinical-model-card-citations-1.0",
+  "references": {
+    "1": {
+      "url": "https://www.skinvision.com/en-us",
+      "snippet": "SkinVision is a health technology company"
+    }
+  },
+  "field_citations": {
+    "model_name": [
+      {
+        "citationIds": [
+          "1"
+        ],
+        "sentence_level": true
+      }
+    ],
+    "developer": [
+      {
+        "citationIds": [
+          "1"
+        ],
+        "sentence_level": true
+      }
+    ],
+    "regulatory_approval_status": [
+      {
+        "citationIds": [
+          "1",
+          "1",
+          "1"
+        ],
+        "sentence_level": true
+      }
+    ],
+    "summary": [
+      {
+        "text": "SkinVision is a health technology company focused on increasing access to skin health awareness and care.",
+        "citationIds": [
+          "1"
+        ]
+      }
+    ],
+    "medical_purpose": [
+      {
+        "citationIds": [
+          "1",
+          "1",
+          "1",
+          "1"
+        ],
+        "sentence_level": true
+      }
+    ],
+    "role_in_decision_making": [
+      {
+        "citationIds": [
+          "1",
+          "1",
+          "1"
+        ],
+        "sentence_level": true
+      }
+    ],
+    "intended_users": [
+      {
+        "citationIds": [
+          "1",
+          "1"
+        ],
+        "sentence_level": true
+      }
+    ],
+    "model_development_and_validation": [
+      {
+        "citationIds": [
+          "1",
+          "1",
+          "1"
+        ],
+        "sentence_level": true
+      }
+    ],
+    "target_patient_population": [
+      {
+        "text": "skin health awareness and care",
+        "citationIds": [
+          "1"
+        ]
+      },
+      {
+        "text": "become more aware of their skin over time",
+        "citationIds": [
+          "1"
+        ]
+      },
+      {
+        "text": "take a more active role in their health journey",
+        "citationIds": [
+          "1"
+        ]
+      }
+    ],
+    "known_performance_limitations": [
+      {
+        "text": "SkinVision is not yet available in the United States",
+        "citationIds": [
+          "1"
+        ]
+      },
+      {
+        "text": "U.S. availability is subject to FDA authorization",
+        "citationIds": [
+          "1"
+        ]
+      },
+      {
+        "text": "U.S. launch is planned pending applicable regulatory clearance",
+        "citationIds": [
+          "1"
+        ]
+      }
+    ],
+    "contact": [
+      {
+        "text": "Contact page",
+        "citationIds": [
+          "1"
+        ]
+      }
+    ]
+  },
+  "_alignment_warnings": [
+    "snippet_mismatch:model_name",
+    "sentence_level_fallback:model_name",
+    "snippet_mismatch:developer",
+    "sentence_level_fallback:developer",
+    "snippet_mismatch:regulatory_approval_status",
+    "snippet_mismatch:regulatory_approval_status",
+    "snippet_mismatch:regulatory_approval_status",
+    "sentence_level_fallback:regulatory_approval_status",
+    "snippet_mismatch:summary",
+    "snippet_mismatch:summary",
+    "snippet_mismatch:summary",
+    "snippet_mismatch:medical_purpose",
+    "snippet_mismatch:medical_purpose",
+    "snippet_mismatch:medical_purpose",
+    "snippet_mismatch:medical_purpose",
+    "sentence_level_fallback:medical_purpose",
+    "snippet_mismatch:role_in_decision_making",
+    "snippet_mismatch:role_in_decision_making",
+    "snippet_mismatch:role_in_decision_making",
+    "sentence_level_fallback:role_in_decision_making",
+    "snippet_mismatch:intended_users",
+    "snippet_mismatch:intended_users",
+    "sentence_level_fallback:intended_users",
+    "snippet_mismatch:model_development_and_validation",
+    "snippet_mismatch:model_development_and_validation",
+    "snippet_mismatch:model_development_and_validation",
+    "sentence_level_fallback:model_development_and_validation"
+  ]
+}

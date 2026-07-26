@@ -161,14 +161,11 @@ def main() -> None:
     out_dir = Path(args.out_dir)
     out_dir.mkdir(parents=True, exist_ok=True)
 
-    # Import custom evaluator + upstream URL extractor
+    # Import custom evaluator + robust (bot-resistant) URL fetcher
     sys.path.insert(0, str(EVAL_ROOT))
     from custom_factscore_eval import ensure_nltk, evaluate_one  # noqa: E402
     from openai import OpenAI  # noqa: E402
-
-    # Reuse the same HTML extraction logic SourceCheckup uses (readability-based).
-    sys.path.insert(0, str(EVAL_ROOT / "SourceCheckup"))
-    from utils import extract_contents_from_url  # noqa: E402
+    from robust_fetch import fetch_url_text as extract_contents_from_url  # noqa: E402
 
     ensure_nltk()
     client = OpenAI(api_key=os.environ["OPENAI_API_KEY"])

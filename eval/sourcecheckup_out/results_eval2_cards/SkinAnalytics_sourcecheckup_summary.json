@@ -1,0 +1,10 @@
+{
+  "name": "SkinAnalytics",
+  "pairs_csv": "/Users/kenna/izzy-work/aad-model-card-generator/eval/sourcecheckup_out/pairs_eval2_cards/SkinAnalytics_pairs.csv",
+  "total_pairs": 39,
+  "supported": 17,
+  "partial": 19,
+  "unsupported": 3,
+  "strict_score": 0.4358974358974359,
+  "partial_credit_score": 0.6794871794871795
+}

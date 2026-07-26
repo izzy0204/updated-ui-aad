@@ -444,11 +444,19 @@ FIELD-SPECIFIC GUIDANCE:
 CONTEXT (seed pages and prior evidence):
 {context_block}
 
-CRITICAL: 
+CRITICAL:
 - If the information is not in the context, return empty string for value
 - Do NOT fabricate information
 - Extract exact quotes when possible
 - Include specific details: dates, numbers, metrics
+
+EVIDENCE (MANDATORY if value is non-empty):
+- "evidence" MUST include one entry per distinct source URL in CONTEXT that contributed
+  to your answer — if you drew on multiple pages, list ALL of them, not just one.
+- "url" must be copied EXACTLY from CONTEXT; never invent or alter a URL.
+- "snippet" should be a short phrase that appears verbatim in the "value" you wrote, so the
+  exact claim it supports can be located; if none carries over, still include the source URL
+  with your best short snippet from that source.
 
 Respond as JSON:
 {{
@@ -933,7 +941,7 @@ class CardGenPipeline:
             # Pass 3: Targeted fill for critical missing fields
             critical_missing = [
                 "medical_purpose", "acceptable_input", "output",
-                "known_failure_modes", "performance",
+                "known_performance_limitations", "skin_type_representation_equity", "performance",
                 "training_data",
             ]
             for field in critical_missing:

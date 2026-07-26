@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "clinical-model-card-1.0",
+  "schemaVersion": "clinical-model-card-2.0",
   "modelName": "DermTest Pro",
   "applicationUrl": "https://example.com/dermtest",
   "developer": "Acme Dermatology AI",
@@ -15,9 +15,8 @@
   "roleInDecisionMaking": "Adjunct to clinical judgment.",
   "intendedUsers": "Primary care physicians.",
   "targetPatientPopulation": "Adults with suspicious skin lesions.",
-  "knownFailureModes": "May underperform on acral sites.",
-  "unsupportedClinicalScenarios": "Pediatric screening.",
-  "unsupportedUseCases": "Consumer self-diagnosis.",
+  "knownPerformanceLimitations": "May underperform on acral sites. Not for pediatric screening or consumer self-diagnosis.",
+  "skinTypeRepresentationEquity": "Underrepresentation of Fitzpatrick V-VI in training data may reduce sensitivity for darker skin tones.",
   "requiredClinicianOversight": "Physician review required.",
   "modelType": "Convolutional neural network.",
   "trainingData": {

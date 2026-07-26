@@ -22,11 +22,13 @@ from core.chai_schema import (
     TrainingData,
 )
 from core.dermauto_card_render import (
+    REGULATORY_LEGEND,
     card_to_sections,
     format_clinical_trial,
     format_contact,
     format_development,
     format_training_data,
+    regulatory_tooltip_html,
     render_doc_title_html,
     render_from_card,
     render_full_card_html,
@@ -117,9 +119,7 @@ def test_empty_optional_nested_fields_omitted():
         role_in_decision_making="Support.",
         intended_users="Clinicians.",
         target_patient_population="Adults.",
-        known_failure_modes="None listed.",
-        unsupported_clinical_scenarios="N/A.",
-        unsupported_use_cases="N/A.",
+        known_performance_limitations="None listed.",
         required_clinician_oversight="Required.",
         model_type="Classifier.",
         training_data=TrainingData(),
@@ -148,6 +148,30 @@ def test_regulatory_color_only_on_status_row():
     summary_chunk = html[summary_idx : summary_idx + 400]
     assert "background-color:#d8f3dc" in status_chunk or "border-left:4px solid #2d6a4f" in status_chunk
     assert "background-color:#d8f3dc" not in summary_chunk
+
+
+@pytest.mark.unit
+def test_regulatory_tooltip_is_click_to_reveal_not_hover():
+    """The legend must be a <details> disclosure (click to reveal), not a hover title= tooltip."""
+    card = _load_fixture_card()
+    html = render_from_card(card, source_label="fixture", citations=_load_fixture_citations())
+    status_idx = html.index("Regulatory Approval Status")
+    chunk = html[status_idx : status_idx + 3000]
+    assert "<details" in chunk
+    assert "<summary" in chunk
+    for _tier, label in REGULATORY_LEGEND:
+        assert label in chunk
+    assert 'title="Not Authorized' not in chunk
+
+
+@pytest.mark.unit
+def test_regulatory_tooltip_html_helper_contains_full_legend():
+    tooltip = regulatory_tooltip_html()
+    assert tooltip.startswith("<details")
+    assert "<summary" in tooltip
+    assert ">?</summary>" in tooltip
+    for _tier, label in REGULATORY_LEGEND:
+        assert label in tooltip
 
 
 @pytest.mark.unit

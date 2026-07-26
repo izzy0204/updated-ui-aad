@@ -272,6 +272,15 @@ def format_performance_summary(perf: Any) -> str:
     return summary if summary else "Not disclosed"
 
 
+def format_version_with_date(version: Optional[str], last_updated: Any) -> str:
+    """Combine Version and Last Updated into one display string, e.g. 'v1.2 (Last updated: 2026-01-15)'."""
+    v = (str(version).strip() if version else "") or "Not disclosed"
+    date_str = last_updated.isoformat() if hasattr(last_updated, "isoformat") else (str(last_updated).strip() if last_updated else "")
+    if date_str:
+        return f"{v} (Last updated: {date_str})"
+    return v
+
+
 def format_performance_metrics_table_html(
     metrics: List[Any],
     *,
@@ -341,37 +350,35 @@ def card_to_sections(card: Any, citations: Optional[Dict[str, Any]] = None) -> D
 
     sections: Dict[str, Dict[str, str]] = {
         "1) Metadata": {
-            "Model Name": card.model_name,
-            "Developer": card.developer,
+            "Model Name": d(card.model_name),
+            "Developer": d(card.developer),
             "Regulatory Approval Status": status_label,
             "Regulatory Approval Date": d(
                 card.regulatory_approval_date.isoformat() if card.regulatory_approval_date else None
             ),
-            "Version": card.version or "Not disclosed",
-            "Last Updated": card.last_updated.isoformat() if card.last_updated else "",
+            "Version": format_version_with_date(card.version, card.last_updated),
             "Availability": d(card.availability),
         },
-        "2) Summary": {"Summary": card.summary},
+        "2) Summary": {"Summary": d(card.summary)},
         "3) Intended Use": {
-            "Medical Purpose": card.medical_purpose,
-            "Acceptable Input": card.acceptable_input,
-            "Output": card.output,
-            "Role in Decision-Making": card.role_in_decision_making,
-            "Intended Users": card.intended_users,
-            "Target Patient Population": card.target_patient_population,
+            "Medical Purpose": d(card.medical_purpose),
+            "Acceptable Input": d(card.acceptable_input),
+            "Output": d(card.output),
+            "Role in Decision-Making": d(card.role_in_decision_making),
+            "Intended Users": d(card.intended_users),
+            "Target Patient Population": d(card.target_patient_population),
         },
         "4) Risks and Limitations": {
-            "Known Failure Modes": card.known_failure_modes,
-            "Unsupported Clinical Scenarios": card.unsupported_clinical_scenarios,
-            "Unsupported Use Cases": card.unsupported_use_cases,
-            "Required Clinician Oversight": card.required_clinician_oversight,
+            "Known Performance Limitations": d(card.known_performance_limitations),
+            "Skin Type Representation & Equity": d(card.skin_type_representation_equity),
+            "Required Clinician Oversight": d(card.required_clinician_oversight),
         },
         "5) Mechanism and Development": {
-            "Model Type": card.model_type,
+            "Model Type": d(card.model_type),
             "Training Data": format_training_data(card.training_data),
             "Model Development & Validation": format_development(card.model_development_and_validation),
             "Performance": format_performance_summary(card.performance),
-            "Limitations in Evaluating Performance": card.performance_evaluation_limitations,
+            "Limitations in Evaluating Performance": d(card.performance_evaluation_limitations),
         },
         "6) Governance and Monitoring": {
             "Plans for Ongoing Monitoring": d(card.ongoing_monitoring_plan),
@@ -723,6 +730,21 @@ def regulatory_legend_html() -> str:
     return "".join(parts)
 
 
+def regulatory_tooltip_html() -> str:
+    """Clickable question-mark that reveals the color-coding legend on click (native <details>)."""
+    return (
+        '<details style="display:inline-block;vertical-align:middle;margin-left:6px;position:relative;">'
+        "<style>.reg-tooltip-summary::-webkit-details-marker{display:none}</style>"
+        '<summary class="reg-tooltip-summary" style="list-style:none;display:inline-block;width:16px;'
+        "height:16px;line-height:16px;text-align:center;border-radius:50%;background:#e9ecef;"
+        'color:#444444;font-size:11px;font-weight:800;cursor:pointer;">?</summary>'
+        '<div style="position:absolute;z-index:10;top:20px;left:0;padding:10px 12px;'
+        'border:1px solid #cccccc;border-radius:6px;background:#ffffff;'
+        f'box-shadow:0 2px 8px rgba(0,0,0,0.15);white-space:nowrap;">{regulatory_legend_html()}</div>'
+        "</details>"
+    )
+
+
 def block_rich(label: str, value_html: str, *, regulatory_tier: Optional[str] = None, provenance_tier: Optional[str] = None) -> str:
     row_style = ROW
     extra = ""
@@ -796,7 +818,6 @@ def render_full_card_html(
     if doc_title:
         title_html = doc_title_html if doc_title_html is not None else html.escape(doc_title)
         parts.append(f'<div style="{DOC_TITLE}">{title_html}</div>')
-    parts.append(f'<div style="{RULE_THICK}"></div>')
 
     refs_heading_only = "references"
     for sec_name, fields in sections.items():
@@ -814,7 +835,10 @@ def render_full_card_html(
             tier_map = regulatory_by_key if regulatory_by_key is not None else provenance_by_key
             if tier_map:
                 tier = tier_map.get(ck)
-            parts.append(block_rich(field_name, fmt(value), regulatory_tier=tier))
+            value_html = fmt(value)
+            if field_name == "Regulatory Approval Status":
+                value_html = f"{value_html}{regulatory_tooltip_html()}"
+            parts.append(block_rich(field_name, value_html, regulatory_tier=tier))
             if (
                 metrics_table_html
                 and metrics_table_section

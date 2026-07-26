@@ -218,7 +218,17 @@ def synthesize_role_in_decision_making(legacy: Dict[str, str]) -> str:
     return text
 
 
-def synthesize_known_failure_modes(legacy: Dict[str, str]) -> str:
+def synthesize_skin_type_representation_equity(legacy: Dict[str, str]) -> str:
+    equity = _pick_sents(
+        legacy.get("skin_type_representation_and_equity", ""),
+        include=["less data", "limited representation", "lower sensitivity", "fitzpatrick", "clinical concern"],
+        exclude=["training dataset included", "tuning dataset included", "%"],
+    )
+    deduped = _dedupe_near_duplicate_sents(equity, 0.6)
+    return _join_sents(deduped[:5])
+
+
+def synthesize_known_performance_limitations(legacy: Dict[str, str]) -> str:
     sents = _pick_sents(
         legacy.get("model_limitations", ""),
         include=[
@@ -243,16 +253,19 @@ def synthesize_known_failure_modes(legacy: Dict[str, str]) -> str:
             "nails",
             "tattoo",
             "hairy",
+            "fitzpatrick",
+            "skin phototype",
+            "limited representation",
+            "lower sensitivity",
         ],
     )
-    equity = _pick_sents(
-        legacy.get("skin_type_representation_and_equity", ""),
-        include=["less data", "limited representation", "lower sensitivity", "fitzpatrick", "clinical concern"],
-        exclude=["training dataset included", "tuning dataset included", "%"],
+    combined = (
+        sents
+        + _sents(synthesize_unsupported_clinical_scenarios(legacy))
+        + _sents(synthesize_unsupported_use_cases(legacy))
     )
-    combined = sents + equity
     deduped = _dedupe_near_duplicate_sents(combined, 0.6)
-    return _join_sents(deduped[:5])
+    return _join_sents(deduped[:8])
 
 
 def synthesize_unsupported_clinical_scenarios(legacy: Dict[str, str]) -> str:
@@ -546,18 +559,14 @@ def validate_migrated_card(card: ClinicalModelCard, *, monitoring: Optional[str]
     for metric in card.performance.metrics:
         if not re.search(r"%|ratio|auroc|auc\b", metric.value, re.I):
             warnings.append(f"invalid_metric_value:{metric.name}={metric.value}")
-    for field_name in ("known_failure_modes", "unsupported_clinical_scenarios", "unsupported_use_cases"):
+    for field_name in ("known_performance_limitations", "skin_type_representation_equity"):
         text = getattr(card, field_name) or ""
         sents = _sents(text)
         if len(sents) != len(set(s.lower() for s in sents)):
             warnings.append(f"duplicate_sentences_in:{field_name}")
-    risk_fields = [
-        card.known_failure_modes or "",
-        card.unsupported_clinical_scenarios or "",
-        card.unsupported_use_cases or "",
-    ]
-    for i in range(3):
-        for j in range(i + 1, 3):
-            if _overlap_ratio(risk_fields[i], risk_fields[j]) > 0.55:
-                warnings.append(f"high_overlap_between_risk_fields:{i}:{j}")
+    if card.known_performance_limitations and card.skin_type_representation_equity:
+        if _overlap_ratio(card.known_performance_limitations, card.skin_type_representation_equity) > 0.55:
+            warnings.append(
+                "high_overlap_between_risk_fields:known_performance_limitations:skin_type_representation_equity"
+            )
     return warnings

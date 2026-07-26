@@ -1,4 +1,4 @@
-#!/Users/isabellegatmaitan/eval/sourcecheckup-venv/bin/python3.11
+#!/Users/kenna/izzy-work/aad-model-card-generator/eval/sourcecheckup-venv/bin/python
 """Extract pdf structure in XML format"""
 
 import logging

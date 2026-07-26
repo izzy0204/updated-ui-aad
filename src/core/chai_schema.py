@@ -11,7 +11,7 @@ from typing import Any, Dict, Iterator, List, Optional, Tuple
 
 from utils.sentence_utils import count_sentences
 
-SCHEMA_VERSION = "clinical-model-card-1.0"
+SCHEMA_VERSION = "clinical-model-card-2.0"
 CITATIONS_SCHEMA_VERSION = "clinical-model-card-citations-1.0"
 
 
@@ -105,6 +105,40 @@ def _date_to_iso(d: Optional[date]) -> Optional[str]:
     return d.isoformat()
 
 
+NOT_DISCLOSED_SYNONYMS = frozenset(
+    {
+        "not specified",
+        "unspecified",
+        "unknown",
+        "n/a",
+        "na",
+        "tbd",
+        "to be determined",
+        "not disclosed",
+        "none",
+        "not available",
+        "not provided",
+        "not stated",
+        "not applicable",
+    }
+)
+
+
+def _normalize_not_found(value: Optional[str]) -> str:
+    """Collapse a whole-value 'not found' synonym (e.g. "Not specified.") to "".
+
+    Only exact whole-value matches are normalized so real prose that merely
+    mentions one of these phrases mid-sentence is left untouched.
+    """
+    if value is None:
+        return ""
+    stripped = str(value).strip()
+    key = stripped.rstrip(".").strip().lower()
+    if key in NOT_DISCLOSED_SYNONYMS:
+        return ""
+    return stripped
+
+
 def iter_field_placements() -> Iterator[Tuple[str, str, str]]:
     """Yield (section, field_name, display_label) in export order."""
     yield ("1) Metadata", "model_name", "Model Name")
@@ -124,9 +158,12 @@ def iter_field_placements() -> Iterator[Tuple[str, str, str]]:
     yield ("3) Intended Use", "intended_users", "Intended Users")
     yield ("3) Intended Use", "target_patient_population", "Target Patient Population")
 
-    yield ("4) Risks and Limitations", "known_failure_modes", "Known Failure Modes")
-    yield ("4) Risks and Limitations", "unsupported_clinical_scenarios", "Unsupported Clinical Scenarios")
-    yield ("4) Risks and Limitations", "unsupported_use_cases", "Unsupported Use Cases")
+    yield ("4) Risks and Limitations", "known_performance_limitations", "Known Performance Limitations")
+    yield (
+        "4) Risks and Limitations",
+        "skin_type_representation_equity",
+        "Skin Type Representation & Equity",
+    )
     yield ("4) Risks and Limitations", "required_clinician_oversight", "Required Clinician Oversight")
 
     yield ("5) Mechanism and Development", "model_type", "Model Type")
@@ -167,9 +204,8 @@ class ClinicalModelCard:
     intended_users: str = ""
     target_patient_population: str = ""
 
-    known_failure_modes: str = ""
-    unsupported_clinical_scenarios: str = ""
-    unsupported_use_cases: str = ""
+    known_performance_limitations: str = ""
+    skin_type_representation_equity: str = ""
     required_clinician_oversight: str = ""
 
     model_type: str = ""
@@ -218,6 +254,48 @@ class ClinicalModelCard:
             if parsed:
                 self.last_updated = parsed
 
+        for fname in (
+            "model_name",
+            "developer",
+            "version",
+            "summary",
+            "medical_purpose",
+            "acceptable_input",
+            "output",
+            "role_in_decision_making",
+            "intended_users",
+            "target_patient_population",
+            "known_performance_limitations",
+            "skin_type_representation_equity",
+            "required_clinician_oversight",
+            "model_type",
+            "performance_evaluation_limitations",
+        ):
+            val = getattr(self, fname)
+            if isinstance(val, str):
+                setattr(self, fname, _normalize_not_found(val))
+
+        for fname in ("application_url", "availability", "ongoing_monitoring_plan", "scheduled_updates"):
+            val = getattr(self, fname)
+            if isinstance(val, str):
+                setattr(self, fname, _normalize_not_found(val) or None)
+
+        self.training_data.description = _normalize_not_found(self.training_data.description)
+        self.training_data.dataset_url = _normalize_not_found(self.training_data.dataset_url) or None
+        self.model_development_and_validation.description = (
+            _normalize_not_found(self.model_development_and_validation.description) or None
+        )
+        self.model_development_and_validation.publication_url = (
+            _normalize_not_found(self.model_development_and_validation.publication_url) or None
+        )
+        if self.clinical_trial is not None:
+            self.clinical_trial.identifier = _normalize_not_found(self.clinical_trial.identifier) or None
+            self.clinical_trial.url = _normalize_not_found(self.clinical_trial.url) or None
+            self.clinical_trial.description = _normalize_not_found(self.clinical_trial.description) or None
+        self.performance.summary = _normalize_not_found(self.performance.summary)
+        self.contact.email = _normalize_not_found(self.contact.email) or None
+        self.contact.url = _normalize_not_found(self.contact.url) or None
+
     def to_dict_camel(self) -> Dict[str, Any]:
         def _metric(m: PerformanceMetric) -> Dict[str, Any]:
             d: Dict[str, Any] = {"name": m.name, "value": m.value}
@@ -256,9 +334,8 @@ class ClinicalModelCard:
             "roleInDecisionMaking": self.role_in_decision_making,
             "intendedUsers": self.intended_users,
             "targetPatientPopulation": self.target_patient_population,
-            "knownFailureModes": self.known_failure_modes,
-            "unsupportedClinicalScenarios": self.unsupported_clinical_scenarios,
-            "unsupportedUseCases": self.unsupported_use_cases,
+            "knownPerformanceLimitations": self.known_performance_limitations,
+            "skinTypeRepresentationEquity": self.skin_type_representation_equity,
             "requiredClinicianOversight": self.required_clinician_oversight,
             "modelType": self.model_type,
             "trainingData": {
@@ -323,11 +400,12 @@ class ClinicalModelCard:
             role_in_decision_making=_get("roleInDecisionMaking", "role_in_decision_making", default=""),
             intended_users=_get("intendedUsers", "intended_users", default=""),
             target_patient_population=_get("targetPatientPopulation", "target_patient_population", default=""),
-            known_failure_modes=_get("knownFailureModes", "known_failure_modes", default=""),
-            unsupported_clinical_scenarios=_get(
-                "unsupportedClinicalScenarios", "unsupported_clinical_scenarios", default=""
+            known_performance_limitations=_get(
+                "knownPerformanceLimitations", "known_performance_limitations", default=""
             ),
-            unsupported_use_cases=_get("unsupportedUseCases", "unsupported_use_cases", default=""),
+            skin_type_representation_equity=_get(
+                "skinTypeRepresentationEquity", "skin_type_representation_equity", default=""
+            ),
             required_clinician_oversight=_get(
                 "requiredClinicianOversight", "required_clinician_oversight", default=""
             ),
@@ -421,7 +499,7 @@ class ClinicalModelCard:
 
         def line(label: str, field_name: str, value: str) -> str:
             cite = self._cite_suffix(field_name, citations, url_to_num)
-            return f"- **{label}:** {value}{cite}"
+            return f"- **{label}:** {self._render_disclosed(value)}{cite}"
 
         title = self.model_name or "Unnamed Model"
         if self.application_url:
@@ -465,9 +543,16 @@ class ClinicalModelCard:
             line("Target Patient Population", "target_patient_population", self.target_patient_population),
             "",
             "## 4) Risks and Limitations",
-            line("Known Failure Modes", "known_failure_modes", self.known_failure_modes),
-            line("Unsupported Clinical Scenarios", "unsupported_clinical_scenarios", self.unsupported_clinical_scenarios),
-            line("Unsupported Use Cases", "unsupported_use_cases", self.unsupported_use_cases),
+            line(
+                "Known Performance Limitations",
+                "known_performance_limitations",
+                self.known_performance_limitations,
+            ),
+            line(
+                "Skin Type Representation & Equity",
+                "skin_type_representation_equity",
+                self._render_disclosed(self.skin_type_representation_equity),
+            ),
             line("Required Clinician Oversight", "required_clinician_oversight", self.required_clinician_oversight),
             "",
             "## 5) Mechanism and Development",
@@ -571,9 +656,7 @@ def validate_model_card(card: ClinicalModelCard) -> ValidationResult:
         "role_in_decision_making",
         "intended_users",
         "target_patient_population",
-        "known_failure_modes",
-        "unsupported_clinical_scenarios",
-        "unsupported_use_cases",
+        "known_performance_limitations",
         "required_clinician_oversight",
         "model_type",
         "performance_evaluation_limitations",

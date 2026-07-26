@@ -1,0 +1,118 @@
+============================================================
+MODEL CARD SCORING REPORT
+============================================================
+
+OVERALL SCORES:
+   Field Completion: 65.0% (13/20 fields)
+   Clinical Usability: 0.09 (RED)
+   Overall Rating: POOR - Not ready for clinical use
+
+[RED] CLINICAL USABILITY: RED
+
+CATEGORY BREAKDOWN:
+   Summary:
+     Completion: 100.0%
+     Quality: 0.28
+     Clinical Relevance: 0.08
+   Medical Purpose:
+     Completion: 100.0%
+     Quality: 0.23
+     Clinical Relevance: 0.08
+   Acceptable Input:
+     Completion: 100.0%
+     Quality: 0.22
+     Clinical Relevance: 0.16
+   Output:
+     Completion: 100.0%
+     Quality: 0.21
+     Clinical Relevance: 0.00
+   Role In Decision Making:
+     Completion: 100.0%
+     Quality: 0.20
+     Clinical Relevance: 0.00
+   Intended Users:
+     Completion: 100.0%
+     Quality: 0.21
+     Clinical Relevance: 0.08
+   Target Patient Population:
+     Completion: 100.0%
+     Quality: 0.20
+     Clinical Relevance: 0.08
+   Known Performance Limitations:
+     Completion: 0.0%
+     Quality: 0.00
+     Clinical Relevance: 0.00
+   Skin Type Representation Equity:
+     Completion: 0.0%
+     Quality: 0.00
+     Clinical Relevance: 0.00
+   Training Data:
+     Completion: 100.0%
+     Quality: 0.16
+     Clinical Relevance: 0.50
+   Performance:
+     Completion: 100.0%
+     Quality: 0.31
+     Clinical Relevance: 0.50
+   Performance Evaluation Limitations:
+     Completion: 0.0%
+     Quality: 0.00
+     Clinical Relevance: 0.00
+   Regulatory Approval Status:
+     Completion: 0.0%
+     Quality: 0.00
+     Clinical Relevance: 0.00
+   Metadata:
+     Completion: 57.1%
+     Quality: 0.05
+     Clinical Relevance: 0.29
+
+CRITICAL MISSING FIELDS:
+   • Known Performance Limitations
+   • Skin Type Representation Equity
+   • Required Clinician Oversight
+   • Model Type
+   • Model Development And Validation
+   • Performance Evaluation Limitations
+   • Regulatory Approval Status
+
+QUALITY ISSUES:
+   • Low quality content in summary
+   • summary: Missing required elements: clinical
+   • Low quality content in medical_purpose
+   • medical_purpose: Missing required elements: clinical
+   • Low quality content in acceptable_input
+   • acceptable_input: Missing required elements: clinical
+   • Low quality content in output
+   • output: Missing required elements: clinical
+   • Low quality content in role_in_decision_making
+   • role_in_decision_making: Missing required elements: clinical
+   ... and 24 more issues
+
+RECOMMENDATIONS:
+   1. [MODERATE] Model card is partially complete. Add missing field details to improve usability.
+   2. [CRITICAL] Low clinical relevance. Add clinical terminology, validation data, and safety information.
+   3. Add clinical context to Summary section
+   4. Add clinical context to Medical Purpose section
+   5. Add clinical context to Acceptable Input section
+   6. Add clinical context to Output section
+   7. Add clinical context to Role In Decision Making section
+   8. Add clinical context to Intended Users section
+   9. Add clinical context to Target Patient Population section
+   10. Complete Known Performance Limitations section with detailed information
+   11. Add clinical context to Known Performance Limitations section
+   12. Complete Skin Type Representation Equity section with detailed information
+   13. Add clinical context to Skin Type Representation Equity section
+   14. Complete Required Clinician Oversight section with detailed information
+   15. Add clinical context to Required Clinician Oversight section
+   16. Complete Model Type section with detailed information
+   17. Add clinical context to Model Type section
+   18. Complete Model Development And Validation section with detailed information
+   19. Add clinical context to Model Development And Validation section
+   20. Complete Performance Evaluation Limitations section with detailed information
+   21. Add clinical context to Performance Evaluation Limitations section
+   22. Complete Regulatory Approval Status section with detailed information
+   23. Add clinical context to Regulatory Approval Status section
+   24. Add clinical context to Metadata section
+
+============================================================

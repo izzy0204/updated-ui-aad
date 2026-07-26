@@ -19,6 +19,7 @@ from typing import Dict, List, Any, Optional, Tuple
 from enum import Enum
 import re
 
+from core.chai_schema import NOT_DISCLOSED_SYNONYMS
 from utils.sentence_utils import count_sentences
 
 logger = logging.getLogger(__name__)
@@ -67,20 +68,19 @@ _RAW_FIELD_POINTS: Dict[str, int] = {
     "medical_purpose": 12,
     "role_in_decision_making": 12,
     "required_clinician_oversight": 10,
-    "known_failure_modes": 10,
+    "known_performance_limitations": 16,
     "performance": 12,
     "regulatory_approval_status": 8,
     "acceptable_input": 8,
     "output": 8,
     "summary": 8,
-    "unsupported_clinical_scenarios": 8,
     "target_patient_population": 6,
     "intended_users": 6,
+    "skin_type_representation_equity": 6,
     "model_type": 4,
     "training_data": 4,
     "model_development_and_validation": 4,
     "performance_evaluation_limitations": 4,
-    "unsupported_use_cases": 4,
     "ongoing_monitoring_plan": 2,
     "scheduled_updates": 2,
     "contact": 2,
@@ -152,7 +152,7 @@ class ClinicalUsabilityScorer:
     
     def score_field(self, field_name: str, content: str) -> FieldScore:
         """Score an individual field"""
-        if not content or content.strip() in ['', 'Not specified', 'N/A', 'None']:
+        if not content or content.strip().rstrip('.').lower() in NOT_DISCLOSED_SYNONYMS:
             return FieldScore(
                 field_name=field_name,
                 is_filled=False,
@@ -390,9 +390,8 @@ class ModelCardScorer:
             "role_in_decision_making": [],
             "intended_users": [],
             "target_patient_population": [],
-            "known_failure_modes": [],
-            "unsupported_clinical_scenarios": [],
-            "unsupported_use_cases": [],
+            "known_performance_limitations": [],
+            "skin_type_representation_equity": [],
             "required_clinician_oversight": [],
             "model_type": [],
             "training_data": [],
@@ -410,7 +409,8 @@ class ModelCardScorer:
             "roleInDecisionMaking": "role_in_decision_making",
             "intendedUsers": "intended_users",
             "targetPatientPopulation": "target_patient_population",
-            "knownFailureModes": "known_failure_modes",
+            "knownPerformanceLimitations": "known_performance_limitations",
+            "skinTypeRepresentationEquity": "skin_type_representation_equity",
             "regulatoryApprovalStatus": "regulatory_approval_status",
             "performanceEvaluationLimitations": "performance_evaluation_limitations",
         }

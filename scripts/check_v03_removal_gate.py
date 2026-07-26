@@ -15,6 +15,8 @@ sys.path.insert(0, str(REPO / "src"))
 PRELOADED = REPO / "src/core/pages/preloaded_cards"
 MIGRATED = PRELOADED / "clinical_migrated"
 
+from core.chai_schema import SCHEMA_VERSION  # noqa: E402
+
 
 def main() -> int:
     errors = []
@@ -43,7 +45,7 @@ def main() -> int:
 
     for jp in clinical_jsons:
         data = json.loads(jp.read_text(encoding="utf-8"))
-        if data.get("schemaVersion") != "clinical-model-card-1.0":
+        if data.get("schemaVersion") != SCHEMA_VERSION:
             errors.append(f"Bad schemaVersion in {jp.name}")
         cite_path = jp.with_name(jp.name.replace(".clinical.json", ".citations.json"))
         if cite_path.is_file():

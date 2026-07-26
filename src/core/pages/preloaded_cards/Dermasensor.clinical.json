@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "clinical-model-card-1.0",
+  "schemaVersion": "clinical-model-card-2.0",
   "modelName": "DermaSensor",
   "applicationUrl": null,
   "developer": "DermaSensor Inc. (founders include Dr. Maurice Ferre and Christopher Dewey). Company history describes development of Elastic Scattering Spectroscopy (ESS) and a proprietary machine learning algorithm trained on histopathology-confirmed lesions.",
@@ -15,13 +15,12 @@
   "roleInDecisionMaking": "Provides adjunctive referral support for physicians evaluating suspicious lesions; does not replace clinician judgment, biopsy, or definitive diagnosis.",
   "intendedUsers": "Qualified healthcare professionals in clinical settings; marketed for non-dermatology providers in primary care and related outpatient settings. Clinical assessment skills for lesion selection and interpretation; device is an adjunct to clinical judgment.",
   "targetPatientPopulation": "Patients (often 40+) with lesions already judged suspicious for melanoma/BCC/SCC where a referral decision is being considered.",
-  "knownFailureModes": "",
-  "unsupportedClinicalScenarios": "",
-  "unsupportedUseCases": "Not for screening or unsupervised population triage. Not the sole basis for diagnosis or referral decisions.",
+  "knownPerformanceLimitations": "Not for screening or unsupervised population triage. Not the sole basis for diagnosis or referral decisions.",
+  "skinTypeRepresentationEquity": "",
   "requiredClinicianOversight": "Independent clinical assessment, including visual lesion evaluation, is required before and alongside device use. Definitive diagnosis requires clinician judgment and biopsy or pathology confirmation where clinically indicated.",
   "modelType": "AI/ML classifier analyzing Elastic Scattering Spectroscopy (ESS) recordings from intact skin lesions.",
   "trainingData": {
-    "description": "Not disclosed",
+    "description": "",
     "datasetUrl": null
   },
   "modelDevelopmentAndValidation": {
@@ -35,7 +34,7 @@
     "summary": "Public materials and study summaries report no device-related safety issues; primary safety concerns are clinical consequences of false results. Human-in-the-loop clinical judgment remains required; device should be used only as intended.",
     "metrics": []
   },
-  "performanceEvaluationLimitations": "Not disclosed",
+  "performanceEvaluationLimitations": "",
   "ongoingMonitoringPlan": "Algorithm is described as \u201clocked\u201d with periodic revalidation/updates requiring FDA clearance.",
   "scheduledUpdates": null,
   "contact": {

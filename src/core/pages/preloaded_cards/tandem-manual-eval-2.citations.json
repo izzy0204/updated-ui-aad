@@ -1,0 +1,191 @@
+{
+  "schema_version": "clinical-model-card-citations-1.0",
+  "references": {
+    "1": {
+      "url": "http://withtandem.com",
+      "title": "",
+      "source": ""
+    },
+    "2": {
+      "url": "https://pear.vc/companies/tandem/",
+      "title": "",
+      "source": ""
+    },
+    "3": {
+      "url": "https://www.openevidence.com/announcements/openevidence-and-tandem-partner-to-streamline-evidence-based-prescribing-and-prior-authorizations",
+      "title": "",
+      "source": ""
+    },
+    "4": {
+      "url": "https://techfundingnews.com/tandem-1b-valuation-100m-round/",
+      "title": "",
+      "source": ""
+    },
+    "5": {
+      "url": "https://yourpractice.withtandem.com/prior-authorization-software",
+      "title": "",
+      "source": ""
+    },
+    "6": {
+      "url": "https://datamatrixmedical.com/tandem-ai-prior-authorization-reviews-compared-to-prior-authorization-specialists/",
+      "title": "",
+      "source": ""
+    },
+    "7": {
+      "url": "https://entrepreneurloop.com/tandem-ai-prescription-startup-billion-valuation-2026/",
+      "title": "",
+      "source": ""
+    }
+  },
+  "field_citations": {
+    "model_name": [
+      {
+        "citationIds": [
+          "1"
+        ],
+        "sentence_level": true
+      }
+    ],
+    "developer": [
+      {
+        "citationIds": [
+          "2"
+        ],
+        "sentence_level": true
+      }
+    ],
+    "regulatory_approval_status": [
+      {
+        "citationIds": [
+          "5"
+        ],
+        "sentence_level": true
+      }
+    ],
+    "version": [
+      {
+        "citationIds": [
+          "3",
+          "4"
+        ],
+        "sentence_level": true
+      }
+    ],
+    "availability": [
+      {
+        "citationIds": [
+          "1"
+        ],
+        "sentence_level": true
+      }
+    ],
+    "summary": [
+      {
+        "citationIds": [
+          "1",
+          "4"
+        ],
+        "sentence_level": true
+      }
+    ],
+    "medical_purpose": [
+      {
+        "citationIds": [
+          "1"
+        ],
+        "sentence_level": true
+      }
+    ],
+    "intended_users": [
+      {
+        "citationIds": [
+          "1",
+          "5"
+        ],
+        "sentence_level": true
+      }
+    ],
+    "target_patient_population": [
+      {
+        "citationIds": [
+          "1",
+          "3"
+        ],
+        "sentence_level": true
+      }
+    ],
+    "known_performance_limitations": [
+      {
+        "citationIds": [
+          "6"
+        ],
+        "sentence_level": true
+      }
+    ],
+    "skin_type_representation_equity": [
+      {
+        "citationIds": [
+          "1"
+        ],
+        "sentence_level": true
+      }
+    ],
+    "required_clinician_oversight": [
+      {
+        "citationIds": [
+          "5"
+        ],
+        "sentence_level": true
+      }
+    ],
+    "model_type": [
+      {
+        "citationIds": [
+          "7"
+        ],
+        "sentence_level": true
+      }
+    ],
+    "training_data.description": [
+      {
+        "citationIds": [
+          "4",
+          "7"
+        ],
+        "sentence_level": true
+      }
+    ],
+    "model_development_and_validation.description": [
+      {
+        "citationIds": [
+          "1"
+        ],
+        "sentence_level": true
+      }
+    ],
+    "performance.summary": [
+      {
+        "citationIds": [
+          "1"
+        ],
+        "sentence_level": true
+      }
+    ],
+    "performance_evaluation_limitations": [
+      {
+        "citationIds": [
+          "6"
+        ],
+        "sentence_level": true
+      }
+    ],
+    "ongoing_monitoring_plan": [
+      {
+        "citationIds": [
+          "1"
+        ],
+        "sentence_level": true
+      }
+    ]
+  }
+}

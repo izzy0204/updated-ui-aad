@@ -1,0 +1,953 @@
+{
+  "_sources_metadata": {
+    "https://www.youtube.com/watch?v=b1eZQnWNefE": {
+      "usage": "implicit",
+      "reason": "Included in context, informed reasoning but not directly quoted",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    },
+    "https://www.sfderm.org/projects-3": {
+      "usage": "implicit",
+      "reason": "Included in context, informed reasoning but not directly quoted",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    },
+    "https://www.dermgpt.com/about": {
+      "usage": "both",
+      "reason": "Included in context and directly cited",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    },
+    "https://about.me/farakamangar": {
+      "usage": "both",
+      "reason": "Included in context and directly cited",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    },
+    "https://www.listennotes.com/podcasts/the-healthtech-edge/himss-2026-recap-ai-gets-ntLcVIdQvJN": {
+      "usage": "implicit",
+      "reason": "Included in context, informed reasoning but not directly quoted",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    },
+    "https://assets.bmctoday.net/practicaldermatology/pdfs/PD1123_Digital Practice.pdf": {
+      "usage": "both",
+      "reason": "Included in context and directly cited",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    },
+    "https://www.medpagetoday.com/dermatology/atopy/107750": {
+      "usage": "both",
+      "reason": "Included in context and directly cited",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    },
+    "https://www.youtube.com/watch?v=Svyk_5Aee-Y": {
+      "usage": "implicit",
+      "reason": "Included in context, informed reasoning but not directly quoted",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    }
+  },
+  "model_name": [
+    {
+      "url": "https://www.dermgpt.com/about",
+      "snippet": "she founded DermGPT, an AI platform",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    },
+    {
+      "url": "https://about.me/farakamangar",
+      "snippet": "I am the founder of DermGPT",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    },
+    {
+      "url": "https://www.medpagetoday.com/dermatology/atopy/107750",
+      "snippet": "DermGPT, was recently unveiled",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    }
+  ],
+  "developer": [
+    {
+      "url": "https://www.dermgpt.com/about",
+      "snippet": "she founded DermGPT",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    },
+    {
+      "url": "https://about.me/farakamangar",
+      "snippet": "I am the founder of DermGPT",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    },
+    {
+      "url": "https://www.medpagetoday.com/dermatology/atopy/107750",
+      "snippet": "Developed by Faranak \"Fara\" Kamangar, MD",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    }
+  ],
+  "summary": [
+    {
+      "url": "https://www.medpagetoday.com/dermatology/atopy/107750",
+      "snippet": "DermGPT, was recently unveiled at a limited press briefing. Developed by Faranak \"Fara\" Kamangar, MD, a board-certified dermatologist based in Palo Alto, California, DermGPT aims to streamline clinical tasks, improve access to dermatologic ",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    },
+    {
+      "url": "https://assets.bmctoday.net/practicaldermatology/pdfs/PD1123_Digital Practice.pdf",
+      "snippet": "DermGPT allows dermatologists to ask questions in natural language and receive relevant, helpful answers, just like they would with real-life colleague",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    },
+    {
+      "url": "https://assets.bmctoday.net/practicaldermatology/pdfs/PD1123_Digital Practice.pdf",
+      "snippet": "DermGPT aims to assist with the following common tasks in a dermatological practice setting: ... Write insurance authorization letters. \u2022 Create patient handouts regarding drugs, after-care, and more. \u2022 Summarize a provider\u2019s medical notes.",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    },
+    {
+      "url": "https://assets.bmctoday.net/practicaldermatology/pdfs/PD1123_Digital Practice.pdf",
+      "snippet": "The ideal scenario for DermGPT is as an assistant to help save time and improve access to dermatologic data for a dermatologist and their staff.",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    }
+  ],
+  "medical_purpose": [
+    {
+      "url": "https://www.medpagetoday.com/dermatology/atopy/107750",
+      "snippet": "DermGPT aims to streamline clinical tasks, improve access to dermatologic data, and help save time for physicians.",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    },
+    {
+      "url": "https://assets.bmctoday.net/practicaldermatology/pdfs/PD1123_Digital Practice.pdf",
+      "snippet": "DermGPT, a new AI (artificial intelligence)-powered tool for improving clinic productivity",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    },
+    {
+      "url": "https://assets.bmctoday.net/practicaldermatology/pdfs/PD1123_Digital Practice.pdf",
+      "snippet": "My main driver was to improve patient care and streamline dermatology practices by assisting with our ever-increasing clinical tasks and making dermatology information ready at our fingertips. DermGPT can leverage the power of machine learn",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    },
+    {
+      "url": "https://www.medpagetoday.com/dermatology/atopy/107750",
+      "snippet": "DermGPT aims to streamline clinical tasks, improve access to dermatologic data, and help save time for physicians.",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    },
+    {
+      "url": "https://assets.bmctoday.net/practicaldermatology/pdfs/PD1123_Digital Practice.pdf",
+      "snippet": "DermGPT aims to improve clinical efficiency.",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    },
+    {
+      "url": "https://assets.bmctoday.net/practicaldermatology/pdfs/PD1123_Digital Practice.pdf",
+      "snippet": "DermGPT aims to assist with the following common tasks in a dermatological practice setting: \u2022 Provide healthcare providers a quick reference for medication options, dosing, and interactions. \u2022 Summarize diagnosis and treatment guidelines f",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    }
+  ],
+  "acceptable_input": [
+    {
+      "url": "https://assets.bmctoday.net/practicaldermatology/pdfs/PD1123_Digital Practice.pdf",
+      "snippet": "DermGPT allows dermatologists to ask questions in natural language",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    },
+    {
+      "url": "https://www.medpagetoday.com/dermatology/atopy/107750",
+      "snippet": "DermGPT is an AI chatbot and it's built on more than 3,000 peer-reviewed articles. So similar to the other learned language models, if you ask it a question",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    },
+    {
+      "url": "https://assets.bmctoday.net/practicaldermatology/pdfs/PD1123_Digital Practice.pdf",
+      "snippet": "DermGPT allows dermatologists to ask questions in natural language and receive relevant, helpful answers",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    }
+  ],
+  "output": [
+    {
+      "url": "https://www.medpagetoday.com/dermatology/atopy/107750",
+      "snippet": "Prior authorizations, denial letters, residents are using it to study for boards, patient education handouts, pretty much anything where you want some [dermatology] verbiage to be created.",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    },
+    {
+      "url": "https://assets.bmctoday.net/practicaldermatology/pdfs/PD1123_Digital Practice.pdf",
+      "snippet": "receive relevant, helpful answers",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    },
+    {
+      "url": "https://assets.bmctoday.net/practicaldermatology/pdfs/PD1123_Digital Practice.pdf",
+      "snippet": "look up dermatology information including diagnoses, treatments, and prior authorization criteria. They can also use DermGPT for patient management and shared decision-making tools such as patient educational handouts and prescription progr",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    },
+    {
+      "url": "https://assets.bmctoday.net/practicaldermatology/pdfs/PD1123_Digital Practice.pdf",
+      "snippet": "DermGPT aims to assist with the following common tasks in a dermatological practice setting: \u2022 Provide healthcare providers a quick reference for medication options, dosing, and interactions. \u2022 Summarize diagnosis and treatment guidelines f",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    },
+    {
+      "url": "https://www.medpagetoday.com/dermatology/atopy/107750",
+      "snippet": "Prior authorizations, denial letters, residents are using it to study for boards, patient education handouts, pretty much anything where you want some [dermatology] verbiage to be created.",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    },
+    {
+      "url": "https://www.medpagetoday.com/dermatology/atopy/107750",
+      "snippet": "if you ask it a question, it's going to be more specific and reliable because it's pulling in from our data",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    },
+    {
+      "url": "https://assets.bmctoday.net/practicaldermatology/pdfs/PD1123_Digital Practice.pdf",
+      "snippet": "DermGPT serves dermatologists as a timesaving enterprise chatbot, an AI-powered dermatological colleague trained with chat, reasoning, writing abilities, and customized with a highly expert-curated dermatology-specific database.",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    },
+    {
+      "url": "https://assets.bmctoday.net/practicaldermatology/pdfs/PD1123_Digital Practice.pdf",
+      "snippet": "Provide healthcare providers a quick reference for medication options, dosing, and interactions. Summarize diagnosis and treatment guidelines for complex cases. Suggest appropriate labs, imaging, and procedures for diagnostic workups. Autom",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    }
+  ],
+  "role_in_decision_making": [
+    {
+      "url": "https://assets.bmctoday.net/practicaldermatology/pdfs/PD1123_Digital Practice.pdf",
+      "snippet": "DermGPT does not replace medical care or decision-making, it should not be used as a stand-alone decision maker, but as an assistant.",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    },
+    {
+      "url": "https://assets.bmctoday.net/practicaldermatology/pdfs/PD1123_Digital Practice.pdf",
+      "snippet": "They aid in decision-making by providing easily accessible high-quality data, patient education, research, and data analysis.",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    },
+    {
+      "url": "https://assets.bmctoday.net/practicaldermatology/pdfs/PD1123_Digital Practice.pdf",
+      "snippet": "DermGPT does not replace medical care or decision-making, it should not be used as a stand-alone decision maker, but as an assistant.",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    },
+    {
+      "url": "https://assets.bmctoday.net/practicaldermatology/pdfs/PD1123_Digital Practice.pdf",
+      "snippet": "AI tools excel in efficient and data-driven tasks. They lack human creativity, intuition, and the ability to think outside the box. So, like all AI tools, DermGPT is most powerful when paired with a dermatology provider or staff who can com",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    }
+  ],
+  "known_performance_limitations": [
+    {
+      "url": "https://assets.bmctoday.net/practicaldermatology/pdfs/PD1123_Digital Practice.pdf",
+      "snippet": "The con of any AI tool is that it is not a human, nor is it trying to be. AI tools excel in efficient and data-driven tasks. They lack human creativity, intuition, and the ability to think outside the box. So, like all AI tools, DermGPT is ",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    },
+    {
+      "url": "https://assets.bmctoday.net/practicaldermatology/pdfs/PD1123_Digital Practice.pdf",
+      "snippet": "The con of any AI tool is that it is not a human, nor is it trying to be. AI tools excel in efficient and data-driven tasks. They lack human creativity, intuition, and the ability to think outside the box.",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    },
+    {
+      "url": "https://assets.bmctoday.net/practicaldermatology/pdfs/PD1123_Digital Practice.pdf",
+      "snippet": "DermGPT does not replace medical care or decision-making, it should not be used as a stand-alone decision maker, but as an assistant.",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    }
+  ],
+  "intended_users": [
+    {
+      "url": "https://www.dermgpt.com/about",
+      "snippet": "now used by thousands of dermatologists nationwide.",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    },
+    {
+      "url": "https://www.medpagetoday.com/dermatology/atopy/107750",
+      "snippet": "help save time for physicians.",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    },
+    {
+      "url": "https://assets.bmctoday.net/practicaldermatology/pdfs/PD1123_Digital Practice.pdf",
+      "snippet": "Dermatology providers and staff--RNs, MAs, and ancillary staff--can all utilize this trusted source of information to help serve a patient.",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    },
+    {
+      "url": "https://assets.bmctoday.net/practicaldermatology/pdfs/PD1123_Digital Practice.pdf",
+      "snippet": "when paired with a dermatology provider or staff who can complement its skills with their higher-level creative problem-solving.",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    }
+  ],
+  "target_patient_population": [
+    {
+      "url": "https://assets.bmctoday.net/practicaldermatology/pdfs/PD1123_Digital Practice.pdf",
+      "snippet": "My main driver was to improve patient care and streamline dermatology practices",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    },
+    {
+      "url": "https://assets.bmctoday.net/practicaldermatology/pdfs/PD1123_Digital Practice.pdf",
+      "snippet": "Minutes saved in a day because of DermGPT will yield more efficient patient care, decreased wait times to see a dermatologist",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    }
+  ],
+  "required_clinician_oversight": [
+    {
+      "url": "https://assets.bmctoday.net/practicaldermatology/pdfs/PD1123_Digital Practice.pdf",
+      "snippet": "DermGPT is most powerful when paired with a dermatology provider or staff who can complement its skills with their higher-level creative problem-solving.",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    },
+    {
+      "url": "https://assets.bmctoday.net/practicaldermatology/pdfs/PD1123_Digital Practice.pdf",
+      "snippet": "DermGPT does not replace medical care or decision-making, it should not be used as a stand-alone decision maker, but as an assistant.",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    }
+  ],
+  "model_type": [
+    {
+      "url": "https://assets.bmctoday.net/practicaldermatology/pdfs/PD1123_Digital Practice.pdf",
+      "snippet": "DermGPT is different and is the first language-based model.",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    },
+    {
+      "url": "https://www.medpagetoday.com/dermatology/atopy/107750",
+      "snippet": "DermGPT is an AI chatbot",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    }
+  ],
+  "training_data": [
+    {
+      "url": "https://www.medpagetoday.com/dermatology/atopy/107750",
+      "snippet": "DermGPT is an AI chatbot and it's built on more than 3,000 peer-reviewed articles.",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    },
+    {
+      "url": "https://assets.bmctoday.net/practicaldermatology/pdfs/PD1123_Digital Practice.pdf",
+      "snippet": "DermGPT only pulls from trusted, physician-approved sources",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    },
+    {
+      "url": "https://assets.bmctoday.net/practicaldermatology/pdfs/PD1123_Digital Practice.pdf",
+      "snippet": "proprietary database",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    }
+  ],
+  "model_development_and_validation": [
+    {
+      "url": "https://www.medpagetoday.com/dermatology/atopy/107750",
+      "snippet": "Developed by Faranak \"Fara\" Kamangar, MD, a board-certified dermatologist based in Palo Alto, California",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    },
+    {
+      "url": "https://assets.bmctoday.net/practicaldermatology/pdfs/PD1123_Digital Practice.pdf",
+      "snippet": "An engineer by training prior to becoming a physician, Dr. Kamangar built DermGPT to be unique in the world of large language models because of its proprietary database.",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    },
+    {
+      "url": "https://assets.bmctoday.net/practicaldermatology/pdfs/PD1123_Digital Practice.pdf",
+      "snippet": "It is also continuously updated and improved",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    }
+  ],
+  "postfill.version": [
+    {
+      "url": "https://www.medpagetoday.com/dermatology/atopy/107750",
+      "snippet": "DermGPT, was recently unveiled at a limited press briefing.",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    },
+    {
+      "url": "https://assets.bmctoday.net/practicaldermatology/pdfs/PD1123_Digital Practice.pdf",
+      "snippet": "NOVEMBER 2023 ... DermGPT, a new AI (artificial intelligence)-powered tool for improving clinic productivity, was recently unveiled at a limited press briefing. ... It is also continuously updated and improved",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    }
+  ],
+  "postfill.performance.summary": [
+    {
+      "url": "https://assets.bmctoday.net/practicaldermatology/pdfs/PD1123_Digital Practice.pdf",
+      "snippet": "DermGPT, a new AI (artificial intelligence)-powered tool for improving clinic productivity",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    },
+    {
+      "url": "https://www.medpagetoday.com/dermatology/atopy/107750",
+      "snippet": "DermGPT aims to streamline clinical tasks, improve access to dermatologic data, and help save time for physicians.",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    },
+    {
+      "url": "https://assets.bmctoday.net/practicaldermatology/pdfs/PD1123_Digital Practice.pdf",
+      "snippet": "DermGPT allows dermatologists to ask questions in natural language and receive relevant, helpful answers",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    },
+    {
+      "url": "https://www.medpagetoday.com/dermatology/atopy/107750",
+      "snippet": "more specific and reliable because it's pulling in from our data rather than maybe a generic ChatGPT -- where they basically took a quarter of the internet, threw it in there, and then when you ask it questions, sometimes it can have multip",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    },
+    {
+      "url": "https://www.medpagetoday.com/dermatology/atopy/107750",
+      "snippet": "built on more than 3,000 peer-reviewed articles.",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    },
+    {
+      "url": "https://assets.bmctoday.net/practicaldermatology/pdfs/PD1123_Digital Practice.pdf",
+      "snippet": "proprietary database",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    },
+    {
+      "url": "https://assets.bmctoday.net/practicaldermatology/pdfs/PD1123_Digital Practice.pdf",
+      "snippet": "DermGPT aims to assist with the following common tasks in a dermatological practice setting: ... Write insurance authorization letters. \u2022 Create patient handouts regarding drugs, after-care, and more. \u2022 Summarize a provider\u2019s medical notes.",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    },
+    {
+      "url": "https://www.medpagetoday.com/dermatology/atopy/107750",
+      "snippet": "Prior authorizations, denial letters, residents are using it to study for boards, patient education handouts, pretty much anything where you want some [dermatology] verbiage to be created.",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    },
+    {
+      "url": "https://assets.bmctoday.net/practicaldermatology/pdfs/PD1123_Digital Practice.pdf",
+      "snippet": "look up dermatology information including diagnoses, treatments, and prior authorization criteria.",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    },
+    {
+      "url": "https://assets.bmctoday.net/practicaldermatology/pdfs/PD1123_Digital Practice.pdf",
+      "snippet": "yield more efficient patient care, decreased wait times to see a dermatologist",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    },
+    {
+      "url": "https://www.dermgpt.com/about",
+      "snippet": "now used by thousands of dermatologists nationwide.",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    },
+    {
+      "url": "https://assets.bmctoday.net/practicaldermatology/pdfs/PD1123_Digital Practice.pdf",
+      "snippet": "It is also continuously updated and improved",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    }
+  ],
+  "postfill.contact.url": [
+    {
+      "url": "https://www.medpagetoday.com/dermatology/atopy/107750",
+      "snippet": "DermGPT is the site, www.dermgpt.com",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    },
+    {
+      "url": "https://www.dermgpt.com/about",
+      "snippet": "she founded DermGPT, an AI platform purpose-built for dermatology workflows now used by thousands of dermatologists nationwide.",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    }
+  ],
+  "performance_evaluation_limitations": [
+    {
+      "url": "https://www.dermgpt.com/",
+      "snippet": "Fallback citation (field-level).",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    }
+  ],
+  "_regulatory_tiers": {
+    "model_name": "gray",
+    "developer": "gray",
+    "regulatory_approval_status": "gray",
+    "regulatory_approval_date": "gray",
+    "version": "gray",
+    "last_updated": "gray",
+    "availability": "gray",
+    "summary": "gray",
+    "medical_purpose": "gray",
+    "acceptable_input": "gray",
+    "output": "gray",
+    "role_in_decision_making": "gray",
+    "intended_users": "gray",
+    "target_patient_population": "gray",
+    "known_performance_limitations": "gray",
+    "skin_type_representation_equity": "gray",
+    "required_clinician_oversight": "gray",
+    "model_type": "gray",
+    "training_data": "gray",
+    "model_development_and_validation": "gray",
+    "clinical_trial": "gray",
+    "performance": "gray",
+    "performance_evaluation_limitations": "gray",
+    "ongoing_monitoring_plan": "gray",
+    "scheduled_updates": "gray",
+    "contact": "gray"
+  },
+  "_regulatory_tiers_composite": {
+    "1) Metadata|||Model Name": "gray",
+    "1) Metadata|||Developer": "gray",
+    "1) Metadata|||Regulatory Approval Status": "gray",
+    "1) Metadata|||Regulatory Approval Date": "gray",
+    "1) Metadata|||Version": "gray",
+    "1) Metadata|||Last Updated": "gray",
+    "1) Metadata|||Availability": "gray",
+    "2) Summary|||Summary": "gray",
+    "3) Intended Use|||Medical Purpose": "gray",
+    "3) Intended Use|||Acceptable Input": "gray",
+    "3) Intended Use|||Output": "gray",
+    "3) Intended Use|||Role in Decision-Making": "gray",
+    "3) Intended Use|||Intended Users": "gray",
+    "3) Intended Use|||Target Patient Population": "gray",
+    "4) Risks and Limitations|||Known Performance Limitations": "gray",
+    "4) Risks and Limitations|||Skin Type Representation & Equity": "gray",
+    "4) Risks and Limitations|||Required Clinician Oversight": "gray",
+    "5) Mechanism and Development|||Model Type": "gray",
+    "5) Mechanism and Development|||Training Data": "gray",
+    "5) Mechanism and Development|||Model Development & Validation": "gray",
+    "5) Mechanism and Development|||Clinical Trial": "gray",
+    "5) Mechanism and Development|||Performance": "gray",
+    "5) Mechanism and Development|||Limitations in Evaluating Performance": "gray",
+    "6) Governance and Monitoring|||Plans for Ongoing Monitoring": "gray",
+    "6) Governance and Monitoring|||Scheduled Updates": "gray",
+    "6) Governance and Monitoring|||Inquiries / Report an Issue": "gray"
+  },
+  "schema_version": "clinical-model-card-citations-1.0",
+  "references": {
+    "1": {
+      "url": "https://www.dermgpt.com/about",
+      "snippet": "she founded DermGPT, an AI platform"
+    },
+    "2": {
+      "url": "https://about.me/farakamangar",
+      "snippet": "I am the founder of DermGPT"
+    },
+    "3": {
+      "url": "https://www.medpagetoday.com/dermatology/atopy/107750",
+      "snippet": "DermGPT, was recently unveiled"
+    },
+    "4": {
+      "url": "https://assets.bmctoday.net/practicaldermatology/pdfs/PD1123_Digital Practice.pdf",
+      "snippet": "DermGPT allows dermatologists to ask questions in natural language and receive relevant, helpful answers, just like they would with real-life colleague"
+    },
+    "5": {
+      "url": "https://www.dermgpt.com/",
+      "snippet": "Fallback citation (field-level)."
+    }
+  },
+  "field_citations": {
+    "model_name": [
+      {
+        "citationIds": [
+          "1",
+          "2",
+          "3"
+        ],
+        "sentence_level": true
+      }
+    ],
+    "developer": [
+      {
+        "citationIds": [
+          "1",
+          "2",
+          "3"
+        ],
+        "sentence_level": true
+      }
+    ],
+    "summary": [
+      {
+        "citationIds": [
+          "3",
+          "4",
+          "4",
+          "4"
+        ],
+        "sentence_level": true
+      }
+    ],
+    "medical_purpose": [
+      {
+        "citationIds": [
+          "3",
+          "4",
+          "4",
+          "3",
+          "4",
+          "4"
+        ],
+        "sentence_level": true
+      }
+    ],
+    "acceptable_input": [
+      {
+        "citationIds": [
+          "4",
+          "3",
+          "4"
+        ],
+        "sentence_level": true
+      }
+    ],
+    "output": [
+      {
+        "citationIds": [
+          "3",
+          "4",
+          "4",
+          "4",
+          "3",
+          "3",
+          "4",
+          "4"
+        ],
+        "sentence_level": true
+      }
+    ],
+    "role_in_decision_making": [
+      {
+        "citationIds": [
+          "4",
+          "4",
+          "4",
+          "4"
+        ],
+        "sentence_level": true
+      }
+    ],
+    "known_performance_limitations": [
+      {
+        "citationIds": [
+          "4",
+          "4",
+          "4"
+        ],
+        "sentence_level": true
+      }
+    ],
+    "intended_users": [
+      {
+        "citationIds": [
+          "1",
+          "3",
+          "4",
+          "4"
+        ],
+        "sentence_level": true
+      }
+    ],
+    "target_patient_population": [
+      {
+        "citationIds": [
+          "4",
+          "4"
+        ],
+        "sentence_level": true
+      }
+    ],
+    "required_clinician_oversight": [
+      {
+        "citationIds": [
+          "4",
+          "4"
+        ],
+        "sentence_level": true
+      }
+    ],
+    "model_type": [
+      {
+        "citationIds": [
+          "4",
+          "3"
+        ],
+        "sentence_level": true
+      }
+    ],
+    "training_data": [
+      {
+        "text": "proprietary database",
+        "citationIds": [
+          "4"
+        ]
+      }
+    ],
+    "model_development_and_validation": [
+      {
+        "citationIds": [
+          "3",
+          "4",
+          "4"
+        ],
+        "sentence_level": true
+      }
+    ],
+    "performance_evaluation_limitations": [
+      {
+        "citationIds": [
+          "5"
+        ],
+        "sentence_level": true
+      }
+    ],
+    "version": [
+      {
+        "text": "unveiled at a limited press briefing",
+        "citationIds": [
+          "4"
+        ]
+      },
+      {
+        "text": "November 2023",
+        "citationIds": [
+          "4"
+        ]
+      },
+      {
+        "text": "continuously updated and improved",
+        "citationIds": [
+          "4"
+        ]
+      }
+    ],
+    "availability": [
+      {
+        "text": "used by thousands of dermatologists nationwide",
+        "citationIds": [
+          "1"
+        ]
+      },
+      {
+        "text": "free for dermatologists to use",
+        "citationIds": [
+          "3"
+        ]
+      },
+      {
+        "text": "sign up and start using it clinically at no cost",
+        "citationIds": [
+          "3"
+        ]
+      }
+    ],
+    "performance.summary": [
+      {
+        "text": "AI-powered chatbot",
+        "citationIds": [
+          "3"
+        ]
+      },
+      {
+        "text": "AI-powered chatbot",
+        "citationIds": [
+          "4"
+        ]
+      },
+      {
+        "text": "improves clinic productivity",
+        "citationIds": [
+          "4"
+        ]
+      },
+      {
+        "text": "streamline clinical tasks, improve access to dermatologic data, and save time for physicians",
+        "citationIds": [
+          "3"
+        ]
+      },
+      {
+        "text": "allows dermatologists to ask questions in natural language and receive relevant, helpful answers",
+        "citationIds": [
+          "4"
+        ]
+      },
+      {
+        "text": "more specific and reliable tool compared to generic language models",
+        "citationIds": [
+          "3"
+        ]
+      },
+      {
+        "text": "built on more than 3,000 peer-reviewed articles",
+        "citationIds": [
+          "3"
+        ]
+      },
+      {
+        "text": "proprietary database",
+        "citationIds": [
+          "4"
+        ]
+      },
+      {
+        "text": "reduce errors like 'hallucinations'",
+        "citationIds": [
+          "3"
+        ]
+      },
+      {
+        "text": "writing insurance authorization letters",
+        "citationIds": [
+          "3"
+        ]
+      },
+      {
+        "text": "creating patient handouts",
+        "citationIds": [
+          "3"
+        ]
+      },
+      {
+        "text": "generating prior authorizations and denial letters",
+        "citationIds": [
+          "3"
+        ]
+      },
+      {
+        "text": "looking up dermatology information including diagnoses, treatments, and prior authorization criteria",
+        "citationIds": [
+          "4"
+        ]
+      },
+      {
+        "text": "yield more efficient patient care and decreased wait times",
+        "citationIds": [
+          "4"
+        ]
+      },
+      {
+        "text": "currently used by thousands of dermatologists nationwide",
+        "citationIds": [
+          "1"
+        ]
+      },
+      {
+        "text": "continuously updated and improved",
+        "citationIds": [
+          "4"
+        ]
+      }
+    ],
+    "ongoing_monitoring_plan": [
+      {
+        "text": "continuously updated and improved",
+        "citationIds": [
+          "4"
+        ]
+      }
+    ],
+    "scheduled_updates": [
+      {
+        "text": "continuously updated and improved",
+        "citationIds": [
+          "4"
+        ]
+      }
+    ],
+    "contact": [
+      {
+        "text": "www.dermgpt.com",
+        "citationIds": [
+          "3"
+        ]
+      }
+    ]
+  },
+  "_alignment_warnings": [
+    "snippet_mismatch:model_name",
+    "snippet_mismatch:model_name",
+    "snippet_mismatch:model_name",
+    "sentence_level_fallback:model_name",
+    "snippet_mismatch:developer",
+    "snippet_mismatch:developer",
+    "snippet_mismatch:developer",
+    "sentence_level_fallback:developer",
+    "snippet_mismatch:summary",
+    "snippet_mismatch:summary",
+    "snippet_mismatch:summary",
+    "snippet_mismatch:summary",
+    "sentence_level_fallback:summary",
+    "snippet_mismatch:medical_purpose",
+    "snippet_mismatch:medical_purpose",
+    "snippet_mismatch:medical_purpose",
+    "snippet_mismatch:medical_purpose",
+    "snippet_mismatch:medical_purpose",
+    "snippet_mismatch:medical_purpose",
+    "sentence_level_fallback:medical_purpose",
+    "snippet_mismatch:acceptable_input",
+    "snippet_mismatch:acceptable_input",
+    "snippet_mismatch:acceptable_input",
+    "sentence_level_fallback:acceptable_input",
+    "snippet_mismatch:output",
+    "snippet_mismatch:output",
+    "snippet_mismatch:output",
+    "snippet_mismatch:output",
+    "snippet_mismatch:output",
+    "snippet_mismatch:output",
+    "snippet_mismatch:output",
+    "snippet_mismatch:output",
+    "sentence_level_fallback:output",
+    "snippet_mismatch:role_in_decision_making",
+    "snippet_mismatch:role_in_decision_making",
+    "snippet_mismatch:role_in_decision_making",
+    "snippet_mismatch:role_in_decision_making",
+    "sentence_level_fallback:role_in_decision_making",
+    "snippet_mismatch:known_performance_limitations",
+    "snippet_mismatch:known_performance_limitations",
+    "snippet_mismatch:known_performance_limitations",
+    "sentence_level_fallback:known_performance_limitations",
+    "snippet_mismatch:intended_users",
+    "snippet_mismatch:intended_users",
+    "snippet_mismatch:intended_users",
+    "snippet_mismatch:intended_users",
+    "sentence_level_fallback:intended_users",
+    "snippet_mismatch:target_patient_population",
+    "snippet_mismatch:target_patient_population",
+    "sentence_level_fallback:target_patient_population",
+    "snippet_mismatch:required_clinician_oversight",
+    "snippet_mismatch:required_clinician_oversight",
+    "sentence_level_fallback:required_clinician_oversight",
+    "snippet_mismatch:model_type",
+    "snippet_mismatch:model_type",
+    "sentence_level_fallback:model_type",
+    "snippet_mismatch:training_data",
+    "snippet_mismatch:training_data",
+    "snippet_mismatch:model_development_and_validation",
+    "snippet_mismatch:model_development_and_validation",
+    "snippet_mismatch:model_development_and_validation",
+    "sentence_level_fallback:model_development_and_validation",
+    "snippet_mismatch:performance_evaluation_limitations",
+    "sentence_level_fallback:performance_evaluation_limitations"
+  ]
+}

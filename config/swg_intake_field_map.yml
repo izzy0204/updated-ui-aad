@@ -13,11 +13,10 @@ columns:
   - 3) Intended Use|||Output
   - 1) Metadata|||Summary
   - 5) Mechanism and Development|||Performance
-  - 4) Risks and Limitations|||Known Failure Modes
+  - 4) Risks and Limitations|||Known Performance Limitations
   - 3) Intended Use|||Acceptable Input
   - 3) Intended Use|||Role in Decision-Making
   J:
-  - 1) Metadata|||Last Updated
   - 1) Metadata|||Version
   V:
   - 1) Metadata|||Regulatory Approval Status

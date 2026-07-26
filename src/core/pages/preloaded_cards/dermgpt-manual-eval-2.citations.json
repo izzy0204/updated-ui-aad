@@ -1,0 +1,146 @@
+{
+  "schema_version": "clinical-model-card-citations-1.0",
+  "references": {
+    "1": {
+      "url": "https://practicaldermatology.com/topics/practice-management/ai-based-dermgpt-focuses-on-improved-clinic-productivity/23990/",
+      "title": "",
+      "source": ""
+    },
+    "2": {
+      "url": "https://www.mdedge.com/cutis/article/268568/dermgpt-can-help-improve-your-office-productivity",
+      "title": "",
+      "source": ""
+    },
+    "4": {
+      "url": "https://www.dermgpt.com/derm-gpt-chat",
+      "title": "",
+      "source": ""
+    },
+    "6": {
+      "url": "https://pubmed.ncbi.nlm.nih.gov/38754096/",
+      "title": "",
+      "source": ""
+    },
+    "7": {
+      "url": "https://www.medpagetoday.com/video-coverage/atopic-derm-future-focus/107750",
+      "title": "",
+      "source": ""
+    }
+  },
+  "field_citations": {
+    "model_name": [
+      {
+        "citationIds": [
+          "1"
+        ],
+        "sentence_level": true
+      }
+    ],
+    "developer": [
+      {
+        "citationIds": [
+          "1"
+        ],
+        "sentence_level": true
+      }
+    ],
+    "version": [
+      {
+        "citationIds": [
+          "2"
+        ],
+        "sentence_level": true
+      }
+    ],
+    "summary": [
+      {
+        "citationIds": [
+          "1"
+        ],
+        "sentence_level": true
+      }
+    ],
+    "medical_purpose": [
+      {
+        "citationIds": [
+          "1"
+        ],
+        "sentence_level": true
+      }
+    ],
+    "acceptable_input": [
+      {
+        "citationIds": [
+          "2",
+          "4"
+        ],
+        "sentence_level": true
+      }
+    ],
+    "output": [
+      {
+        "citationIds": [
+          "1"
+        ],
+        "sentence_level": true
+      }
+    ],
+    "role_in_decision_making": [
+      {
+        "citationIds": [
+          "7"
+        ],
+        "sentence_level": true
+      }
+    ],
+    "intended_users": [
+      {
+        "citationIds": [
+          "1",
+          "4"
+        ],
+        "sentence_level": true
+      }
+    ],
+    "known_performance_limitations": [
+      {
+        "citationIds": [
+          "1"
+        ],
+        "sentence_level": true
+      }
+    ],
+    "required_clinician_oversight": [
+      {
+        "citationIds": [
+          "6"
+        ],
+        "sentence_level": true
+      }
+    ],
+    "performance.summary": [
+      {
+        "citationIds": [
+          "2"
+        ],
+        "sentence_level": true
+      }
+    ],
+    "performance_evaluation_limitations": [
+      {
+        "citationIds": [
+          "7"
+        ],
+        "sentence_level": true
+      }
+    ],
+    "ongoing_monitoring_plan": [
+      {
+        "citationIds": [
+          "1"
+        ],
+        "sentence_level": true
+      }
+    ]
+  }
+}

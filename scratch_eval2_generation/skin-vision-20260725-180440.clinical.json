@@ -1,0 +1,42 @@
+{
+  "schemaVersion": "clinical-model-card-2.0",
+  "modelName": "Skin Vision",
+  "applicationUrl": "https://www.skinvision.com/en-us",
+  "developer": "SkinVision",
+  "regulatoryApprovalStatus": "UNKNOWN",
+  "regulatoryApprovalDate": null,
+  "version": "v2.0.0",
+  "lastUpdated": "2026-07-25",
+  "availability": "SkinVision is currently available in various countries in Europe (Netherlands, Belgium, Germany, Italy, Spain, UK) and Oceania (Australia, New Zealand). It is not yet available in the United States, pending FDA authorization and applicable regulatory clearance.",
+  "summary": "SkinVision is a health technology solution that enables users to upload images of skin lesions. It provides AI-assisted risk assessments to increase skin health awareness and support early detection of skin cancer, prompting users to seek medical advice if a high-risk assessment is given.",
+  "medicalPurpose": "To increase skin health awareness and facilitate the early detection of skin cancer by providing risk assessments of skin lesions.",
+  "acceptableInput": "Images of skin lesions (JPEG/PNG/BMP/TIFF/WebP, max 20 MB) and patient metadata (age, sex, anatomical site).",
+  "output": "The model provides an AI-assisted classification of skin lesions, a confidence score, prediction entropy, and a Grad-CAM heatmap for visual explanation. This output is used to generate a risk assessment (e.g., high-risk) or classification (e.g., Melanoma, Nevus, Basal Cell Carcinoma).",
+  "roleInDecisionMaking": "The AI predictions are advisory only and are intended to assist users in becoming more aware of their skin health and to prompt them to consult a qualified dermatologist for professional medical diagnosis. The model does not replace clinical judgment.",
+  "intendedUsers": "Individuals who want to monitor their skin over time and increase their awareness of skin health.",
+  "targetPatientPopulation": "Not explicitly specified in the provided sources.",
+  "knownPerformanceLimitations": "The primary source does not explicitly list performance limitations. However, SOURCE 5 (a research project with the same name) states it's for educational/research purposes only and not a substitute for professional medical diagnosis. SOURCE 6 (another project) states AI predictions are advisory only and never replace clinical judgment.",
+  "skinTypeRepresentationEquity": "Not explicitly specified in the provided sources.",
+  "requiredClinicianOversight": "The system does not replace a doctor, implying clinician oversight is required for definitive diagnosis and treatment.",
+  "modelType": "Not explicitly specified for the company's product in the provided sources.",
+  "trainingData": {
+    "description": "The primary source does not explicitly describe the training data. However, SOURCE 6 (a project simulating the platform) states it uses a multi-model ensemble trained on the ISIC 2019 dataset, which consists of approximately 25,000 dermoscopy images across 9 diagnostic classes.",
+    "datasetUrl": null
+  },
+  "modelDevelopmentAndValidation": {
+    "description": "SkinVision collaborates with medical experts, researchers, and institutions, including Mayo Clinic, to advance its work in digital health and support ongoing research and development. The company is committed to responsible innovation and meeting regulatory requirements.",
+    "publicationUrl": null
+  },
+  "clinicalTrial": null,
+  "performance": {
+    "summary": "Performance metrics are not explicitly provided for the commercial SkinVision product in the primary source. SOURCE 6 (a project simulating the platform) mentions an ensemble model trained on the ISIC 2019 dataset across 9 diagnostic classes, but specific accuracy or subgroup performance is not detailed.",
+    "metrics": []
+  },
+  "performanceEvaluationLimitations": "Not explicitly specified in the provided sources for the company's product.",
+  "ongoingMonitoringPlan": null,
+  "scheduledUpdates": null,
+  "contact": {
+    "email": "support@skinvision.com",
+    "url": null
+  }
+}

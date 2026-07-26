@@ -1,0 +1,8 @@
+{
+  "schemaVersionFrom": "clinical-model-card-1.0",
+  "schemaVersionTo": "clinical-model-card-2.0",
+  "equitySentencesExtracted": 0,
+  "lowConfidenceEquityExtraction": true,
+  "validationErrors": [],
+  "validationWarnings": []
+}

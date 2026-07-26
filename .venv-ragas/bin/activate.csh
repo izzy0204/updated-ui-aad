@@ -8,7 +8,7 @@ alias deactivate 'test $?_OLD_VIRTUAL_PATH != 0 && setenv PATH "$_OLD_VIRTUAL_PA
 # Unset irrelevant variables.
 deactivate nondestructive
 
-setenv VIRTUAL_ENV /Users/isabellegatmaitan/Documents/GitHub/aad-model-card-generator/.venv-ragas
+setenv VIRTUAL_ENV /Users/kenna/izzy-work/aad-model-card-generator/.venv-ragas
 
 set _OLD_VIRTUAL_PATH="$PATH"
 setenv PATH "$VIRTUAL_ENV/"bin":$PATH"

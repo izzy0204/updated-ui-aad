@@ -1,0 +1,812 @@
+{
+  "_sources_metadata": {
+    "https://www.accessdata.fda.gov/cdrh_docs/reviews/DEN230008.pdf": {
+      "usage": "both",
+      "reason": "Included in context and directly cited",
+      "source_type": "fda_approval",
+      "regulatory_tier": "green"
+    },
+    "https://www.linkedin.com/company/dermasensor": {
+      "usage": "implicit",
+      "reason": "Included in context, informed reasoning but not directly quoted",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    },
+    "https://www.dermasensor.com/find-a-physician": {
+      "usage": "both",
+      "reason": "Included in context and directly cited",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    },
+    "https://www.aimatmelanoma.org/ai-powered-diagnostics": {
+      "usage": "both",
+      "reason": "Included in context and directly cited",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    },
+    "https://www.dermasensor.com/docs": {
+      "usage": "both",
+      "reason": "Included in context and directly cited",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    },
+    "https://www.dermasensor.com/resource/dermasensor-coding-guide": {
+      "usage": "implicit",
+      "reason": "Included in context, informed reasoning but not directly quoted",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    },
+    "https://www.bu.edu/bmo/files/2024/02/Dermasensor-paper-2.pdf": {
+      "usage": "both",
+      "reason": "Included in context and directly cited",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    },
+    "https://www.crunchbase.com/organization/dermasensor-inc": {
+      "usage": "implicit",
+      "reason": "Included in context, informed reasoning but not directly quoted",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    },
+    "https://www.accessdata.fda.gov/cdrh_docs/pdf23/DEN230008.pdf": {
+      "usage": "both",
+      "reason": "Included in context and directly cited",
+      "source_type": "fda_approval",
+      "regulatory_tier": "green"
+    }
+  },
+  "performance": [
+    {
+      "url": "https://www.bu.edu/bmo/files/2024/02/Dermasensor-paper-2.pdf",
+      "snippet": "Overall device sensitivity was 97.04%, with subgroup sensitivity of 96.67% for melanoma, 97.22% for basal cell carcinoma, and 97.01% for squamous cell carcinoma.",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    },
+    {
+      "url": "https://www.bu.edu/bmo/files/2024/02/Dermasensor-paper-2.pdf",
+      "snippet": "Overall specificity of the device was 26.22%.",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    },
+    {
+      "url": "https://www.bu.edu/bmo/files/2024/02/Dermasensor-paper-2.pdf",
+      "snippet": "No statistically signi\ufb01cant difference was found between the device and dermatologist performance ( P = .8203).",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    },
+    {
+      "url": "https://www.bu.edu/bmo/files/2024/02/Dermasensor-paper-2.pdf",
+      "snippet": "Overall NPV of the device was 89.58% and PPV was 57.54%.",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    },
+    {
+      "url": "https://www.bu.edu/bmo/files/2024/02/Dermasensor-paper-2.pdf",
+      "snippet": "Overall device sensitivity was 97.04%, with subgroup sensitivity of 96.67% for melanoma, 97.22% for basal cell carcinoma, and 97.01% for squamous cell carcinoma. No statistically signi\ufb01cant difference was found between the device and dermat",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    },
+    {
+      "url": "https://www.aimatmelanoma.org/ai-powered-diagnostics",
+      "snippet": "The DermaSensor device demonstrated a 96% sensitivity across all 224 types of skin cancers. Further, negative results from DermaSensor had a 97% chance of being benign across all skin cancers.",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    }
+  ],
+  "training_data": [
+    {
+      "url": "https://www.bu.edu/bmo/files/2024/02/Dermasensor-paper-2.pdf",
+      "snippet": "The device uses an AI algorithm to compare ESS readings from the current lesion to a training data set of over 10,000 readings from over 2000 lesions.",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    },
+    {
+      "url": "https://www.accessdata.fda.gov/cdrh_docs/reviews/DEN230008.pdf",
+      "snippet": "The training dataset contained 950 lesions contributing -4,200 spectra while the testing dataset included 361 lesions, for a total of 1,311 skin lesions.",
+      "source_type": "fda_approval",
+      "regulatory_tier": "green"
+    },
+    {
+      "url": "https://www.accessdata.fda.gov/cdrh_docs/reviews/DEN230008.pdf",
+      "snippet": "The patient demographics for the lesions used to train and tune the dataset are summarized in Table 2. The training and tuning data included a majority of older patients (age 60-79), Fitzpatrick phototype I-III, and individuals who self-ide",
+      "source_type": "fda_approval",
+      "regulatory_tier": "green"
+    },
+    {
+      "url": "https://www.accessdata.fda.gov/cdrh_docs/reviews/DEN230008.pdf",
+      "snippet": "The anatomical locations of the lesions used to train and tune the dataset are summarized in Table 3. Lesions on the head and neck constituted the majority of lesions in the training and tuning data set.",
+      "source_type": "fda_approval",
+      "regulatory_tier": "green"
+    },
+    {
+      "url": "https://www.accessdata.fda.gov/cdrh_docs/reviews/DEN230008.pdf",
+      "snippet": "The diagnoses for the lesions used to train and tune the dataset are summarized in Table 4. The greatest number of lesions were BCC, followed by SCC, and then melanoma (including highly atypical nevi).",
+      "source_type": "fda_approval",
+      "regulatory_tier": "green"
+    },
+    {
+      "url": "https://www.bu.edu/bmo/files/2024/02/Dermasensor-paper-2.pdf",
+      "snippet": "The device uses an AI algorithm to compare ESS readings from the current lesion to a training data set of over 10,000 readings from over 2000 lesions.",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    },
+    {
+      "url": "https://www.accessdata.fda.gov/cdrh_docs/reviews/DEN230008.pdf",
+      "snippet": "The training dataset contained 950 lesions contributing -4,200 spectra while the testing dataset included 361 lesions, for a total of 1,311 skin lesions.",
+      "source_type": "fda_approval",
+      "regulatory_tier": "green"
+    },
+    {
+      "url": "https://www.accessdata.fda.gov/cdrh_docs/reviews/DEN230008.pdf",
+      "snippet": "The patient demographics for the lesions used to train and tune the dataset are summarized in Table 2. The training and tuning data included a majority of older patients (age 60-79), Fitzpatrick phototype I-III, and individuals who self-ide",
+      "source_type": "fda_approval",
+      "regulatory_tier": "green"
+    },
+    {
+      "url": "https://www.accessdata.fda.gov/cdrh_docs/reviews/DEN230008.pdf",
+      "snippet": "The anatomical locations of the lesions used to train and tune the dataset are summarized in Table 3. Lesions on the head and neck constituted the majority of lesions in the training and tuning data set.",
+      "source_type": "fda_approval",
+      "regulatory_tier": "green"
+    },
+    {
+      "url": "https://www.accessdata.fda.gov/cdrh_docs/reviews/DEN230008.pdf",
+      "snippet": "The diagnoses for the lesions used to train and tune the dataset are summarized in Table 4. The greatest number of lesions were BCC, followed by SCC, and then melanoma (including highly atypical nevi).",
+      "source_type": "fda_approval",
+      "regulatory_tier": "green"
+    }
+  ],
+  "clinical_trial": [
+    {
+      "url": "https://www.bu.edu/bmo/files/2024/02/Dermasensor-paper-2.pdf",
+      "snippet": "This prospective, multicenter clinical validation study was conducted at 4 US investigational sites.",
+      "source_type": "investigational",
+      "regulatory_tier": "orange"
+    },
+    {
+      "url": "https://www.bu.edu/bmo/files/2024/02/Dermasensor-paper-2.pdf",
+      "snippet": "Study enrollment was conducted from August 2018 to October 2020.",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    },
+    {
+      "url": "https://www.bu.edu/bmo/files/2024/02/Dermasensor-paper-2.pdf",
+      "snippet": "A total of 614 lesions from 394 participants were enrolled among the 4 study sites.",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    },
+    {
+      "url": "https://www.bu.edu/bmo/files/2024/02/Dermasensor-paper-2.pdf",
+      "snippet": "This study received IRB approval from the Western Institution Review Board /C210(Protocol CSP-18-0001).",
+      "source_type": "web",
+      "regulatory_tier": "orange"
+    },
+    {
+      "url": "https://www.aimatmelanoma.org/ai-powered-diagnostics",
+      "snippet": "The approval follows an observational study (NCT05126173) that evaluated the device in over 1000 patients and was led by the Mayo Clinic.",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    },
+    {
+      "url": "https://www.aimatmelanoma.org/ai-powered-diagnostics",
+      "snippet": "The approval follows an observational study (NCT05126173) that evaluated the device in over 1000 patients and was led by the Mayo Clinic.",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    },
+    {
+      "url": "https://www.aimatmelanoma.org/ai-powered-diagnostics",
+      "snippet": "The DermaSensor device demonstrated a 96% sensitivity across all 224 types of skin cancers. Further, negative results from DermaSensor had a 97% chance of being benign across all skin cancers.",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    },
+    {
+      "url": "https://www.aimatmelanoma.org/ai-powered-diagnostics",
+      "snippet": "A companion clinical utility study also investigated DermaSensor\u2019s usage with 108 physicians.",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    }
+  ],
+  "medical_purpose": [
+    {
+      "url": "https://www.accessdata.fda.gov/cdrh_docs/reviews/DEN230008.pdf",
+      "snippet": "The DermaSensor device is indicated for use to evaluate skin lesions suggestive of melanoma, basal cell carcinoma, and/or squamous cell carcinoma in patients aged 40 and above to assist in the decision regarding referral of the patient to a",
+      "source_type": "fda_approval",
+      "regulatory_tier": "green"
+    },
+    {
+      "url": "https://www.dermasensor.com/find-a-physician",
+      "snippet": "DermaSensor\u2122 is used by physicians to assist in evaluating suspicious skin lesions in clinical settings. For melanoma, basal cell, and squamous cell carcinoma.",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    },
+    {
+      "url": "https://www.aimatmelanoma.org/ai-powered-diagnostics",
+      "snippet": "DermaSensor provides quantitative, point-of-testing identification for skin cancer, including melanoma, basal cell carcinoma, and squamous cell carcinoma.",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    }
+  ],
+  "acceptable_input": [
+    {
+      "url": "https://www.accessdata.fda.gov/cdrh_docs/reviews/DEN230008.pdf",
+      "snippet": "The DermaSensor device ... utilizes optical spectroscopy and an artificial intelligence/machine learning (Al/ML) based software algorithm to analyze an intact skin lesion to which the device is non-invasively applied. ...yielding Elastic Sc",
+      "source_type": "fda_approval",
+      "regulatory_tier": "green"
+    },
+    {
+      "url": "https://www.bu.edu/bmo/files/2024/02/Dermasensor-paper-2.pdf",
+      "snippet": "It operates by emitting pulses of light at various wavelengths, ranging from 360 to 810 nm, via a compact integrated system illuminating tissue and recording the backscattered optical re\ufb02ectance of the tissue.",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    }
+  ],
+  "output": [
+    {
+      "url": "https://www.accessdata.fda.gov/cdrh_docs/reviews/DEN230008.pdf",
+      "snippet": "Results are provided as \"Monitor,\" for a negative result, or \"Investigate Further\" for a positive result. For positive output (\"Investigate Further\") the DermaSensor additionally displays a Similarity Score of 1-10, with higher scores repre",
+      "source_type": "fda_approval",
+      "regulatory_tier": "green"
+    },
+    {
+      "url": "https://www.bu.edu/bmo/files/2024/02/Dermasensor-paper-2.pdf",
+      "snippet": "The generated score is based on the degree of resemblance a lesion has to confirmed malignant lesions present in device training studies, with a score of 10 representing the greatest degree of similarity.",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    }
+  ],
+  "role_in_decision_making": [
+    {
+      "url": "https://www.accessdata.fda.gov/cdrh_docs/reviews/DEN230008.pdf",
+      "snippet": "Software-aided adjunctive diagnostic device for use by physicians on lesions suspicious for skin cancer. ...not for use as a standalone diagnostic and is not for use to confirm a clinical diagnosis.",
+      "source_type": "fda_approval",
+      "regulatory_tier": "green"
+    },
+    {
+      "url": "https://www.dermasensor.com/find-a-physician",
+      "snippet": "It does not replace biopsy, pathology, or physician judgment. ...adjunctive tool designed to assist physicians in evaluating suspicious skin lesions. It does not provide a direct diagnosis.",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    }
+  ],
+  "intended_users": [
+    {
+      "url": "https://www.dermasensor.com/find-a-physician",
+      "snippet": "Intended for use by physicians. ...must be operated by trained healthcare professionals. ...DermaSensor is used by physicians in clinical settings, including primary care physicians.",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    },
+    {
+      "url": "https://www.accessdata.fda.gov/cdrh_docs/reviews/DEN230008.pdf",
+      "snippet": "intended for use by a physician not trained in the clinical diagnosis and management of skin cancer as an adjunctive second-read device",
+      "source_type": "fda_approval",
+      "regulatory_tier": "green"
+    }
+  ],
+  "target_patient_population": [
+    {
+      "url": "https://www.accessdata.fda.gov/cdrh_docs/reviews/DEN230008.pdf",
+      "snippet": "The DermaSensor device is indicated for use to evaluate skin lesions suggestive of melanoma, basal cell carcinoma, and/or squamous cell carcinoma in patients aged 40 and above to assist in the decision regarding referral of the patient to a",
+      "source_type": "fda_approval",
+      "regulatory_tier": "green"
+    },
+    {
+      "url": "https://www.accessdata.fda.gov/cdrh_docs/reviews/DEN230008.pdf",
+      "snippet": "The device is intended for use on primary lesions only and has not been tested on lesions that are previously biopsied, recurrent, or metastatic; on scars, tattoos, sunburned skin, or within a hairy area; or which are located on palms, sole",
+      "source_type": "fda_approval",
+      "regulatory_tier": "green"
+    }
+  ],
+  "known_performance_limitations": [
+    {
+      "url": "https://www.accessdata.fda.gov/cdrh_docs/reviews/DEN230008.pdf",
+      "snippet": "The performance of the device has not been specifically evaluated in patients with increased risk for skin cancer, e.g., inherited or drug-induced photosensitivity; genetic predisposition to melanoma or basal cell carcinoma (BCC); immune co",
+      "source_type": "fda_approval",
+      "regulatory_tier": "green"
+    },
+    {
+      "url": "https://www.accessdata.fda.gov/cdrh_docs/reviews/DEN230008.pdf",
+      "snippet": "It has been tested on each of these three common skin cancer types but has not been tested on rare skin cancer types; thus, it should not be used for lesions that are suggestive of malignancies other than melanoma, BCC and/or SCC.",
+      "source_type": "fda_approval",
+      "regulatory_tier": "green"
+    },
+    {
+      "url": "https://www.accessdata.fda.gov/cdrh_docs/reviews/DEN230008.pdf",
+      "snippet": "The device is intended for use on primary lesions only and has not been tested on lesions that are previously biopsied, recurrent, or metastatic; on scars, tattoos, sunburned skin, or within a hairy area; or which are located on palms, sole",
+      "source_type": "fda_approval",
+      "regulatory_tier": "green"
+    }
+  ],
+  "skin_type_representation_equity": [
+    {
+      "url": "https://www.accessdata.fda.gov/cdrh_docs/reviews/DEN230008.pdf",
+      "snippet": "Consistent with the lower prevalence of skin cancer in Fitzpatrick skin phototypes IV-VI, less data is available for sensitivity of the DermaSensor device for melanoma in these patients. The decision to refer patients with suspicious pigmen",
+      "source_type": "fda_approval",
+      "regulatory_tier": "green"
+    },
+    {
+      "url": "https://www.accessdata.fda.gov/cdrh_docs/reviews/DEN230008.pdf",
+      "snippet": "The patient demographics for the lesions used to train and tune the dataset are summarized in Table 2. The training and tuning data included a majority of older patients (age 60-79), Fitzpatrick phototype I-III, and individuals who self-ide",
+      "source_type": "fda_approval",
+      "regulatory_tier": "green"
+    }
+  ],
+  "required_clinician_oversight": [
+    {
+      "url": "https://www.dermasensor.com/find-a-physician",
+      "snippet": "DermaSensor is not intended for at-home use and must be operated by trained healthcare professionals.",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    },
+    {
+      "url": "https://www.accessdata.fda.gov/cdrh_docs/reviews/DEN230008.pdf",
+      "snippet": "The sale, distribution, and use of the DermaSensor are restricted to prescription use in accordance with 21 CFR 801.109.",
+      "source_type": "fda_approval",
+      "regulatory_tier": "green"
+    },
+    {
+      "url": "https://www.accessdata.fda.gov/cdrh_docs/reviews/DEN230008.pdf",
+      "snippet": "The device is not intended to replace clinical decision making.",
+      "source_type": "fda_approval",
+      "regulatory_tier": "green"
+    }
+  ],
+  "model_type": [
+    {
+      "url": "https://www.accessdata.fda.gov/cdrh_docs/reviews/DEN230008.pdf",
+      "snippet": "utilizes optical spectroscopy and an artificial intelligence/machine learning (Al/ML) based software algorithm",
+      "source_type": "fda_approval",
+      "regulatory_tier": "green"
+    },
+    {
+      "url": "https://www.bu.edu/bmo/files/2024/02/Dermasensor-paper-2.pdf",
+      "snippet": "The final architecture has 10 neural networks that are trained based on different architectures and training set variations. One network is a feedforward neural network ... The 2 other networks are deep neural networks based on ResNet-18 ar",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    }
+  ],
+  "performance_evaluation_limitations": [
+    {
+      "url": "https://www.bu.edu/bmo/files/2024/02/Dermasensor-paper-2.pdf",
+      "snippet": "The overall specificity of the dermatologists was higher than that of the ESS device, at 56.10% compared with 26.22% ( P \\ .0001), although this assumes that all unbiopsied lesions enrolled by the dermatologists were benign",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    },
+    {
+      "url": "https://www.accessdata.fda.gov/cdrh_docs/pdf23/DEN230008.pdf",
+      "snippet": "you must collect and report postmarket surveillance data acquired under anticipated conditions of use to demonstrate that the device performs as intended when used to analyze data from the intended patient population. Specifically, you must",
+      "source_type": "fda_approval",
+      "regulatory_tier": "green"
+    }
+  ],
+  "model_development_and_validation": [
+    {
+      "url": "https://www.accessdata.fda.gov/cdrh_docs/reviews/DEN230008.pdf",
+      "snippet": "The DermaSensor device ... utilizes optical spectroscopy and an artificial intelligence/machine learning (Al/ML) based software algorithm",
+      "source_type": "fda_approval",
+      "regulatory_tier": "green"
+    },
+    {
+      "url": "https://www.accessdata.fda.gov/cdrh_docs/reviews/DEN230008.pdf",
+      "snippet": "Clinical development began with a blinded, multicenter clinical study through an initial ML retrospective algorithm",
+      "source_type": "fda_approval",
+      "regulatory_tier": "green"
+    },
+    {
+      "url": "https://www.bu.edu/bmo/files/2024/02/Dermasensor-paper-2.pdf",
+      "snippet": "This prospective, multicenter clinical validation study was conducted at 4 US investigational sites. Patients with skin lesions suggestive of melanoma and nonmelanoma skin cancers were clinically assessed by expert dermatologists and evalua",
+      "source_type": "investigational",
+      "regulatory_tier": "orange"
+    },
+    {
+      "url": "https://www.bu.edu/bmo/files/2024/02/Dermasensor-paper-2.pdf",
+      "snippet": "Use of an elastic-scattering spectroscopy and artificial intelligence device in the assessment of lesions suggestive of skin cancer: A comparative effectiveness study",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    }
+  ],
+  "contact": [
+    {
+      "url": "https://www.dermasensor.com/docs",
+      "snippet": "Request a Demo",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    },
+    {
+      "url": "https://www.dermasensor.com/docs",
+      "snippet": "Call or Text 1-855-373-6767",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    }
+  ],
+  "model_name": [
+    {
+      "url": "https://www.dermasensor.com/",
+      "snippet": "Fallback citation (field-level).",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    }
+  ],
+  "developer": [
+    {
+      "url": "https://www.dermasensor.com/",
+      "snippet": "Fallback citation (field-level).",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    }
+  ],
+  "version": [
+    {
+      "url": "https://www.dermasensor.com/",
+      "snippet": "Fallback citation (field-level).",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    }
+  ],
+  "summary": [
+    {
+      "url": "https://www.dermasensor.com/",
+      "snippet": "Fallback citation (field-level).",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    }
+  ],
+  "_regulatory_tiers": {
+    "model_name": "gray",
+    "developer": "gray",
+    "regulatory_approval_status": "gray",
+    "regulatory_approval_date": "gray",
+    "version": "gray",
+    "last_updated": "gray",
+    "availability": "gray",
+    "summary": "gray",
+    "medical_purpose": "gray",
+    "acceptable_input": "gray",
+    "output": "gray",
+    "role_in_decision_making": "gray",
+    "intended_users": "gray",
+    "target_patient_population": "gray",
+    "known_performance_limitations": "gray",
+    "skin_type_representation_equity": "gray",
+    "required_clinician_oversight": "gray",
+    "model_type": "gray",
+    "training_data": "gray",
+    "model_development_and_validation": "gray",
+    "clinical_trial": "gray",
+    "performance": "gray",
+    "performance_evaluation_limitations": "gray",
+    "ongoing_monitoring_plan": "gray",
+    "scheduled_updates": "gray",
+    "contact": "gray"
+  },
+  "_regulatory_tiers_composite": {
+    "1) Metadata|||Model Name": "gray",
+    "1) Metadata|||Developer": "gray",
+    "1) Metadata|||Regulatory Approval Status": "gray",
+    "1) Metadata|||Regulatory Approval Date": "gray",
+    "1) Metadata|||Version": "gray",
+    "1) Metadata|||Last Updated": "gray",
+    "1) Metadata|||Availability": "gray",
+    "2) Summary|||Summary": "gray",
+    "3) Intended Use|||Medical Purpose": "gray",
+    "3) Intended Use|||Acceptable Input": "gray",
+    "3) Intended Use|||Output": "gray",
+    "3) Intended Use|||Role in Decision-Making": "gray",
+    "3) Intended Use|||Intended Users": "gray",
+    "3) Intended Use|||Target Patient Population": "gray",
+    "4) Risks and Limitations|||Known Performance Limitations": "gray",
+    "4) Risks and Limitations|||Skin Type Representation & Equity": "gray",
+    "4) Risks and Limitations|||Required Clinician Oversight": "gray",
+    "5) Mechanism and Development|||Model Type": "gray",
+    "5) Mechanism and Development|||Training Data": "gray",
+    "5) Mechanism and Development|||Model Development & Validation": "gray",
+    "5) Mechanism and Development|||Clinical Trial": "gray",
+    "5) Mechanism and Development|||Performance": "gray",
+    "5) Mechanism and Development|||Limitations in Evaluating Performance": "gray",
+    "6) Governance and Monitoring|||Plans for Ongoing Monitoring": "gray",
+    "6) Governance and Monitoring|||Scheduled Updates": "gray",
+    "6) Governance and Monitoring|||Inquiries / Report an Issue": "gray"
+  },
+  "schema_version": "clinical-model-card-citations-1.0",
+  "references": {
+    "1": {
+      "url": "https://www.bu.edu/bmo/files/2024/02/Dermasensor-paper-2.pdf",
+      "snippet": "Overall device sensitivity was 97.04%, with subgroup sensitivity of 96.67% for melanoma, 97.22% for basal cell carcinoma, and 97.01% for squamous cell carcinoma."
+    },
+    "2": {
+      "url": "https://www.aimatmelanoma.org/ai-powered-diagnostics",
+      "snippet": "The DermaSensor device demonstrated a 96% sensitivity across all 224 types of skin cancers. Further, negative results from DermaSensor had a 97% chance of being benign across all skin cancers."
+    },
+    "3": {
+      "url": "https://www.accessdata.fda.gov/cdrh_docs/reviews/DEN230008.pdf",
+      "snippet": "The training dataset contained 950 lesions contributing -4,200 spectra while the testing dataset included 361 lesions, for a total of 1,311 skin lesions."
+    },
+    "4": {
+      "url": "https://www.dermasensor.com/find-a-physician",
+      "snippet": "DermaSensor\u2122 is used by physicians to assist in evaluating suspicious skin lesions in clinical settings. For melanoma, basal cell, and squamous cell carcinoma."
+    },
+    "5": {
+      "url": "https://www.accessdata.fda.gov/cdrh_docs/pdf23/DEN230008.pdf",
+      "snippet": "you must collect and report postmarket surveillance data acquired under anticipated conditions of use to demonstrate that the device performs as intended when used to analyze data from the intended patient population. Specifically, you must"
+    },
+    "6": {
+      "url": "https://www.dermasensor.com/docs",
+      "snippet": "Request a Demo"
+    },
+    "7": {
+      "url": "https://www.dermasensor.com/",
+      "snippet": "Fallback citation (field-level)."
+    }
+  },
+  "field_citations": {
+    "performance": [
+      {
+        "citationIds": [
+          "1",
+          "1",
+          "1",
+          "1",
+          "1",
+          "2"
+        ],
+        "sentence_level": true
+      }
+    ],
+    "training_data": [
+      {
+        "citationIds": [
+          "1",
+          "3",
+          "3",
+          "3",
+          "3",
+          "1",
+          "3",
+          "3",
+          "3",
+          "3"
+        ],
+        "sentence_level": true
+      }
+    ],
+    "clinical_trial": [
+      {
+        "text": "A companion clinical utility study also investigated DermaSensor\u2019s usage with 108 physicians.",
+        "citationIds": [
+          "2"
+        ]
+      }
+    ],
+    "medical_purpose": [
+      {
+        "citationIds": [
+          "3",
+          "4",
+          "2"
+        ],
+        "sentence_level": true
+      }
+    ],
+    "acceptable_input": [
+      {
+        "citationIds": [
+          "3",
+          "1"
+        ],
+        "sentence_level": true
+      }
+    ],
+    "output": [
+      {
+        "citationIds": [
+          "3",
+          "1"
+        ],
+        "sentence_level": true
+      }
+    ],
+    "role_in_decision_making": [
+      {
+        "citationIds": [
+          "3",
+          "4"
+        ],
+        "sentence_level": true
+      }
+    ],
+    "intended_users": [
+      {
+        "citationIds": [
+          "4",
+          "3"
+        ],
+        "sentence_level": true
+      }
+    ],
+    "target_patient_population": [
+      {
+        "citationIds": [
+          "3",
+          "3"
+        ],
+        "sentence_level": true
+      }
+    ],
+    "known_performance_limitations": [
+      {
+        "citationIds": [
+          "3",
+          "3",
+          "3"
+        ],
+        "sentence_level": true
+      }
+    ],
+    "skin_type_representation_equity": [
+      {
+        "citationIds": [
+          "3",
+          "3"
+        ],
+        "sentence_level": true
+      }
+    ],
+    "required_clinician_oversight": [
+      {
+        "citationIds": [
+          "4",
+          "3",
+          "3"
+        ],
+        "sentence_level": true
+      }
+    ],
+    "model_type": [
+      {
+        "citationIds": [
+          "3",
+          "1"
+        ],
+        "sentence_level": true
+      }
+    ],
+    "performance_evaluation_limitations": [
+      {
+        "citationIds": [
+          "1",
+          "5"
+        ],
+        "sentence_level": true
+      }
+    ],
+    "model_development_and_validation": [
+      {
+        "citationIds": [
+          "3",
+          "3",
+          "1",
+          "1"
+        ],
+        "sentence_level": true
+      }
+    ],
+    "contact": [
+      {
+        "citationIds": [
+          "6",
+          "6"
+        ],
+        "sentence_level": true
+      }
+    ],
+    "model_name": [
+      {
+        "citationIds": [
+          "7"
+        ],
+        "sentence_level": true
+      }
+    ],
+    "developer": [
+      {
+        "citationIds": [
+          "7"
+        ],
+        "sentence_level": true
+      }
+    ],
+    "version": [
+      {
+        "citationIds": [
+          "7"
+        ],
+        "sentence_level": true
+      }
+    ],
+    "summary": [
+      {
+        "citationIds": [
+          "7"
+        ],
+        "sentence_level": true
+      }
+    ]
+  },
+  "_alignment_warnings": [
+    "snippet_mismatch:performance",
+    "snippet_mismatch:performance",
+    "snippet_mismatch:performance",
+    "snippet_mismatch:performance",
+    "snippet_mismatch:performance",
+    "snippet_mismatch:performance",
+    "sentence_level_fallback:performance",
+    "snippet_mismatch:training_data",
+    "snippet_mismatch:training_data",
+    "snippet_mismatch:training_data",
+    "snippet_mismatch:training_data",
+    "snippet_mismatch:training_data",
+    "snippet_mismatch:training_data",
+    "snippet_mismatch:training_data",
+    "snippet_mismatch:training_data",
+    "snippet_mismatch:training_data",
+    "snippet_mismatch:training_data",
+    "sentence_level_fallback:training_data",
+    "snippet_mismatch:clinical_trial",
+    "snippet_mismatch:clinical_trial",
+    "snippet_mismatch:clinical_trial",
+    "snippet_mismatch:clinical_trial",
+    "snippet_mismatch:clinical_trial",
+    "snippet_mismatch:clinical_trial",
+    "snippet_mismatch:clinical_trial",
+    "snippet_mismatch:medical_purpose",
+    "snippet_mismatch:medical_purpose",
+    "snippet_mismatch:medical_purpose",
+    "sentence_level_fallback:medical_purpose",
+    "snippet_mismatch:acceptable_input",
+    "snippet_mismatch:acceptable_input",
+    "sentence_level_fallback:acceptable_input",
+    "snippet_mismatch:output",
+    "snippet_mismatch:output",
+    "sentence_level_fallback:output",
+    "snippet_mismatch:role_in_decision_making",
+    "snippet_mismatch:role_in_decision_making",
+    "sentence_level_fallback:role_in_decision_making",
+    "snippet_mismatch:intended_users",
+    "snippet_mismatch:intended_users",
+    "sentence_level_fallback:intended_users",
+    "snippet_mismatch:target_patient_population",
+    "snippet_mismatch:target_patient_population",
+    "sentence_level_fallback:target_patient_population",
+    "snippet_mismatch:known_performance_limitations",
+    "snippet_mismatch:known_performance_limitations",
+    "snippet_mismatch:known_performance_limitations",
+    "sentence_level_fallback:known_performance_limitations",
+    "snippet_mismatch:skin_type_representation_equity",
+    "snippet_mismatch:skin_type_representation_equity",
+    "sentence_level_fallback:skin_type_representation_equity",
+    "snippet_mismatch:required_clinician_oversight",
+    "snippet_mismatch:required_clinician_oversight",
+    "snippet_mismatch:required_clinician_oversight",
+    "sentence_level_fallback:required_clinician_oversight",
+    "snippet_mismatch:model_type",
+    "snippet_mismatch:model_type",
+    "sentence_level_fallback:model_type",
+    "snippet_mismatch:performance_evaluation_limitations",
+    "snippet_mismatch:performance_evaluation_limitations",
+    "sentence_level_fallback:performance_evaluation_limitations",
+    "snippet_mismatch:model_development_and_validation",
+    "snippet_mismatch:model_development_and_validation",
+    "snippet_mismatch:model_development_and_validation",
+    "snippet_mismatch:model_development_and_validation",
+    "sentence_level_fallback:model_development_and_validation",
+    "snippet_mismatch:contact",
+    "snippet_mismatch:contact",
+    "sentence_level_fallback:contact",
+    "snippet_mismatch:model_name",
+    "sentence_level_fallback:model_name",
+    "snippet_mismatch:developer",
+    "sentence_level_fallback:developer",
+    "snippet_mismatch:version",
+    "sentence_level_fallback:version",
+    "snippet_mismatch:summary",
+    "sentence_level_fallback:summary"
+  ]
+}

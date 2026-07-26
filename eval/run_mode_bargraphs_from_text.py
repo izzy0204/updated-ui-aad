@@ -18,7 +18,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 
-def _annotate_bars(ax, bars, *, fmt: str = "{:.1f}%") -> None:
+def _annotate_bars(ax, bars, *, fmt: str = "{:.1f}%", fontsize: int = 9) -> None:
     for b in bars:
         h = b.get_height()
         ax.text(
@@ -27,9 +27,34 @@ def _annotate_bars(ax, bars, *, fmt: str = "{:.1f}%") -> None:
             fmt.format(h),
             ha="center",
             va="bottom",
-            fontsize=9,
+            fontsize=fontsize,
             color="black",
+            rotation=90 if fontsize <= 7 else 0,
         )
+
+
+def _declutter_ys(values: list[float], *, min_gap: float, y_min: float = 0.0, y_max: float = 100.0) -> list[float]:
+    """
+    Return adjusted y-positions for a set of right-margin label callouts so
+    consecutive labels (sorted by value) keep at least `min_gap` apart.
+    Only the label's y is nudged, not the axhline it annotates -- with more
+    than ~2 close-valued lines (e.g. 5+ models), unadjusted labels stack on
+    top of each other and become unreadable.
+    """
+    if not values:
+        return []
+    order = sorted(range(len(values)), key=lambda i: values[i])
+    adjusted = [values[i] for i in order]
+    for i in range(1, len(adjusted)):
+        if adjusted[i] - adjusted[i - 1] < min_gap:
+            adjusted[i] = adjusted[i - 1] + min_gap
+    if adjusted[-1] > y_max:
+        shift = adjusted[-1] - y_max
+        adjusted = [v - shift for v in adjusted]
+    out = [0.0] * len(values)
+    for rank, idx in enumerate(order):
+        out[idx] = adjusted[rank]
+    return out
 
 
 def _set_black_theme() -> None:
@@ -55,7 +80,7 @@ def plot_sourcecheckup_bars(
     manual_avg = float(manual.mean())
     auto_avg = float(auto.mean())
 
-    fig, ax = plt.subplots(figsize=(8.2, 5.5))
+    fig, ax = plt.subplots(figsize=(max(8.2, 1.6 * len(models) + 2.0), 5.5))
     # Reserve a little right margin for average labels drawn outside axes.
     fig.subplots_adjust(right=0.86)
 
@@ -83,26 +108,22 @@ def plot_sourcecheckup_bars(
     ax.axhline(auto_avg, color="black", linestyle=":", linewidth=1.4, alpha=0.95)
 
     # Label dotted lines just outside the axes (in the right margin).
-    ax.annotate(
-        f"Manual avg {manual_avg:.1f}%",
-        xy=(1.01, manual_avg),
-        xycoords=("axes fraction", "data"),
-        ha="left",
-        va="center",
-        fontsize=9,
-        color="black",
-        clip_on=False,
-    )
-    ax.annotate(
-        f"Auto avg {auto_avg:.1f}%",
-        xy=(1.01, auto_avg),
-        xycoords=("axes fraction", "data"),
-        ha="left",
-        va="center",
-        fontsize=9,
-        color="black",
-        clip_on=False,
-    )
+    # Nudge label y-positions apart if the two averages land close together.
+    label_ys = _declutter_ys([manual_avg, auto_avg], min_gap=6.0)
+    for text, y in [
+        (f"Manual avg {manual_avg:.1f}%", label_ys[0]),
+        (f"Auto avg {auto_avg:.1f}%", label_ys[1]),
+    ]:
+        ax.annotate(
+            text,
+            xy=(1.01, y),
+            xycoords=("axes fraction", "data"),
+            ha="left",
+            va="center",
+            fontsize=9,
+            color="black",
+            clip_on=False,
+        )
 
     fig.suptitle("Manual vs Auto: SourceCheckup Results", y=0.98, fontsize=14)
     # Ensure there is room for the title.
@@ -125,8 +146,8 @@ def plot_factscore_bars(
     auto_strict_avg = float(auto_strict.mean())
     auto_partial_avg = float(auto_partial.mean())
 
-    fig, ax = plt.subplots(figsize=(9.4, 5.5))
-    fig.subplots_adjust(right=0.86)
+    fig, ax = plt.subplots(figsize=(max(9.4, 2.4 * len(models) + 2.0), 6.0))
+    fig.subplots_adjust(right=0.84, top=0.85)
 
     x = np.arange(len(models))
     w = 0.18
@@ -148,22 +169,27 @@ def plot_factscore_bars(
     ax.grid(axis="y", linestyle="--", alpha=0.35)
     ax.legend(frameon=False, fontsize=9, ncols=2, loc="upper left", labelcolor="black")
 
-    _annotate_bars(ax, bars_ms, fmt="{:.2f}%")
-    _annotate_bars(ax, bars_mp, fmt="{:.2f}%")
-    _annotate_bars(ax, bars_as, fmt="{:.2f}%")
-    _annotate_bars(ax, bars_ap, fmt="{:.2f}%")
+    _annotate_bars(ax, bars_ms, fmt="{:.1f}%", fontsize=7)
+    _annotate_bars(ax, bars_mp, fmt="{:.1f}%", fontsize=7)
+    _annotate_bars(ax, bars_as, fmt="{:.1f}%", fontsize=7)
+    _annotate_bars(ax, bars_ap, fmt="{:.1f}%", fontsize=7)
+    ax.set_ylim(0, 115)  # extra headroom for the now-vertical bar labels
 
     # Overall averages as dotted black guide lines (computed from values above)
     for y in [manual_strict_avg, manual_partial_avg, auto_strict_avg, auto_partial_avg]:
         ax.axhline(y, color="black", linestyle=":", linewidth=1.2, alpha=0.85)
 
-    # Label dotted lines outside axes on the right.
-    for label, y in [
-        (f"Manual partial avg {manual_partial_avg:.2f}%", manual_partial_avg),
-        (f"Manual strict avg {manual_strict_avg:.2f}%", manual_strict_avg),
-        (f"Auto partial avg {auto_partial_avg:.2f}%", auto_partial_avg),
-        (f"Auto strict avg {auto_strict_avg:.2f}%", auto_strict_avg),
-    ]:
+    # Label dotted lines outside axes on the right. Nudge apart if close together
+    # (with 5+ models the four averages often land within a few points of each other).
+    avg_labels = [
+        f"Manual partial avg {manual_partial_avg:.2f}%",
+        f"Manual strict avg {manual_strict_avg:.2f}%",
+        f"Auto partial avg {auto_partial_avg:.2f}%",
+        f"Auto strict avg {auto_strict_avg:.2f}%",
+    ]
+    avg_values = [manual_partial_avg, manual_strict_avg, auto_partial_avg, auto_strict_avg]
+    label_ys = _declutter_ys(avg_values, min_gap=5.0)
+    for label, y in zip(avg_labels, label_ys, strict=True):
         ax.annotate(
             label,
             xy=(1.01, y),
@@ -176,7 +202,7 @@ def plot_factscore_bars(
         )
 
     fig.suptitle("Manual vs Auto: FactScore Results", y=0.98, fontsize=14)
-    fig.tight_layout(rect=(0, 0, 1, 0.92))
+    fig.tight_layout(rect=(0, 0, 1, 0.90))
     fig.savefig(out_path, dpi=200, bbox_inches="tight")
     plt.close(fig)
 
@@ -200,7 +226,7 @@ def main() -> None:
     auto_strict_avg = float(auto_strict.mean())
     auto_partial_avg = float(auto_partial.mean())
 
-    fig_dir = Path("figures")
+    fig_dir = Path("figures") / "ui_cards"
     fig_dir.mkdir(parents=True, exist_ok=True)
 
     out_sc = fig_dir / "sourcecheckup_bargraph.png"

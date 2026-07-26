@@ -1,0 +1,45 @@
+{
+  "schemaVersion": "clinical-model-card-1.0",
+  "modelName": "DermaSensor",
+  "applicationUrl": null,
+  "developer": "DermaSensor Inc. (founders include Dr. Maurice Ferre and Christopher Dewey). Company history describes development of Elastic Scattering Spectroscopy (ESS) and a proprietary machine learning algorithm trained on histopathology-confirmed lesions.",
+  "regulatoryApprovalStatus": "FDA_CLEARED",
+  "regulatoryApprovalDate": null,
+  "version": "3.0.2",
+  "lastUpdated": "2026-07-11",
+  "availability": "FDA-cleared and available for sale in the U.S.; CE marked; waitlist/limited state availability described publicly.",
+  "summary": "Connected handheld device intended to help frontline providers assess lesions suspicious for melanoma/BCC/SCC and inform referral decisions, producing results in seconds. Identified suspicious lesion is scanned with five spectral recordings; algorithm returns \u201cInvestigate Further\u201d or \u201cMonitor,\u201d with a 1\u201310 similarity score for malignancy patterns. Intended for use alongside clinician assessment and not as a screening tool or sole diagnostic criterion.",
+  "medicalPurpose": "Identified suspicious lesion is scanned with five spectral recordings; algorithm returns \u201cInvestigate Further\u201d or \u201cMonitor,\u201d with a 1\u201310 similarity score for malignancy patterns. Intended for use alongside clinician assessment and not as a screening tool or sole diagnostic criterion.",
+  "acceptableInput": "Spectral recordings from the scanned lesion. Input: spectral signal; Output: categorical result + numeric score intended to guide referral decisions. Three-step process (identify lesion \u2192 apply device/record spectra \u2192 receive result).",
+  "output": "Output includes referral-oriented risk classification and score; intended to improve triage and reduce missed cancers by clinicians in reader studies.",
+  "roleInDecisionMaking": "Provides adjunctive referral support for physicians evaluating suspicious lesions; does not replace clinician judgment, biopsy, or definitive diagnosis.",
+  "intendedUsers": "Qualified healthcare professionals in clinical settings; marketed for non-dermatology providers in primary care and related outpatient settings. Clinical assessment skills for lesion selection and interpretation; device is an adjunct to clinical judgment.",
+  "targetPatientPopulation": "Patients (often 40+) with lesions already judged suspicious for melanoma/BCC/SCC where a referral decision is being considered.",
+  "knownFailureModes": "",
+  "unsupportedClinicalScenarios": "",
+  "unsupportedUseCases": "Not for screening or unsupervised population triage. Not the sole basis for diagnosis or referral decisions.",
+  "requiredClinicianOversight": "Independent clinical assessment, including visual lesion evaluation, is required before and alongside device use. Definitive diagnosis requires clinician judgment and biopsy or pathology confirmation where clinically indicated.",
+  "modelType": "AI/ML classifier analyzing Elastic Scattering Spectroscopy (ESS) recordings from intact skin lesions.",
+  "trainingData": {
+    "description": "Not disclosed",
+    "datasetUrl": null
+  },
+  "modelDevelopmentAndValidation": {
+    "description": null,
+    "publicationUrl": "PubMed entry and related publications. [16]"
+  },
+  "clinicalTrial": {
+    "description": "Study evidence and summaries described in the clinical evidence PDF."
+  },
+  "performance": {
+    "summary": "Public materials and study summaries report no device-related safety issues; primary safety concerns are clinical consequences of false results. Human-in-the-loop clinical judgment remains required; device should be used only as intended.",
+    "metrics": []
+  },
+  "performanceEvaluationLimitations": "Not disclosed",
+  "ongoingMonitoringPlan": "Algorithm is described as \u201clocked\u201d with periodic revalidation/updates requiring FDA clearance.",
+  "scheduledUpdates": null,
+  "contact": {
+    "email": null,
+    "url": "General inquiries and support via knowledge base; contact page"
+  }
+}

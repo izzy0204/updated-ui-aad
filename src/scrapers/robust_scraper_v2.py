@@ -1318,7 +1318,9 @@ class RobustWebScraper:
                 'training', 'dataset', 'paper', 'publication', 'research',
                 'clinical', 'medical', 'dermatology', 'skin', 'diagnosis',
                 'about', 'overview', 'features', 'capabilities', 'limitations',
-                'privacy', 'ethics', 'bias', 'fairness', 'transparency'
+                'privacy', 'ethics', 'bias', 'fairness', 'transparency',
+                'story', 'stories', 'case study', 'case-study', 'customer',
+                'testimonial', 'success'
             ]
             
             # Check if link text or URL contains relevant keywords

@@ -1,4 +1,4 @@
-#!/Users/isabellegatmaitan/eval/custom-factscore-venv/bin/python3.11
+#!/Users/kenna/izzy-work/aad-model-card-generator/eval/custom-factscore-venv/bin/python
 """A command line tool for extracting text and images from PDF and
 output it to plain text, html, xml or tags.
 """

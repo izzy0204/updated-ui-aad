@@ -12,7 +12,6 @@ from core.chai_schema import ClinicalModelCard
 from core.source_regulatory import load_citations_for_markdown
 from core.dermauto_card_render import (
     is_clinical_markdown,
-    regulatory_legend_html,
     render_from_card,
 )
 
@@ -51,12 +50,16 @@ st.caption("Clinician-centered model card viewer (JSON canonical, markdown for u
 with st.sidebar:
     st.subheader("Source")
     ordered_sources: List[Tuple[str, str]] = [
-        ("A · DermaSensor", "dermasensor-20260501-192348"),
-        ("B · DermaSensor", "Dermasensor"),
-        ("A · DermGPT", "dermgpt-20260429-173126"),
-        ("B · DermGPT", "DermGPT updated"),
-        ("A · Tandem", "tandem-20260501-043225"),
-        ("B · Tandem", "Tandem updated"),
+        ("A · DermaSensor", "dermasensor-auto-eval-2"),
+        ("B · DermaSensor", "dermasensor-manual-eval-2"),
+        ("A · Tandem", "tandem-auto-eval-2"),
+        ("B · Tandem", "tandem-manual-eval-2"),
+        ("A · Skin Analytics", "skinanalytics-auto-eval-2"),
+        ("B · Skin Analytics", "skinanalytics-manual-eval-2"),
+        ("A · DermGPT", "dermgpt-auto-eval-2"),
+        ("B · DermGPT", "dermgpt-manual-eval-2"),
+        ("A · Skin Vision", "skinvision-auto-eval-2"),
+        ("B · Skin Vision", "skinvision-manual-eval-2"),
     ]
     option_to_path: Dict[str, Path] = {}
     for label, stem in ordered_sources:
@@ -79,9 +82,6 @@ with st.sidebar:
 
     uploaded = st.file_uploader("Or upload clinical JSON / markdown", type=["json", "md"])
     hide_citations = st.checkbox("Hide citation markers", value=False)
-    color_regulatory = st.checkbox("Color-code regulatory status row", value=False)
-    if color_regulatory:
-        st.markdown(regulatory_legend_html(), unsafe_allow_html=True)
 
 md_path: Optional[Path] = None
 json_path: Optional[Path] = None

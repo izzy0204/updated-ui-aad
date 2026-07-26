@@ -29,7 +29,7 @@ def main() -> None:
         factscore_strict_auto=factscore_strict_auto,
         factscore_partial_manual=factscore_partial_manual,
         factscore_partial_auto=factscore_partial_auto,
-        output_path=Path("figures") / "sourcecheckup_factscore_auto_vs_manual_boxplots.png",
+        output_path=Path("figures") / "ui_cards" / "sourcecheckup_factscore_auto_vs_manual_boxplots.png",
         title="Auto vs Manual: SourceCheckup + FactScore-style (from summary numbers)",
     )
 

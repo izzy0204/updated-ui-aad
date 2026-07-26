@@ -1,21 +1,20 @@
 import os
 import re
 import json
+import sys
 import time
-import tempfile
 from pathlib import Path
 from typing import Any, Callable
 from urllib.parse import urlparse
 
 import pandas as pd
-import requests
-from bs4 import BeautifulSoup
-from readability import Document
-from pdfminer.high_level import extract_text
 from openai import OpenAI
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from robust_fetch import fetch_url_text as _robust_fetch_url_text  # noqa: E402
+
 OPENAI_MODEL = "gpt-4o-mini"
-GEMINI_MODEL = "gemini-2.0-flash"
+GEMINI_MODEL = "gemini-2.5-flash"  # gemini-2.0-flash was retired; this 404s if left stale
 REQUEST_TIMEOUT = 45
 MIN_TEXT_LEN = 80
 
@@ -35,11 +34,6 @@ RUNS = [
         "pairs_csv": "skinvision_pairs.csv",
     },
 ]
-
-HEADERS = {
-    "User-Agent": "Mozilla/5.0"
-}
-
 
 def load_env_file(path: Path) -> None:
     """
@@ -67,41 +61,8 @@ def clean_text(text: str) -> str:
     text = re.sub(r"\s+", " ", text)
     return text.strip()
 
-def is_pdf_url(url: str) -> bool:
-    return ".pdf" in url.lower()
-
-def fetch_html_text(url: str) -> str:
-    r = requests.get(url, headers=HEADERS, timeout=REQUEST_TIMEOUT)
-    r.raise_for_status()
-
-    doc = Document(r.text)
-    html = doc.summary()
-    soup = BeautifulSoup(html, "html.parser")
-    text = soup.get_text(separator="\n")
-    return clean_text(text)
-
-def fetch_pdf_text(url: str) -> str:
-    r = requests.get(url, headers=HEADERS, timeout=REQUEST_TIMEOUT)
-    r.raise_for_status()
-
-    with tempfile.NamedTemporaryFile(suffix=".pdf", delete=False) as tmp:
-        tmp.write(r.content)
-        tmp_path = tmp.name
-
-    try:
-        text = extract_text(tmp_path)
-    finally:
-        try:
-            os.remove(tmp_path)
-        except OSError:
-            pass
-
-    return clean_text(text)
-
 def fetch_url_text(url: str) -> str:
-    if is_pdf_url(url):
-        return fetch_pdf_text(url)
-    return fetch_html_text(url)
+    return clean_text(_robust_fetch_url_text(url))
 
 
 def _support_evaluation_prompt(statement: str, url: str, truncated_source: str) -> str:

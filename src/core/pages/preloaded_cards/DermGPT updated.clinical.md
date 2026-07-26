@@ -1,5 +1,5 @@
 ---
-schema_version: clinical-model-card-1.0
+schema_version: clinical-model-card-2.0
 ---
 
 # [DermGPT](https://www.dermgpt.com/) — Clinical Model Card
@@ -11,7 +11,7 @@ schema_version: clinical-model-card-1.0
 - **Regulatory Approval Date:** Not disclosed
 - **Version:** Not specified; described as a dermatology-focused language model built on (3,000+) peer-reviewed articles/texts.
 - **Last Updated:** 2026-07-11
-- **Availability:** Not specified.
+- **Availability:** Not disclosed
 
 ## 2) Summary
 - **Summary:** Intended as an assistant for dermatologists and staff to support practice management tasks and access dermatology knowledge; not a stand-alone decision maker or replacement for medical care/decision-making.
@@ -25,17 +25,16 @@ schema_version: clinical-model-card-1.0
 - **Target Patient Population:** Not specified; tool is primarily provider-facing.
 
 ## 4) Risks and Limitations
-- **Known Failure Modes:** 
-- **Unsupported Clinical Scenarios:** 
-- **Unsupported Use Cases:** Not a standalone diagnostic device.
+- **Known Performance Limitations:** Not a standalone diagnostic device.
+- **Skin Type Representation & Equity:** Not disclosed
 - **Required Clinician Oversight:** Definitive diagnosis requires clinician judgment and biopsy or pathology confirmation where clinically indicated.
 
 ## 5) Mechanism and Development
 - **Model Type:** Not disclosed
 - **Training Data:** Dermatology peer-reviewed literature and published sources; full dataset not specified.
 - **Model Development & Validation:** [Publication](Examples of related publications include [10,11].)
-- **Clinical Trial:** Not specified.
-- **Performance:** Not specified.
+- **Clinical Trial:** Not disclosed
+- **Performance:** Not disclosed
 - **Limitations in Evaluating Performance:** Not disclosed
 
 ## 6) Governance and Monitoring
