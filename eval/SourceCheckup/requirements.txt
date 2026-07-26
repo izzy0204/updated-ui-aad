@@ -1,0 +1,5 @@
+pandas
+argparse
+requests
+beautifulsoup4
+openai
