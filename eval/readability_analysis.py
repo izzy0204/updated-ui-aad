@@ -3,6 +3,8 @@ Readability metrics for dermatology AI model cards.
 
 Supports:
 - **UI cards**: CHAI-style Markdown under `ui_cards/` (`- **Summary:**` bullets, keyed metrics).
+- **Clinical cards**: clinical-model-card-2.0 Markdown (e.g. `ui_cards_eval2/`) with Medical Purpose,
+  Known Performance Limitations, Performance, etc., mapped into the same logical sections.
 - **JSON cards**: structured objects with the same logical section keys.
 
 Computes Flesch Reading Ease and Flesch–Kincaid grade level per section and
@@ -111,6 +113,7 @@ def _permutation_pvalue_diff_means(a: np.ndarray, b: np.ndarray, *, n_perm: int 
     return float((count + 1) / (n_perm + 1))
 
 # Markdown `- **Label:**` bullets (normalized lowercase) → READABILITY_FIELDS keys
+# CHAI v0.3 single-field labels (1:1 overwrite).
 _MD_SINGLE_LABEL_TO_FIELD: dict[str, str] = {
     "summary": "summary",
     "intended use & workflow": "intended_use_and_workflow",
@@ -120,6 +123,29 @@ _MD_SINGLE_LABEL_TO_FIELD: dict[str, str] = {
     "clinical risk level": "clinical_risk_level",
     "how to use": "how_to_use",
     "transparency information": "transparency_information",
+}
+
+# clinical-model-card-2.0 labels → READABILITY_FIELDS (concatenated when multiple).
+_MD_CLINICAL_LABEL_TO_FIELD: dict[str, str] = {
+    "summary": "summary",
+    "medical purpose": "intended_use_and_workflow",
+    "acceptable input": "intended_use_and_workflow",
+    "output": "intended_use_and_workflow",
+    "role in decision-making": "intended_use_and_workflow",
+    "intended users": "intended_use_and_workflow",
+    "target patient population": "intended_use_and_workflow",
+    "known performance limitations": "model_limitations",
+    "limitations in evaluating performance": "model_limitations",
+    "skin type representation & equity": "fairness_equity_interpretation",
+    "required clinician oversight": "developer_supplied_warnings",
+    "model type": "ai_system_facts",
+    "training data": "ai_system_facts",
+    "model development & validation": "ai_system_facts",
+    "clinical trial": "ai_system_facts",
+    "performance": "usefulness_efficacy_result",
+    "plans for ongoing monitoring": "transparency_information",
+    "scheduled updates": "transparency_information",
+    "inquiries / report an issue": "transparency_information",
 }
 
 # Under ### Usefulness / Efficacy (etc.), include these bullet labels in the combined section text.
@@ -141,6 +167,18 @@ def _normalize_md_label(label: str) -> str:
     return s
 
 
+def _resolve_md_field(label_norm: str) -> str | None:
+    """Map a normalized Markdown bullet label to a READABILITY_FIELDS key."""
+    if label_norm in _MD_SINGLE_LABEL_TO_FIELD:
+        return _MD_SINGLE_LABEL_TO_FIELD[label_norm]
+    if label_norm in _MD_CLINICAL_LABEL_TO_FIELD:
+        return _MD_CLINICAL_LABEL_TO_FIELD[label_norm]
+    # e.g. "Performance — Sensitivity", "Performance — AUROC (melanoma)"
+    if label_norm.startswith("performance"):
+        return "usefulness_efficacy_result"
+    return None
+
+
 def strip_reference_citations(text: str) -> str:
     """Remove bracket reference markers like ``[1]`` or ``[1, 8]`` from UI card prose."""
     return re.sub(r"\s*\[\d+(?:\s*,\s*\d+)*\]", "", text).strip()
@@ -148,9 +186,11 @@ def strip_reference_citations(text: str) -> str:
 
 def parse_ui_card_markdown(md: str, *, strip_citations: bool = True) -> dict[str, str]:
     """
-    Extract section texts from a CHAI UI card Markdown file.
+    Extract section texts from a CHAI UI card or clinical-model-card-2.0 Markdown file.
 
     - Standalone bullets (Summary, Intended Use & Workflow, …) map to READABILITY_FIELDS.
+    - Clinical v2.0 bullets (Medical Purpose, Known Performance Limitations, …) map into
+      the same logical READABILITY_FIELDS (related bullets are concatenated).
     - Under ``### Usefulness / Efficacy``, ``### Fairness & Equity``, and
       ``### Safety & Reliability``, bullets *Goal of Metric(s)*, *Result*, and
       *Interpretation* are concatenated into usefulness_efficacy_result,
@@ -159,7 +199,7 @@ def parse_ui_card_markdown(md: str, *, strip_citations: bool = True) -> dict[str
     split_ref = re.split(r"(?im)^##\s*References\s*$", md, maxsplit=1)
     body = split_ref[0]
 
-    singles: dict[str, str] = {}
+    field_parts: dict[str, list[str]] = {}
     multi_parts: dict[str, list[str]] = {
         "usefulness_efficacy_result": [],
         "fairness_equity_interpretation": [],
@@ -211,16 +251,19 @@ def parse_ui_card_markdown(md: str, *, strip_citations: bool = True) -> dict[str
             if current_multi and nl in _MD_METRIC_INNER_LABELS:
                 multi_parts[current_multi].append(text)
             else:
-                field = _MD_SINGLE_LABEL_TO_FIELD.get(nl)
+                field = _resolve_md_field(nl)
                 if field:
-                    singles[field] = text
+                    field_parts.setdefault(field, []).append(text)
             continue
 
         i += 1
 
-    out: dict[str, str] = dict(singles)
+    out: dict[str, str] = {
+        key: "\n\n".join(chunks) for key, chunks in field_parts.items() if chunks
+    }
     for key, chunks in multi_parts.items():
         if chunks:
+            # Prefer CHAI Key Metrics blocks when present; else keep clinical mapping.
             out[key] = "\n\n".join(chunks)
     return out
 
