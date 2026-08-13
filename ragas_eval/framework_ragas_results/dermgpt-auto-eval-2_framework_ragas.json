@@ -1,0 +1,351 @@
+{
+  "card_id": "dermgpt-auto-eval-2",
+  "card_type": "auto",
+  "card_path": "/tmp/mc_auto_fw/dermgpt-auto-eval-2.clinical.json",
+  "sections": [
+    {
+      "card_id": "dermgpt-auto-eval-2",
+      "card_type": "auto",
+      "section": "Metadata",
+      "question": "What is the model, who developed it, what is its regulatory status, and is it currently available?",
+      "response": "Model Name: DermGPT\n\nVersion: DermGPT was recently unveiled at a limited press briefing (as of November 2023) and is continuously updated and improved.\n\nSummary: DermGPT is an AI chatbot that accepts natural language questions from dermatologists and staff. It generates dermatology-specific text, such as answers to clinical queries, patient education handouts, and prior authorization letters. Its role is to assist with clinical tasks, improve efficiency, and save time for healthcare providers.\n\nDeveloper: Dr. Faranak \"Fara\" Kamangar MD\n\nRegulatory Approval Status: UNKNOWN\n\nAvailability: DermGPT is an AI platform now used by thousands of dermatologists nationwide. It is free for dermatologists to use, who can sign up and start using it clinically at no cost.",
+      "answer_relevancy": 0.40252795740601244,
+      "status": "evaluated",
+      "error_message": null,
+      "sub_questions": [
+        {
+          "card_id": "dermgpt-auto-eval-2",
+          "card_type": "auto",
+          "section": "Metadata",
+          "sub_question_id": "metadata_model",
+          "question": "What is the model (name, version, and brief summary)?",
+          "response": "Model Name: DermGPT\n\nVersion: DermGPT was recently unveiled at a limited press briefing (as of November 2023) and is continuously updated and improved.\n\nSummary: DermGPT is an AI chatbot that accepts natural language questions from dermatologists and staff. It generates dermatology-specific text, such as answers to clinical queries, patient education handouts, and prior authorization letters. Its role is to assist with clinical tasks, improve efficiency, and save time for healthcare providers.",
+          "answer_relevancy": 0.19659276837714104,
+          "status": "evaluated",
+          "error_message": null
+        },
+        {
+          "card_id": "dermgpt-auto-eval-2",
+          "card_type": "auto",
+          "section": "Metadata",
+          "sub_question_id": "metadata_developer",
+          "question": "Who developed this model?",
+          "response": "Developer: Dr. Faranak \"Fara\" Kamangar MD",
+          "answer_relevancy": 0.45654166707505683,
+          "status": "evaluated",
+          "error_message": null
+        },
+        {
+          "card_id": "dermgpt-auto-eval-2",
+          "card_type": "auto",
+          "section": "Metadata",
+          "sub_question_id": "metadata_regulatory",
+          "question": "What is the model's regulatory approval status?",
+          "response": "Regulatory Approval Status: UNKNOWN",
+          "answer_relevancy": 0.8481311585149891,
+          "status": "evaluated",
+          "error_message": null
+        },
+        {
+          "card_id": "dermgpt-auto-eval-2",
+          "card_type": "auto",
+          "section": "Metadata",
+          "sub_question_id": "metadata_availability",
+          "question": "Is the model currently available, and where?",
+          "response": "Availability: DermGPT is an AI platform now used by thousands of dermatologists nationwide. It is free for dermatologists to use, who can sign up and start using it clinically at no cost.",
+          "answer_relevancy": 0.10884623565686277,
+          "status": "evaluated",
+          "error_message": null
+        }
+      ],
+      "evaluated_sub_questions": 4,
+      "missing_sub_questions": 0,
+      "error_sub_questions": 0
+    },
+    {
+      "card_id": "dermgpt-auto-eval-2",
+      "card_type": "auto",
+      "section": "Intended Use",
+      "question": "What is this model used for, who should use it, what patients is it intended for, and what role does it have in clinical decisions?",
+      "response": "Medical Purpose: DermGPT is an AI chatbot designed to streamline dermatology workflows, improve clinical efficiency, and enhance access to dermatologic data for healthcare providers. It assists with tasks such as generating prior authorizations, denial letters, patient education handouts, summarizing guidelines, and providing quick references for medication options.\n\nIntended Users: Dermatologists and their staff, including RNs, MAs, and ancillary staff, who possess the clinical knowledge and problem-solving skills to complement the AI tool's capabilities.\n\nTarget Patient Population: The tool supports the care of patients across the spectrum of dermatological conditions by assisting their healthcare providers.\n\nRole in Decision-Making: DermGPT functions as an assistant to dermatologists and their staff, aiding in efficient and data-driven tasks. It is not intended to replace medical care or decision-making and should not be used as a stand-alone decision maker.",
+      "answer_relevancy": 0.47750790458027015,
+      "status": "evaluated",
+      "error_message": null,
+      "sub_questions": [
+        {
+          "card_id": "dermgpt-auto-eval-2",
+          "card_type": "auto",
+          "section": "Intended Use",
+          "sub_question_id": "intended_purpose",
+          "question": "What is this model used for (medical purpose)?",
+          "response": "Medical Purpose: DermGPT is an AI chatbot designed to streamline dermatology workflows, improve clinical efficiency, and enhance access to dermatologic data for healthcare providers. It assists with tasks such as generating prior authorizations, denial letters, patient education handouts, summarizing guidelines, and providing quick references for medication options.",
+          "answer_relevancy": 0.2547667016269106,
+          "status": "evaluated",
+          "error_message": null
+        },
+        {
+          "card_id": "dermgpt-auto-eval-2",
+          "card_type": "auto",
+          "section": "Intended Use",
+          "sub_question_id": "intended_users",
+          "question": "Who should use this model?",
+          "response": "Intended Users: Dermatologists and their staff, including RNs, MAs, and ancillary staff, who possess the clinical knowledge and problem-solving skills to complement the AI tool's capabilities.",
+          "answer_relevancy": 0.49445685418450014,
+          "status": "evaluated",
+          "error_message": null
+        },
+        {
+          "card_id": "dermgpt-auto-eval-2",
+          "card_type": "auto",
+          "section": "Intended Use",
+          "sub_question_id": "intended_patients",
+          "question": "What patients is this model intended for?",
+          "response": "Target Patient Population: The tool supports the care of patients across the spectrum of dermatological conditions by assisting their healthcare providers.",
+          "answer_relevancy": 0.6536584925230706,
+          "status": "evaluated",
+          "error_message": null
+        },
+        {
+          "card_id": "dermgpt-auto-eval-2",
+          "card_type": "auto",
+          "section": "Intended Use",
+          "sub_question_id": "intended_role",
+          "question": "What role does this model have in clinical decisions?",
+          "response": "Role in Decision-Making: DermGPT functions as an assistant to dermatologists and their staff, aiding in efficient and data-driven tasks. It is not intended to replace medical care or decision-making and should not be used as a stand-alone decision maker.",
+          "answer_relevancy": 0.5071495699865993,
+          "status": "evaluated",
+          "error_message": null
+        }
+      ],
+      "evaluated_sub_questions": 4,
+      "missing_sub_questions": 0,
+      "error_sub_questions": 0
+    },
+    {
+      "card_id": "dermgpt-auto-eval-2",
+      "card_type": "auto",
+      "section": "Inputs and Outputs",
+      "question": "What information does the model take as input, what does it produce, and how should the output be interpreted?",
+      "response": "Acceptable Input: Natural language questions or prompts related to dermatology.\n\nOutput: The model generates specific and reliable dermatology-related verbiage, including answers to clinical queries, prior authorization letters, patient education handouts, summaries of medical notes, and study guides, drawing from its curated dermatology-specific database.",
+      "answer_relevancy": 0.36509080699922963,
+      "status": "evaluated",
+      "error_message": null,
+      "sub_questions": [
+        {
+          "card_id": "dermgpt-auto-eval-2",
+          "card_type": "auto",
+          "section": "Inputs and Outputs",
+          "sub_question_id": "io_input",
+          "question": "What information does the model take as input?",
+          "response": "Acceptable Input: Natural language questions or prompts related to dermatology.",
+          "answer_relevancy": 0.33499930388679044,
+          "status": "evaluated",
+          "error_message": null
+        },
+        {
+          "card_id": "dermgpt-auto-eval-2",
+          "card_type": "auto",
+          "section": "Inputs and Outputs",
+          "sub_question_id": "io_output",
+          "question": "What does the model produce as output?",
+          "response": "Output: The model generates specific and reliable dermatology-related verbiage, including answers to clinical queries, prior authorization letters, patient education handouts, summaries of medical notes, and study guides, drawing from its curated dermatology-specific database.",
+          "answer_relevancy": 0.4054364795909478,
+          "status": "evaluated",
+          "error_message": null
+        },
+        {
+          "card_id": "dermgpt-auto-eval-2",
+          "card_type": "auto",
+          "section": "Inputs and Outputs",
+          "sub_question_id": "io_interpretation",
+          "question": "How should the model's output be interpreted?",
+          "response": "Output: The model generates specific and reliable dermatology-related verbiage, including answers to clinical queries, prior authorization letters, patient education handouts, summaries of medical notes, and study guides, drawing from its curated dermatology-specific database.",
+          "answer_relevancy": 0.35483663751995076,
+          "status": "evaluated",
+          "error_message": null
+        }
+      ],
+      "evaluated_sub_questions": 3,
+      "missing_sub_questions": 0,
+      "error_sub_questions": 0
+    },
+    {
+      "card_id": "dermgpt-auto-eval-2",
+      "card_type": "auto",
+      "section": "Risks and Limitations",
+      "question": "When should clinicians not rely on this model, and what limitations, failure modes, unsupported uses, or required oversight should they know about?",
+      "response": "Known Performance Limitations: The model lacks human creativity, intuition, and the ability to think outside the box, excelling primarily in efficient and data-driven tasks. It is not a human and should not be used as a stand-alone decision-maker.\n\nRequired Clinician Oversight: DermGPT requires clinician oversight; it is most powerful when paired with a dermatology provider or staff who can complement its skills with higher-level creative problem-solving.\n\nLimitations in Evaluating Performance: DermGPT is not a human and lacks human creativity, intuition, and the ability to think outside the box. It should not be used as a stand-alone decision maker and does not replace medical care or decision-making, but functions as an assistant best paired with a dermatology provider or staff.",
+      "answer_relevancy": 0.5546978320430583,
+      "status": "evaluated",
+      "error_message": null,
+      "sub_questions": [
+        {
+          "card_id": "dermgpt-auto-eval-2",
+          "card_type": "auto",
+          "section": "Risks and Limitations",
+          "sub_question_id": "risks_limitations",
+          "question": "What performance limitations, failure modes, or unsupported uses should clinicians know about?",
+          "response": "Known Performance Limitations: The model lacks human creativity, intuition, and the ability to think outside the box, excelling primarily in efficient and data-driven tasks. It is not a human and should not be used as a stand-alone decision-maker.",
+          "answer_relevancy": 0.511159029376632,
+          "status": "evaluated",
+          "error_message": null
+        },
+        {
+          "card_id": "dermgpt-auto-eval-2",
+          "card_type": "auto",
+          "section": "Risks and Limitations",
+          "sub_question_id": "risks_equity",
+          "question": "What skin-type representation or equity limitations should clinicians know about?",
+          "response": null,
+          "answer_relevancy": null,
+          "status": "missing",
+          "error_message": null
+        },
+        {
+          "card_id": "dermgpt-auto-eval-2",
+          "card_type": "auto",
+          "section": "Risks and Limitations",
+          "sub_question_id": "risks_oversight",
+          "question": "What clinician oversight is required when using this model?",
+          "response": "Required Clinician Oversight: DermGPT requires clinician oversight; it is most powerful when paired with a dermatology provider or staff who can complement its skills with higher-level creative problem-solving.",
+          "answer_relevancy": 0.6154595642473268,
+          "status": "evaluated",
+          "error_message": null
+        },
+        {
+          "card_id": "dermgpt-auto-eval-2",
+          "card_type": "auto",
+          "section": "Risks and Limitations",
+          "sub_question_id": "risks_eval_limits",
+          "question": "What limitations exist in how this model's performance was evaluated?",
+          "response": "Limitations in Evaluating Performance: DermGPT is not a human and lacks human creativity, intuition, and the ability to think outside the box. It should not be used as a stand-alone decision maker and does not replace medical care or decision-making, but functions as an assistant best paired with a dermatology provider or staff.",
+          "answer_relevancy": 0.5374749025052158,
+          "status": "evaluated",
+          "error_message": null
+        }
+      ],
+      "evaluated_sub_questions": 3,
+      "missing_sub_questions": 1,
+      "error_sub_questions": 0
+    },
+    {
+      "card_id": "dermgpt-auto-eval-2",
+      "card_type": "auto",
+      "section": "Development and Performance",
+      "question": "How was the model developed and validated, what data were used, and how well does it perform?",
+      "response": "Model Type: Language-based AI chatbot.\n\nTraining Data: Description: The AI chatbot is built on a proprietary database of more than 3,000 peer-reviewed articles and trusted, physician-approved sources, making it more specific and reliable than generic large language models.\n\nModel Development & Validation: Description: DermGPT was developed by Faranak \"Fara\" Kamangar, MD, a board-certified dermatologist with an engineering background. The platform's proprietary database is continuously updated and improved, unlike some general AI models.\n\nPerformance: Summary: DermGPT is an AI-powered chatbot that improves clinic productivity and aims to streamline clinical tasks, improve access to dermatologic data, and save time for physicians. It allows dermatologists to ask questions in natural language and receive relevant, helpful answers, functioning as a more specific and reliable tool compared to generic language models. It is built on more than 3,000 peer-reviewed articles and a proprietary database, which helps it reduce errors like 'hallucinations'. DermGPT assists with common tasks such as writing insurance authorization letters, creating patient handouts, summarizing medical notes, generating prior authorizations and denial letters, and looking up dermatology information including diagnoses, treatments, and prior authorization criteria. Its use is intended to yield more efficient patient care and decreased wait times. DermGPT is currently used by thousands of dermatologists nationwide and is continuously updated and improved.",
+      "answer_relevancy": 0.4368589185854017,
+      "status": "evaluated",
+      "error_message": null,
+      "sub_questions": [
+        {
+          "card_id": "dermgpt-auto-eval-2",
+          "card_type": "auto",
+          "section": "Development and Performance",
+          "sub_question_id": "dev_model_type",
+          "question": "What type of model or technology is this?",
+          "response": "Model Type: Language-based AI chatbot.",
+          "answer_relevancy": 0.661567405823634,
+          "status": "evaluated",
+          "error_message": null
+        },
+        {
+          "card_id": "dermgpt-auto-eval-2",
+          "card_type": "auto",
+          "section": "Development and Performance",
+          "sub_question_id": "dev_data",
+          "question": "What data were used to develop or train this model?",
+          "response": "Training Data: Description: The AI chatbot is built on a proprietary database of more than 3,000 peer-reviewed articles and trusted, physician-approved sources, making it more specific and reliable than generic large language models.",
+          "answer_relevancy": 0.5658626612737643,
+          "status": "evaluated",
+          "error_message": null
+        },
+        {
+          "card_id": "dermgpt-auto-eval-2",
+          "card_type": "auto",
+          "section": "Development and Performance",
+          "sub_question_id": "dev_validation",
+          "question": "How was the model developed and validated?",
+          "response": "Model Development & Validation: Description: DermGPT was developed by Faranak \"Fara\" Kamangar, MD, a board-certified dermatologist with an engineering background. The platform's proprietary database is continuously updated and improved, unlike some general AI models.",
+          "answer_relevancy": 0.30719995221449603,
+          "status": "evaluated",
+          "error_message": null
+        },
+        {
+          "card_id": "dermgpt-auto-eval-2",
+          "card_type": "auto",
+          "section": "Development and Performance",
+          "sub_question_id": "dev_performance",
+          "question": "How well does the model perform?",
+          "response": "Performance: Summary: DermGPT is an AI-powered chatbot that improves clinic productivity and aims to streamline clinical tasks, improve access to dermatologic data, and save time for physicians. It allows dermatologists to ask questions in natural language and receive relevant, helpful answers, functioning as a more specific and reliable tool compared to generic language models. It is built on more than 3,000 peer-reviewed articles and a proprietary database, which helps it reduce errors like 'hallucinations'. DermGPT assists with common tasks such as writing insurance authorization letters, creating patient handouts, summarizing medical notes, generating prior authorizations and denial letters, and looking up dermatology information including diagnoses, treatments, and prior authorization criteria. Its use is intended to yield more efficient patient care and decreased wait times. DermGPT is currently used by thousands of dermatologists nationwide and is continuously updated and improved.",
+          "answer_relevancy": 0.2128056550297127,
+          "status": "evaluated",
+          "error_message": null
+        }
+      ],
+      "evaluated_sub_questions": 4,
+      "missing_sub_questions": 0,
+      "error_sub_questions": 0
+    },
+    {
+      "card_id": "dermgpt-auto-eval-2",
+      "card_type": "auto",
+      "section": "Governance and Monitoring",
+      "question": "How will the model be monitored and updated, and how can users report concerns or problems?",
+      "response": "Plans for Ongoing Monitoring: The platform is continuously updated and improved.\n\nScheduled Updates: The platform is continuously updated and improved.\n\nLast Updated / Current Version: 2026-07-25\n\nVersion: DermGPT was recently unveiled at a limited press briefing (as of November 2023) and is continuously updated and improved.\n\nInquiries / Report an Issue: Url: https://www.dermgpt.com",
+      "answer_relevancy": 0.5211436939102564,
+      "status": "evaluated",
+      "error_message": null,
+      "sub_questions": [
+        {
+          "card_id": "dermgpt-auto-eval-2",
+          "card_type": "auto",
+          "section": "Governance and Monitoring",
+          "sub_question_id": "gov_monitoring",
+          "question": "How will the model be monitored on an ongoing basis?",
+          "response": "Plans for Ongoing Monitoring: The platform is continuously updated and improved.",
+          "answer_relevancy": 0.6561434832837426,
+          "status": "evaluated",
+          "error_message": null
+        },
+        {
+          "card_id": "dermgpt-auto-eval-2",
+          "card_type": "auto",
+          "section": "Governance and Monitoring",
+          "sub_question_id": "gov_updates",
+          "question": "How and when will the model be updated?",
+          "response": "Scheduled Updates: The platform is continuously updated and improved.\n\nLast Updated / Current Version: 2026-07-25\n\nVersion: DermGPT was recently unveiled at a limited press briefing (as of November 2023) and is continuously updated and improved.",
+          "answer_relevancy": 0.3812991738302737,
+          "status": "evaluated",
+          "error_message": null
+        },
+        {
+          "card_id": "dermgpt-auto-eval-2",
+          "card_type": "auto",
+          "section": "Governance and Monitoring",
+          "sub_question_id": "gov_contact",
+          "question": "How can users report concerns or problems?",
+          "response": "Inquiries / Report an Issue: Url: https://www.dermgpt.com",
+          "answer_relevancy": 0.5259884246167528,
+          "status": "evaluated",
+          "error_message": null
+        }
+      ],
+      "evaluated_sub_questions": 3,
+      "missing_sub_questions": 0,
+      "error_sub_questions": 0
+    }
+  ],
+  "summary": {
+    "card_id": "dermgpt-auto-eval-2",
+    "card_type": "auto",
+    "expected_sections": 6,
+    "evaluated_sections": 6,
+    "missing_sections": 0,
+    "error_sections": 0,
+    "mean_answer_relevancy": 0.4596378522540381,
+    "std_answer_relevancy": 0.0719142138391549,
+    "min_answer_relevancy": 0.36509080699922963,
+    "max_answer_relevancy": 0.5546978320430583
+  }
+}

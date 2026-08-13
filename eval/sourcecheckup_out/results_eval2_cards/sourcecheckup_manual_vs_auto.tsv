@@ -1,0 +1,6 @@
+model	manual_strict_pct	auto_strict_pct	manual_partial_credit_pct	auto_partial_credit_pct	manual_supported	manual_partial	manual_unsupported	manual_total_pairs	auto_supported	auto_partial	auto_unsupported	auto_total_pairs	manual_card	auto_card
+DermGPT	56.2500	82.1429	65.6250	89.2857	9	3	4	16	23	4	1	28	DermGPT	dermgpt-20260725-192813
+DermaSensor	14.7059	48.4848	26.4706	69.6970	5	8	21	34	16	14	3	33	Dermasensor	dermasensor-20260725-192751
+SkinAnalytics	43.5897	73.9130	67.9487	78.2609	17	19	3	39	17	2	4	23	SkinAnalytics	skin-analytics-20260725-193021
+SkinVision	25.7143	50.0000	34.2857	68.7500	9	6	20	35	4	3	1	8	SkinVision	skin-vision-20260725-192820
+Tandem	8.6957	55.8824	21.7391	77.9412	2	6	15	23	19	15	0	34	Tandem	tandem-20260725-194411

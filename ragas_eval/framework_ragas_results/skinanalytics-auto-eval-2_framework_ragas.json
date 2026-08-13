@@ -1,0 +1,351 @@
+{
+  "card_id": "skinanalytics-auto-eval-2",
+  "card_type": "auto",
+  "card_path": "/tmp/mc_auto_fw/skinanalytics-auto-eval-2.clinical.json",
+  "sections": [
+    {
+      "card_id": "skinanalytics-auto-eval-2",
+      "card_type": "auto",
+      "section": "Metadata",
+      "question": "What is the model, who developed it, what is its regulatory status, and is it currently available?",
+      "response": "Model Name: Skin Analytics\n\nVersion: Issue 13\n\nSummary: DERM analyzes dermoscopic images of skin lesions using AI-based algorithms. It returns a suspected diagnosis and referral recommendation to help screen, triage, and assess patients for skin cancer. This helps conserve dermatologist capacity by triaging non-cancerous lesions away from urgent pathways.\n\nDeveloper: Skin Analytics\n\nRegulatory Approval Status: UNKNOWN\n\nAvailability: DERM is available within the NHS across 25 organizations at 27 sites in England. It is also offered directly to consumers in the UK through Mole Check and General Dermatology services, and deployed in skin cancer pathways in Greece, Romania, and Lithuania via a partnership with Affidea.",
+      "answer_relevancy": 0.4770979979057919,
+      "status": "evaluated",
+      "error_message": null,
+      "sub_questions": [
+        {
+          "card_id": "skinanalytics-auto-eval-2",
+          "card_type": "auto",
+          "section": "Metadata",
+          "sub_question_id": "metadata_model",
+          "question": "What is the model (name, version, and brief summary)?",
+          "response": "Model Name: Skin Analytics\n\nVersion: Issue 13\n\nSummary: DERM analyzes dermoscopic images of skin lesions using AI-based algorithms. It returns a suspected diagnosis and referral recommendation to help screen, triage, and assess patients for skin cancer. This helps conserve dermatologist capacity by triaging non-cancerous lesions away from urgent pathways.",
+          "answer_relevancy": 0.3372804162616522,
+          "status": "evaluated",
+          "error_message": null
+        },
+        {
+          "card_id": "skinanalytics-auto-eval-2",
+          "card_type": "auto",
+          "section": "Metadata",
+          "sub_question_id": "metadata_developer",
+          "question": "Who developed this model?",
+          "response": "Developer: Skin Analytics",
+          "answer_relevancy": 0.4100472904968238,
+          "status": "evaluated",
+          "error_message": null
+        },
+        {
+          "card_id": "skinanalytics-auto-eval-2",
+          "card_type": "auto",
+          "section": "Metadata",
+          "sub_question_id": "metadata_regulatory",
+          "question": "What is the model's regulatory approval status?",
+          "response": "Regulatory Approval Status: UNKNOWN",
+          "answer_relevancy": 0.8481311585149891,
+          "status": "evaluated",
+          "error_message": null
+        },
+        {
+          "card_id": "skinanalytics-auto-eval-2",
+          "card_type": "auto",
+          "section": "Metadata",
+          "sub_question_id": "metadata_availability",
+          "question": "Is the model currently available, and where?",
+          "response": "Availability: DERM is available within the NHS across 25 organizations at 27 sites in England. It is also offered directly to consumers in the UK through Mole Check and General Dermatology services, and deployed in skin cancer pathways in Greece, Romania, and Lithuania via a partnership with Affidea.",
+          "answer_relevancy": 0.3129331263497025,
+          "status": "evaluated",
+          "error_message": null
+        }
+      ],
+      "evaluated_sub_questions": 4,
+      "missing_sub_questions": 0,
+      "error_sub_questions": 0
+    },
+    {
+      "card_id": "skinanalytics-auto-eval-2",
+      "card_type": "auto",
+      "section": "Intended Use",
+      "question": "What is this model used for, who should use it, what patients is it intended for, and what role does it have in clinical decisions?",
+      "response": "Medical Purpose: DERM is an AI-based skin lesion analysis device intended for the screening, triage, and assessment of skin lesions suspicious for skin cancer, aiming to improve access to assessments and conserve dermatologist capacity.\n\nIntended Users: Primary care clinicians (e.g., general practitioners, nurse practitioners) and secondary care clinicians (e.g., dermatologists) who use the outputs for clinical management or decision support. Medical photographers and patients may capture images but are not intended to use the outputs.\n\nTarget Patient Population: Patients aged 18 years or over with cutaneous lesions suspicious for skin cancer, excluding specific contraindications such as open or ulcerated lesions, lesions obscured by hair/tattoos/scars, or lesions on certain body locations.\n\nRole in Decision-Making: DERM functions as an autonomous AI system to make independent clinical decisions for screening, triage, and assessment, issuing management instructions without a second human clinician read. It can also augment other clinical data points to support clinical decision-making.",
+      "answer_relevancy": 0.4635280390321992,
+      "status": "evaluated",
+      "error_message": null,
+      "sub_questions": [
+        {
+          "card_id": "skinanalytics-auto-eval-2",
+          "card_type": "auto",
+          "section": "Intended Use",
+          "sub_question_id": "intended_purpose",
+          "question": "What is this model used for (medical purpose)?",
+          "response": "Medical Purpose: DERM is an AI-based skin lesion analysis device intended for the screening, triage, and assessment of skin lesions suspicious for skin cancer, aiming to improve access to assessments and conserve dermatologist capacity.",
+          "answer_relevancy": 0.3853274115999511,
+          "status": "evaluated",
+          "error_message": null
+        },
+        {
+          "card_id": "skinanalytics-auto-eval-2",
+          "card_type": "auto",
+          "section": "Intended Use",
+          "sub_question_id": "intended_users",
+          "question": "Who should use this model?",
+          "response": "Intended Users: Primary care clinicians (e.g., general practitioners, nurse practitioners) and secondary care clinicians (e.g., dermatologists) who use the outputs for clinical management or decision support. Medical photographers and patients may capture images but are not intended to use the outputs.",
+          "answer_relevancy": 0.4704028056898966,
+          "status": "evaluated",
+          "error_message": null
+        },
+        {
+          "card_id": "skinanalytics-auto-eval-2",
+          "card_type": "auto",
+          "section": "Intended Use",
+          "sub_question_id": "intended_patients",
+          "question": "What patients is this model intended for?",
+          "response": "Target Patient Population: Patients aged 18 years or over with cutaneous lesions suspicious for skin cancer, excluding specific contraindications such as open or ulcerated lesions, lesions obscured by hair/tattoos/scars, or lesions on certain body locations.",
+          "answer_relevancy": 0.45182927307592263,
+          "status": "evaluated",
+          "error_message": null
+        },
+        {
+          "card_id": "skinanalytics-auto-eval-2",
+          "card_type": "auto",
+          "section": "Intended Use",
+          "sub_question_id": "intended_role",
+          "question": "What role does this model have in clinical decisions?",
+          "response": "Role in Decision-Making: DERM functions as an autonomous AI system to make independent clinical decisions for screening, triage, and assessment, issuing management instructions without a second human clinician read. It can also augment other clinical data points to support clinical decision-making.",
+          "answer_relevancy": 0.5465526657630265,
+          "status": "evaluated",
+          "error_message": null
+        }
+      ],
+      "evaluated_sub_questions": 4,
+      "missing_sub_questions": 0,
+      "error_sub_questions": 0
+    },
+    {
+      "card_id": "skinanalytics-auto-eval-2",
+      "card_type": "auto",
+      "section": "Inputs and Outputs",
+      "question": "What information does the model take as input, what does it produce, and how should the output be interpreted?",
+      "response": "Acceptable Input: Dermoscopic images of cutaneous lesions from patients aged 18 years or over, captured using approved dermoscopic hardware systems. Images should not contain immersion fluid, external objects, or markers.\n\nOutput: A suspected diagnosis (e.g., possible Melanoma, probable BCC) and, if applicable, a referral recommendation (e.g., 'refer', 'discharge', 'monitor') for the lesion, generated by AI-based algorithms.",
+      "answer_relevancy": 0.25614610096403284,
+      "status": "evaluated",
+      "error_message": null,
+      "sub_questions": [
+        {
+          "card_id": "skinanalytics-auto-eval-2",
+          "card_type": "auto",
+          "section": "Inputs and Outputs",
+          "sub_question_id": "io_input",
+          "question": "What information does the model take as input?",
+          "response": "Acceptable Input: Dermoscopic images of cutaneous lesions from patients aged 18 years or over, captured using approved dermoscopic hardware systems. Images should not contain immersion fluid, external objects, or markers.",
+          "answer_relevancy": 0.16824518335506825,
+          "status": "evaluated",
+          "error_message": null
+        },
+        {
+          "card_id": "skinanalytics-auto-eval-2",
+          "card_type": "auto",
+          "section": "Inputs and Outputs",
+          "sub_question_id": "io_output",
+          "question": "What does the model produce as output?",
+          "response": "Output: A suspected diagnosis (e.g., possible Melanoma, probable BCC) and, if applicable, a referral recommendation (e.g., 'refer', 'discharge', 'monitor') for the lesion, generated by AI-based algorithms.",
+          "answer_relevancy": 0.3206767454199752,
+          "status": "evaluated",
+          "error_message": null
+        },
+        {
+          "card_id": "skinanalytics-auto-eval-2",
+          "card_type": "auto",
+          "section": "Inputs and Outputs",
+          "sub_question_id": "io_interpretation",
+          "question": "How should the model's output be interpreted?",
+          "response": "Output: A suspected diagnosis (e.g., possible Melanoma, probable BCC) and, if applicable, a referral recommendation (e.g., 'refer', 'discharge', 'monitor') for the lesion, generated by AI-based algorithms.",
+          "answer_relevancy": 0.27951637411705493,
+          "status": "evaluated",
+          "error_message": null
+        }
+      ],
+      "evaluated_sub_questions": 3,
+      "missing_sub_questions": 0,
+      "error_sub_questions": 0
+    },
+    {
+      "card_id": "skinanalytics-auto-eval-2",
+      "card_type": "auto",
+      "section": "Risks and Limitations",
+      "question": "When should clinicians not rely on this model, and what limitations, failure modes, unsupported uses, or required oversight should they know about?",
+      "response": "Known Performance Limitations: DERM does not provide a definitive diagnosis for skin cancer and should be used with caution on Fitzpatrick skin types V-VI. It does not screen for rare malignant lesions not listed in its outputs (e.g., Merkel Cell Carcinoma). Image quality is critical, and immersion fluid or external objects/markers can adversely impact performance.\n\nSkin Type Representation & Equity: DERM has primarily been evaluated on patients with Fitzpatrick skin types I-IV in studies conducted in the UK, US, and Italy, reflecting the prevalence of the disease in the general population. It should be used with caution on lesions of other skin types.\n\nRequired Clinician Oversight: DERM can issue management instructions without a second read from a human clinician when used as an automated clinical management tool. However, when augmenting other clinical data, results should be viewed alongside all clinical information before a decision is made.\n\nLimitations in Evaluating Performance: The model has been evaluated mostly on Fitzpatrick skin types I-IV, which may limit its generalizability to other skin types.",
+      "answer_relevancy": 0.5171591760905592,
+      "status": "evaluated",
+      "error_message": null,
+      "sub_questions": [
+        {
+          "card_id": "skinanalytics-auto-eval-2",
+          "card_type": "auto",
+          "section": "Risks and Limitations",
+          "sub_question_id": "risks_limitations",
+          "question": "What performance limitations, failure modes, or unsupported uses should clinicians know about?",
+          "response": "Known Performance Limitations: DERM does not provide a definitive diagnosis for skin cancer and should be used with caution on Fitzpatrick skin types V-VI. It does not screen for rare malignant lesions not listed in its outputs (e.g., Merkel Cell Carcinoma). Image quality is critical, and immersion fluid or external objects/markers can adversely impact performance.",
+          "answer_relevancy": 0.45138267593617043,
+          "status": "evaluated",
+          "error_message": null
+        },
+        {
+          "card_id": "skinanalytics-auto-eval-2",
+          "card_type": "auto",
+          "section": "Risks and Limitations",
+          "sub_question_id": "risks_equity",
+          "question": "What skin-type representation or equity limitations should clinicians know about?",
+          "response": "Skin Type Representation & Equity: DERM has primarily been evaluated on patients with Fitzpatrick skin types I-IV in studies conducted in the UK, US, and Italy, reflecting the prevalence of the disease in the general population. It should be used with caution on lesions of other skin types.",
+          "answer_relevancy": 0.5139945029948425,
+          "status": "evaluated",
+          "error_message": null
+        },
+        {
+          "card_id": "skinanalytics-auto-eval-2",
+          "card_type": "auto",
+          "section": "Risks and Limitations",
+          "sub_question_id": "risks_oversight",
+          "question": "What clinician oversight is required when using this model?",
+          "response": "Required Clinician Oversight: DERM can issue management instructions without a second read from a human clinician when used as an automated clinical management tool. However, when augmenting other clinical data, results should be viewed alongside all clinical information before a decision is made.",
+          "answer_relevancy": 0.4716300927878735,
+          "status": "evaluated",
+          "error_message": null
+        },
+        {
+          "card_id": "skinanalytics-auto-eval-2",
+          "card_type": "auto",
+          "section": "Risks and Limitations",
+          "sub_question_id": "risks_eval_limits",
+          "question": "What limitations exist in how this model's performance was evaluated?",
+          "response": "Limitations in Evaluating Performance: The model has been evaluated mostly on Fitzpatrick skin types I-IV, which may limit its generalizability to other skin types.",
+          "answer_relevancy": 0.6316294326433504,
+          "status": "evaluated",
+          "error_message": null
+        }
+      ],
+      "evaluated_sub_questions": 4,
+      "missing_sub_questions": 0,
+      "error_sub_questions": 0
+    },
+    {
+      "card_id": "skinanalytics-auto-eval-2",
+      "card_type": "auto",
+      "section": "Development and Performance",
+      "question": "How was the model developed and validated, what data were used, and how well does it perform?",
+      "response": "Model Type: Artificial Intelligence (AI)-based algorithms\n\nTraining Data: Description: DERM has been tested on images of skin lesions that represent the population of patients and lesions it may be used on. These images were collected in powered prospective studies run in the UK, US, and Italy.\n\nModel Development & Validation: Description: DERM, a Class III CE-marked AI as a Medical Device, employs AI-based algorithms for skin lesion analysis. It was developed in accordance with Skin Analytics’ ISO 13485:2016 certified Quality Management System and fulfills provisions of UK Medical Device Regulation 2002, EU Medical Device Regulation 2017/745, and New Zealand Medicines Regulations 2003.\n\nClinical Trial: Description: DERM has been tested in powered prospective studies run in the UK, US, and Italy, using images of skin lesions representative of the patient population and lesions for which the device is intended.\n\nPerformance: Summary: DERM demonstrates a 99.9% Negative Predictive Value accuracy rate for ruling out melanoma and performs at or above the level of specialists. It helps avoid urgent suspected cancer referrals for 60-70% of patients in pre-referral sites, with 35-50% being routed towards discharge. In secondary care, it avoids up to 95% of face-to-face USCRs.\nMetrics:\n  Name: Negative Predictive Value\n  Value: 99.9%\n  Population: Melanoma",
+      "answer_relevancy": 0.4111404832321612,
+      "status": "evaluated",
+      "error_message": null,
+      "sub_questions": [
+        {
+          "card_id": "skinanalytics-auto-eval-2",
+          "card_type": "auto",
+          "section": "Development and Performance",
+          "sub_question_id": "dev_model_type",
+          "question": "What type of model or technology is this?",
+          "response": "Model Type: Artificial Intelligence (AI)-based algorithms",
+          "answer_relevancy": 0.5949317206952688,
+          "status": "evaluated",
+          "error_message": null
+        },
+        {
+          "card_id": "skinanalytics-auto-eval-2",
+          "card_type": "auto",
+          "section": "Development and Performance",
+          "sub_question_id": "dev_data",
+          "question": "What data were used to develop or train this model?",
+          "response": "Training Data: Description: DERM has been tested on images of skin lesions that represent the population of patients and lesions it may be used on. These images were collected in powered prospective studies run in the UK, US, and Italy.",
+          "answer_relevancy": 0.26622215340034866,
+          "status": "evaluated",
+          "error_message": null
+        },
+        {
+          "card_id": "skinanalytics-auto-eval-2",
+          "card_type": "auto",
+          "section": "Development and Performance",
+          "sub_question_id": "dev_validation",
+          "question": "How was the model developed and validated?",
+          "response": "Model Development & Validation: Description: DERM, a Class III CE-marked AI as a Medical Device, employs AI-based algorithms for skin lesion analysis. It was developed in accordance with Skin Analytics’ ISO 13485:2016 certified Quality Management System and fulfills provisions of UK Medical Device Regulation 2002, EU Medical Device Regulation 2017/745, and New Zealand Medicines Regulations 2003.\n\nClinical Trial: Description: DERM has been tested in powered prospective studies run in the UK, US, and Italy, using images of skin lesions representative of the patient population and lesions for which the device is intended.",
+          "answer_relevancy": 0.49008895004507264,
+          "status": "evaluated",
+          "error_message": null
+        },
+        {
+          "card_id": "skinanalytics-auto-eval-2",
+          "card_type": "auto",
+          "section": "Development and Performance",
+          "sub_question_id": "dev_performance",
+          "question": "How well does the model perform?",
+          "response": "Performance: Summary: DERM demonstrates a 99.9% Negative Predictive Value accuracy rate for ruling out melanoma and performs at or above the level of specialists. It helps avoid urgent suspected cancer referrals for 60-70% of patients in pre-referral sites, with 35-50% being routed towards discharge. In secondary care, it avoids up to 95% of face-to-face USCRs.\nMetrics:\n  Name: Negative Predictive Value\n  Value: 99.9%\n  Population: Melanoma",
+          "answer_relevancy": 0.2933191087879546,
+          "status": "evaluated",
+          "error_message": null
+        }
+      ],
+      "evaluated_sub_questions": 4,
+      "missing_sub_questions": 0,
+      "error_sub_questions": 0
+    },
+    {
+      "card_id": "skinanalytics-auto-eval-2",
+      "card_type": "auto",
+      "section": "Governance and Monitoring",
+      "question": "How will the model be monitored and updated, and how can users report concerns or problems?",
+      "response": "Plans for Ongoing Monitoring: DERM undergoes post-market surveillance to ensure its performance remains at or above the level of specialists.\n\nScheduled Updates: The information contained in the Instructions for Use is subject to change, and revisions or additions may be issued, but no specific update schedule is provided.\n\nLast Updated / Current Version: 2026-07-25\n\nVersion: Issue 13\n\nInquiries / Report an Issue: Email: support@skinanalytics.co.uk\nUrl: https://skin-analytics.com/",
+      "answer_relevancy": 0.569717282961803,
+      "status": "evaluated",
+      "error_message": null,
+      "sub_questions": [
+        {
+          "card_id": "skinanalytics-auto-eval-2",
+          "card_type": "auto",
+          "section": "Governance and Monitoring",
+          "sub_question_id": "gov_monitoring",
+          "question": "How will the model be monitored on an ongoing basis?",
+          "response": "Plans for Ongoing Monitoring: DERM undergoes post-market surveillance to ensure its performance remains at or above the level of specialists.",
+          "answer_relevancy": 0.5417219452187443,
+          "status": "evaluated",
+          "error_message": null
+        },
+        {
+          "card_id": "skinanalytics-auto-eval-2",
+          "card_type": "auto",
+          "section": "Governance and Monitoring",
+          "sub_question_id": "gov_updates",
+          "question": "How and when will the model be updated?",
+          "response": "Scheduled Updates: The information contained in the Instructions for Use is subject to change, and revisions or additions may be issued, but no specific update schedule is provided.\n\nLast Updated / Current Version: 2026-07-25\n\nVersion: Issue 13",
+          "answer_relevancy": 0.464109848032401,
+          "status": "evaluated",
+          "error_message": null
+        },
+        {
+          "card_id": "skinanalytics-auto-eval-2",
+          "card_type": "auto",
+          "section": "Governance and Monitoring",
+          "sub_question_id": "gov_contact",
+          "question": "How can users report concerns or problems?",
+          "response": "Inquiries / Report an Issue: Email: support@skinanalytics.co.uk\nUrl: https://skin-analytics.com/",
+          "answer_relevancy": 0.7033200556342636,
+          "status": "evaluated",
+          "error_message": null
+        }
+      ],
+      "evaluated_sub_questions": 3,
+      "missing_sub_questions": 0,
+      "error_sub_questions": 0
+    }
+  ],
+  "summary": {
+    "card_id": "skinanalytics-auto-eval-2",
+    "card_type": "auto",
+    "expected_sections": 6,
+    "evaluated_sections": 6,
+    "missing_sections": 0,
+    "error_sections": 0,
+    "mean_answer_relevancy": 0.44913151336442453,
+    "std_answer_relevancy": 0.10848480327136885,
+    "min_answer_relevancy": 0.25614610096403284,
+    "max_answer_relevancy": 0.569717282961803
+  }
+}

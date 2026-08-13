@@ -41,6 +41,8 @@ aad-model-card-generator/
 │   └── swg_intake_field_map.yml
 ├── scripts/                          # Standalone utilities
 ├── ragas_eval/                       # RAGAS evaluation tooling
+│   ├── framework_ragas_evaluator.py  # Manual+Auto framework answer relevancy
+│   └── FRAMEWORK_RAGAS_README.md     # Framework RAGAS usage notes
 ├── docs/
 ├── run_app.py                        # Web vs terminal launcher
 ├── terminal_app.py                   # CLI entry point
@@ -148,6 +150,7 @@ python test_updates.py
 - [Selenium Integration](SELENIUM_BEAUTIFULSOUP_INTEGRATION.md) — scraper fallback behavior
 - [Caching System](../CACHING_SYSTEM_README.md) — cache layout and inspector usage
 - [Scoring System](../SCORING_SYSTEM_README.md) — model card quality scoring
+- [Framework RAGAS](../ragas_eval/FRAMEWORK_RAGAS_README.md) — Manual+Auto answer relevancy vs framework questions (separate from FActScore / SourceCheckup)
 
 ## Contributing
 

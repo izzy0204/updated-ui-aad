@@ -1,0 +1,21 @@
+card_id,card_type,section,question,response,answer_relevancy,status,error_message,evaluated_sub_questions,missing_sub_questions,error_sub_questions
+skinvision-auto-eval-2,auto,Metadata,"What is the model, who developed it, what is its regulatory status, and is it currently available?","Model Name: Skin Vision
+
+Summary: SkinVision is a health technology company focused on increasing access to skin health awareness and care. It supports individuals in becoming more aware of their skin over time, helping them take a more active role in their health journey. The service is currently not available in the United States, pending regulatory clearance.
+
+Developer: SkinVision
+
+Regulatory Approval Status: UNKNOWN",0.4703475227995348,evaluated,,3,1,0
+skinvision-auto-eval-2,auto,Intended Use,"What is this model used for, who should use it, what patients is it intended for, and what role does it have in clinical decisions?","Medical Purpose: To increase access to skin health awareness and care, and to support individuals in becoming more aware of their skin over time.
+
+Intended Users: Individuals seeking to increase their awareness and understanding of their skin health.
+
+Target Patient Population: The target patient population includes individuals and people seeking to increase their skin health awareness and care, become more aware of their skin over time, and take a more active role in their health journey.
+
+Role in Decision-Making: To help individuals take a more active role in their skin health journey by increasing awareness and accessibility to information.",0.44174987638598245,evaluated,,4,0,0
+skinvision-auto-eval-2,auto,Inputs and Outputs,"What information does the model take as input, what does it produce, and how should the output be interpreted?",,,missing,,0,3,0
+skinvision-auto-eval-2,auto,Risks and Limitations,"When should clinicians not rely on this model, and what limitations, failure modes, unsupported uses, or required oversight should they know about?",Known Performance Limitations: SkinVision is not yet available in the United States; U.S. availability is subject to FDA authorization and U.S. launch is planned pending applicable regulatory clearance.,0.17281104524978294,evaluated,,1,3,0
+skinvision-auto-eval-2,auto,Development and Performance,"How was the model developed and validated, what data were used, and how well does it perform?","Model Development & Validation: Description: The company collaborates with medical experts, researchers, and leading institutions, including Mayo Clinic, for ongoing research and development in digital health.",0.6575460022747066,evaluated,,1,3,0
+skinvision-auto-eval-2,auto,Governance and Monitoring,"How will the model be monitored and updated, and how can users report concerns or problems?","Last Updated / Current Version: 2026-07-25
+
+Inquiries / Report an Issue: Url: https://www.skinvision.com/en-us",0.46604142844823715,evaluated,,2,1,0

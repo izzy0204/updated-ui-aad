@@ -1,0 +1,351 @@
+{
+  "card_id": "dermgpt-manual-eval-2",
+  "card_type": "manual",
+  "card_path": "/tmp/mc_manual_fw/dermgpt-manual-eval-2.clinical.json",
+  "sections": [
+    {
+      "card_id": "dermgpt-manual-eval-2",
+      "card_type": "manual",
+      "section": "Metadata",
+      "question": "What is the model, who developed it, what is its regulatory status, and is it currently available?",
+      "response": "Model Name: DermGPT\n\nVersion: Not versioned; a learned language model based on dermatology knowledge from more than 3,000 peer-reviewed articles and texts, not a versioned software release.\n\nSummary: DermGPT is a dermatology-focused AI chatbot, developed by a board-certified dermatologist, that allows dermatologists and staff to ask natural-language questions and receive cited answers drawn from more than 3,000 peer-reviewed dermatology articles and texts. It is intended as a practice-management and knowledge-access assistant rather than a stand-alone clinical decision maker.\n\nDeveloper: Dr. Faranak \"Fara\" Kamangar MD, board-certified dermatologist, Department Chair, Palo Alto Medical Foundation.\n\nRegulatory Approval Status: NOT_AUTHORIZED_CONSUMER_TOOL\n\nAvailability: Available for anyone to use online.",
+      "answer_relevancy": 0.38114776800955075,
+      "status": "evaluated",
+      "error_message": null,
+      "sub_questions": [
+        {
+          "card_id": "dermgpt-manual-eval-2",
+          "card_type": "manual",
+          "section": "Metadata",
+          "sub_question_id": "metadata_model",
+          "question": "What is the model (name, version, and brief summary)?",
+          "response": "Model Name: DermGPT\n\nVersion: Not versioned; a learned language model based on dermatology knowledge from more than 3,000 peer-reviewed articles and texts, not a versioned software release.\n\nSummary: DermGPT is a dermatology-focused AI chatbot, developed by a board-certified dermatologist, that allows dermatologists and staff to ask natural-language questions and receive cited answers drawn from more than 3,000 peer-reviewed dermatology articles and texts. It is intended as a practice-management and knowledge-access assistant rather than a stand-alone clinical decision maker.",
+          "answer_relevancy": 0.1589222641511509,
+          "status": "evaluated",
+          "error_message": null
+        },
+        {
+          "card_id": "dermgpt-manual-eval-2",
+          "card_type": "manual",
+          "section": "Metadata",
+          "sub_question_id": "metadata_developer",
+          "question": "Who developed this model?",
+          "response": "Developer: Dr. Faranak \"Fara\" Kamangar MD, board-certified dermatologist, Department Chair, Palo Alto Medical Foundation.",
+          "answer_relevancy": 0.38508989348656736,
+          "status": "evaluated",
+          "error_message": null
+        },
+        {
+          "card_id": "dermgpt-manual-eval-2",
+          "card_type": "manual",
+          "section": "Metadata",
+          "sub_question_id": "metadata_regulatory",
+          "question": "What is the model's regulatory approval status?",
+          "response": "Regulatory Approval Status: NOT_AUTHORIZED_CONSUMER_TOOL",
+          "answer_relevancy": 0.725029398550924,
+          "status": "evaluated",
+          "error_message": null
+        },
+        {
+          "card_id": "dermgpt-manual-eval-2",
+          "card_type": "manual",
+          "section": "Metadata",
+          "sub_question_id": "metadata_availability",
+          "question": "Is the model currently available, and where?",
+          "response": "Availability: Available for anyone to use online.",
+          "answer_relevancy": 0.25554951584956065,
+          "status": "evaluated",
+          "error_message": null
+        }
+      ],
+      "evaluated_sub_questions": 4,
+      "missing_sub_questions": 0,
+      "error_sub_questions": 0
+    },
+    {
+      "card_id": "dermgpt-manual-eval-2",
+      "card_type": "manual",
+      "section": "Intended Use",
+      "question": "What is this model used for, who should use it, what patients is it intended for, and what role does it have in clinical decisions?",
+      "response": "Medical Purpose: Simplify everyday administrative tasks associated with dermatology practice management and improve access to dermatology knowledge, as an assistant rather than a stand-alone decision maker; does not replace medical care or clinical decision-making.\n\nIntended Users: Dermatologists and dermatology practice staff (RNs, MAs, ancillary staff), as well as medical students, residents, and researchers. No specialized technical knowledge is required; preferred use is by medical professionals, though the developer notes users should proofread all AI-generated content for accuracy.\n\nTarget Patient Population: Not applicable to patients directly; intended for use by medical professionals rather than for a specific patient population.\n\nRole in Decision-Making: A complementary tool rather than a sole decision-maker; the full underlying dataset is not fully disclosed, so healthcare professionals should continue independent clinical judgment to mitigate potential bias.",
+      "answer_relevancy": 0.49934157453344585,
+      "status": "evaluated",
+      "error_message": null,
+      "sub_questions": [
+        {
+          "card_id": "dermgpt-manual-eval-2",
+          "card_type": "manual",
+          "section": "Intended Use",
+          "sub_question_id": "intended_purpose",
+          "question": "What is this model used for (medical purpose)?",
+          "response": "Medical Purpose: Simplify everyday administrative tasks associated with dermatology practice management and improve access to dermatology knowledge, as an assistant rather than a stand-alone decision maker; does not replace medical care or clinical decision-making.",
+          "answer_relevancy": 0.371173812041095,
+          "status": "evaluated",
+          "error_message": null
+        },
+        {
+          "card_id": "dermgpt-manual-eval-2",
+          "card_type": "manual",
+          "section": "Intended Use",
+          "sub_question_id": "intended_users",
+          "question": "Who should use this model?",
+          "response": "Intended Users: Dermatologists and dermatology practice staff (RNs, MAs, ancillary staff), as well as medical students, residents, and researchers. No specialized technical knowledge is required; preferred use is by medical professionals, though the developer notes users should proofread all AI-generated content for accuracy.",
+          "answer_relevancy": 0.3981257135753439,
+          "status": "evaluated",
+          "error_message": null
+        },
+        {
+          "card_id": "dermgpt-manual-eval-2",
+          "card_type": "manual",
+          "section": "Intended Use",
+          "sub_question_id": "intended_patients",
+          "question": "What patients is this model intended for?",
+          "response": "Target Patient Population: Not applicable to patients directly; intended for use by medical professionals rather than for a specific patient population.",
+          "answer_relevancy": 0.6195675948167536,
+          "status": "evaluated",
+          "error_message": null
+        },
+        {
+          "card_id": "dermgpt-manual-eval-2",
+          "card_type": "manual",
+          "section": "Intended Use",
+          "sub_question_id": "intended_role",
+          "question": "What role does this model have in clinical decisions?",
+          "response": "Role in Decision-Making: A complementary tool rather than a sole decision-maker; the full underlying dataset is not fully disclosed, so healthcare professionals should continue independent clinical judgment to mitigate potential bias.",
+          "answer_relevancy": 0.6084991777005909,
+          "status": "evaluated",
+          "error_message": null
+        }
+      ],
+      "evaluated_sub_questions": 4,
+      "missing_sub_questions": 0,
+      "error_sub_questions": 0
+    },
+    {
+      "card_id": "dermgpt-manual-eval-2",
+      "card_type": "manual",
+      "section": "Inputs and Outputs",
+      "question": "What information does the model take as input, what does it produce, and how should the output be interpreted?",
+      "response": "Acceptable Input: Natural-language prompts entered into the web chat app, e.g. questions about diagnoses, treatments, prior authorization letters, or differential diagnosis for a described presentation.\n\nOutput: Natural-language text answers with citations, drawn from a learned language model trained on more than 3,000 peer-reviewed dermatology articles and texts; outputs include text-based answers, patient handouts, and authorization letters.",
+      "answer_relevancy": 0.40474549110706554,
+      "status": "evaluated",
+      "error_message": null,
+      "sub_questions": [
+        {
+          "card_id": "dermgpt-manual-eval-2",
+          "card_type": "manual",
+          "section": "Inputs and Outputs",
+          "sub_question_id": "io_input",
+          "question": "What information does the model take as input?",
+          "response": "Acceptable Input: Natural-language prompts entered into the web chat app, e.g. questions about diagnoses, treatments, prior authorization letters, or differential diagnosis for a described presentation.",
+          "answer_relevancy": 0.2106603534901741,
+          "status": "evaluated",
+          "error_message": null
+        },
+        {
+          "card_id": "dermgpt-manual-eval-2",
+          "card_type": "manual",
+          "section": "Inputs and Outputs",
+          "sub_question_id": "io_output",
+          "question": "What does the model produce as output?",
+          "response": "Output: Natural-language text answers with citations, drawn from a learned language model trained on more than 3,000 peer-reviewed dermatology articles and texts; outputs include text-based answers, patient handouts, and authorization letters.",
+          "answer_relevancy": 0.5006584569019231,
+          "status": "evaluated",
+          "error_message": null
+        },
+        {
+          "card_id": "dermgpt-manual-eval-2",
+          "card_type": "manual",
+          "section": "Inputs and Outputs",
+          "sub_question_id": "io_interpretation",
+          "question": "How should the model's output be interpreted?",
+          "response": "Output: Natural-language text answers with citations, drawn from a learned language model trained on more than 3,000 peer-reviewed dermatology articles and texts; outputs include text-based answers, patient handouts, and authorization letters.",
+          "answer_relevancy": 0.5029176629290993,
+          "status": "evaluated",
+          "error_message": null
+        }
+      ],
+      "evaluated_sub_questions": 3,
+      "missing_sub_questions": 0,
+      "error_sub_questions": 0
+    },
+    {
+      "card_id": "dermgpt-manual-eval-2",
+      "card_type": "manual",
+      "section": "Risks and Limitations",
+      "question": "When should clinicians not rely on this model, and what limitations, failure modes, unsupported uses, or required oversight should they know about?",
+      "response": "Known Performance Limitations: Not a substitute for professional medical advice; limited to its database of peer-reviewed publications; like all AI tools, lacks human creativity and intuition and is most effective when paired with a dermatology provider or staff who complement it with higher-level clinical judgment.\n\nSkin Type Representation & Equity: Not specified; the underlying peer-reviewed literature dataset's representativeness across skin tones/ethnicities has not been disclosed, so it is unclear whether the training corpus is inclusive of people of color.\n\nRequired Clinician Oversight: No formal clinician oversight requirement, as this is an informational AI chatbot rather than a diagnostic device; standard risks apply, including potential for incorrect medical advice and bias if underlying literature is not inclusive. Users are advised to proofread all AI-generated content.\n\nLimitations in Evaluating Performance: The full training dataset is not fully disclosed, so it is unknown whether the peer-reviewed literature used is representative of the entire patient population; no independent validation has been published; reported time-savings are anecdotal/developer-reported.",
+      "answer_relevancy": 0.5439647840857321,
+      "status": "evaluated",
+      "error_message": null,
+      "sub_questions": [
+        {
+          "card_id": "dermgpt-manual-eval-2",
+          "card_type": "manual",
+          "section": "Risks and Limitations",
+          "sub_question_id": "risks_limitations",
+          "question": "What performance limitations, failure modes, or unsupported uses should clinicians know about?",
+          "response": "Known Performance Limitations: Not a substitute for professional medical advice; limited to its database of peer-reviewed publications; like all AI tools, lacks human creativity and intuition and is most effective when paired with a dermatology provider or staff who complement it with higher-level clinical judgment.",
+          "answer_relevancy": 0.5607698351524832,
+          "status": "evaluated",
+          "error_message": null
+        },
+        {
+          "card_id": "dermgpt-manual-eval-2",
+          "card_type": "manual",
+          "section": "Risks and Limitations",
+          "sub_question_id": "risks_equity",
+          "question": "What skin-type representation or equity limitations should clinicians know about?",
+          "response": "Skin Type Representation & Equity: Not specified; the underlying peer-reviewed literature dataset's representativeness across skin tones/ethnicities has not been disclosed, so it is unclear whether the training corpus is inclusive of people of color.",
+          "answer_relevancy": 0.3252993156303863,
+          "status": "evaluated",
+          "error_message": null
+        },
+        {
+          "card_id": "dermgpt-manual-eval-2",
+          "card_type": "manual",
+          "section": "Risks and Limitations",
+          "sub_question_id": "risks_oversight",
+          "question": "What clinician oversight is required when using this model?",
+          "response": "Required Clinician Oversight: No formal clinician oversight requirement, as this is an informational AI chatbot rather than a diagnostic device; standard risks apply, including potential for incorrect medical advice and bias if underlying literature is not inclusive. Users are advised to proofread all AI-generated content.",
+          "answer_relevancy": 0.6432703441359211,
+          "status": "evaluated",
+          "error_message": null
+        },
+        {
+          "card_id": "dermgpt-manual-eval-2",
+          "card_type": "manual",
+          "section": "Risks and Limitations",
+          "sub_question_id": "risks_eval_limits",
+          "question": "What limitations exist in how this model's performance was evaluated?",
+          "response": "Limitations in Evaluating Performance: The full training dataset is not fully disclosed, so it is unknown whether the peer-reviewed literature used is representative of the entire patient population; no independent validation has been published; reported time-savings are anecdotal/developer-reported.",
+          "answer_relevancy": 0.6465196414241379,
+          "status": "evaluated",
+          "error_message": null
+        }
+      ],
+      "evaluated_sub_questions": 4,
+      "missing_sub_questions": 0,
+      "error_sub_questions": 0
+    },
+    {
+      "card_id": "dermgpt-manual-eval-2",
+      "card_type": "manual",
+      "section": "Development and Performance",
+      "question": "How was the model developed and validated, what data were used, and how well does it perform?",
+      "response": "Model Type: Informative large language model (LLM) trained on dermatology literature.\n\nTraining Data: Description: Trained on dermatology knowledge from more than 3,000 peer-reviewed articles and texts, including medical literature, clinical trials/studies, drug formulary information, expert consensus/reviews, and educational resources; full dataset composition is not fully disclosed.\n\nModel Development & Validation: Description: Developed using peer-reviewed dermatology literature and other published sources; no independent validation study identified.\n\nPerformance: Summary: Developer-reported: in the developer's own practice, DermGPT saved approximately 30-60 minutes per day previously spent on EHR documentation, allowing clinic days to finish earlier; no independent, peer-reviewed performance studies identified.",
+      "answer_relevancy": 0.510575736599426,
+      "status": "evaluated",
+      "error_message": null,
+      "sub_questions": [
+        {
+          "card_id": "dermgpt-manual-eval-2",
+          "card_type": "manual",
+          "section": "Development and Performance",
+          "sub_question_id": "dev_model_type",
+          "question": "What type of model or technology is this?",
+          "response": "Model Type: Informative large language model (LLM) trained on dermatology literature.",
+          "answer_relevancy": 0.6044082287355582,
+          "status": "evaluated",
+          "error_message": null
+        },
+        {
+          "card_id": "dermgpt-manual-eval-2",
+          "card_type": "manual",
+          "section": "Development and Performance",
+          "sub_question_id": "dev_data",
+          "question": "What data were used to develop or train this model?",
+          "response": "Training Data: Description: Trained on dermatology knowledge from more than 3,000 peer-reviewed articles and texts, including medical literature, clinical trials/studies, drug formulary information, expert consensus/reviews, and educational resources; full dataset composition is not fully disclosed.",
+          "answer_relevancy": 0.5244691244819151,
+          "status": "evaluated",
+          "error_message": null
+        },
+        {
+          "card_id": "dermgpt-manual-eval-2",
+          "card_type": "manual",
+          "section": "Development and Performance",
+          "sub_question_id": "dev_validation",
+          "question": "How was the model developed and validated?",
+          "response": "Model Development & Validation: Description: Developed using peer-reviewed dermatology literature and other published sources; no independent validation study identified.",
+          "answer_relevancy": 0.6502148508032161,
+          "status": "evaluated",
+          "error_message": null
+        },
+        {
+          "card_id": "dermgpt-manual-eval-2",
+          "card_type": "manual",
+          "section": "Development and Performance",
+          "sub_question_id": "dev_performance",
+          "question": "How well does the model perform?",
+          "response": "Performance: Summary: Developer-reported: in the developer's own practice, DermGPT saved approximately 30-60 minutes per day previously spent on EHR documentation, allowing clinic days to finish earlier; no independent, peer-reviewed performance studies identified.",
+          "answer_relevancy": 0.2632107423770148,
+          "status": "evaluated",
+          "error_message": null
+        }
+      ],
+      "evaluated_sub_questions": 4,
+      "missing_sub_questions": 0,
+      "error_sub_questions": 0
+    },
+    {
+      "card_id": "dermgpt-manual-eval-2",
+      "card_type": "manual",
+      "section": "Governance and Monitoring",
+      "question": "How will the model be monitored and updated, and how can users report concerns or problems?",
+      "response": "Plans for Ongoing Monitoring: Continuously updated and improved by the developer, intended to remain current with new dermatology literature.\n\nScheduled Updates: Continuous updates per the developer; no fixed schedule disclosed.\n\nLast Updated / Current Version: 2026-07-25\n\nVersion: Not versioned; a learned language model based on dermatology knowledge from more than 3,000 peer-reviewed articles and texts, not a versioned software release.",
+      "answer_relevancy": 0.5625517643458209,
+      "status": "evaluated",
+      "error_message": null,
+      "sub_questions": [
+        {
+          "card_id": "dermgpt-manual-eval-2",
+          "card_type": "manual",
+          "section": "Governance and Monitoring",
+          "sub_question_id": "gov_monitoring",
+          "question": "How will the model be monitored on an ongoing basis?",
+          "response": "Plans for Ongoing Monitoring: Continuously updated and improved by the developer, intended to remain current with new dermatology literature.",
+          "answer_relevancy": 0.577928825768444,
+          "status": "evaluated",
+          "error_message": null
+        },
+        {
+          "card_id": "dermgpt-manual-eval-2",
+          "card_type": "manual",
+          "section": "Governance and Monitoring",
+          "sub_question_id": "gov_updates",
+          "question": "How and when will the model be updated?",
+          "response": "Scheduled Updates: Continuous updates per the developer; no fixed schedule disclosed.\n\nLast Updated / Current Version: 2026-07-25\n\nVersion: Not versioned; a learned language model based on dermatology knowledge from more than 3,000 peer-reviewed articles and texts, not a versioned software release.",
+          "answer_relevancy": 0.5471747029231979,
+          "status": "evaluated",
+          "error_message": null
+        },
+        {
+          "card_id": "dermgpt-manual-eval-2",
+          "card_type": "manual",
+          "section": "Governance and Monitoring",
+          "sub_question_id": "gov_contact",
+          "question": "How can users report concerns or problems?",
+          "response": null,
+          "answer_relevancy": null,
+          "status": "missing",
+          "error_message": null
+        }
+      ],
+      "evaluated_sub_questions": 2,
+      "missing_sub_questions": 1,
+      "error_sub_questions": 0
+    }
+  ],
+  "summary": {
+    "card_id": "dermgpt-manual-eval-2",
+    "card_type": "manual",
+    "expected_sections": 6,
+    "evaluated_sections": 6,
+    "missing_sections": 0,
+    "error_sections": 0,
+    "mean_answer_relevancy": 0.4837211864468402,
+    "std_answer_relevancy": 0.07425251656415432,
+    "min_answer_relevancy": 0.38114776800955075,
+    "max_answer_relevancy": 0.5625517643458209
+  }
+}

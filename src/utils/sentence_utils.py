@@ -9,13 +9,25 @@ from typing import List
 _PLACEHOLDER_PREFIX = "\x00SENT"
 _PLACEHOLDER_SUFFIX = "\x00"
 
-_PROTECTED_PATTERNS: List[re.Pattern[str]] = [
+# Abbreviations where a following capital is often a real new sentence (e.g. "U.S. Then…").
+_BOUNDARY_ABBREV_PATTERNS: List[re.Pattern[str]] = [
     re.compile(r"\bU\.S\.", re.I),
     re.compile(r"\be\.g\.", re.I),
     re.compile(r"\bet al\.", re.I),
-    re.compile(r"\bDr\.", re.I),
     re.compile(r"\bvs\.", re.I),
     re.compile(r"\betc\.", re.I),
+]
+
+# Honorifics / titles: never treat the period as a sentence boundary ("Dr. Faranak…").
+_TITLE_ABBREV_PATTERNS: List[re.Pattern[str]] = [
+    re.compile(r"\bDr\.", re.I),
+    re.compile(r"\bMr\.", re.I),
+    re.compile(r"\bMrs\.", re.I),
+    re.compile(r"\bMs\.", re.I),
+    re.compile(r"\bProf\.", re.I),
+]
+
+_OTHER_PROTECTED_PATTERNS: List[re.Pattern[str]] = [
     re.compile(r"\d+\.\d+%"),  # e.g. 95.5%
     re.compile(r"\d+\.\d+"),  # decimal values
     re.compile(r"https?://[^\s]+", re.I),
@@ -29,16 +41,21 @@ def _protect_spans(text: str) -> tuple[str, List[str]]:
     protected: List[str] = []
     out = text
 
-    def _repl(m: re.Match[str]) -> str:
+    def _repl(m: re.Match[str], *, keep_boundary: bool) -> str:
         idx = len(protected)
         val = m.group(0)
         protected.append(val)
-        # Preserve sentence boundary after abbreviations like U.S.
-        suffix = "." if val.rstrip().endswith(".") else ""
+        # For U.S./e.g./etc., re-add a period so a following capital can still end a sentence.
+        # Do not do this for Dr./Mr./… or the honorific becomes "Dr.." and falsely splits.
+        suffix = "." if keep_boundary and val.rstrip().endswith(".") else ""
         return f"{_PLACEHOLDER_PREFIX}{idx}{_PLACEHOLDER_SUFFIX}{suffix}"
 
-    for pat in _PROTECTED_PATTERNS:
-        out = pat.sub(_repl, out)
+    for pat in _TITLE_ABBREV_PATTERNS:
+        out = pat.sub(lambda m: _repl(m, keep_boundary=False), out)
+    for pat in _BOUNDARY_ABBREV_PATTERNS:
+        out = pat.sub(lambda m: _repl(m, keep_boundary=True), out)
+    for pat in _OTHER_PROTECTED_PATTERNS:
+        out = pat.sub(lambda m: _repl(m, keep_boundary=False), out)
     return out, protected
 
 

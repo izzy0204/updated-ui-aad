@@ -1,0 +1,351 @@
+{
+  "card_id": "tandem-auto-eval-2",
+  "card_type": "auto",
+  "card_path": "/tmp/mc_auto_fw/tandem-auto-eval-2.clinical.json",
+  "sections": [
+    {
+      "card_id": "tandem-auto-eval-2",
+      "card_type": "auto",
+      "section": "Metadata",
+      "question": "What is the model, who developed it, what is its regulatory status, and is it currently available?",
+      "response": "Model Name: Forus\n\nSummary: Forus is an AI-powered platform embedded into EHR workflows that automates prior authorizations, appeals, financial assistance, and pharmacy routing. It takes prescription and patient information as input to provide comprehensive support for medication access. The platform's role is to accelerate time to therapy and ensure patients receive their prescribed treatments.\n\nDeveloper: Forus (formerly Tandem Technology, Inc.)\n\nRegulatory Approval Status: UNKNOWN",
+      "answer_relevancy": 0.4676805942010824,
+      "status": "evaluated",
+      "error_message": null,
+      "sub_questions": [
+        {
+          "card_id": "tandem-auto-eval-2",
+          "card_type": "auto",
+          "section": "Metadata",
+          "sub_question_id": "metadata_model",
+          "question": "What is the model (name, version, and brief summary)?",
+          "response": "Model Name: Forus\n\nSummary: Forus is an AI-powered platform embedded into EHR workflows that automates prior authorizations, appeals, financial assistance, and pharmacy routing. It takes prescription and patient information as input to provide comprehensive support for medication access. The platform's role is to accelerate time to therapy and ensure patients receive their prescribed treatments.",
+          "answer_relevancy": 0.25818797832155277,
+          "status": "evaluated",
+          "error_message": null
+        },
+        {
+          "card_id": "tandem-auto-eval-2",
+          "card_type": "auto",
+          "section": "Metadata",
+          "sub_question_id": "metadata_developer",
+          "question": "Who developed this model?",
+          "response": "Developer: Forus (formerly Tandem Technology, Inc.)",
+          "answer_relevancy": 0.2966789278085053,
+          "status": "evaluated",
+          "error_message": null
+        },
+        {
+          "card_id": "tandem-auto-eval-2",
+          "card_type": "auto",
+          "section": "Metadata",
+          "sub_question_id": "metadata_regulatory",
+          "question": "What is the model's regulatory approval status?",
+          "response": "Regulatory Approval Status: UNKNOWN",
+          "answer_relevancy": 0.8481748764731891,
+          "status": "evaluated",
+          "error_message": null
+        },
+        {
+          "card_id": "tandem-auto-eval-2",
+          "card_type": "auto",
+          "section": "Metadata",
+          "sub_question_id": "metadata_availability",
+          "question": "Is the model currently available, and where?",
+          "response": null,
+          "answer_relevancy": null,
+          "status": "missing",
+          "error_message": null
+        }
+      ],
+      "evaluated_sub_questions": 3,
+      "missing_sub_questions": 1,
+      "error_sub_questions": 0
+    },
+    {
+      "card_id": "tandem-auto-eval-2",
+      "card_type": "auto",
+      "section": "Intended Use",
+      "question": "What is this model used for, who should use it, what patients is it intended for, and what role does it have in clinical decisions?",
+      "response": "Medical Purpose: To accelerate and simplify patient access to prescribed medications by automating administrative processes such as prior authorizations, appeals, financial assistance, and pharmacy routing across all drugs, insurance plans, and pharmacies nationwide.\n\nIntended Users: The intended users are clinicians (doctors, medical practices, health systems), pharmacies, payers, and biopharma companies. Clinicians use it to manage prescription access for their patients.\n\nTarget Patient Population: The platform supports millions of patients annually across various specialties, including those with digestive diseases and dermatology conditions such as acne, eczema, and psoriasis.\n\nRole in Decision-Making: Forus assists clinicians by automating administrative tasks and providing clear, proactive information about the medication access path, thereby giving doctors confidence to prescribe effective treatments and manage the process more efficiently.",
+      "answer_relevancy": 0.5171673176543865,
+      "status": "evaluated",
+      "error_message": null,
+      "sub_questions": [
+        {
+          "card_id": "tandem-auto-eval-2",
+          "card_type": "auto",
+          "section": "Intended Use",
+          "sub_question_id": "intended_purpose",
+          "question": "What is this model used for (medical purpose)?",
+          "response": "Medical Purpose: To accelerate and simplify patient access to prescribed medications by automating administrative processes such as prior authorizations, appeals, financial assistance, and pharmacy routing across all drugs, insurance plans, and pharmacies nationwide.",
+          "answer_relevancy": 0.4412599667019004,
+          "status": "evaluated",
+          "error_message": null
+        },
+        {
+          "card_id": "tandem-auto-eval-2",
+          "card_type": "auto",
+          "section": "Intended Use",
+          "sub_question_id": "intended_users",
+          "question": "Who should use this model?",
+          "response": "Intended Users: The intended users are clinicians (doctors, medical practices, health systems), pharmacies, payers, and biopharma companies. Clinicians use it to manage prescription access for their patients.",
+          "answer_relevancy": 0.5175725557309246,
+          "status": "evaluated",
+          "error_message": null
+        },
+        {
+          "card_id": "tandem-auto-eval-2",
+          "card_type": "auto",
+          "section": "Intended Use",
+          "sub_question_id": "intended_patients",
+          "question": "What patients is this model intended for?",
+          "response": "Target Patient Population: The platform supports millions of patients annually across various specialties, including those with digestive diseases and dermatology conditions such as acne, eczema, and psoriasis.",
+          "answer_relevancy": 0.5517002899784507,
+          "status": "evaluated",
+          "error_message": null
+        },
+        {
+          "card_id": "tandem-auto-eval-2",
+          "card_type": "auto",
+          "section": "Intended Use",
+          "sub_question_id": "intended_role",
+          "question": "What role does this model have in clinical decisions?",
+          "response": "Role in Decision-Making: Forus assists clinicians by automating administrative tasks and providing clear, proactive information about the medication access path, thereby giving doctors confidence to prescribe effective treatments and manage the process more efficiently.",
+          "answer_relevancy": 0.5581364582062702,
+          "status": "evaluated",
+          "error_message": null
+        }
+      ],
+      "evaluated_sub_questions": 4,
+      "missing_sub_questions": 0,
+      "error_sub_questions": 0
+    },
+    {
+      "card_id": "tandem-auto-eval-2",
+      "card_type": "auto",
+      "section": "Inputs and Outputs",
+      "question": "What information does the model take as input, what does it produce, and how should the output be interpreted?",
+      "response": "Acceptable Input: The platform integrates with electronic health record (EHR) systems and physician workflows to accept prescription information and patient data.\n\nOutput: Automated insurance authorizations, generated appeal letters, identification of financial assistance programs, optimized pharmacy routing, coverage checks for insurance and out-of-pocket costs, cost-saving options like coupons, and real-time updates for patients and providers.",
+      "answer_relevancy": 0.32992552005988934,
+      "status": "evaluated",
+      "error_message": null,
+      "sub_questions": [
+        {
+          "card_id": "tandem-auto-eval-2",
+          "card_type": "auto",
+          "section": "Inputs and Outputs",
+          "sub_question_id": "io_input",
+          "question": "What information does the model take as input?",
+          "response": "Acceptable Input: The platform integrates with electronic health record (EHR) systems and physician workflows to accept prescription information and patient data.",
+          "answer_relevancy": 0.3171023694111104,
+          "status": "evaluated",
+          "error_message": null
+        },
+        {
+          "card_id": "tandem-auto-eval-2",
+          "card_type": "auto",
+          "section": "Inputs and Outputs",
+          "sub_question_id": "io_output",
+          "question": "What does the model produce as output?",
+          "response": "Output: Automated insurance authorizations, generated appeal letters, identification of financial assistance programs, optimized pharmacy routing, coverage checks for insurance and out-of-pocket costs, cost-saving options like coupons, and real-time updates for patients and providers.",
+          "answer_relevancy": 0.3848924377367719,
+          "status": "evaluated",
+          "error_message": null
+        },
+        {
+          "card_id": "tandem-auto-eval-2",
+          "card_type": "auto",
+          "section": "Inputs and Outputs",
+          "sub_question_id": "io_interpretation",
+          "question": "How should the model's output be interpreted?",
+          "response": "Output: Automated insurance authorizations, generated appeal letters, identification of financial assistance programs, optimized pharmacy routing, coverage checks for insurance and out-of-pocket costs, cost-saving options like coupons, and real-time updates for patients and providers.",
+          "answer_relevancy": 0.28778175303178577,
+          "status": "evaluated",
+          "error_message": null
+        }
+      ],
+      "evaluated_sub_questions": 3,
+      "missing_sub_questions": 0,
+      "error_sub_questions": 0
+    },
+    {
+      "card_id": "tandem-auto-eval-2",
+      "card_type": "auto",
+      "section": "Risks and Limitations",
+      "question": "When should clinicians not rely on this model, and what limitations, failure modes, unsupported uses, or required oversight should they know about?",
+      "response": "Required Clinician Oversight: Clinicians need to oversee the access path, understanding what was submitted, payer responses, outstanding items, and next steps to ensure confidence and accuracy in the process.",
+      "answer_relevancy": 0.674810104657208,
+      "status": "evaluated",
+      "error_message": null,
+      "sub_questions": [
+        {
+          "card_id": "tandem-auto-eval-2",
+          "card_type": "auto",
+          "section": "Risks and Limitations",
+          "sub_question_id": "risks_limitations",
+          "question": "What performance limitations, failure modes, or unsupported uses should clinicians know about?",
+          "response": null,
+          "answer_relevancy": null,
+          "status": "missing",
+          "error_message": null
+        },
+        {
+          "card_id": "tandem-auto-eval-2",
+          "card_type": "auto",
+          "section": "Risks and Limitations",
+          "sub_question_id": "risks_equity",
+          "question": "What skin-type representation or equity limitations should clinicians know about?",
+          "response": null,
+          "answer_relevancy": null,
+          "status": "missing",
+          "error_message": null
+        },
+        {
+          "card_id": "tandem-auto-eval-2",
+          "card_type": "auto",
+          "section": "Risks and Limitations",
+          "sub_question_id": "risks_oversight",
+          "question": "What clinician oversight is required when using this model?",
+          "response": "Required Clinician Oversight: Clinicians need to oversee the access path, understanding what was submitted, payer responses, outstanding items, and next steps to ensure confidence and accuracy in the process.",
+          "answer_relevancy": 0.674810104657208,
+          "status": "evaluated",
+          "error_message": null
+        },
+        {
+          "card_id": "tandem-auto-eval-2",
+          "card_type": "auto",
+          "section": "Risks and Limitations",
+          "sub_question_id": "risks_eval_limits",
+          "question": "What limitations exist in how this model's performance was evaluated?",
+          "response": null,
+          "answer_relevancy": null,
+          "status": "missing",
+          "error_message": null
+        }
+      ],
+      "evaluated_sub_questions": 1,
+      "missing_sub_questions": 3,
+      "error_sub_questions": 0
+    },
+    {
+      "card_id": "tandem-auto-eval-2",
+      "card_type": "auto",
+      "section": "Development and Performance",
+      "question": "How was the model developed and validated, what data were used, and how well does it perform?",
+      "response": "Model Type: AI-powered automation platform.\n\nTraining Data: Description: The model leverages an AI-powered network to automate medication access processes across all drugs, insurance plans, and pharmacies nationwide.\n\nModel Development & Validation: Description: Forus (formerly Tandem) developed an AI-powered platform that connects doctors, pharmacies, payers, and biopharma to streamline medication access. It is embedded into physician workflows and supports every drug, payer, and pharmacy in the country.\n\nPerformance: Summary: Forus provider adoption grew 10x year-over-year for the last two years. The platform is used by thousands of medical practices and health systems in all 50 states, supporting millions of patients annually.",
+      "answer_relevancy": 0.3741532891799265,
+      "status": "evaluated",
+      "error_message": null,
+      "sub_questions": [
+        {
+          "card_id": "tandem-auto-eval-2",
+          "card_type": "auto",
+          "section": "Development and Performance",
+          "sub_question_id": "dev_model_type",
+          "question": "What type of model or technology is this?",
+          "response": "Model Type: AI-powered automation platform.",
+          "answer_relevancy": 0.6722049645870508,
+          "status": "evaluated",
+          "error_message": null
+        },
+        {
+          "card_id": "tandem-auto-eval-2",
+          "card_type": "auto",
+          "section": "Development and Performance",
+          "sub_question_id": "dev_data",
+          "question": "What data were used to develop or train this model?",
+          "response": "Training Data: Description: The model leverages an AI-powered network to automate medication access processes across all drugs, insurance plans, and pharmacies nationwide.",
+          "answer_relevancy": 0.33042672254439576,
+          "status": "evaluated",
+          "error_message": null
+        },
+        {
+          "card_id": "tandem-auto-eval-2",
+          "card_type": "auto",
+          "section": "Development and Performance",
+          "sub_question_id": "dev_validation",
+          "question": "How was the model developed and validated?",
+          "response": "Model Development & Validation: Description: Forus (formerly Tandem) developed an AI-powered platform that connects doctors, pharmacies, payers, and biopharma to streamline medication access. It is embedded into physician workflows and supports every drug, payer, and pharmacy in the country.",
+          "answer_relevancy": 0.28283374172367876,
+          "status": "evaluated",
+          "error_message": null
+        },
+        {
+          "card_id": "tandem-auto-eval-2",
+          "card_type": "auto",
+          "section": "Development and Performance",
+          "sub_question_id": "dev_performance",
+          "question": "How well does the model perform?",
+          "response": "Performance: Summary: Forus provider adoption grew 10x year-over-year for the last two years. The platform is used by thousands of medical practices and health systems in all 50 states, supporting millions of patients annually.",
+          "answer_relevancy": 0.21114772786458075,
+          "status": "evaluated",
+          "error_message": null
+        }
+      ],
+      "evaluated_sub_questions": 4,
+      "missing_sub_questions": 0,
+      "error_sub_questions": 0
+    },
+    {
+      "card_id": "tandem-auto-eval-2",
+      "card_type": "auto",
+      "section": "Governance and Monitoring",
+      "question": "How will the model be monitored and updated, and how can users report concerns or problems?",
+      "response": "Last Updated / Current Version: 2026-07-25\n\nInquiries / Report an Issue: Url: https://forus.com",
+      "answer_relevancy": 0.5679373163646455,
+      "status": "evaluated",
+      "error_message": null,
+      "sub_questions": [
+        {
+          "card_id": "tandem-auto-eval-2",
+          "card_type": "auto",
+          "section": "Governance and Monitoring",
+          "sub_question_id": "gov_monitoring",
+          "question": "How will the model be monitored on an ongoing basis?",
+          "response": null,
+          "answer_relevancy": null,
+          "status": "missing",
+          "error_message": null
+        },
+        {
+          "card_id": "tandem-auto-eval-2",
+          "card_type": "auto",
+          "section": "Governance and Monitoring",
+          "sub_question_id": "gov_updates",
+          "question": "How and when will the model be updated?",
+          "response": "Last Updated / Current Version: 2026-07-25",
+          "answer_relevancy": 0.4303119575348402,
+          "status": "evaluated",
+          "error_message": null
+        },
+        {
+          "card_id": "tandem-auto-eval-2",
+          "card_type": "auto",
+          "section": "Governance and Monitoring",
+          "sub_question_id": "gov_contact",
+          "question": "How can users report concerns or problems?",
+          "response": "Inquiries / Report an Issue: Url: https://forus.com",
+          "answer_relevancy": 0.7055626751944509,
+          "status": "evaluated",
+          "error_message": null
+        }
+      ],
+      "evaluated_sub_questions": 2,
+      "missing_sub_questions": 1,
+      "error_sub_questions": 0
+    }
+  ],
+  "summary": {
+    "card_id": "tandem-auto-eval-2",
+    "card_type": "auto",
+    "expected_sections": 6,
+    "evaluated_sections": 6,
+    "missing_sections": 0,
+    "error_sections": 0,
+    "mean_answer_relevancy": 0.4886123570195231,
+    "std_answer_relevancy": 0.12688417183160486,
+    "min_answer_relevancy": 0.32992552005988934,
+    "max_answer_relevancy": 0.674810104657208
+  }
+}

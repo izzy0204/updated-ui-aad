@@ -1,0 +1,351 @@
+{
+  "card_id": "skinvision-manual-eval-2",
+  "card_type": "manual",
+  "card_path": "/tmp/mc_manual_fw/skinvision-manual-eval-2.clinical.json",
+  "sections": [
+    {
+      "card_id": "skinvision-manual-eval-2",
+      "card_type": "manual",
+      "section": "Metadata",
+      "question": "What is the model, who developed it, what is its regulatory status, and is it currently available?",
+      "response": "Model Name: SkinVision\n\nVersion: SkinVision app version 6.0.\n\nSummary: SkinVision is an AI-powered mobile app that lets users photograph moles and skin lesions with a smartphone and receive a low/medium/high risk indication to support preventive self-monitoring and decisions about seeking a dermatologist. It combines a clinically validated convolutional neural network algorithm with dermatologist-reviewed training images, and is not intended to provide a diagnosis.\n\nDeveloper: SkinVision, founded in 2012 by Erik de Heus, headquartered in Amsterdam, the Netherlands.\n\nRegulatory Approval Status: CE_MARKED\n\nAvailability: Commercially available worldwide on iOS and Android, except the United States and Canada; over 1.2 million users globally with a database of 3.5 million lesion images.",
+      "answer_relevancy": 0.4232280567507997,
+      "status": "evaluated",
+      "error_message": null,
+      "sub_questions": [
+        {
+          "card_id": "skinvision-manual-eval-2",
+          "card_type": "manual",
+          "section": "Metadata",
+          "sub_question_id": "metadata_model",
+          "question": "What is the model (name, version, and brief summary)?",
+          "response": "Model Name: SkinVision\n\nVersion: SkinVision app version 6.0.\n\nSummary: SkinVision is an AI-powered mobile app that lets users photograph moles and skin lesions with a smartphone and receive a low/medium/high risk indication to support preventive self-monitoring and decisions about seeking a dermatologist. It combines a clinically validated convolutional neural network algorithm with dermatologist-reviewed training images, and is not intended to provide a diagnosis.",
+          "answer_relevancy": 0.224803532405326,
+          "status": "evaluated",
+          "error_message": null
+        },
+        {
+          "card_id": "skinvision-manual-eval-2",
+          "card_type": "manual",
+          "section": "Metadata",
+          "sub_question_id": "metadata_developer",
+          "question": "Who developed this model?",
+          "response": "Developer: SkinVision, founded in 2012 by Erik de Heus, headquartered in Amsterdam, the Netherlands.",
+          "answer_relevancy": 0.2554841914937362,
+          "status": "evaluated",
+          "error_message": null
+        },
+        {
+          "card_id": "skinvision-manual-eval-2",
+          "card_type": "manual",
+          "section": "Metadata",
+          "sub_question_id": "metadata_regulatory",
+          "question": "What is the model's regulatory approval status?",
+          "response": "Regulatory Approval Status: CE_MARKED",
+          "answer_relevancy": 0.8471243067275487,
+          "status": "evaluated",
+          "error_message": null
+        },
+        {
+          "card_id": "skinvision-manual-eval-2",
+          "card_type": "manual",
+          "section": "Metadata",
+          "sub_question_id": "metadata_availability",
+          "question": "Is the model currently available, and where?",
+          "response": "Availability: Commercially available worldwide on iOS and Android, except the United States and Canada; over 1.2 million users globally with a database of 3.5 million lesion images.",
+          "answer_relevancy": 0.36550019637658804,
+          "status": "evaluated",
+          "error_message": null
+        }
+      ],
+      "evaluated_sub_questions": 4,
+      "missing_sub_questions": 0,
+      "error_sub_questions": 0
+    },
+    {
+      "card_id": "skinvision-manual-eval-2",
+      "card_type": "manual",
+      "section": "Intended Use",
+      "question": "What is this model used for, who should use it, what patients is it intended for, and what role does it have in clinical decisions?",
+      "response": "Medical Purpose: Analyze smartphone photos of skin lesions and classify them with a low/medium/high risk indication to empower self-monitoring and inform decisions about seeking a medical follow-up; not intended as a diagnostic tool.\n\nIntended Users: Individuals at risk of developing skin cancer (consumer/self-use), as well as healthcare professionals who may use the output as supplementary information; no clinical knowledge or expertise is required, only a smartphone and the app.\n\nTarget Patient Population: General consumers seeking to self-monitor skin lesions for skin cancer risk; not intended for persons under age 18.\n\nRole in Decision-Making: Presented as risk categories with educational explanations to support preventive self-monitoring, not a diagnostic report; a high-risk result prompts a recommendation to seek professional evaluation but does not itself confirm skin cancer.",
+      "answer_relevancy": 0.44452449924516935,
+      "status": "evaluated",
+      "error_message": null,
+      "sub_questions": [
+        {
+          "card_id": "skinvision-manual-eval-2",
+          "card_type": "manual",
+          "section": "Intended Use",
+          "sub_question_id": "intended_purpose",
+          "question": "What is this model used for (medical purpose)?",
+          "response": "Medical Purpose: Analyze smartphone photos of skin lesions and classify them with a low/medium/high risk indication to empower self-monitoring and inform decisions about seeking a medical follow-up; not intended as a diagnostic tool.",
+          "answer_relevancy": 0.4133821346201125,
+          "status": "evaluated",
+          "error_message": null
+        },
+        {
+          "card_id": "skinvision-manual-eval-2",
+          "card_type": "manual",
+          "section": "Intended Use",
+          "sub_question_id": "intended_users",
+          "question": "Who should use this model?",
+          "response": "Intended Users: Individuals at risk of developing skin cancer (consumer/self-use), as well as healthcare professionals who may use the output as supplementary information; no clinical knowledge or expertise is required, only a smartphone and the app.",
+          "answer_relevancy": 0.4108119203212826,
+          "status": "evaluated",
+          "error_message": null
+        },
+        {
+          "card_id": "skinvision-manual-eval-2",
+          "card_type": "manual",
+          "section": "Intended Use",
+          "sub_question_id": "intended_patients",
+          "question": "What patients is this model intended for?",
+          "response": "Target Patient Population: General consumers seeking to self-monitor skin lesions for skin cancer risk; not intended for persons under age 18.",
+          "answer_relevancy": 0.49804444191932024,
+          "status": "evaluated",
+          "error_message": null
+        },
+        {
+          "card_id": "skinvision-manual-eval-2",
+          "card_type": "manual",
+          "section": "Intended Use",
+          "sub_question_id": "intended_role",
+          "question": "What role does this model have in clinical decisions?",
+          "response": "Role in Decision-Making: Presented as risk categories with educational explanations to support preventive self-monitoring, not a diagnostic report; a high-risk result prompts a recommendation to seek professional evaluation but does not itself confirm skin cancer.",
+          "answer_relevancy": 0.4558595001199621,
+          "status": "evaluated",
+          "error_message": null
+        }
+      ],
+      "evaluated_sub_questions": 4,
+      "missing_sub_questions": 0,
+      "error_sub_questions": 0
+    },
+    {
+      "card_id": "skinvision-manual-eval-2",
+      "card_type": "manual",
+      "section": "Inputs and Outputs",
+      "question": "What information does the model take as input, what does it produce, and how should the output be interpreted?",
+      "response": "Acceptable Input: A smartphone photo of a skin lesion captured via the app's guided camera (lesion centered, in focus, area around the mole clear); users can also complete an in-app questionnaire for skin type and risk-factor assessment.\n\nOutput: A categorical risk indication (low/medium/high) per lesion plus a triage recommendation, generated by a proprietary convolutional neural network trained on dermatologist-reviewed smartphone images; not a diagnostic report.",
+      "answer_relevancy": 0.3222199312142216,
+      "status": "evaluated",
+      "error_message": null,
+      "sub_questions": [
+        {
+          "card_id": "skinvision-manual-eval-2",
+          "card_type": "manual",
+          "section": "Inputs and Outputs",
+          "sub_question_id": "io_input",
+          "question": "What information does the model take as input?",
+          "response": "Acceptable Input: A smartphone photo of a skin lesion captured via the app's guided camera (lesion centered, in focus, area around the mole clear); users can also complete an in-app questionnaire for skin type and risk-factor assessment.",
+          "answer_relevancy": 0.28507080150521497,
+          "status": "evaluated",
+          "error_message": null
+        },
+        {
+          "card_id": "skinvision-manual-eval-2",
+          "card_type": "manual",
+          "section": "Inputs and Outputs",
+          "sub_question_id": "io_output",
+          "question": "What does the model produce as output?",
+          "response": "Output: A categorical risk indication (low/medium/high) per lesion plus a triage recommendation, generated by a proprietary convolutional neural network trained on dermatologist-reviewed smartphone images; not a diagnostic report.",
+          "answer_relevancy": 0.3398907851001855,
+          "status": "evaluated",
+          "error_message": null
+        },
+        {
+          "card_id": "skinvision-manual-eval-2",
+          "card_type": "manual",
+          "section": "Inputs and Outputs",
+          "sub_question_id": "io_interpretation",
+          "question": "How should the model's output be interpreted?",
+          "response": "Output: A categorical risk indication (low/medium/high) per lesion plus a triage recommendation, generated by a proprietary convolutional neural network trained on dermatologist-reviewed smartphone images; not a diagnostic report.",
+          "answer_relevancy": 0.3416982070372643,
+          "status": "evaluated",
+          "error_message": null
+        }
+      ],
+      "evaluated_sub_questions": 3,
+      "missing_sub_questions": 0,
+      "error_sub_questions": 0
+    },
+    {
+      "card_id": "skinvision-manual-eval-2",
+      "card_type": "manual",
+      "section": "Risks and Limitations",
+      "question": "When should clinicians not rely on this model, and what limitations, failure modes, unsupported uses, or required oversight should they know about?",
+      "response": "Known Performance Limitations: Independent studies report sensitivity/specificity varying by evaluation, e.g. 73% sensitivity/83% specificity for melanoma in one study and 95.1% sensitivity/78.3% specificity for (pre)malignant conditions in another; roughly 45% of lesions in one study could not be analyzed by the app; agreement between the app and dermatologists was limited in some evaluations.\n\nSkin Type Representation & Equity: Full dataset composition is not publicly disclosed; the app is intended for all skin tones and types, but it is unclear whether the proprietary training dataset adequately represents all ethnicities. The company's research pipeline lists 'performance across diverse skin types and demographics' as an ongoing area of work.\n\nRequired Clinician Oversight: None required for use of the app itself; anyone with a smartphone can use it. Outputs are risk indications and triage recommendations only, not a diagnostic report, and the app explicitly recommends professional evaluation for higher-risk results.\n\nLimitations in Evaluating Performance: Sensitivity/specificity estimates vary substantially across studies and between company and independent evaluations; the proprietary training dataset's demographic composition (including skin tone representation) is not publicly disclosed, limiting evaluation of generalizability and equity.",
+      "answer_relevancy": 0.599571746145567,
+      "status": "evaluated",
+      "error_message": null,
+      "sub_questions": [
+        {
+          "card_id": "skinvision-manual-eval-2",
+          "card_type": "manual",
+          "section": "Risks and Limitations",
+          "sub_question_id": "risks_limitations",
+          "question": "What performance limitations, failure modes, or unsupported uses should clinicians know about?",
+          "response": "Known Performance Limitations: Independent studies report sensitivity/specificity varying by evaluation, e.g. 73% sensitivity/83% specificity for melanoma in one study and 95.1% sensitivity/78.3% specificity for (pre)malignant conditions in another; roughly 45% of lesions in one study could not be analyzed by the app; agreement between the app and dermatologists was limited in some evaluations.",
+          "answer_relevancy": 0.5172129986949103,
+          "status": "evaluated",
+          "error_message": null
+        },
+        {
+          "card_id": "skinvision-manual-eval-2",
+          "card_type": "manual",
+          "section": "Risks and Limitations",
+          "sub_question_id": "risks_equity",
+          "question": "What skin-type representation or equity limitations should clinicians know about?",
+          "response": "Skin Type Representation & Equity: Full dataset composition is not publicly disclosed; the app is intended for all skin tones and types, but it is unclear whether the proprietary training dataset adequately represents all ethnicities. The company's research pipeline lists 'performance across diverse skin types and demographics' as an ongoing area of work.",
+          "answer_relevancy": 0.5810055707142758,
+          "status": "evaluated",
+          "error_message": null
+        },
+        {
+          "card_id": "skinvision-manual-eval-2",
+          "card_type": "manual",
+          "section": "Risks and Limitations",
+          "sub_question_id": "risks_oversight",
+          "question": "What clinician oversight is required when using this model?",
+          "response": "Required Clinician Oversight: None required for use of the app itself; anyone with a smartphone can use it. Outputs are risk indications and triage recommendations only, not a diagnostic report, and the app explicitly recommends professional evaluation for higher-risk results.",
+          "answer_relevancy": 0.723479304626627,
+          "status": "evaluated",
+          "error_message": null
+        },
+        {
+          "card_id": "skinvision-manual-eval-2",
+          "card_type": "manual",
+          "section": "Risks and Limitations",
+          "sub_question_id": "risks_eval_limits",
+          "question": "What limitations exist in how this model's performance was evaluated?",
+          "response": "Limitations in Evaluating Performance: Sensitivity/specificity estimates vary substantially across studies and between company and independent evaluations; the proprietary training dataset's demographic composition (including skin tone representation) is not publicly disclosed, limiting evaluation of generalizability and equity.",
+          "answer_relevancy": 0.5765891105464548,
+          "status": "evaluated",
+          "error_message": null
+        }
+      ],
+      "evaluated_sub_questions": 4,
+      "missing_sub_questions": 0,
+      "error_sub_questions": 0
+    },
+    {
+      "card_id": "skinvision-manual-eval-2",
+      "card_type": "manual",
+      "section": "Development and Performance",
+      "question": "How was the model developed and validated, what data were used, and how well does it perform?",
+      "response": "Model Type: Proprietary convolutional neural network (CNN) architecture for smartphone image-based skin lesion risk assessment.\n\nTraining Data: Description: Trained and validated on a proprietary dataset of dermatologist-reviewed smartphone images; one published validation used 131,873 images from 31,449 users (Jan 2016-Aug 2018) rated for risk by dermatologists. Full dataset composition and demographic breakdown are not publicly disclosed.\n\nModel Development & Validation: Description: Clinically validated per ISO 14971 risk management and ISO 13485/27001 quality and security standards; reviewed by an independent team of EU-appointed medical technology experts.\nPublication Url: https://pubmed.ncbi.nlm.nih.gov/31494983/\n\nPerformance: Summary: Reported sensitivity ranges from approximately 73% to over 95% across different independent studies, with specificity varying accordingly (78-83%); company-reported figures tend to be higher than third-party evaluations. One peer-reviewed study found 95.1% sensitivity and 78.3% specificity for detecting (pre)malignant conditions.\nMetrics:\n  Name: Sensitivity\n  Value: 95.1%\n  Population: (pre)malignant conditions, peer-reviewed study\n  Name: Specificity\n  Value: 78.3%\n  Population: (pre)malignant conditions, peer-reviewed study\n  Name: Sensitivity\n  Value: 73%\n  Population: melanoma, independent study",
+      "answer_relevancy": 0.4968161592622986,
+      "status": "evaluated",
+      "error_message": null,
+      "sub_questions": [
+        {
+          "card_id": "skinvision-manual-eval-2",
+          "card_type": "manual",
+          "section": "Development and Performance",
+          "sub_question_id": "dev_model_type",
+          "question": "What type of model or technology is this?",
+          "response": "Model Type: Proprietary convolutional neural network (CNN) architecture for smartphone image-based skin lesion risk assessment.",
+          "answer_relevancy": 0.494120846161765,
+          "status": "evaluated",
+          "error_message": null
+        },
+        {
+          "card_id": "skinvision-manual-eval-2",
+          "card_type": "manual",
+          "section": "Development and Performance",
+          "sub_question_id": "dev_data",
+          "question": "What data were used to develop or train this model?",
+          "response": "Training Data: Description: Trained and validated on a proprietary dataset of dermatologist-reviewed smartphone images; one published validation used 131,873 images from 31,449 users (Jan 2016-Aug 2018) rated for risk by dermatologists. Full dataset composition and demographic breakdown are not publicly disclosed.",
+          "answer_relevancy": 0.5209751645568418,
+          "status": "evaluated",
+          "error_message": null
+        },
+        {
+          "card_id": "skinvision-manual-eval-2",
+          "card_type": "manual",
+          "section": "Development and Performance",
+          "sub_question_id": "dev_validation",
+          "question": "How was the model developed and validated?",
+          "response": "Model Development & Validation: Description: Clinically validated per ISO 14971 risk management and ISO 13485/27001 quality and security standards; reviewed by an independent team of EU-appointed medical technology experts.\nPublication Url: https://pubmed.ncbi.nlm.nih.gov/31494983/",
+          "answer_relevancy": 0.7282126186978455,
+          "status": "evaluated",
+          "error_message": null
+        },
+        {
+          "card_id": "skinvision-manual-eval-2",
+          "card_type": "manual",
+          "section": "Development and Performance",
+          "sub_question_id": "dev_performance",
+          "question": "How well does the model perform?",
+          "response": "Performance: Summary: Reported sensitivity ranges from approximately 73% to over 95% across different independent studies, with specificity varying accordingly (78-83%); company-reported figures tend to be higher than third-party evaluations. One peer-reviewed study found 95.1% sensitivity and 78.3% specificity for detecting (pre)malignant conditions.\nMetrics:\n  Name: Sensitivity\n  Value: 95.1%\n  Population: (pre)malignant conditions, peer-reviewed study\n  Name: Specificity\n  Value: 78.3%\n  Population: (pre)malignant conditions, peer-reviewed study\n  Name: Sensitivity\n  Value: 73%\n  Population: melanoma, independent study",
+          "answer_relevancy": 0.2439560076327422,
+          "status": "evaluated",
+          "error_message": null
+        }
+      ],
+      "evaluated_sub_questions": 4,
+      "missing_sub_questions": 0,
+      "error_sub_questions": 0
+    },
+    {
+      "card_id": "skinvision-manual-eval-2",
+      "card_type": "manual",
+      "section": "Governance and Monitoring",
+      "question": "How will the model be monitored and updated, and how can users report concerns or problems?",
+      "response": "Plans for Ongoing Monitoring: Algorithm is continuously updated using newly submitted user images; user data is retained up to 12 months after account deletion.\n\nScheduled Updates: Continuous training and improvement of the algorithm using new sets of submitted images; no fixed release schedule disclosed.\n\nLast Updated / Current Version: 2024-11-21\n\nVersion: SkinVision app version 6.0.\n\nInquiries / Report an Issue: Email: support@skinvision.com\nUrl: https://www.skinvision.com/contact-us",
+      "answer_relevancy": 0.6057660219938922,
+      "status": "evaluated",
+      "error_message": null,
+      "sub_questions": [
+        {
+          "card_id": "skinvision-manual-eval-2",
+          "card_type": "manual",
+          "section": "Governance and Monitoring",
+          "sub_question_id": "gov_monitoring",
+          "question": "How will the model be monitored on an ongoing basis?",
+          "response": "Plans for Ongoing Monitoring: Algorithm is continuously updated using newly submitted user images; user data is retained up to 12 months after account deletion.",
+          "answer_relevancy": 0.6543777401893609,
+          "status": "evaluated",
+          "error_message": null
+        },
+        {
+          "card_id": "skinvision-manual-eval-2",
+          "card_type": "manual",
+          "section": "Governance and Monitoring",
+          "sub_question_id": "gov_updates",
+          "question": "How and when will the model be updated?",
+          "response": "Scheduled Updates: Continuous training and improvement of the algorithm using new sets of submitted images; no fixed release schedule disclosed.\n\nLast Updated / Current Version: 2024-11-21\n\nVersion: SkinVision app version 6.0.",
+          "answer_relevancy": 0.4595240933776427,
+          "status": "evaluated",
+          "error_message": null
+        },
+        {
+          "card_id": "skinvision-manual-eval-2",
+          "card_type": "manual",
+          "section": "Governance and Monitoring",
+          "sub_question_id": "gov_contact",
+          "question": "How can users report concerns or problems?",
+          "response": "Inquiries / Report an Issue: Email: support@skinvision.com\nUrl: https://www.skinvision.com/contact-us",
+          "answer_relevancy": 0.7033962324146731,
+          "status": "evaluated",
+          "error_message": null
+        }
+      ],
+      "evaluated_sub_questions": 3,
+      "missing_sub_questions": 0,
+      "error_sub_questions": 0
+    }
+  ],
+  "summary": {
+    "card_id": "skinvision-manual-eval-2",
+    "card_type": "manual",
+    "expected_sections": 6,
+    "evaluated_sections": 6,
+    "missing_sections": 0,
+    "error_sections": 0,
+    "mean_answer_relevancy": 0.48202106910199144,
+    "std_answer_relevancy": 0.10931503506385049,
+    "min_answer_relevancy": 0.3222199312142216,
+    "max_answer_relevancy": 0.6057660219938922
+  }
+}
