@@ -1,0 +1,42 @@
+{
+  "schemaVersion": "clinical-model-card-2.0",
+  "modelName": "Skin Vision",
+  "applicationUrl": "https://www.skinvision.com/en-us",
+  "developer": "SkinVision",
+  "regulatoryApprovalStatus": "UNKNOWN",
+  "regulatoryApprovalDate": null,
+  "version": "",
+  "lastUpdated": "2026-07-25",
+  "availability": null,
+  "summary": "SkinVision is a health technology company focused on increasing access to skin health awareness and care. It supports individuals in becoming more aware of their skin over time, helping them take a more active role in their health journey. The service is currently not available in the United States, pending regulatory clearance.",
+  "medicalPurpose": "To increase access to skin health awareness and care, and to support individuals in becoming more aware of their skin over time.",
+  "acceptableInput": "",
+  "output": "",
+  "roleInDecisionMaking": "To help individuals take a more active role in their skin health journey by increasing awareness and accessibility to information.",
+  "intendedUsers": "Individuals seeking to increase their awareness and understanding of their skin health.",
+  "targetPatientPopulation": "The target patient population includes individuals and people seeking to increase their skin health awareness and care, become more aware of their skin over time, and take a more active role in their health journey.",
+  "knownPerformanceLimitations": "SkinVision is not yet available in the United States; U.S. availability is subject to FDA authorization and U.S. launch is planned pending applicable regulatory clearance.",
+  "skinTypeRepresentationEquity": "",
+  "requiredClinicianOversight": "",
+  "modelType": "",
+  "trainingData": {
+    "description": "",
+    "datasetUrl": null
+  },
+  "modelDevelopmentAndValidation": {
+    "description": "The company collaborates with medical experts, researchers, and leading institutions, including Mayo Clinic, for ongoing research and development in digital health.",
+    "publicationUrl": null
+  },
+  "clinicalTrial": null,
+  "performance": {
+    "summary": "",
+    "metrics": []
+  },
+  "performanceEvaluationLimitations": "",
+  "ongoingMonitoringPlan": null,
+  "scheduledUpdates": null,
+  "contact": {
+    "email": null,
+    "url": "https://www.skinvision.com/en-us"
+  }
+}

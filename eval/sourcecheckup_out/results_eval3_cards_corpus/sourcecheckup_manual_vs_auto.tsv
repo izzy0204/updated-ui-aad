@@ -1,0 +1,6 @@
+model	manual_strict	auto_strict	manual_partial	auto_partial
+DermGPT	68.7500	43.3333	81.2500	51.6667
+Dermasensor	28.5714	48.6486	57.1429	67.5676
+DERM	38.8889	62.8571	58.3333	77.1429
+SkinVision	14.2857	87.5000	20.0000	87.5000
+Forus	44.4444	55.8824	64.8148	73.5294

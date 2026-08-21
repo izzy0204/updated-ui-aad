@@ -1,0 +1,6 @@
+sourcecheckup_out/pairs_eval3_cards/SkinVision_pairs.csv
+sourcecheckup_out/pairs_eval3_cards/derm-auto-eval-3_pairs.csv
+sourcecheckup_out/pairs_eval3_cards/dermasensor-auto-eval-3_pairs.csv
+sourcecheckup_out/pairs_eval3_cards/dermgpt-auto-eval-3_pairs.csv
+sourcecheckup_out/pairs_eval3_cards/skinvision-auto-eval-3_pairs.csv
+sourcecheckup_out/pairs_eval3_cards/tandem-auto-eval-3_pairs.csv

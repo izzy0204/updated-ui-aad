@@ -1,0 +1,10 @@
+{
+  "name": "Forus",
+  "pairs_csv": "/Users/isabellegatmaitan/Documents/GitHub/aad-model-card-generator/eval/sourcecheckup_out/pairs_eval3_cards/Forus_pairs.csv",
+  "total_pairs": 27,
+  "supported": 12,
+  "partial": 11,
+  "unsupported": 4,
+  "strict_score": 0.4444444444444444,
+  "partial_credit_score": 0.6481481481481481
+}

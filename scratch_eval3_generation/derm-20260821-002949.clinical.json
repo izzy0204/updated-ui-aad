@@ -1,0 +1,55 @@
+{
+  "schemaVersion": "clinical-model-card-2.0",
+  "modelName": "DERM",
+  "applicationUrl": "https://skin-analytics.com/",
+  "developer": "SkinAnalytics",
+  "regulatoryApprovalStatus": "UNKNOWN",
+  "regulatoryApprovalDate": null,
+  "version": "The core AI model is DERM (Deep Ensemble for the Recognition of Malignancy). A specific version, DERM Zero, delivers autonomous skin cancer assessment from a standard smartphone and runs on the existing DERM platform.",
+  "lastUpdated": "2026-08-21",
+  "availability": "DERM is deployed across 25 primary and secondary care organizations within the NHS, and also available through partnerships with Bupa and Vitality for remote skin assessment services.",
+  "summary": "DERM is an AI-based medical device that analyzes dermoscopic images of skin lesions, along with patient-provided medical history, to provide a suspected diagnosis and referral recommendation. It outputs classifications like 'refer', 'discharge', or 'monitor' to streamline skin cancer pathways. This helps triage patients with suspected skin cancer, identify non-cancerous lesions, and conserve dermatologist capacity.",
+  "medicalPurpose": "DERM is an AI-based skin lesion analysis device intended for the screening, triage, and assessment of skin lesions suspicious for skin cancer. It helps triage patients with non-cancerous lesions away from cancer pathways and conserves dermatologist capacity.",
+  "acceptableInput": "Dermoscopic images of cutaneous lesions captured by approved dermoscopic hardware systems (camera device, dermoscope, and connection kit, typically a smartphone with an attachment). Patient medical history can also be provided via a Patient Initiated Questionnaire.",
+  "output": "The model analyzes dermoscopic images of skin lesions and returns a suspected diagnosis and referral recommendation. Outputs can include management instructions such as 'refer', 'discharge', or 'monitor', and a lesion classification (e.g., possible Melanoma, probable BCC).",
+  "roleInDecisionMaking": "DERM functions as an autonomous AI medical device for skin cancer assessment, capable of issuing management instructions like 'discharge' without a second read from a human clinician. It acts as a screening tool to triage patients and can also augment other clinical data to support clinician decision-making.",
+  "intendedUsers": "Primary care clinicians (e.g., general practitioners, nurse practitioners) and secondary care clinicians (e.g., dermatologists) are intended users of DERM's outputs. Medical photographers and patients may capture images for submission, but are not intended to interpret the outputs. Users receive in-person and online training.",
+  "targetPatientPopulation": "Patients aged 18 years or over with cutaneous lesions where there is a suspicion of skin cancer, in any body location except where specific exclusions apply. The model is only used for lesions referred for potential skin cancer.",
+  "knownPerformanceLimitations": "DERM should not be used on patients under 18, for assessing non-cancerous skin conditions, monitoring treatment, staging disease, or on images other than dermoscopic images of skin lesions. It is also contraindicated for open or ulcerated lesions, lesions obscured by hair, tattoos, or scars, lesions beneath nails, in eyes, on mucosal surfaces, or on soles of feet/palms of hands, and lesions that have been previously biopsied. DERM has primarily been evaluated on Fitzpatrick skin types I-IV and should be used with caution on lesions of other skin types. DERM does not provide a definitive diagnosis for skin cancer.",
+  "skinTypeRepresentationEquity": "DERM has primarily been evaluated on patients with Fitzpatrick skin types I-IV. It should be used with caution on lesions of other skin types (V-VI).",
+  "requiredClinicianOversight": "DERM is a Class III CE marked AI medical device designed for autonomous use, meaning it has been proven to safely discharge patients without direct dermatologist oversight for certain outcomes. Clinicians can still perform case reviews and use DERM to augment their decision-making.",
+  "modelType": "Artificial Intelligence (AI)-based algorithms, specifically a Deep Ensemble for the Recognition of Malignancy (DERM).",
+  "trainingData": {
+    "description": "The model has been tested on images of skin lesions that represent the population of patients and lesions DERM may be used on. The data came from powered prospective studies conducted in the UK, US, and Italy, primarily including patients with Fitzpatrick skin types I-IV.",
+    "datasetUrl": null
+  },
+  "modelDevelopmentAndValidation": {
+    "description": "DERM is an AI-based algorithm developed as a Class III CE-marked AI as a Medical Device (AIaMD). It has been developed in accordance with Skin Analytics\u2019 ISO 13485:2016 certified Quality Management System and fulfills provisions of the UK Medical Device Regulation 2002 and EU Medical Device Regulation 2017/745. The model relies on years of clinical evidence and real-world deployment data to support diagnosis.",
+    "publicationUrl": null
+  },
+  "clinicalTrial": {
+    "description": "DERM has been evaluated in powered prospective studies conducted in the UK, US, and Italy, primarily on patients with Fitzpatrick skin types I-IV, to assess its performance on lesions representing the target population."
+  },
+  "performance": {
+    "summary": "DERM has an accuracy for skin cancer of 97%. When identifying non-melanoma cases, DERM was correct 99.8% of the time, compared to 98.9% for face-to-face dermatologist assessments. It has safely discharged thousands of patients across the NHS since 2020 and assessed over 230,000 patients, identifying more than 20,000 cancers.",
+    "metrics": [
+      {
+        "name": "Accuracy for skin cancer",
+        "value": "97%",
+        "population": "All skin cancers (melanoma, squamous cell carcinoma and basal cell carcinoma)"
+      },
+      {
+        "name": "Correct identification of non-melanoma",
+        "value": "99.8%",
+        "population": "Patients identified as not having melanoma"
+      }
+    ]
+  },
+  "performanceEvaluationLimitations": "The model has been tested on images of skin lesions representing the population of patients and lesions DERM may be used on, in powered prospective studies run in the UK, US, and Italy. Evaluation was primarily on patients with Fitzpatrick skin types I-IV.",
+  "ongoingMonitoringPlan": "Skin Analytics provides regular reports, including quarterly business reviews and monthly performance reports, detailing service usage, exclusions, exceptions, image quality audits, discharge rates, and outcomes. The platform is also continuously monitored for security events using third-party tools and an in-house monitoring platform.",
+  "scheduledUpdates": "Skin Analytics conducts regular maintenance daily between 3 AM and 7 AM GMT, with downtime not exceeding one hour. Up to eight hours per calendar month of scheduled maintenance for upgrades, fixes, or reconfigurations may also occur, with partners notified at least two working days in advance.",
+  "contact": {
+    "email": "support@skinanalytics.co.uk",
+    "url": "https://skin-analytics.com/"
+  }
+}

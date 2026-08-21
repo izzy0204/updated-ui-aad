@@ -1,0 +1,292 @@
+{
+  "schema_version": "clinical-model-card-citations-1.0",
+  "references": {
+    "1": {
+      "url": "https://skin-analytics.com/wp-content/uploads/2025/01/SA-001165-LB-v12-DERM-Instructions-for-Use_20Jan2025.pdf",
+      "title": "",
+      "source": ""
+    },
+    "2": {
+      "url": "https://skin-analytics.com/news/regulatory-certification/derm-class-iii-ce-mark/",
+      "title": "",
+      "source": ""
+    },
+    "3": {
+      "url": "https://skin-analytics.com/news/regulatory-certification/skin-analytics-achieves-class-iia-ukca-mark-for-derm/",
+      "title": "",
+      "source": ""
+    },
+    "4": {
+      "url": "https://pubmed.ncbi.nlm.nih.gov/37869160/",
+      "title": "",
+      "source": ""
+    },
+    "5": {
+      "url": "https://www.frontiersin.org/journals/medicine/articles/10.3389/fmed.2023.1288521/full",
+      "title": "",
+      "source": ""
+    },
+    "6": {
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC10645139/",
+      "title": "",
+      "source": ""
+    },
+    "7": {
+      "url": "https://www.frontiersin.org/journals/medicine/articles/10.3389/fmed.2023.1264846/full",
+      "title": "",
+      "source": ""
+    },
+    "8": {
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC10996444/",
+      "title": "",
+      "source": ""
+    },
+    "9": {
+      "url": "https://unityinsights.co.uk/our-insights/ai-in-health-and-care-award-skin-analytics-evaluation/",
+      "title": "",
+      "source": ""
+    },
+    "10": {
+      "url": "https://skin-analytics.com/news/skin-cancer/prospective-study-shows-ai-as-accurate-as-clinical-specialist/",
+      "title": "",
+      "source": ""
+    },
+    "11": {
+      "url": "https://www.nice.org.uk/consultations/2705/2/committee-discussion",
+      "title": "",
+      "source": ""
+    },
+    "12": {
+      "url": "https://skin-analytics.com/ai-pathways/derm-performance/",
+      "title": "",
+      "source": ""
+    },
+    "13": {
+      "url": "https://skin-analytics.com/ai-pathways/equality-of-access/",
+      "title": "",
+      "source": ""
+    },
+    "14": {
+      "url": "https://skin-analytics.com/ai-pathways/certifications/",
+      "title": "",
+      "source": ""
+    },
+    "15": {
+      "url": "https://www.medicaldevice-network.com/news/nhs-report-touts-effectiveness-of-skin-analytics-derm-ai-melanoma-tool/",
+      "title": "",
+      "source": ""
+    },
+    "16": {
+      "url": "https://skin-analytics.com/faq/",
+      "title": "",
+      "source": ""
+    },
+    "17": {
+      "url": "https://clinicaltrials.gov/study/NCT04116983",
+      "title": "",
+      "source": ""
+    },
+    "18": {
+      "url": "https://clinicaltrials.gov/study/NCT04123678",
+      "title": "",
+      "source": ""
+    },
+    "19": {
+      "url": "https://clinicaltrials.gov/study/NCT05126173",
+      "title": "",
+      "source": ""
+    }
+  },
+  "field_citations": {
+    "model_name": [
+      {
+        "citationIds": [
+          "1"
+        ],
+        "sentence_level": true
+      }
+    ],
+    "developer": [
+      {
+        "citationIds": [
+          "1"
+        ],
+        "sentence_level": true
+      }
+    ],
+    "regulatory_approval_status": [
+      {
+        "citationIds": [
+          "1",
+          "2",
+          "3"
+        ],
+        "sentence_level": true
+      }
+    ],
+    "version": [
+      {
+        "citationIds": [
+          "1"
+        ],
+        "sentence_level": true
+      }
+    ],
+    "availability": [
+      {
+        "citationIds": [
+          "1",
+          "2"
+        ],
+        "sentence_level": true
+      }
+    ],
+    "summary": [
+      {
+        "citationIds": [
+          "1",
+          "2",
+          "12"
+        ],
+        "sentence_level": true
+      }
+    ],
+    "medical_purpose": [
+      {
+        "citationIds": [
+          "1"
+        ],
+        "sentence_level": true
+      }
+    ],
+    "acceptable_input": [
+      {
+        "citationIds": [
+          "1"
+        ],
+        "sentence_level": true
+      }
+    ],
+    "output": [
+      {
+        "citationIds": [
+          "1"
+        ],
+        "sentence_level": true
+      }
+    ],
+    "role_in_decision_making": [
+      {
+        "citationIds": [
+          "1"
+        ],
+        "sentence_level": true
+      }
+    ],
+    "intended_users": [
+      {
+        "citationIds": [
+          "1"
+        ],
+        "sentence_level": true
+      }
+    ],
+    "target_patient_population": [
+      {
+        "citationIds": [
+          "1"
+        ],
+        "sentence_level": true
+      }
+    ],
+    "known_performance_limitations": [
+      {
+        "citationIds": [
+          "1"
+        ],
+        "sentence_level": true
+      }
+    ],
+    "skin_type_representation_equity": [
+      {
+        "citationIds": [
+          "13",
+          "9",
+          "5",
+          "7"
+        ],
+        "sentence_level": true
+      }
+    ],
+    "required_clinician_oversight": [
+      {
+        "citationIds": [
+          "1"
+        ],
+        "sentence_level": true
+      }
+    ],
+    "model_type": [
+      {
+        "citationIds": [
+          "1"
+        ],
+        "sentence_level": true
+      }
+    ],
+    "model_development_and_validation.description": [
+      {
+        "citationIds": [
+          "4",
+          "6"
+        ],
+        "sentence_level": true
+      }
+    ],
+    "clinical_trial": [
+      {
+        "citationIds": [
+          "17",
+          "18",
+          "19"
+        ],
+        "sentence_level": true
+      }
+    ],
+    "performance.summary": [
+      {
+        "citationIds": [
+          "12",
+          "10",
+          "5"
+        ],
+        "sentence_level": true
+      }
+    ],
+    "ongoing_monitoring_plan": [
+      {
+        "citationIds": [
+          "1"
+        ],
+        "sentence_level": true
+      }
+    ],
+    "scheduled_updates": [
+      {
+        "citationIds": [
+          "6",
+          "7"
+        ],
+        "sentence_level": true
+      }
+    ],
+    "contact": [
+      {
+        "citationIds": [
+          "1"
+        ],
+        "sentence_level": true
+      }
+    ]
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "name": "Dermasensor",
+  "pairs_csv": "/Users/isabellegatmaitan/Documents/GitHub/aad-model-card-generator/eval/sourcecheckup_out/pairs_eval3_cards/Dermasensor_pairs.csv",
+  "total_pairs": 35,
+  "supported": 10,
+  "partial": 20,
+  "unsupported": 5,
+  "strict_score": 0.2857142857142857,
+  "partial_credit_score": 0.5714285714285714
+}

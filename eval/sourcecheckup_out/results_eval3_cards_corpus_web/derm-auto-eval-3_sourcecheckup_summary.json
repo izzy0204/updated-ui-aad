@@ -1,0 +1,11 @@
+{
+  "name": "derm-auto-eval-3",
+  "pairs_csv": "/Users/isabellegatmaitan/Documents/GitHub/aad-model-card-generator/eval/sourcecheckup_out/pairs_eval3_cards/derm-auto-eval-3_pairs.csv",
+  "total_pairs": 38,
+  "supported": 34,
+  "partial": 4,
+  "unsupported": 0,
+  "strict_score": 0.8947368421052632,
+  "partial_credit_score": 0.9473684210526315,
+  "wall_fails_relabelled_to_supported": 0
+}

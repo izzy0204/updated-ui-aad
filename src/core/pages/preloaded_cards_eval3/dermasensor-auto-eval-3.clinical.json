@@ -1,0 +1,92 @@
+{
+  "schemaVersion": "clinical-model-card-2.0",
+  "modelName": "DermaSensor",
+  "applicationUrl": "https://www.dermasensor.com/",
+  "developer": "DermaSensor",
+  "regulatoryApprovalStatus": "UNKNOWN",
+  "regulatoryApprovalDate": null,
+  "version": "3.0",
+  "lastUpdated": "2026-07-25",
+  "availability": "Available for prescription use by physicians in clinical settings; not intended for at-home use.",
+  "summary": "The DermaSensor device uses optical spectroscopy and an AI/ML algorithm applied non-invasively to intact skin lesions. It provides results as \"Monitor\" or \"Investigate Further,\" with a similarity score for positive results. This device is intended to assist physicians, particularly non-dermatologists, in evaluating suspicious skin lesions to aid referral decisions, but it is not a standalone diagnostic tool.",
+  "medicalPurpose": "To evaluate skin lesions suggestive of melanoma, basal cell carcinoma, and/or squamous cell carcinoma in patients aged 40 and above to assist in the decision regarding referral to a dermatologist. It is used to assist in evaluating suspicious skin lesions in clinical settings, not as a screening tool or standalone diagnostic.",
+  "acceptableInput": "Elastic Scattering Spectroscopy (ESS) spectral recordings from intact primary skin lesions suspected of melanoma, basal cell carcinoma, or squamous cell carcinoma, in patients aged 40 and above. Lesions should not be previously biopsied, recurrent, metastatic, on scars, tattoos, sunburned skin, hairy areas, palms, soles, mucosal surfaces, genitals, ears, within 1 cm of the eye, or under nails.",
+  "output": "The device provides results as \"Monitor\" for a negative result or \"Investigate Further\" for a positive result, based on analysis of backscattered light spectra by a proprietary ML-derived classifier algorithm. For \"Investigate Further\" results, a Similarity Score of 1-10 is displayed, indicating greater similarity to malignant lesions seen in training data.",
+  "roleInDecisionMaking": "The device is an adjunctive, software-aided diagnostic tool intended to assist physicians, particularly those not trained in dermatology, in evaluating suspicious skin lesions and making referral decisions. It is not a standalone diagnostic and does not replace biopsy, pathology, or physician judgment.",
+  "intendedUsers": "Physicians and trained healthcare professionals in clinical settings, including primary care physicians, especially those not trained in the clinical diagnosis and management of skin cancer.",
+  "targetPatientPopulation": "Patients aged 40 and above with skin lesions suggestive of melanoma, basal cell carcinoma, and/or squamous cell carcinoma. The device is for use on primary lesions only, not previously biopsied, recurrent, or metastatic lesions, or lesions on certain anatomical locations like palms, soles, mucosal surfaces, genitals, ears, within 1 cm of the eye, or under nails.",
+  "knownPerformanceLimitations": "Performance has not been specifically evaluated in patients with increased risk for skin cancer (e.g., inherited/drug-induced photosensitivity, genetic predisposition, immune compromise). It is not tested on rare skin cancer types or lesions suggestive of malignancies other than melanoma, BCC, and SCC. It is not for use on lesions previously biopsied, recurrent, or metastatic; on scars, tattoos, sunburned skin, hairy areas; or on palms, soles, mucosal surfaces, genitals, ears, within 1 cm of the eye, or under nails.",
+  "skinTypeRepresentationEquity": "Less data is available for sensitivity of the DermaSensor device for melanoma in Fitzpatrick skin phototypes IV-VI due to lower prevalence of skin cancer in these groups. The decision to refer patients with suspicious pigmented lesions in this group should be primarily based on clinical concern. The training and tuning datasets included a majority of Fitzpatrick phototypes I-III and individuals who self-identified as White.",
+  "requiredClinicianOversight": "Yes, the device is a prescription device and must be operated by trained healthcare professionals. It is not intended for at-home use and does not replace physician judgment or clinical decision-making.",
+  "modelType": "Artificial intelligence/machine learning (AI/ML) based software algorithm utilizing Elastic Scattering Spectroscopy (ESS). The final architecture has 10 neural networks trained on different architectures and training set variations, including feedforward neural networks and deep neural networks based on ResNet-18 architecture.",
+  "trainingData": {
+    "description": "The device was trained on an expansive databank of spectral scans of over 2000 lesions from multiple health care settings, comprising over 10,000 readings. The training dataset contained 950 lesions (approximately 4,200 spectra) and included a majority of older patients (age 60-79), Fitzpatrick phototypes I-III, and individuals who self-identified as White. Lesions on the head and neck constituted the majority of the training data. The dataset included BCC, SCC, melanoma (including severely atypical nevi), and various benign lesion mimics.",
+    "datasetUrl": null
+  },
+  "modelDevelopmentAndValidation": {
+    "description": "The DermaSensor device utilizes optical spectroscopy and an AI/ML-based software algorithm. Algorithm development involved initial work on ESS technology to identify optimal wavelength range and spectral features. Clinical development included blinded, multicenter clinical studies. A prospective, multicenter clinical validation study was conducted at 4 US investigational sites, enrolling 614 lesions from 394 participants. The device was validated against histopathologic evaluation by expert dermatologists.",
+    "publicationUrl": "https://www.bu.edu/bmo/files/2024/02/Dermasensor-paper-2.pdf"
+  },
+  "clinicalTrial": {
+    "identifier": "NCT05126173",
+    "url": "https://clinicaltrials.gov/study/NCT05126173",
+    "description": "The device was evaluated in the DERM-SUCCESS study (NCT05126173), an observational study led by the Mayo Clinic across 22 study centers, enrolling over 1000 patients. A companion clinical utility study investigated DermaSensor’s usage with 108 physicians."
+  },
+  "performance": {
+    "summary": "In a clinical validation study, the overall device sensitivity was 97.04% and specificity was 26.22%. No statistically significant difference was found between the device and dermatologist sensitivity (P = .8203). The overall Negative Predictive Value (NPV) was 89.58% and Positive Predictive Value (PPV) was 57.54%. A separate study showed 96% sensitivity across all 224 types of skin cancers and a 97% chance of negative results being benign.",
+    "metrics": [
+      {
+        "name": "Overall Sensitivity",
+        "value": "97.04%",
+        "population": "All lesions in clinical validation study"
+      },
+      {
+        "name": "Sensitivity",
+        "value": "96.67%",
+        "population": "Melanoma (includes high-risk melanocytic pathologies)"
+      },
+      {
+        "name": "Sensitivity",
+        "value": "97.22%",
+        "population": "Basal Cell Carcinoma (BCC)"
+      },
+      {
+        "name": "Sensitivity",
+        "value": "97.01%",
+        "population": "Squamous Cell Carcinoma (SCC)"
+      },
+      {
+        "name": "Overall Specificity",
+        "value": "26.22%",
+        "population": "All lesions in clinical validation study"
+      },
+      {
+        "name": "Overall Negative Predictive Value (NPV)",
+        "value": "89.58%",
+        "population": "All lesions in clinical validation study"
+      },
+      {
+        "name": "Overall Positive Predictive Value (PPV)",
+        "value": "57.54%",
+        "population": "All lesions in clinical validation study"
+      },
+      {
+        "name": "Sensitivity",
+        "value": "96%",
+        "population": "Across all 224 types of skin cancers (DERM-SUCCESS study)"
+      },
+      {
+        "name": "Negative Results Chance of Being Benign",
+        "value": "97%",
+        "population": "Across all skin cancers (DERM-SUCCESS study)"
+      }
+    ]
+  },
+  "performanceEvaluationLimitations": "The overall specificity of the dermatologists was higher than that of the ESS device, assuming all unbiopsied lesions enrolled by dermatologists were benign. FDA requires postmarket surveillance to confirm performance in demographic groups representative of the U.S. population, including those with limited representation of melanomas in premarket studies (e.g., Fitzpatrick skin phototypes IV, V, and VI) or in whom sensitivity was lower than 90%.",
+  "ongoingMonitoringPlan": "Mandated postmarket surveillance by the FDA, including clinical validation performance testing in patients from demographic groups representative of the U.S. population (e.g., Fitzpatrick skin phototypes IV, V, and VI) to assess impact on effectiveness. Progress reports are required annually, or every 6 months if enrollment milestones are not met, until the final study report is submitted three months from study completion.",
+  "scheduledUpdates": null,
+  "contact": {
+    "email": null,
+    "url": "https://www.dermasensor.com/customer-portal/#Submit-Support-Request"
+  }
+}

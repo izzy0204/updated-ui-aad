@@ -1,0 +1,55 @@
+{
+  "schemaVersion": "clinical-model-card-2.0",
+  "modelName": "Forus",
+  "applicationUrl": "https://forus.com/",
+  "developer": "Forus, Inc. (formerly Tandem / Tandem Technology, Inc.), based in New York, NY.",
+  "regulatoryApprovalStatus": "Not an FDA-authorized medical device; administrative medication-access / prior-authorization workflow platform (consumer/provider tooling).",
+  "regulatoryApprovalDate": null,
+  "version": "",
+  "lastUpdated": "2026-08-21",
+  "availability": "Free for providers and patients in the United States; supports practices in all 50 states and works with any EHR.",
+  "summary": "Forus is an AI-powered medication access platform that automates steps from prescription to affordable treatment—prior authorizations, appeals, enrollment forms, benefit verifications, pharmacy routing, affordability programs, and patient communication—so patients can start therapy faster.",
+  "medicalPurpose": "Accelerate and simplify patient access to prescribed medications by automating administrative medication-access workflows (including pharmacy-benefit and buy-and-bill support) across drugs, insurance plans, and pharmacies.",
+  "acceptableInput": "Prescription and patient information from the clinician’s EHR workflow (prescribe in the EHR as usual; Forus generates and submits payer-specific prior authorization materials).",
+  "output": "Automated prior authorizations, customized appeal letters, enrollment forms, pharmacy routing, benefit verifications, affordability/financial assistance options, and patient/provider status updates.",
+  "roleInDecisionMaking": "Forus automates administrative work after the clinical decision to prescribe; it does not replace the clinician’s prescribing judgment. Clinicians prescribe the therapy they choose, and Forus handles access logistics.",
+  "intendedUsers": "Clinicians and practice staff (including dermatology, allergy, GI, rheumatology, neurology, and other specialties), as well as pharmacies, payers, and biopharma partners connected through the Forus network.",
+  "targetPatientPopulation": "U.S. patients prescribed medications that require prior authorization or other access support, including specialty and dermatology medications.",
+  "knownPerformanceLimitations": "Forus focuses on medication access / prior authorization workflows; it is not a diagnostic or treatment-recommendation clinical AI. Practices that do not e-prescribe may have limited support. Performance can vary by payer, drug, and specialty. Specific model error rates are not publicly disclosed.",
+  "skinTypeRepresentationEquity": "Not applicable to core administrative PA automation; skin-tone representation is not a product performance axis for Forus’s medication-access workflows.",
+  "requiredClinicianOversight": "Yes. Clinicians remain responsible for the clinical decision to prescribe. Forus automates administrative medication-access steps after the prescription is placed.",
+  "modelType": "AI-powered workflow automation / medication-access platform (including LLM-assisted PA form answering and appeal generation, with LLM-as-judge verification against patient records).",
+  "trainingData": {
+    "description": "Uses first-party prior authorization and medication-access interaction data from the platform network; detailed training corpora and foundation-model identities are not fully disclosed publicly.",
+    "datasetUrl": null
+  },
+  "modelDevelopmentAndValidation": {
+    "description": "Forus publishes engineering eval methods for its LLM judge (perturbation-based evaluation of PA answer verification against clinical records). Case studies on forus.com report practice-level access outcomes (e.g., Family Allergy & Asthma; DOCS Dermatology).",
+    "publicationUrl": "https://build.forus.com/how-we-evaluate-our-llm-judge-a-perturbation-based-approach"
+  },
+  "clinicalTrial": {
+    "description": "Not disclosed / not applicable as a drug or device pivotal trial for this administrative platform."
+  },
+  "performance": {
+    "summary": "Provider-facing metrics reported by Forus include ~1.1 median days to prior authorization approval in featured practices, ~3× more authorizations completed per day, and ~2× greater success filling first-line prescriptions. Family Allergy & Asthma reported cutting PA turnaround from 7+ days to 1.1 days and ~70% lower per-patient admin workload; DOCS Dermatology reported same-day submissions with approvals in <1 day.",
+    "metrics": [
+      {
+        "name": "Median days to PA approval (featured practices)",
+        "value": "1.1",
+        "population": "Provider case studies on forus.com"
+      },
+      {
+        "name": "Per-patient admin workload reduction (Family Allergy & Asthma)",
+        "value": "70%",
+        "population": "Family Allergy & Asthma case study"
+      }
+    ]
+  },
+  "performanceEvaluationLimitations": "Public metrics are largely case studies / marketing outcomes rather than peer-reviewed diagnostic AUROC-style evaluations; independent validation is limited.",
+  "plansForOngoingMonitoring": "Forus states it is HIPAA-compliant and SOC 2 Type II certified, with end-to-end encryption and US-based enterprise storage; security documentation available via Trust Center / security@forus.com. Clinical Intelligence and engineering teams continuously improve PA automation and judge calibration.",
+  "scheduledUpdates": "Continuous product iteration (not a fixed public release calendar).",
+  "inquiries": {
+    "email": "security@forus.com",
+    "url": "https://forus.com/"
+  }
+}

@@ -1,0 +1,1401 @@
+{
+  "created_at": "2026-08-21T05:46:43.340495+00:00",
+  "n_unique_urls_all": 114,
+  "n_urls_this_run": 114,
+  "urls": [
+    {
+      "url": "https://about.me/farakamangar",
+      "cards": [
+        "src/core/pages/preloaded_cards_eval3/dermgpt-auto-eval-3.citations.json",
+        "src/core/pages/preloaded_cards_eval3/dermgpt-auto-eval-3.clinical.md",
+        "eval/ui_cards_eval3/dermgpt-auto-eval-3.md"
+      ],
+      "source_kinds": [
+        "citations_field",
+        "citations_metadata",
+        "citations_references",
+        "markdown"
+      ]
+    },
+    {
+      "url": "https://assets.bmctoday.net/practicaldermatology/pdfs/PD1123_Digital%20Practice.pdf",
+      "cards": [
+        "src/core/pages/preloaded_cards_eval3/dermgpt-auto-eval-3.citations.json",
+        "src/core/pages/preloaded_cards_eval3/dermgpt-auto-eval-3.clinical.md",
+        "eval/ui_cards_eval3/dermgpt-auto-eval-3.md"
+      ],
+      "source_kinds": [
+        "citations_field",
+        "citations_metadata",
+        "citations_references",
+        "markdown"
+      ]
+    },
+    {
+      "url": "https://build.forus.com/how-we-evaluate-our-llm-judge-a-perturbation-based-approach",
+      "cards": [
+        "src/core/pages/preloaded_cards_eval3/tandem-manual-eval-3.citations.json",
+        "eval/ui_cards_eval3/Forus.md",
+        "eval/ui_cards_eval3/Tandem.md",
+        "eval/ui_cards_eval3/tandem-manual-eval-3.md"
+      ],
+      "source_kinds": [
+        "citations_references",
+        "markdown"
+      ]
+    },
+    {
+      "url": "https://clinicaltrials.gov/study/NCT04116983",
+      "cards": [
+        "src/core/pages/preloaded_cards_eval3/derm-manual-eval-3.citations.json",
+        "src/core/pages/preloaded_cards_eval3/derm-manual-eval-3.clinical.md",
+        "eval/ui_cards_eval3/DERM.md",
+        "eval/ui_cards_eval3/derm-manual-eval-3.md"
+      ],
+      "source_kinds": [
+        "citations_references",
+        "markdown"
+      ]
+    },
+    {
+      "url": "https://clinicaltrials.gov/study/NCT04123678",
+      "cards": [
+        "src/core/pages/preloaded_cards_eval3/derm-manual-eval-3.citations.json",
+        "eval/ui_cards_eval3/DERM.md",
+        "eval/ui_cards_eval3/derm-manual-eval-3.md"
+      ],
+      "source_kinds": [
+        "citations_references",
+        "markdown"
+      ]
+    },
+    {
+      "url": "https://clinicaltrials.gov/study/NCT05126173",
+      "cards": [
+        "src/core/pages/preloaded_cards_eval3/derm-manual-eval-3.citations.json",
+        "eval/ui_cards_eval3/DERM.md",
+        "eval/ui_cards_eval3/derm-manual-eval-3.md"
+      ],
+      "source_kinds": [
+        "citations_references",
+        "markdown"
+      ]
+    },
+    {
+      "url": "https://content.skinvision.com/website/en/instructions-for-use-6-0-20.pdf",
+      "cards": [
+        "src/core/pages/preloaded_cards_eval3/skinvision-manual-eval-3.citations.json",
+        "eval/ui_cards_eval3/SkinVision.md"
+      ],
+      "source_kinds": [
+        "citations_references",
+        "markdown"
+      ]
+    },
+    {
+      "url": "https://datamatrixmedical.com/tandem-ai-prior-authorization-reviews-compared-to-prior-authorization-specialists/",
+      "cards": [
+        "src/core/pages/preloaded_cards_eval3/tandem-manual-eval-3.citations.json",
+        "eval/ui_cards_eval3/Forus.md",
+        "eval/ui_cards_eval3/Tandem.md",
+        "eval/ui_cards_eval3/tandem-manual-eval-3.md"
+      ],
+      "source_kinds": [
+        "citations_references",
+        "markdown"
+      ]
+    },
+    {
+      "url": "https://dermnppa.org/new-branding-capital-investment-for-forus",
+      "cards": [
+        "src/core/pages/preloaded_cards_eval3/tandem-auto-eval-3.citations.json",
+        "src/core/pages/preloaded_cards_eval3/tandem-auto-eval-3.clinical.md",
+        "eval/ui_cards_eval3/tandem-auto-eval-3.md"
+      ],
+      "source_kinds": [
+        "citations_field",
+        "citations_metadata",
+        "citations_references",
+        "markdown"
+      ]
+    },
+    {
+      "url": "https://digitalhealthfunding.com/forus-formerly-tandem-raises-160m-to-build-the-foundation-for-modern-medicine",
+      "cards": [
+        "src/core/pages/preloaded_cards_eval3/tandem-auto-eval-3.citations.json",
+        "src/core/pages/preloaded_cards_eval3/tandem-auto-eval-3.clinical.md",
+        "eval/ui_cards_eval3/tandem-auto-eval-3.md"
+      ],
+      "source_kinds": [
+        "citations_field",
+        "citations_metadata",
+        "citations_references",
+        "markdown"
+      ]
+    },
+    {
+      "url": "https://doi.org/10.1016/j.jdin.2023.10.011",
+      "cards": [
+        "src/core/pages/preloaded_cards_eval3/dermasensor-manual-eval-3.citations.json",
+        "eval/ui_cards_eval3/Dermasensor.md"
+      ],
+      "source_kinds": [
+        "citations_references",
+        "markdown"
+      ]
+    },
+    {
+      "url": "https://entrepreneurloop.com/tandem-ai-prescription-startup-billion-valuation-2026/",
+      "cards": [
+        "src/core/pages/preloaded_cards_eval3/tandem-manual-eval-3.citations.json",
+        "eval/ui_cards_eval3/Forus.md",
+        "eval/ui_cards_eval3/Tandem.md",
+        "eval/ui_cards_eval3/tandem-manual-eval-3.md"
+      ],
+      "source_kinds": [
+        "citations_references",
+        "markdown"
+      ]
+    },
+    {
+      "url": "https://forus.com",
+      "cards": [
+        "src/core/pages/preloaded_cards_eval3/tandem-auto-eval-3.clinical.md",
+        "eval/ui_cards_eval3/tandem-auto-eval-3.md"
+      ],
+      "source_kinds": [
+        "markdown"
+      ]
+    },
+    {
+      "url": "https://forus.com/",
+      "cards": [
+        "src/core/pages/preloaded_cards_eval3/tandem-manual-eval-3.citations.json",
+        "src/core/pages/preloaded_cards_eval3/tandem-manual-eval-3.clinical.md",
+        "eval/ui_cards_eval3/Forus.md",
+        "eval/ui_cards_eval3/Tandem.md",
+        "eval/ui_cards_eval3/tandem-manual-eval-3.md"
+      ],
+      "source_kinds": [
+        "citations_references",
+        "markdown"
+      ]
+    },
+    {
+      "url": "https://forus.com/company",
+      "cards": [
+        "src/core/pages/preloaded_cards_eval3/tandem-auto-eval-3.citations.json",
+        "src/core/pages/preloaded_cards_eval3/tandem-auto-eval-3.clinical.md",
+        "eval/ui_cards_eval3/tandem-auto-eval-3.md"
+      ],
+      "source_kinds": [
+        "citations_field",
+        "citations_metadata",
+        "markdown"
+      ]
+    },
+    {
+      "url": "https://forus.com/stories",
+      "cards": [
+        "src/core/pages/preloaded_cards_eval3/tandem-auto-eval-3.citations.json",
+        "src/core/pages/preloaded_cards_eval3/tandem-manual-eval-3.citations.json",
+        "src/core/pages/preloaded_cards_eval3/tandem-auto-eval-3.clinical.md",
+        "eval/ui_cards_eval3/Forus.md",
+        "eval/ui_cards_eval3/Tandem.md",
+        "eval/ui_cards_eval3/tandem-auto-eval-3.md",
+        "eval/ui_cards_eval3/tandem-manual-eval-3.md"
+      ],
+      "source_kinds": [
+        "citations_field",
+        "citations_metadata",
+        "citations_references",
+        "markdown"
+      ]
+    },
+    {
+      "url": "https://forus.com/stories/a-field-reps-guide-to-forus",
+      "cards": [
+        "src/core/pages/preloaded_cards_eval3/tandem-manual-eval-3.citations.json",
+        "eval/ui_cards_eval3/Forus.md",
+        "eval/ui_cards_eval3/Tandem.md",
+        "eval/ui_cards_eval3/tandem-manual-eval-3.md"
+      ],
+      "source_kinds": [
+        "citations_references",
+        "markdown"
+      ]
+    },
+    {
+      "url": "https://forus.com/stories/family-allergy-and-asthmas-prior-authorization-transformation",
+      "cards": [
+        "src/core/pages/preloaded_cards_eval3/tandem-manual-eval-3.citations.json",
+        "eval/ui_cards_eval3/Forus.md",
+        "eval/ui_cards_eval3/Tandem.md",
+        "eval/ui_cards_eval3/tandem-manual-eval-3.md"
+      ],
+      "source_kinds": [
+        "citations_references",
+        "markdown"
+      ]
+    },
+    {
+      "url": "https://forus.com/stories/forus-announcement",
+      "cards": [
+        "src/core/pages/preloaded_cards_eval3/tandem-auto-eval-3.citations.json"
+      ],
+      "source_kinds": [
+        "citations_metadata"
+      ]
+    },
+    {
+      "url": "https://forus.com/stories/how-docs-dermatology-accelerated-medication-access-across-140-locations",
+      "cards": [
+        "src/core/pages/preloaded_cards_eval3/tandem-manual-eval-3.citations.json",
+        "eval/ui_cards_eval3/Forus.md",
+        "eval/ui_cards_eval3/Tandem.md",
+        "eval/ui_cards_eval3/tandem-manual-eval-3.md"
+      ],
+      "source_kinds": [
+        "citations_references",
+        "markdown"
+      ]
+    },
+    {
+      "url": "https://forus.com/stories/why-thousands-of-providers-trust-forus",
+      "cards": [
+        "src/core/pages/preloaded_cards_eval3/tandem-manual-eval-3.citations.json",
+        "eval/ui_cards_eval3/Forus.md",
+        "eval/ui_cards_eval3/Tandem.md",
+        "eval/ui_cards_eval3/tandem-manual-eval-3.md"
+      ],
+      "source_kinds": [
+        "citations_references",
+        "markdown"
+      ]
+    },
+    {
+      "url": "https://medicalfuturist.com/aspiring-dermatology-app-under-the-microscope-the-skinvision-review",
+      "cards": [
+        "src/core/pages/preloaded_cards_eval3/skinvision-manual-eval-3.citations.json",
+        "eval/ui_cards_eval3/SkinVision.md"
+      ],
+      "source_kinds": [
+        "citations_references",
+        "markdown"
+      ]
+    },
+    {
+      "url": "https://medicalxpress.com/news/2019-09-skinvision-skin-cancer.html",
+      "cards": [
+        "src/core/pages/preloaded_cards_eval3/skinvision-manual-eval-3.citations.json",
+        "eval/ui_cards_eval3/SkinVision.md"
+      ],
+      "source_kinds": [
+        "citations_references",
+        "markdown"
+      ]
+    },
+    {
+      "url": "https://neimandermatology.com/patient-resources/forus",
+      "cards": [
+        "src/core/pages/preloaded_cards_eval3/tandem-auto-eval-3.citations.json",
+        "src/core/pages/preloaded_cards_eval3/tandem-auto-eval-3.clinical.md",
+        "eval/ui_cards_eval3/tandem-auto-eval-3.md"
+      ],
+      "source_kinds": [
+        "citations_field",
+        "citations_metadata",
+        "citations_references",
+        "markdown"
+      ]
+    },
+    {
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC10645139/",
+      "cards": [
+        "src/core/pages/preloaded_cards_eval3/derm-manual-eval-3.citations.json",
+        "src/core/pages/preloaded_cards_eval3/derm-manual-eval-3.clinical.md",
+        "eval/ui_cards_eval3/DERM.md",
+        "eval/ui_cards_eval3/derm-manual-eval-3.md"
+      ],
+      "source_kinds": [
+        "citations_references",
+        "markdown"
+      ]
+    },
+    {
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC10996444/",
+      "cards": [
+        "src/core/pages/preloaded_cards_eval3/derm-manual-eval-3.citations.json",
+        "eval/ui_cards_eval3/DERM.md",
+        "eval/ui_cards_eval3/derm-manual-eval-3.md"
+      ],
+      "source_kinds": [
+        "citations_references",
+        "markdown"
+      ]
+    },
+    {
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11140271/",
+      "cards": [
+        "src/core/pages/preloaded_cards_eval3/dermgpt-auto-eval-3.citations.json",
+        "src/core/pages/preloaded_cards_eval3/dermgpt-manual-eval-3.citations.json",
+        "src/core/pages/preloaded_cards_eval3/dermgpt-auto-eval-3.clinical.md",
+        "eval/ui_cards_eval3/DermGPT.md",
+        "eval/ui_cards_eval3/dermgpt-auto-eval-3.md"
+      ],
+      "source_kinds": [
+        "citations_metadata",
+        "citations_references",
+        "markdown"
+      ]
+    },
+    {
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC12126654/",
+      "cards": [
+        "src/core/pages/preloaded_cards_eval3/dermasensor-auto-eval-3.citations.json",
+        "src/core/pages/preloaded_cards_eval3/dermasensor-manual-eval-3.citations.json",
+        "src/core/pages/preloaded_cards_eval3/dermasensor-auto-eval-3.clinical.md",
+        "eval/ui_cards_eval3/Dermasensor.md",
+        "eval/ui_cards_eval3/dermasensor-auto-eval-3.md"
+      ],
+      "source_kinds": [
+        "citations_field",
+        "citations_metadata",
+        "citations_references",
+        "markdown"
+      ]
+    },
+    {
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC7027514/",
+      "cards": [
+        "src/core/pages/preloaded_cards_eval3/skinvision-manual-eval-3.citations.json",
+        "eval/ui_cards_eval3/SkinVision.md"
+      ],
+      "source_kinds": [
+        "citations_references",
+        "markdown"
+      ]
+    },
+    {
+      "url": "https://practicaldermatology.com/topics/practice-management/ai-based-dermgpt-focuses-on-improved-clinic-productivity/23990/",
+      "cards": [
+        "src/core/pages/preloaded_cards_eval3/dermgpt-auto-eval-3.citations.json",
+        "src/core/pages/preloaded_cards_eval3/dermgpt-manual-eval-3.citations.json",
+        "src/core/pages/preloaded_cards_eval3/dermgpt-auto-eval-3.clinical.md",
+        "eval/ui_cards_eval3/DermGPT.md",
+        "eval/ui_cards_eval3/dermgpt-auto-eval-3.md"
+      ],
+      "source_kinds": [
+        "citations_field",
+        "citations_metadata",
+        "citations_references",
+        "markdown"
+      ]
+    },
+    {
+      "url": "https://pubmed.ncbi.nlm.nih.gov/31494983/",
+      "cards": [
+        "src/core/pages/preloaded_cards_eval3/skinvision-manual-eval-3.citations.json",
+        "src/core/pages/preloaded_cards_eval3/skinvision-manual-eval-3.clinical.md",
+        "eval/ui_cards_eval3/SkinVision.md"
+      ],
+      "source_kinds": [
+        "citations_references",
+        "markdown"
+      ]
+    },
+    {
+      "url": "https://pubmed.ncbi.nlm.nih.gov/37869160/",
+      "cards": [
+        "src/core/pages/preloaded_cards_eval3/derm-manual-eval-3.citations.json",
+        "eval/ui_cards_eval3/DERM.md",
+        "eval/ui_cards_eval3/derm-manual-eval-3.md"
+      ],
+      "source_kinds": [
+        "citations_references",
+        "markdown"
+      ]
+    },
+    {
+      "url": "https://pymnts.com/healthcare/2026/tandem-technology-raise-100-million-dollars-prescription-automation/",
+      "cards": [
+        "src/core/pages/preloaded_cards_eval3/tandem-manual-eval-3.citations.json",
+        "eval/ui_cards_eval3/Forus.md",
+        "eval/ui_cards_eval3/Tandem.md",
+        "eval/ui_cards_eval3/tandem-manual-eval-3.md"
+      ],
+      "source_kinds": [
+        "citations_references",
+        "markdown"
+      ]
+    },
+    {
+      "url": "https://rcmfinder.com/guide-dermatology-services-insurance-coverage",
+      "cards": [
+        "src/core/pages/preloaded_cards_eval3/derm-auto-eval-3.citations.json"
+      ],
+      "source_kinds": [
+        "citations_metadata"
+      ]
+    },
+    {
+      "url": "https://repub.eur.nl/pub/119322/Repub_119322_O-A.pdf",
+      "cards": [
+        "src/core/pages/preloaded_cards_eval3/skinvision-manual-eval-3.citations.json",
+        "eval/ui_cards_eval3/SkinVision.md"
+      ],
+      "source_kinds": [
+        "citations_references",
+        "markdown"
+      ]
+    },
+    {
+      "url": "https://skin-analytics.com/",
+      "cards": [
+        "src/core/pages/preloaded_cards_eval3/derm-auto-eval-3.citations.json",
+        "src/core/pages/preloaded_cards_eval3/derm-auto-eval-3.clinical.md",
+        "src/core/pages/preloaded_cards_eval3/derm-manual-eval-3.clinical.md",
+        "eval/ui_cards_eval3/DERM.md",
+        "eval/ui_cards_eval3/derm-auto-eval-3.md",
+        "eval/ui_cards_eval3/derm-manual-eval-3.md"
+      ],
+      "source_kinds": [
+        "citations_field",
+        "citations_metadata",
+        "citations_references",
+        "markdown"
+      ]
+    },
+    {
+      "url": "https://skin-analytics.com/ai-pathways/certifications/",
+      "cards": [
+        "src/core/pages/preloaded_cards_eval3/derm-manual-eval-3.citations.json",
+        "eval/ui_cards_eval3/DERM.md",
+        "eval/ui_cards_eval3/derm-manual-eval-3.md"
+      ],
+      "source_kinds": [
+        "citations_references",
+        "markdown"
+      ]
+    },
+    {
+      "url": "https://skin-analytics.com/ai-pathways/derm-performance/",
+      "cards": [
+        "src/core/pages/preloaded_cards_eval3/derm-manual-eval-3.citations.json",
+        "eval/ui_cards_eval3/DERM.md",
+        "eval/ui_cards_eval3/derm-manual-eval-3.md"
+      ],
+      "source_kinds": [
+        "citations_references",
+        "markdown"
+      ]
+    },
+    {
+      "url": "https://skin-analytics.com/ai-pathways/equality-of-access/",
+      "cards": [
+        "src/core/pages/preloaded_cards_eval3/derm-manual-eval-3.citations.json",
+        "eval/ui_cards_eval3/DERM.md",
+        "eval/ui_cards_eval3/derm-manual-eval-3.md"
+      ],
+      "source_kinds": [
+        "citations_references",
+        "markdown"
+      ]
+    },
+    {
+      "url": "https://skin-analytics.com/faq/",
+      "cards": [
+        "src/core/pages/preloaded_cards_eval3/derm-manual-eval-3.citations.json",
+        "eval/ui_cards_eval3/DERM.md",
+        "eval/ui_cards_eval3/derm-manual-eval-3.md"
+      ],
+      "source_kinds": [
+        "citations_references",
+        "markdown"
+      ]
+    },
+    {
+      "url": "https://skin-analytics.com/news/regulatory-certification/derm-class-iii-ce-mark/",
+      "cards": [
+        "src/core/pages/preloaded_cards_eval3/derm-manual-eval-3.citations.json",
+        "eval/ui_cards_eval3/DERM.md",
+        "eval/ui_cards_eval3/derm-manual-eval-3.md"
+      ],
+      "source_kinds": [
+        "citations_references",
+        "markdown"
+      ]
+    },
+    {
+      "url": "https://skin-analytics.com/news/regulatory-certification/skin-analytics-achieves-class-iia-ukca-mark-for-derm/",
+      "cards": [
+        "src/core/pages/preloaded_cards_eval3/derm-manual-eval-3.citations.json",
+        "eval/ui_cards_eval3/DERM.md",
+        "eval/ui_cards_eval3/derm-manual-eval-3.md"
+      ],
+      "source_kinds": [
+        "citations_references",
+        "markdown"
+      ]
+    },
+    {
+      "url": "https://skin-analytics.com/news/skin-cancer/prospective-study-shows-ai-as-accurate-as-clinical-specialist/",
+      "cards": [
+        "src/core/pages/preloaded_cards_eval3/derm-manual-eval-3.citations.json",
+        "eval/ui_cards_eval3/DERM.md",
+        "eval/ui_cards_eval3/derm-manual-eval-3.md"
+      ],
+      "source_kinds": [
+        "citations_references",
+        "markdown"
+      ]
+    },
+    {
+      "url": "https://skin-analytics.com/patient-information",
+      "cards": [
+        "src/core/pages/preloaded_cards_eval3/derm-auto-eval-3.citations.json",
+        "src/core/pages/preloaded_cards_eval3/derm-auto-eval-3.clinical.md",
+        "eval/ui_cards_eval3/derm-auto-eval-3.md"
+      ],
+      "source_kinds": [
+        "citations_field",
+        "citations_metadata",
+        "citations_references",
+        "markdown"
+      ]
+    },
+    {
+      "url": "https://skin-analytics.com/wp-content/uploads/2025/01/SA-001165-LB-v12-DERM-Instructions-for-Use_20Jan2025.pdf",
+      "cards": [
+        "src/core/pages/preloaded_cards_eval3/derm-manual-eval-3.citations.json",
+        "eval/ui_cards_eval3/DERM.md",
+        "eval/ui_cards_eval3/derm-manual-eval-3.md"
+      ],
+      "source_kinds": [
+        "citations_references",
+        "markdown"
+      ]
+    },
+    {
+      "url": "https://skin-analytics.com/wp-content/uploads/2025/04/SA-001165-LB-13-DERM-Instructions-for-Use.pdf",
+      "cards": [
+        "src/core/pages/preloaded_cards_eval3/derm-auto-eval-3.citations.json",
+        "src/core/pages/preloaded_cards_eval3/derm-auto-eval-3.clinical.md",
+        "eval/ui_cards_eval3/derm-auto-eval-3.md"
+      ],
+      "source_kinds": [
+        "citations_field",
+        "citations_metadata",
+        "citations_references",
+        "markdown"
+      ]
+    },
+    {
+      "url": "https://skinvision-static-content.s3-eu-west-1.amazonaws.com/website/eifu/2.10/Instructions_for_Use_SkinVision_Service_6.0_-_EN_-_v2.10.pdf",
+      "cards": [
+        "src/core/pages/preloaded_cards_eval3/skinvision-manual-eval-3.citations.json",
+        "eval/ui_cards_eval3/SkinVision.md"
+      ],
+      "source_kinds": [
+        "citations_references",
+        "markdown"
+      ]
+    },
+    {
+      "url": "https://skinvision-static-content.s3-eu-west-1.amazonaws.com/website/en/Privacy_Policy_SkinVision.pdf",
+      "cards": [
+        "src/core/pages/preloaded_cards_eval3/skinvision-manual-eval-3.citations.json",
+        "eval/ui_cards_eval3/SkinVision.md"
+      ],
+      "source_kinds": [
+        "citations_references",
+        "markdown"
+      ]
+    },
+    {
+      "url": "https://support.dermasensor.com/",
+      "cards": [
+        "src/core/pages/preloaded_cards_eval3/dermasensor-manual-eval-3.citations.json",
+        "eval/ui_cards_eval3/Dermasensor.md"
+      ],
+      "source_kinds": [
+        "citations_references",
+        "markdown"
+      ]
+    },
+    {
+      "url": "https://techfundingnews.com/tandem-1b-valuation-100m-round/",
+      "cards": [
+        "src/core/pages/preloaded_cards_eval3/tandem-manual-eval-3.citations.json",
+        "eval/ui_cards_eval3/Forus.md",
+        "eval/ui_cards_eval3/Tandem.md",
+        "eval/ui_cards_eval3/tandem-manual-eval-3.md"
+      ],
+      "source_kinds": [
+        "citations_references",
+        "markdown"
+      ]
+    },
+    {
+      "url": "https://unityinsights.co.uk/our-insights/ai-in-health-and-care-award-skin-analytics-evaluation/",
+      "cards": [
+        "src/core/pages/preloaded_cards_eval3/derm-manual-eval-3.citations.json",
+        "eval/ui_cards_eval3/DERM.md",
+        "eval/ui_cards_eval3/derm-manual-eval-3.md"
+      ],
+      "source_kinds": [
+        "citations_references",
+        "markdown"
+      ]
+    },
+    {
+      "url": "https://www.accessdata.fda.gov/cdrh_docs/pdf23/DEN230008.pdf",
+      "cards": [
+        "src/core/pages/preloaded_cards_eval3/dermasensor-auto-eval-3.citations.json",
+        "src/core/pages/preloaded_cards_eval3/dermasensor-manual-eval-3.citations.json",
+        "src/core/pages/preloaded_cards_eval3/dermasensor-auto-eval-3.clinical.md",
+        "eval/ui_cards_eval3/Dermasensor.md",
+        "eval/ui_cards_eval3/dermasensor-auto-eval-3.md"
+      ],
+      "source_kinds": [
+        "citations_field",
+        "citations_metadata",
+        "citations_references",
+        "markdown"
+      ]
+    },
+    {
+      "url": "https://www.accessdata.fda.gov/cdrh_docs/reviews/DEN230008.pdf",
+      "cards": [
+        "src/core/pages/preloaded_cards_eval3/dermasensor-auto-eval-3.citations.json",
+        "src/core/pages/preloaded_cards_eval3/dermasensor-auto-eval-3.clinical.md",
+        "eval/ui_cards_eval3/dermasensor-auto-eval-3.md"
+      ],
+      "source_kinds": [
+        "citations_field",
+        "citations_metadata",
+        "citations_references",
+        "markdown"
+      ]
+    },
+    {
+      "url": "https://www.aimatmelanoma.org/ai-powered-diagnostics",
+      "cards": [
+        "src/core/pages/preloaded_cards_eval3/dermasensor-auto-eval-3.citations.json",
+        "src/core/pages/preloaded_cards_eval3/dermasensor-auto-eval-3.clinical.md",
+        "eval/ui_cards_eval3/dermasensor-auto-eval-3.md"
+      ],
+      "source_kinds": [
+        "citations_field",
+        "citations_metadata",
+        "citations_references",
+        "markdown"
+      ]
+    },
+    {
+      "url": "https://www.ajmc.com/view/review-examines-pros-and-cons-in-ai-detection-of-skin-cancer",
+      "cards": [
+        "src/core/pages/preloaded_cards_eval3/skinvision-manual-eval-3.citations.json",
+        "eval/ui_cards_eval3/SkinVision.md"
+      ],
+      "source_kinds": [
+        "citations_references",
+        "markdown"
+      ]
+    },
+    {
+      "url": "https://www.applytosupply.digitalmarketplace.service.gov.uk/g-cloud/services/422642264464760",
+      "cards": [
+        "src/core/pages/preloaded_cards_eval3/derm-auto-eval-3.citations.json",
+        "src/core/pages/preloaded_cards_eval3/derm-auto-eval-3.clinical.md",
+        "eval/ui_cards_eval3/derm-auto-eval-3.md"
+      ],
+      "source_kinds": [
+        "citations_field",
+        "citations_metadata",
+        "citations_references",
+        "markdown"
+      ]
+    },
+    {
+      "url": "https://www.bhtresearchandinnovation.org/skin-analytics",
+      "cards": [
+        "src/core/pages/preloaded_cards_eval3/derm-auto-eval-3.citations.json"
+      ],
+      "source_kinds": [
+        "citations_metadata"
+      ]
+    },
+    {
+      "url": "https://www.bloomberg.com/news/articles/2026-01-26/ai-for-prescriptions-startup-tandem-lands-1-billion-valuation",
+      "cards": [
+        "src/core/pages/preloaded_cards_eval3/tandem-manual-eval-3.citations.json",
+        "eval/ui_cards_eval3/Forus.md",
+        "eval/ui_cards_eval3/Tandem.md",
+        "eval/ui_cards_eval3/tandem-manual-eval-3.md"
+      ],
+      "source_kinds": [
+        "citations_references",
+        "markdown"
+      ]
+    },
+    {
+      "url": "https://www.bu.edu/bmo/files/2024/02/Dermasensor-paper-2.pdf",
+      "cards": [
+        "src/core/pages/preloaded_cards_eval3/dermasensor-auto-eval-3.citations.json",
+        "src/core/pages/preloaded_cards_eval3/dermasensor-auto-eval-3.clinical.md",
+        "eval/ui_cards_eval3/dermasensor-auto-eval-3.md"
+      ],
+      "source_kinds": [
+        "citations_field",
+        "citations_metadata",
+        "citations_references",
+        "markdown"
+      ]
+    },
+    {
+      "url": "https://www.businesswire.com/news/home/20260402254260/en/OpenEvidence-and-Tandem-Partner-to-Streamline-Evidence-Based-Prescribing-and-Prior-Authorizations",
+      "cards": [
+        "src/core/pages/preloaded_cards_eval3/tandem-manual-eval-3.citations.json",
+        "eval/ui_cards_eval3/Forus.md",
+        "eval/ui_cards_eval3/Tandem.md",
+        "eval/ui_cards_eval3/tandem-manual-eval-3.md"
+      ],
+      "source_kinds": [
+        "citations_references",
+        "markdown"
+      ]
+    },
+    {
+      "url": "https://www.cbinsights.com/company/skin-analytics",
+      "cards": [
+        "src/core/pages/preloaded_cards_eval3/derm-auto-eval-3.citations.json",
+        "src/core/pages/preloaded_cards_eval3/derm-auto-eval-3.clinical.md",
+        "eval/ui_cards_eval3/derm-auto-eval-3.md"
+      ],
+      "source_kinds": [
+        "citations_field",
+        "citations_metadata",
+        "citations_references",
+        "markdown"
+      ]
+    },
+    {
+      "url": "https://www.cbinsights.com/company/tandem-8",
+      "cards": [
+        "src/core/pages/preloaded_cards_eval3/tandem-auto-eval-3.citations.json",
+        "src/core/pages/preloaded_cards_eval3/tandem-auto-eval-3.clinical.md",
+        "eval/ui_cards_eval3/tandem-auto-eval-3.md"
+      ],
+      "source_kinds": [
+        "citations_field",
+        "citations_metadata",
+        "citations_references",
+        "markdown"
+      ]
+    },
+    {
+      "url": "https://www.clearviewdermatology.com/blog/dermatology-insurance-guide-what-patients-need-to-know",
+      "cards": [
+        "src/core/pages/preloaded_cards_eval3/derm-auto-eval-3.citations.json"
+      ],
+      "source_kinds": [
+        "citations_metadata"
+      ]
+    },
+    {
+      "url": "https://www.crunchbase.com/organization/dermasensor-inc",
+      "cards": [
+        "src/core/pages/preloaded_cards_eval3/dermasensor-auto-eval-3.citations.json"
+      ],
+      "source_kinds": [
+        "citations_metadata"
+      ]
+    },
+    {
+      "url": "https://www.dermasensor.com/",
+      "cards": [
+        "src/core/pages/preloaded_cards_eval3/dermasensor-auto-eval-3.citations.json",
+        "src/core/pages/preloaded_cards_eval3/dermasensor-manual-eval-3.citations.json",
+        "src/core/pages/preloaded_cards_eval3/dermasensor-auto-eval-3.clinical.md",
+        "src/core/pages/preloaded_cards_eval3/dermasensor-manual-eval-3.clinical.md",
+        "eval/ui_cards_eval3/Dermasensor.md",
+        "eval/ui_cards_eval3/dermasensor-auto-eval-3.md"
+      ],
+      "source_kinds": [
+        "citations_field",
+        "citations_references",
+        "markdown"
+      ]
+    },
+    {
+      "url": "https://www.dermasensor.com/contact-us/",
+      "cards": [
+        "src/core/pages/preloaded_cards_eval3/dermasensor-manual-eval-3.citations.json",
+        "src/core/pages/preloaded_cards_eval3/dermasensor-manual-eval-3.clinical.md",
+        "eval/ui_cards_eval3/Dermasensor.md"
+      ],
+      "source_kinds": [
+        "citations_references",
+        "markdown"
+      ]
+    },
+    {
+      "url": "https://www.dermasensor.com/customer-portal/#Submit-Support-Request",
+      "cards": [
+        "src/core/pages/preloaded_cards_eval3/dermasensor-auto-eval-3.citations.json",
+        "src/core/pages/preloaded_cards_eval3/dermasensor-auto-eval-3.clinical.md",
+        "eval/ui_cards_eval3/dermasensor-auto-eval-3.md"
+      ],
+      "source_kinds": [
+        "citations_field",
+        "citations_metadata",
+        "citations_references",
+        "markdown"
+      ]
+    },
+    {
+      "url": "https://www.dermasensor.com/faq/",
+      "cards": [
+        "src/core/pages/preloaded_cards_eval3/dermasensor-manual-eval-3.citations.json",
+        "eval/ui_cards_eval3/Dermasensor.md"
+      ],
+      "source_kinds": [
+        "citations_references",
+        "markdown"
+      ]
+    },
+    {
+      "url": "https://www.dermasensor.com/history/",
+      "cards": [
+        "src/core/pages/preloaded_cards_eval3/dermasensor-manual-eval-3.citations.json",
+        "eval/ui_cards_eval3/Dermasensor.md"
+      ],
+      "source_kinds": [
+        "citations_references",
+        "markdown"
+      ]
+    },
+    {
+      "url": "https://www.dermasensor.com/how-dermasensor-works/",
+      "cards": [
+        "src/core/pages/preloaded_cards_eval3/dermasensor-manual-eval-3.citations.json",
+        "eval/ui_cards_eval3/Dermasensor.md"
+      ],
+      "source_kinds": [
+        "citations_references",
+        "markdown"
+      ]
+    },
+    {
+      "url": "https://www.dermasensor.com/resource/advancing-skin-cancer-detection-american-academy-of-dermatology-journal-publishes-dermasensors-breakthrough-melanoma-detection-results-from-a-major-multicenter-trial/",
+      "cards": [
+        "src/core/pages/preloaded_cards_eval3/dermasensor-manual-eval-3.citations.json",
+        "eval/ui_cards_eval3/Dermasensor.md"
+      ],
+      "source_kinds": [
+        "citations_references",
+        "markdown"
+      ]
+    },
+    {
+      "url": "https://www.dermasensor.com/resource/dermasensor-coding-guide",
+      "cards": [
+        "src/core/pages/preloaded_cards_eval3/dermasensor-auto-eval-3.citations.json"
+      ],
+      "source_kinds": [
+        "citations_metadata"
+      ]
+    },
+    {
+      "url": "https://www.dermasensor.com/resource/dermasensors-mission/",
+      "cards": [
+        "src/core/pages/preloaded_cards_eval3/dermasensor-manual-eval-3.citations.json",
+        "eval/ui_cards_eval3/Dermasensor.md"
+      ],
+      "source_kinds": [
+        "citations_references",
+        "markdown"
+      ]
+    },
+    {
+      "url": "https://www.dermasensor.com/resource/fda-clearance-granted-for-first-ai-powered-medical-device-to-detect-all-three-common-skin-cancers-melanoma-basal-cell-carcinoma-and-squamous-cell-carcinoma/",
+      "cards": [
+        "src/core/pages/preloaded_cards_eval3/dermasensor-manual-eval-3.citations.json",
+        "eval/ui_cards_eval3/Dermasensor.md"
+      ],
+      "source_kinds": [
+        "citations_references",
+        "markdown"
+      ]
+    },
+    {
+      "url": "https://www.dermasensor.com/resource/two-new-studies-show-dermasensor-devices-consistent-performance-and-improvements-to-physicians-melanoma-detection/",
+      "cards": [
+        "src/core/pages/preloaded_cards_eval3/dermasensor-manual-eval-3.citations.json",
+        "eval/ui_cards_eval3/Dermasensor.md"
+      ],
+      "source_kinds": [
+        "citations_references",
+        "markdown"
+      ]
+    },
+    {
+      "url": "https://www.dermasensor.com/skin-cancer-detection-device/",
+      "cards": [
+        "src/core/pages/preloaded_cards_eval3/dermasensor-manual-eval-3.citations.json",
+        "eval/ui_cards_eval3/Dermasensor.md"
+      ],
+      "source_kinds": [
+        "citations_references",
+        "markdown"
+      ]
+    },
+    {
+      "url": "https://www.dermasensor.com/summary-of-dermasensor-device-safety-and-effectiveness-results-from-three-clinical-studies/",
+      "cards": [
+        "src/core/pages/preloaded_cards_eval3/dermasensor-manual-eval-3.citations.json",
+        "src/core/pages/preloaded_cards_eval3/dermasensor-manual-eval-3.clinical.md",
+        "eval/ui_cards_eval3/Dermasensor.md"
+      ],
+      "source_kinds": [
+        "citations_references",
+        "markdown"
+      ]
+    },
+    {
+      "url": "https://www.dermasensor.com/workflow/",
+      "cards": [
+        "src/core/pages/preloaded_cards_eval3/dermasensor-auto-eval-3.citations.json",
+        "src/core/pages/preloaded_cards_eval3/dermasensor-auto-eval-3.clinical.md",
+        "eval/ui_cards_eval3/dermasensor-auto-eval-3.md"
+      ],
+      "source_kinds": [
+        "citations_field",
+        "citations_metadata",
+        "citations_references",
+        "markdown"
+      ]
+    },
+    {
+      "url": "https://www.dermgpt.com",
+      "cards": [
+        "src/core/pages/preloaded_cards_eval3/dermgpt-auto-eval-3.clinical.md",
+        "eval/ui_cards_eval3/dermgpt-auto-eval-3.md"
+      ],
+      "source_kinds": [
+        "markdown"
+      ]
+    },
+    {
+      "url": "https://www.dermgpt.com/",
+      "cards": [
+        "src/core/pages/preloaded_cards_eval3/dermgpt-auto-eval-3.citations.json",
+        "src/core/pages/preloaded_cards_eval3/dermgpt-auto-eval-3.clinical.md",
+        "src/core/pages/preloaded_cards_eval3/dermgpt-manual-eval-3.clinical.md",
+        "eval/ui_cards_eval3/DermGPT.md",
+        "eval/ui_cards_eval3/dermgpt-auto-eval-3.md"
+      ],
+      "source_kinds": [
+        "citations_field",
+        "citations_references",
+        "markdown"
+      ]
+    },
+    {
+      "url": "https://www.dermgpt.com/about",
+      "cards": [
+        "src/core/pages/preloaded_cards_eval3/dermgpt-auto-eval-3.citations.json",
+        "src/core/pages/preloaded_cards_eval3/dermgpt-auto-eval-3.clinical.md",
+        "eval/ui_cards_eval3/dermgpt-auto-eval-3.md"
+      ],
+      "source_kinds": [
+        "citations_field",
+        "citations_metadata",
+        "citations_references",
+        "markdown"
+      ]
+    },
+    {
+      "url": "https://www.forus.com/",
+      "cards": [
+        "src/core/pages/preloaded_cards_eval3/tandem-auto-eval-3.citations.json"
+      ],
+      "source_kinds": [
+        "citations_metadata"
+      ]
+    },
+    {
+      "url": "https://www.frontiersin.org/journals/medicine/articles/10.3389/fmed.2023.1264846/full",
+      "cards": [
+        "src/core/pages/preloaded_cards_eval3/derm-manual-eval-3.citations.json",
+        "eval/ui_cards_eval3/DERM.md",
+        "eval/ui_cards_eval3/derm-manual-eval-3.md"
+      ],
+      "source_kinds": [
+        "citations_references",
+        "markdown"
+      ]
+    },
+    {
+      "url": "https://www.frontiersin.org/journals/medicine/articles/10.3389/fmed.2023.1288521/full",
+      "cards": [
+        "src/core/pages/preloaded_cards_eval3/derm-manual-eval-3.citations.json",
+        "eval/ui_cards_eval3/DERM.md",
+        "eval/ui_cards_eval3/derm-manual-eval-3.md"
+      ],
+      "source_kinds": [
+        "citations_references",
+        "markdown"
+      ]
+    },
+    {
+      "url": "https://www.jaad.org/article/S0190-9622(23)01171-4/fulltext",
+      "cards": [
+        "src/core/pages/preloaded_cards_eval3/derm-auto-eval-3.citations.json"
+      ],
+      "source_kinds": [
+        "citations_metadata"
+      ]
+    },
+    {
+      "url": "https://www.linkedin.com/company/dermasensor",
+      "cards": [
+        "src/core/pages/preloaded_cards_eval3/dermasensor-auto-eval-3.citations.json"
+      ],
+      "source_kinds": [
+        "citations_metadata"
+      ]
+    },
+    {
+      "url": "https://www.linkedin.com/company/forushq",
+      "cards": [
+        "src/core/pages/preloaded_cards_eval3/tandem-auto-eval-3.citations.json",
+        "src/core/pages/preloaded_cards_eval3/tandem-auto-eval-3.clinical.md",
+        "eval/ui_cards_eval3/tandem-auto-eval-3.md"
+      ],
+      "source_kinds": [
+        "citations_field",
+        "citations_metadata",
+        "citations_references",
+        "markdown"
+      ]
+    },
+    {
+      "url": "https://www.linkedin.com/company/skin-analytics",
+      "cards": [
+        "src/core/pages/preloaded_cards_eval3/derm-auto-eval-3.citations.json",
+        "src/core/pages/preloaded_cards_eval3/derm-auto-eval-3.clinical.md",
+        "eval/ui_cards_eval3/derm-auto-eval-3.md"
+      ],
+      "source_kinds": [
+        "citations_field",
+        "citations_metadata",
+        "citations_references",
+        "markdown"
+      ]
+    },
+    {
+      "url": "https://www.linkedin.com/company/withtandem",
+      "cards": [
+        "src/core/pages/preloaded_cards_eval3/tandem-manual-eval-3.citations.json",
+        "eval/ui_cards_eval3/Forus.md",
+        "eval/ui_cards_eval3/Tandem.md",
+        "eval/ui_cards_eval3/tandem-manual-eval-3.md"
+      ],
+      "source_kinds": [
+        "citations_references",
+        "markdown"
+      ]
+    },
+    {
+      "url": "https://www.listennotes.com/podcasts/the-healthtech-edge/himss-2026-recap-ai-gets-ntLcVIdQvJN",
+      "cards": [
+        "src/core/pages/preloaded_cards_eval3/dermgpt-auto-eval-3.citations.json"
+      ],
+      "source_kinds": [
+        "citations_metadata"
+      ]
+    },
+    {
+      "url": "https://www.mdedge.com/cutis/article/268568/dermgpt-can-help-improve-your-office-productivity",
+      "cards": [
+        "src/core/pages/preloaded_cards_eval3/dermgpt-auto-eval-3.citations.json",
+        "src/core/pages/preloaded_cards_eval3/dermgpt-manual-eval-3.citations.json",
+        "src/core/pages/preloaded_cards_eval3/dermgpt-auto-eval-3.clinical.md",
+        "eval/ui_cards_eval3/DermGPT.md",
+        "eval/ui_cards_eval3/dermgpt-auto-eval-3.md"
+      ],
+      "source_kinds": [
+        "citations_field",
+        "citations_metadata",
+        "citations_references",
+        "markdown"
+      ]
+    },
+    {
+      "url": "https://www.medicaldevice-network.com/news/nhs-report-touts-effectiveness-of-skin-analytics-derm-ai-melanoma-tool/",
+      "cards": [
+        "src/core/pages/preloaded_cards_eval3/derm-manual-eval-3.citations.json",
+        "eval/ui_cards_eval3/DERM.md",
+        "eval/ui_cards_eval3/derm-manual-eval-3.md"
+      ],
+      "source_kinds": [
+        "citations_references",
+        "markdown"
+      ]
+    },
+    {
+      "url": "https://www.medpagetoday.com/dermatology/atopy/107750",
+      "cards": [
+        "src/core/pages/preloaded_cards_eval3/dermgpt-auto-eval-3.citations.json",
+        "src/core/pages/preloaded_cards_eval3/dermgpt-manual-eval-3.citations.json",
+        "src/core/pages/preloaded_cards_eval3/dermgpt-auto-eval-3.clinical.md",
+        "eval/ui_cards_eval3/DermGPT.md",
+        "eval/ui_cards_eval3/dermgpt-auto-eval-3.md"
+      ],
+      "source_kinds": [
+        "citations_field",
+        "citations_metadata",
+        "citations_references",
+        "markdown"
+      ]
+    },
+    {
+      "url": "https://www.nature.com/articles/s41746-024-01161-1",
+      "cards": [
+        "src/core/pages/preloaded_cards_eval3/dermasensor-manual-eval-3.citations.json",
+        "eval/ui_cards_eval3/Dermasensor.md"
+      ],
+      "source_kinds": [
+        "citations_references",
+        "markdown"
+      ]
+    },
+    {
+      "url": "https://www.nice.org.uk/consultations/2705/2/committee-discussion",
+      "cards": [
+        "src/core/pages/preloaded_cards_eval3/derm-manual-eval-3.citations.json",
+        "eval/ui_cards_eval3/DERM.md",
+        "eval/ui_cards_eval3/derm-manual-eval-3.md"
+      ],
+      "source_kinds": [
+        "citations_references",
+        "markdown"
+      ]
+    },
+    {
+      "url": "https://www.openevidence.com/announcements/openevidence-and-tandem-partner-to-streamline-evidence-based-prescribing-and-prior-authorizations",
+      "cards": [
+        "src/core/pages/preloaded_cards_eval3/tandem-manual-eval-3.citations.json",
+        "eval/ui_cards_eval3/Forus.md",
+        "eval/ui_cards_eval3/Tandem.md",
+        "eval/ui_cards_eval3/tandem-manual-eval-3.md"
+      ],
+      "source_kinds": [
+        "citations_references",
+        "markdown"
+      ]
+    },
+    {
+      "url": "https://www.sciencedirect.com/science/article/pii/S0022202X23029640",
+      "cards": [
+        "src/core/pages/preloaded_cards_eval3/skinvision-manual-eval-3.citations.json",
+        "eval/ui_cards_eval3/SkinVision.md"
+      ],
+      "source_kinds": [
+        "citations_references",
+        "markdown"
+      ]
+    },
+    {
+      "url": "https://www.sfderm.org/projects-3",
+      "cards": [
+        "src/core/pages/preloaded_cards_eval3/dermgpt-auto-eval-3.citations.json"
+      ],
+      "source_kinds": [
+        "citations_metadata"
+      ]
+    },
+    {
+      "url": "https://www.skinvision.com/about/",
+      "cards": [
+        "src/core/pages/preloaded_cards_eval3/skinvision-manual-eval-3.citations.json",
+        "eval/ui_cards_eval3/SkinVision.md"
+      ],
+      "source_kinds": [
+        "citations_references",
+        "markdown"
+      ]
+    },
+    {
+      "url": "https://www.skinvision.com/articles/how-does-skinvisions-algorithm-detect-skin-cancer",
+      "cards": [
+        "src/core/pages/preloaded_cards_eval3/skinvision-manual-eval-3.citations.json",
+        "eval/ui_cards_eval3/SkinVision.md"
+      ],
+      "source_kinds": [
+        "citations_references",
+        "markdown"
+      ]
+    },
+    {
+      "url": "https://www.skinvision.com/articles/how-machine-learning-detects-skin-cancer",
+      "cards": [
+        "src/core/pages/preloaded_cards_eval3/skinvision-manual-eval-3.citations.json",
+        "eval/ui_cards_eval3/SkinVision.md"
+      ],
+      "source_kinds": [
+        "citations_references",
+        "markdown"
+      ]
+    },
+    {
+      "url": "https://www.skinvision.com/clinical-research",
+      "cards": [
+        "src/core/pages/preloaded_cards_eval3/skinvision-manual-eval-3.citations.json",
+        "eval/ui_cards_eval3/SkinVision.md"
+      ],
+      "source_kinds": [
+        "citations_references",
+        "markdown"
+      ]
+    },
+    {
+      "url": "https://www.skinvision.com/contact-us",
+      "cards": [
+        "src/core/pages/preloaded_cards_eval3/skinvision-manual-eval-3.citations.json",
+        "src/core/pages/preloaded_cards_eval3/skinvision-manual-eval-3.clinical.md",
+        "eval/ui_cards_eval3/SkinVision.md"
+      ],
+      "source_kinds": [
+        "citations_references",
+        "markdown"
+      ]
+    },
+    {
+      "url": "https://www.skinvision.com/en-us",
+      "cards": [
+        "src/core/pages/preloaded_cards_eval3/skinvision-auto-eval-3.citations.json",
+        "src/core/pages/preloaded_cards_eval3/skinvision-auto-eval-3.clinical.md",
+        "src/core/pages/preloaded_cards_eval3/skinvision-manual-eval-3.clinical.md",
+        "eval/ui_cards_eval3/SkinVision.md",
+        "eval/ui_cards_eval3/skinvision-auto-eval-3.md"
+      ],
+      "source_kinds": [
+        "citations_field",
+        "citations_metadata",
+        "citations_references",
+        "markdown"
+      ]
+    },
+    {
+      "url": "https://www.skinvision.com/getting-started",
+      "cards": [
+        "src/core/pages/preloaded_cards_eval3/skinvision-manual-eval-3.citations.json",
+        "eval/ui_cards_eval3/SkinVision.md"
+      ],
+      "source_kinds": [
+        "citations_references",
+        "markdown"
+      ]
+    },
+    {
+      "url": "https://www.skinvision.com/getting-started#explore-skinvision",
+      "cards": [
+        "src/core/pages/preloaded_cards_eval3/skinvision-manual-eval-3.citations.json",
+        "eval/ui_cards_eval3/SkinVision.md"
+      ],
+      "source_kinds": [
+        "citations_references",
+        "markdown"
+      ]
+    },
+    {
+      "url": "https://www.skinvision.com/instructions-for-use",
+      "cards": [
+        "src/core/pages/preloaded_cards_eval3/skinvision-manual-eval-3.citations.json",
+        "eval/ui_cards_eval3/SkinVision.md"
+      ],
+      "source_kinds": [
+        "citations_references",
+        "markdown"
+      ]
+    },
+    {
+      "url": "https://www.skinvision.com/press-release/skinvision-achieves-milestone-with-three-certifications",
+      "cards": [
+        "src/core/pages/preloaded_cards_eval3/skinvision-manual-eval-3.citations.json",
+        "eval/ui_cards_eval3/SkinVision.md"
+      ],
+      "source_kinds": [
+        "citations_references",
+        "markdown"
+      ]
+    },
+    {
+      "url": "https://www.skinvision.com/press-release/skinvision-earns-europes-top-medical-certification-for-ai-powered-skin-cancer-detection",
+      "cards": [
+        "src/core/pages/preloaded_cards_eval3/skinvision-manual-eval-3.citations.json",
+        "eval/ui_cards_eval3/SkinVision.md"
+      ],
+      "source_kinds": [
+        "citations_references",
+        "markdown"
+      ]
+    },
+    {
+      "url": "https://www.skinvision.com/scientific-evidence",
+      "cards": [
+        "src/core/pages/preloaded_cards_eval3/skinvision-manual-eval-3.citations.json",
+        "eval/ui_cards_eval3/SkinVision.md"
+      ],
+      "source_kinds": [
+        "citations_references",
+        "markdown"
+      ]
+    },
+    {
+      "url": "https://www.solbari.com.au/pages/how-to-skincheck",
+      "cards": [
+        "src/core/pages/preloaded_cards_eval3/skinvision-manual-eval-3.citations.json",
+        "eval/ui_cards_eval3/SkinVision.md"
+      ],
+      "source_kinds": [
+        "citations_references",
+        "markdown"
+      ]
+    },
+    {
+      "url": "https://www.youtube.com/watch?v=Svyk_5Aee-Y",
+      "cards": [
+        "src/core/pages/preloaded_cards_eval3/dermgpt-auto-eval-3.citations.json"
+      ],
+      "source_kinds": [
+        "citations_metadata"
+      ]
+    },
+    {
+      "url": "https://www.youtube.com/watch?v=b1eZQnWNefE",
+      "cards": [
+        "src/core/pages/preloaded_cards_eval3/dermgpt-auto-eval-3.citations.json"
+      ],
+      "source_kinds": [
+        "citations_metadata"
+      ]
+    },
+    {
+      "url": "https://yourpractice.withtandem.com/prior-authorization-software",
+      "cards": [
+        "src/core/pages/preloaded_cards_eval3/tandem-manual-eval-3.citations.json",
+        "eval/ui_cards_eval3/Forus.md",
+        "eval/ui_cards_eval3/Tandem.md",
+        "eval/ui_cards_eval3/tandem-manual-eval-3.md"
+      ],
+      "source_kinds": [
+        "citations_references",
+        "markdown"
+      ]
+    }
+  ]
+}

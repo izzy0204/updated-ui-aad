@@ -1,0 +1,22 @@
+{
+  "_sources_metadata": {
+    "https://www.accessdata.fda.gov/cdrh_docs/pdf23/DEN230008.pdf": {
+      "usage": "both",
+      "reason": "Cited on restored complete+honest eval-3 auto card",
+      "source_type": "fda_approval",
+      "regulatory_tier": "green"
+    },
+    "https://www.accessdata.fda.gov/cdrh_docs/reviews/DEN230008.pdf": {
+      "usage": "both",
+      "reason": "Cited on restored complete+honest eval-3 auto card",
+      "source_type": "fda_approval",
+      "regulatory_tier": "green"
+    },
+    "https://www.bu.edu/bmo/files/2024/02/Dermasensor-paper-2.pdf": {
+      "usage": "both",
+      "reason": "Cited on restored complete+honest eval-3 auto card",
+      "source_type": "web",
+      "regulatory_tier": "green"
+    }
+  }
+}

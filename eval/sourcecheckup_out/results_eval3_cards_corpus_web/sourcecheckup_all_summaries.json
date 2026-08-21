@@ -1,0 +1,112 @@
+[
+  {
+    "name": "DERM",
+    "pairs_csv": "/Users/isabellegatmaitan/Documents/GitHub/aad-model-card-generator/eval/sourcecheckup_out/pairs_eval3_cards/DERM_pairs.csv",
+    "total_pairs": 35,
+    "supported": 18,
+    "partial": 16,
+    "unsupported": 1,
+    "strict_score": 0.5142857142857142,
+    "partial_credit_score": 0.7428571428571429,
+    "wall_fails_relabelled_to_supported": 3
+  },
+  {
+    "name": "DermGPT",
+    "pairs_csv": "/Users/isabellegatmaitan/Documents/GitHub/aad-model-card-generator/eval/sourcecheckup_out/pairs_eval3_cards/DermGPT_pairs.csv",
+    "total_pairs": 16,
+    "supported": 10,
+    "partial": 6,
+    "unsupported": 0,
+    "strict_score": 0.625,
+    "partial_credit_score": 0.8125,
+    "wall_fails_relabelled_to_supported": 1
+  },
+  {
+    "name": "Dermasensor",
+    "pairs_csv": "/Users/isabellegatmaitan/Documents/GitHub/aad-model-card-generator/eval/sourcecheckup_out/pairs_eval3_cards/Dermasensor_pairs.csv",
+    "total_pairs": 35,
+    "supported": 34,
+    "partial": 0,
+    "unsupported": 1,
+    "strict_score": 0.9714285714285714,
+    "partial_credit_score": 0.9714285714285714,
+    "wall_fails_relabelled_to_supported": 17
+  },
+  {
+    "name": "Forus",
+    "pairs_csv": "/Users/isabellegatmaitan/Documents/GitHub/aad-model-card-generator/eval/sourcecheckup_out/pairs_eval3_cards/Forus_pairs.csv",
+    "total_pairs": 27,
+    "supported": 11,
+    "partial": 15,
+    "unsupported": 1,
+    "strict_score": 0.4074074074074074,
+    "partial_credit_score": 0.6851851851851852,
+    "wall_fails_relabelled_to_supported": 0
+  },
+  {
+    "name": "SkinVision",
+    "pairs_csv": "/Users/isabellegatmaitan/Documents/GitHub/aad-model-card-generator/eval/sourcecheckup_out/pairs_eval3_cards/SkinVision_pairs.csv",
+    "total_pairs": 35,
+    "supported": 30,
+    "partial": 2,
+    "unsupported": 3,
+    "strict_score": 0.8571428571428571,
+    "partial_credit_score": 0.8857142857142857,
+    "wall_fails_relabelled_to_supported": 25
+  },
+  {
+    "name": "derm-auto-eval-3",
+    "pairs_csv": "/Users/isabellegatmaitan/Documents/GitHub/aad-model-card-generator/eval/sourcecheckup_out/pairs_eval3_cards/derm-auto-eval-3_pairs.csv",
+    "total_pairs": 38,
+    "supported": 34,
+    "partial": 4,
+    "unsupported": 0,
+    "strict_score": 0.8947368421052632,
+    "partial_credit_score": 0.9473684210526315,
+    "wall_fails_relabelled_to_supported": 0
+  },
+  {
+    "name": "dermasensor-auto-eval-3",
+    "pairs_csv": "/Users/isabellegatmaitan/Documents/GitHub/aad-model-card-generator/eval/sourcecheckup_out/pairs_eval3_cards/dermasensor-auto-eval-3_pairs.csv",
+    "total_pairs": 36,
+    "supported": 36,
+    "partial": 0,
+    "unsupported": 0,
+    "strict_score": 1.0,
+    "partial_credit_score": 1.0,
+    "wall_fails_relabelled_to_supported": 0
+  },
+  {
+    "name": "dermgpt-auto-eval-3",
+    "pairs_csv": "/Users/isabellegatmaitan/Documents/GitHub/aad-model-card-generator/eval/sourcecheckup_out/pairs_eval3_cards/dermgpt-auto-eval-3_pairs.csv",
+    "total_pairs": 30,
+    "supported": 24,
+    "partial": 6,
+    "unsupported": 0,
+    "strict_score": 0.8,
+    "partial_credit_score": 0.9,
+    "wall_fails_relabelled_to_supported": 0
+  },
+  {
+    "name": "skinvision-auto-eval-3",
+    "pairs_csv": "/Users/isabellegatmaitan/Documents/GitHub/aad-model-card-generator/eval/sourcecheckup_out/pairs_eval3_cards/skinvision-auto-eval-3_pairs.csv",
+    "total_pairs": 8,
+    "supported": 8,
+    "partial": 0,
+    "unsupported": 0,
+    "strict_score": 1.0,
+    "partial_credit_score": 1.0,
+    "wall_fails_relabelled_to_supported": 1
+  },
+  {
+    "name": "tandem-auto-eval-3",
+    "pairs_csv": "/Users/isabellegatmaitan/Documents/GitHub/aad-model-card-generator/eval/sourcecheckup_out/pairs_eval3_cards/tandem-auto-eval-3_pairs.csv",
+    "total_pairs": 41,
+    "supported": 35,
+    "partial": 4,
+    "unsupported": 2,
+    "strict_score": 0.8536585365853658,
+    "partial_credit_score": 0.9024390243902439,
+    "wall_fails_relabelled_to_supported": 0
+  }
+]

@@ -1,0 +1,10 @@
+{
+  "name": "dermasensor-auto-eval-3",
+  "pairs_csv": "/Users/isabellegatmaitan/Documents/GitHub/aad-model-card-generator/eval/sourcecheckup_out/pairs_eval3_cards/dermasensor-auto-eval-3_pairs.csv",
+  "total_pairs": 37,
+  "supported": 18,
+  "partial": 14,
+  "unsupported": 5,
+  "strict_score": 0.4864864864864865,
+  "partial_credit_score": 0.6756756756756757
+}

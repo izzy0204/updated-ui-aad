@@ -1,0 +1,11 @@
+{
+  "name": "SkinVision",
+  "pairs_csv": "/Users/isabellegatmaitan/Documents/GitHub/aad-model-card-generator/eval/sourcecheckup_out/pairs_eval3_cards/SkinVision_pairs.csv",
+  "total_pairs": 35,
+  "supported": 30,
+  "partial": 2,
+  "unsupported": 3,
+  "strict_score": 0.8571428571428571,
+  "partial_credit_score": 0.8857142857142857,
+  "wall_fails_relabelled_to_supported": 25
+}

@@ -1,0 +1,11 @@
+{
+  "name": "tandem-auto-eval-3",
+  "pairs_csv": "/Users/isabellegatmaitan/Documents/GitHub/aad-model-card-generator/eval/sourcecheckup_out/pairs_eval3_cards/tandem-auto-eval-3_pairs.csv",
+  "total_pairs": 41,
+  "supported": 35,
+  "partial": 4,
+  "unsupported": 2,
+  "strict_score": 0.8536585365853658,
+  "partial_credit_score": 0.9024390243902439,
+  "wall_fails_relabelled_to_supported": 0
+}

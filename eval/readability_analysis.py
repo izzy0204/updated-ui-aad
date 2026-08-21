@@ -37,11 +37,18 @@ DEFAULT_UI_CARDS_READABILITY_CSV = READABILITY_OUTPUT_DIR / "ui_cards_readabilit
 # --- Card naming / grouping helpers (Auto vs Manual) ---
 
 _AUTO_STEM_RE = re.compile(r".*-\d{8}-\d{6}$", re.IGNORECASE)
+_AUTO_EVAL_RE = re.compile(r".*-auto-eval-\d+$", re.IGNORECASE)
+_MANUAL_EVAL_RE = re.compile(r".*-manual-eval-\d+$", re.IGNORECASE)
 
 
 def infer_card_variant(model_name: str) -> str:
     """Infer whether the card is an Auto-generated run vs a Manual card."""
-    return "Auto" if _AUTO_STEM_RE.match(model_name.strip()) else "Manual"
+    s = model_name.strip()
+    if _MANUAL_EVAL_RE.match(s):
+        return "Manual"
+    if _AUTO_STEM_RE.match(s) or _AUTO_EVAL_RE.match(s):
+        return "Auto"
+    return "Manual"
 
 
 def infer_model_family(model_name: str) -> str:
@@ -51,10 +58,18 @@ def infer_model_family(model_name: str) -> str:
         return "DermGPT"
     if s.startswith("dermasensor"):
         return "Dermasensor"
-    if s.startswith("tandem"):
-        return "Tandem"
-    if s.startswith("skinanalytics") or s.startswith("skin-analytics") or s.startswith("skin analytics"):
-        return "SkinAnalytics"
+    # DERM (Skin Analytics product) — before bare "derm" collisions with DermGPT/DermaSensor
+    if (
+        s == "derm"
+        or s.startswith("derm-")
+        or s.startswith("derm_")
+        or s.startswith("skinanalytics")
+        or s.startswith("skin-analytics")
+        or s.startswith("skin analytics")
+    ):
+        return "DERM"
+    if s.startswith("tandem") or s.startswith("forus"):
+        return "Forus"
     if s.startswith("skinvision") or s.startswith("skin-vision") or s.startswith("skin vision"):
         return "SkinVision"
     # fallback: best-effort title case

@@ -1,0 +1,15 @@
+{
+  "out_dir": "/Users/isabellegatmaitan/Documents/GitHub/aad-model-card-generator/eval/sourcecheckup_corpus_eval3",
+  "corpus_jsonl": "/Users/isabellegatmaitan/Documents/GitHub/aad-model-card-generator/eval/sourcecheckup_corpus_eval3/corpus.jsonl",
+  "corpus_factscore_jsonl": "/Users/isabellegatmaitan/Documents/GitHub/aad-model-card-generator/eval/sourcecheckup_corpus_eval3/corpus_factscore.jsonl",
+  "walls_jsonl": "/Users/isabellegatmaitan/Documents/GitHub/aad-model-card-generator/eval/sourcecheckup_corpus_eval3/walls.jsonl",
+  "urls_manifest": "/Users/isabellegatmaitan/Documents/GitHub/aad-model-card-generator/eval/sourcecheckup_corpus_eval3/urls_manifest.json",
+  "n_docs": 114,
+  "n_success": 77,
+  "n_wall": 37,
+  "n_empty": 0,
+  "n_walls_log": 37,
+  "use_gemini": false,
+  "gemini_model": null,
+  "finished_at": "2026-08-21T06:10:01.170766+00:00"
+}

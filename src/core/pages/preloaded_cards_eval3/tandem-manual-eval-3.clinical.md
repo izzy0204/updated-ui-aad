@@ -1,0 +1,47 @@
+---
+schema_version: clinical-model-card-2.0
+---
+
+# [Forus](https://forus.com/) — Clinical Model Card
+
+## 1) Metadata
+- **Model Name:** Forus
+- **Developer:** Forus Technology, Inc. (formerly Tandem). Founder & CEO: Sahir Jaggi. Clinical Intelligence led by Adam Harris, MD (former VP of Applied AI at Oscar Health; Clinical Assistant Professor, NYU School of Medicine) and Kathleen Alvarez, NP (Yale School of Nursing).
+- **Regulatory Approval Status:** Not Authorized / Consumer Tool
+- **Regulatory Approval Date:** Not disclosed
+- **Version:** Not publicly disclosed.
+- **Last Updated:** 2026-08-21
+- **Availability:** Available in the United States. Accessible via website for providers (forus.com). Supports providers across all 50 states. Not known to be available outside the U.S.
+
+## 2) Summary
+- **Summary:** Forus is an AI-powered platform that automates the end-to-end medication access process, including prior authorization (PA) submission, appeals, pharmacy routing, affordability/enrollment in patient assistance programs, and patient communication.
+
+## 3) Intended Use
+- **Medical Purpose:** Intended for physician practices and their staff to automate all steps of obtaining prior authorization, from prescribing the medication to the patient actually getting it. This includes PA form generation and submission, appeals, enrollment forms, benefit verifications, PA renewal tracking, and patient communication.
+- **Acceptable Input:** Electronic prescriptions (structured data), clinical notes (unstructured text/PDFs), patient records, payer policy data.
+- **Output:** Completed PA forms (structured forms), appeal letters (text documents), enrollment forms, patient SMS notifications (text), pharmacy routing instructions, and portal dashboard status updates. Workflow: patient records and prescription data are pulled from the EHR (via integration) or uploaded manually; AI reads clinical documentation and matches it against payer-specific PA requirements and formulary rules; AI auto-generates PA form content within 24 hours; provider reviews and approves the completed PA in the Forus portal; Forus submits to the payer and conducts status follow-ups; if denied, AI analyzes the denial reason and generates an appeal letter drawing on clinical documentation and payer-specific appeal strategies; provider reviews and approves the appeal letter before submission; the system continuously learns from case outcomes.
+- **Role in Decision-Making:** The platform automates administrative work and does not make clinical decisions.
+- **Intended Users:** Doctors and their staff, including providers of all sizes from 1-2 provider private practices to large physician groups and health systems. Provider must be able to e-prescribe (electronic prescriptions only; Forus does not currently support non-eRx practices).
+- **Target Patient Population:** All U.S. patients who are prescribed medications requiring prior authorization. Forus supports every medication, insurance, and pharmacy, including both retail and specialty drugs.
+
+## 4) Risks and Limitations
+- **Known Performance Limitations:** Based on publicly available third-party reviews and developer materials: Forus is designed for medication prior authorizations and may have limited capability for non-medication PA categories (e.g., procedures, imaging, DME). Performance may vary for complex or unusual cases with 'snags from insurance' or when patients do not respond to Forus's outreach prompts. Requires patient engagement (patients must interact with SMS prompts for certain steps). Not a complete replacement for dedicated PA specialists in complex, high-volume, or multi-category authorization environments. Requires EHR e-prescribing capability; does not support fax or phone-based prescribing workflows. Specific AI model limitations and error rates are not publicly disclosed.
+- **Skin Type Representation & Equity:** Not formally measured or disclosed. Forus's platform is administrative in nature, so skin tone representation is not directly applicable to its core PA automation function. The platform's design goal of supporting 'every drug, insurance, and pharmacy' implies an intention to provide equitable access across patient populations regardless of insurance type, drug cost, or specialty. The platform includes affordability features — identifying financial assistance programs — intended to improve access for patients who may face cost barriers.
+- **Required Clinician Oversight:** Yes. All of Forus's work is administrative and workflow automation, starting after the clinician submits a prescription. Forus automates administrative workflow steps after the prescription is placed to help make sure the patient gets the medication.
+
+## 5) Mechanism and Development
+- **Model Type:** AI-powered workflow automation platform using a human-in-the-loop approach, combining natural language processing (NLP) for reading clinical records and generating PA forms and appeal letters, machine learning for predicting PA approval likelihood, identifying optimal appeal strategies, and recognizing payer-specific patterns from historical data. Includes rules-based automation for payer-specific PA form completion and formulary/policy matching. The platform learns from each processed case, with the Clinical Intelligence team (led by Adam Harris, MD) embedded in product design and QA.
+- **Training Data:** Not publicly disclosed. The platform — Forus, previously called Tandem — has machine learning models trained on proprietary datasets of prior authorization interactions collected through the platform (described as 'first-party data' and 'millions of prior authorization interactions'). The developer does not publicly specify which large language models or foundation models underlie the NLP capabilities. Forus's specific foundation models are not confirmed publicly.
+- **Model Development & Validation:** No external or independent validation process is publicly disclosed. The platform's engineering blog describes how Forus employs LLM-as-judge evaluator systems for quality monitoring. Case studies from individual practices are available on the Forus blog, including how Goodman Dermatology helps patients access medications after denials.
+- **Clinical Trial:** Not disclosed
+- **Performance:** Traditional model performance metrics are not available; however performance metrics from individual case studies can be found on Forus's website. From Forus's case studies on its blog: at one practice called Family Allergy and Asthma, Forus cut PA turnaround time from 7+ days to 1.1 and reduced per-patient workload by 70%. At another, called DOCS Dermatology, they helped achieve same-day submission and approvals in <1 day.
+- **Performance — PA turnaround time (Family Allergy and Asthma):** 1.1 days (from 7+ days)
+- **Performance — Per-patient workload reduction (Family Allergy and Asthma):** 70%
+- **Performance — PA approval time (DOCS Dermatology):** <1 day (same-day submission)
+- **Limitations in Evaluating Performance:** Based on publicly available third-party reviews and developer materials: Forus is designed for medication prior authorizations and may have limited capability for non-medication PA categories (e.g., procedures, imaging, DME). Performance may vary for complex or unusual cases with 'snags from insurance' or when patients do not respond to Forus's outreach prompts. Requires patient engagement (patients must interact with SMS prompts for certain steps). Not a complete replacement for dedicated PA specialists in complex, high-volume, or multi-category authorization environments. Requires EHR e-prescribing capability; does not support fax or phone-based prescribing workflows. The primary limitation for evaluation is the lack of peer-reviewed data.
+
+## 6) Governance and Monitoring
+- **Plans for Ongoing Monitoring:** Platform undergoes continuous improvement. The Clinical Intelligence team continuously identifies patterns, adapts to payer policy changes, and refines workflows based on real-world outcomes.
+- **Scheduled Updates:** Per the developer, platform undergoes continuous updates and iterative improvement.
+- **Inquiries / Report an Issue:** provider-support@forus.com | https://forus.com/
+

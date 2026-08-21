@@ -1,0 +1,240 @@
+{
+  "schema_version": "clinical-model-card-citations-1.0",
+  "references": {
+    "1": {
+      "url": "https://forus.com/",
+      "title": "Forus \u2014 AI for Prior Authorizations & Medication Access Support",
+      "source": ""
+    },
+    "2": {
+      "url": "https://forus.com/stories/why-thousands-of-providers-trust-forus",
+      "title": "",
+      "source": ""
+    },
+    "3": {
+      "url": "https://www.openevidence.com/announcements/openevidence-and-tandem-partner-to-streamline-evidence-based-prescribing-and-prior-authorizations",
+      "title": "",
+      "source": ""
+    },
+    "4": {
+      "url": "https://techfundingnews.com/tandem-1b-valuation-100m-round/",
+      "title": "",
+      "source": ""
+    },
+    "5": {
+      "url": "https://yourpractice.withtandem.com/prior-authorization-software",
+      "title": "",
+      "source": ""
+    },
+    "6": {
+      "url": "https://datamatrixmedical.com/tandem-ai-prior-authorization-reviews-compared-to-prior-authorization-specialists/",
+      "title": "",
+      "source": ""
+    },
+    "7": {
+      "url": "https://entrepreneurloop.com/tandem-ai-prescription-startup-billion-valuation-2026/",
+      "title": "",
+      "source": ""
+    },
+    "8": {
+      "url": "https://www.businesswire.com/news/home/20260402254260/en/OpenEvidence-and-Tandem-Partner-to-Streamline-Evidence-Based-Prescribing-and-Prior-Authorizations",
+      "title": "",
+      "source": ""
+    },
+    "9": {
+      "url": "https://www.linkedin.com/company/withtandem",
+      "title": "",
+      "source": ""
+    },
+    "10": {
+      "url": "https://pymnts.com/healthcare/2026/tandem-technology-raise-100-million-dollars-prescription-automation/",
+      "title": "",
+      "source": ""
+    },
+    "11": {
+      "url": "https://www.bloomberg.com/news/articles/2026-01-26/ai-for-prescriptions-startup-tandem-lands-1-billion-valuation",
+      "title": "",
+      "source": ""
+    },
+    "12": {
+      "url": "https://forus.com/stories/a-field-reps-guide-to-forus",
+      "title": "",
+      "source": ""
+    },
+    "13": {
+      "url": "https://build.forus.com/how-we-evaluate-our-llm-judge-a-perturbation-based-approach",
+      "title": "",
+      "source": ""
+    },
+    "14": {
+      "url": "https://forus.com/stories",
+      "title": "",
+      "source": ""
+    },
+    "15": {
+      "url": "https://forus.com/stories/family-allergy-and-asthmas-prior-authorization-transformation",
+      "title": "",
+      "source": ""
+    },
+    "16": {
+      "url": "https://forus.com/stories/how-docs-dermatology-accelerated-medication-access-across-140-locations",
+      "title": "",
+      "source": ""
+    }
+  },
+  "field_citations": {
+    "model_name": [
+      {
+        "citationIds": [
+          "1"
+        ],
+        "sentence_level": true
+      }
+    ],
+    "developer": [
+      {
+        "citationIds": [
+          "2"
+        ],
+        "sentence_level": true
+      }
+    ],
+    "regulatory_approval_status": [
+      {
+        "citationIds": [
+          "1"
+        ],
+        "sentence_level": true
+      }
+    ],
+    "availability": [
+      {
+        "citationIds": [
+          "1"
+        ],
+        "sentence_level": true
+      }
+    ],
+    "summary": [
+      {
+        "citationIds": [
+          "1",
+          "7",
+          "12"
+        ],
+        "sentence_level": true
+      }
+    ],
+    "medical_purpose": [
+      {
+        "citationIds": [
+          "1"
+        ],
+        "sentence_level": true
+      }
+    ],
+    "intended_users": [
+      {
+        "citationIds": [
+          "1",
+          "12",
+          "5"
+        ],
+        "sentence_level": true
+      }
+    ],
+    "target_patient_population": [
+      {
+        "citationIds": [
+          "1"
+        ],
+        "sentence_level": true
+      }
+    ],
+    "known_performance_limitations": [
+      {
+        "citationIds": [
+          "6"
+        ],
+        "sentence_level": true
+      }
+    ],
+    "skin_type_representation_equity": [
+      {
+        "citationIds": [
+          "1"
+        ],
+        "sentence_level": true
+      }
+    ],
+    "required_clinician_oversight": [
+      {
+        "citationIds": [
+          "1"
+        ],
+        "sentence_level": true
+      }
+    ],
+    "model_type": [
+      {
+        "citationIds": [
+          "7",
+          "2"
+        ],
+        "sentence_level": true
+      }
+    ],
+    "training_data.description": [
+      {
+        "citationIds": [
+          "7"
+        ],
+        "sentence_level": true
+      }
+    ],
+    "model_development_and_validation.description": [
+      {
+        "citationIds": [
+          "1",
+          "13",
+          "14"
+        ],
+        "sentence_level": true
+      }
+    ],
+    "performance.summary": [
+      {
+        "citationIds": [
+          "1",
+          "15",
+          "16"
+        ],
+        "sentence_level": true
+      }
+    ],
+    "performance_evaluation_limitations": [
+      {
+        "citationIds": [
+          "6"
+        ],
+        "sentence_level": true
+      }
+    ],
+    "ongoing_monitoring_plan": [
+      {
+        "citationIds": [
+          "2"
+        ],
+        "sentence_level": true
+      }
+    ],
+    "contact": [
+      {
+        "citationIds": [
+          "1"
+        ],
+        "sentence_level": true
+      }
+    ]
+  }
+}

@@ -18,6 +18,7 @@ from core.dermauto_card_render import (
 _PAGE_DIR = Path(__file__).resolve().parent
 REPO_ROOT = _PAGE_DIR.parents[3]
 PRELOADED_DIRS: Tuple[Path, ...] = (
+    _PAGE_DIR / "preloaded_cards_eval3",
     _PAGE_DIR / "preloaded_cards",
     REPO_ROOT / "preloaded_cards",
 )
@@ -50,16 +51,16 @@ st.caption("Clinician-centered model card viewer (JSON canonical, markdown for u
 with st.sidebar:
     st.subheader("Source")
     ordered_sources: List[Tuple[str, str]] = [
-        ("A · DermaSensor", "dermasensor-auto-eval-2"),
-        ("B · DermaSensor", "dermasensor-manual-eval-2"),
-        ("A · Tandem", "tandem-auto-eval-2"),
-        ("B · Tandem", "tandem-manual-eval-2"),
-        ("A · Skin Analytics", "skinanalytics-auto-eval-2"),
-        ("B · Skin Analytics", "skinanalytics-manual-eval-2"),
-        ("A · DermGPT", "dermgpt-auto-eval-2"),
-        ("B · DermGPT", "dermgpt-manual-eval-2"),
-        ("A · Skin Vision", "skinvision-auto-eval-2"),
-        ("B · Skin Vision", "skinvision-manual-eval-2"),
+        ("A · DermaSensor", "dermasensor-auto-eval-3"),
+        ("B · DermaSensor", "dermasensor-manual-eval-3"),
+        ("A · Forus", "tandem-auto-eval-3"),
+        ("B · Forus", "tandem-manual-eval-3"),
+        ("A · DERM", "derm-auto-eval-3"),
+        ("B · DERM", "derm-manual-eval-3"),
+        ("A · DermGPT", "dermgpt-auto-eval-3"),
+        ("B · DermGPT", "dermgpt-manual-eval-3"),
+        ("A · Skin Vision", "skinvision-auto-eval-3"),
+        ("B · Skin Vision", "skinvision-manual-eval-3"),
     ]
     option_to_path: Dict[str, Path] = {}
     for label, stem in ordered_sources:

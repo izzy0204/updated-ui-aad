@@ -132,23 +132,36 @@ def judge_support_openai(client: OpenAI, model: str, statement: str, url: str, s
 def judge_support_gemini(client: Any, model: str, statement: str, url: str, source_text: str) -> dict:
     """
     Uses the Google GenAI SDK (`google-genai`), not the deprecated `google-generativeai` package.
+    Retries a few times on transient network / disconnect errors.
     """
     from google.genai import types
 
     truncated_source = source_text[:12000]
     prompt = _support_evaluation_prompt(statement, url, truncated_source)
 
-    try:
-        response = client.models.generate_content(
-            model=model,
-            contents=prompt,
-            config=types.GenerateContentConfig(
-                temperature=0,
-                response_mime_type="application/json",
-            ),
-        )
-    except Exception as e:
-        return {"label": "UNSUPPORTED", "reason": f"Gemini request failed: {e}"}
+    last_err: Exception | None = None
+    response = None
+    for attempt in range(1, 5):
+        try:
+            response = client.models.generate_content(
+                model=model,
+                contents=prompt,
+                config=types.GenerateContentConfig(
+                    temperature=0,
+                    response_mime_type="application/json",
+                ),
+            )
+            last_err = None
+            break
+        except Exception as e:  # noqa: BLE001 — judge must not crash the batch
+            last_err = e
+            if attempt < 4:
+                time.sleep(min(2 ** attempt, 12))
+                continue
+            return {"label": "UNSUPPORTED", "reason": f"Gemini request failed: {e}"}
+
+    if response is None:
+        return {"label": "UNSUPPORTED", "reason": f"Gemini request failed: {last_err}"}
 
     raw = (getattr(response, "text", None) or "").strip()
     if not raw and getattr(response, "candidates", None):

@@ -1,0 +1,11 @@
+{
+  "name": "DermGPT",
+  "pairs_csv": "/Users/isabellegatmaitan/Documents/GitHub/aad-model-card-generator/eval/sourcecheckup_out/pairs_eval3_cards/DermGPT_pairs.csv",
+  "total_pairs": 16,
+  "supported": 10,
+  "partial": 6,
+  "unsupported": 0,
+  "strict_score": 0.625,
+  "partial_credit_score": 0.8125,
+  "wall_fails_relabelled_to_supported": 1
+}
