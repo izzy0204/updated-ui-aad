@@ -1,0 +1,92 @@
+[
+  {
+    "name": "DERM",
+    "total_facts": 40,
+    "supported": 19,
+    "partial": 5,
+    "unsupported": 16,
+    "score_strict": 0.475,
+    "score_partial_credit": 0.5375
+  },
+  {
+    "name": "DermGPT",
+    "total_facts": 21,
+    "supported": 18,
+    "partial": 1,
+    "unsupported": 2,
+    "score_strict": 0.8571428571428571,
+    "score_partial_credit": 0.8809523809523809
+  },
+  {
+    "name": "Dermasensor",
+    "total_facts": 57,
+    "supported": 25,
+    "partial": 10,
+    "unsupported": 22,
+    "score_strict": 0.43859649122807015,
+    "score_partial_credit": 0.5263157894736842
+  },
+  {
+    "name": "Forus",
+    "total_facts": 58,
+    "supported": 44,
+    "partial": 7,
+    "unsupported": 7,
+    "score_strict": 0.7586206896551724,
+    "score_partial_credit": 0.8189655172413793
+  },
+  {
+    "name": "SkinVision",
+    "total_facts": 33,
+    "supported": 16,
+    "partial": 7,
+    "unsupported": 10,
+    "score_strict": 0.48484848484848486,
+    "score_partial_credit": 0.5909090909090909
+  },
+  {
+    "name": "derm-auto-eval-3",
+    "total_facts": 34,
+    "supported": 29,
+    "partial": 0,
+    "unsupported": 5,
+    "score_strict": 0.8529411764705882,
+    "score_partial_credit": 0.8529411764705882
+  },
+  {
+    "name": "dermgpt-auto-eval-3",
+    "total_facts": 48,
+    "supported": 45,
+    "partial": 2,
+    "unsupported": 1,
+    "score_strict": 0.9375,
+    "score_partial_credit": 0.9583333333333334
+  },
+  {
+    "name": "dermasensor-auto-eval-3",
+    "total_facts": 39,
+    "supported": 30,
+    "partial": 3,
+    "unsupported": 6,
+    "score_strict": 0.7692307692307693,
+    "score_partial_credit": 0.8076923076923077
+  },
+  {
+    "name": "skinvision-auto-eval-3",
+    "total_facts": 17,
+    "supported": 2,
+    "partial": 0,
+    "unsupported": 15,
+    "score_strict": 0.11764705882352941,
+    "score_partial_credit": 0.11764705882352941
+  },
+  {
+    "name": "tandem-auto-eval-3",
+    "total_facts": 30,
+    "supported": 30,
+    "partial": 0,
+    "unsupported": 0,
+    "score_strict": 1.0,
+    "score_partial_credit": 1.0
+  }
+]

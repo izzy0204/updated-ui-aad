@@ -177,11 +177,71 @@ def substantive_enough_cited_line(text: str) -> bool:
     return True
 
 
+def _field_label_prefix(line: str) -> str:
+    """Return 'Label: ' prefix from a bold bullet, else empty."""
+    m = re.match(r"^[-*•]\s*\*\*(.+?):\*\*\s*", line.strip())
+    if m:
+        return f"{m.group(1)}: "
+    m = re.match(r"^[-*•]\s*([^:]{1,80}):\s*", line.strip())
+    if m and not m.group(1).startswith("http"):
+        return f"{m.group(1).strip()}: "
+    return ""
+
+
+def _cites_are_trailing_only(line: str, matches: List[re.Match]) -> bool:
+    """True when every [n] on the line is in one contiguous cluster at EOL."""
+    if not matches:
+        return True
+    rest = line[matches[0].start() :]
+    return bool(re.fullmatch(r"(?:\s*\[\d+(?:\s*[-,]\s*\d+)*\])+\s*", rest))
+
+
+def _body_start(line: str) -> int:
+    label_m = re.match(r"^[-*•]\s*\*\*[^*]+:\*\*\s*", line)
+    if label_m:
+        return label_m.end()
+    label_m2 = re.match(r"^[-*•]\s*[^:]+:\s*", line)
+    if label_m2:
+        return label_m2.end()
+    return 0
+
+
+def _statement_for_citation_span(
+    line: str, cite_match: re.Match, matches: List[re.Match]
+) -> str:
+    """
+    Scope a citation to the claim text it supports.
+
+    - Trailing-only cites (legacy field-level markup): full normalized line.
+    - Mid-line cites: field label + text since the previous cite (or field body
+      start) through this cite. Citations that follow a completed sentence stay
+      attached to that sentence (period + cite), not an empty following span.
+    """
+    if _cites_are_trailing_only(line, matches):
+        return normalize_statement(line)
+
+    prefix = _field_label_prefix(line)
+    body_start = _body_start(line)
+    prev_end = body_start
+    for m in matches:
+        if m.end() <= cite_match.start():
+            prev_end = m.end()
+        else:
+            break
+
+    chunk = strip_inline_citations(line[prev_end : cite_match.end()]).lstrip(" ,;:")
+    statement = clean_text(prefix + chunk)
+    if not substantive_enough_cited_line(statement):
+        return normalize_statement(line)
+    return statement
+
+
 def extract_inline_pairs(md_text: str, ref_map: Dict[int, str]) -> List[Tuple[str, str]]:
     """
-    One row per (statement, url) where statement is the **full markdown line** that contains
-    the inline citation(s), after stripping [n] brackets and light normalization — **no**
-    sentence splitting. Each ref number on that line is paired with that same line text.
+    One row per (statement, url).
+
+    - If all [n] cites on a line trail at the end: statement = full line (legacy).
+    - If cites appear mid-line: statement = field label + text since prior cite.
     """
     pairs: List[Tuple[str, str]] = []
 
@@ -194,19 +254,15 @@ def extract_inline_pairs(md_text: str, ref_map: Dict[int, str]) -> List[Tuple[st
         if not matches:
             continue
 
-        cited_nums: List[int] = []
         for m in matches:
-            cited_nums.extend(expand_citation_group(m.group(1)))
-        cited_nums = sorted(set(cited_nums))
-
-        normalized = normalize_statement(line)
-        if not substantive_enough_cited_line(normalized):
-            continue
-
-        for n in cited_nums:
-            url = ref_map.get(n)
-            if url:
-                pairs.append((normalized, url))
+            for n in expand_citation_group(m.group(1)):
+                url = ref_map.get(n)
+                if not url:
+                    continue
+                statement = _statement_for_citation_span(line, m, matches)
+                if not substantive_enough_cited_line(statement):
+                    continue
+                pairs.append((statement, url))
 
     return dedupe_pairs(pairs)
 

@@ -1,0 +1,11 @@
+{
+  "name": "DERM",
+  "pairs_csv": "/Users/isabellegatmaitan/Documents/GitHub/aad-model-card-generator/eval/sourcecheckup_out/pairs_eval3_cards/DERM_pairs.csv",
+  "total_pairs": 36,
+  "supported": 23,
+  "partial": 12,
+  "unsupported": 1,
+  "strict_score": 0.6388888888888888,
+  "partial_credit_score": 0.8055555555555556,
+  "wall_fails_relabelled_to_supported": 3
+}

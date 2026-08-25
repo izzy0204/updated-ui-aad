@@ -1,0 +1,11 @@
+model	variant	factscore_strict	factscore_partial	flesch_reading_ease	flesch_kincaid_grade
+DermGPT	Manual	86.3636	88.0952	4.7100	18.6000
+DermGPT	Auto	93.7500	95.8333	25.9000	14.6000
+Dermasensor	Manual	70.6897	77.5862	19.1000	17.2000
+Dermasensor	Auto	76.9231	80.7692	21.7400	16.2000
+DERM	Manual	60.7843	69.6078	22.3400	16.0000
+DERM	Auto	85.2941	85.2941	32.3300	14.2000
+SkinVision	Manual	78.7879	83.3333	7.1900	19.7000
+SkinVision	Auto	56.2500	62.5000	41.7000	12.7000
+Forus	Manual	75.8621	81.8966	25.8000	14.6000
+Forus	Auto	100.0000	100.0000	25.9000	14.6000

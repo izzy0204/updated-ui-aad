@@ -669,18 +669,17 @@ def plot_overall_auto_vs_manual_boxplot(
         m_manual = m_manual[~np.isnan(m_manual)]
         m_auto = m_auto[~np.isnan(m_auto)]
 
+        # notch=False: with n≈5 the median CI often exceeds the IQR and
+        # matplotlib draws folded hourglass / inverted-triangle boxes.
         ax.boxplot(
             [m_manual, m_auto],
             tick_labels=["Manual", "Auto"],
             showmeans=True,
             meanline=True,
-            notch=True,
+            notch=False,
+            widths=0.5,
         )
         ax.set_title(short_title)
-        if metric == "flesch_reading_ease":
-            ax.set_ylabel("Higher = easier")
-        else:
-            ax.set_ylabel("Lower = easier")
 
         man_mean = float(np.mean(m_manual)) if m_manual.size else float("nan")
         auto_mean = float(np.mean(m_auto)) if m_auto.size else float("nan")

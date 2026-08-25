@@ -1,0 +1,373 @@
+[
+  {
+    "card": "DERM",
+    "old_label": "UNSUPPORTED",
+    "why": "reason mentions wall/empty-extract",
+    "url": "https://pubmed.ncbi.nlm.nih.gov/37869160/",
+    "statement": "Model Development & Validation: Peer-reviewed validation studies have been published on DERM's performance. [Publication"
+  },
+  {
+    "card": "DERM",
+    "old_label": "UNSUPPORTED",
+    "why": "wall_category=human_verification",
+    "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC10645139/",
+    "statement": "Model Development & Validation: Peer-reviewed validation studies have been published on DERM's performance. [Publication"
+  },
+  {
+    "card": "DERM",
+    "old_label": "UNSUPPORTED",
+    "why": "wall_category=human_verification",
+    "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC10645139/",
+    "statement": "Scheduled Updates: Validation includes ongoing post-market surveillance (PMS) with transparent reporting of real-world p"
+  },
+  {
+    "card": "DermGPT",
+    "old_label": "UNSUPPORTED",
+    "why": "wall_category=human_verification",
+    "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11140271/",
+    "statement": "Required Clinician Oversight: No formal clinician oversight requirement, as this is an informational AI chatbot rather t"
+  },
+  {
+    "card": "Dermasensor",
+    "old_label": "PARTIAL",
+    "why": "wall_category=human_verification",
+    "url": "https://www.dermasensor.com/resource/two-new-studies-show-dermasensor-devices-consistent-performance-and-improvements-to-physicians-melanoma-detection/",
+    "statement": "Availability: FDA Cleared and CE Marked; available for sale in Florida and Pennsylvania, with a waitlist in other U.S. s"
+  },
+  {
+    "card": "Dermasensor",
+    "old_label": "UNSUPPORTED",
+    "why": "wall_category=human_verification",
+    "url": "https://www.dermasensor.com/contact-us/",
+    "statement": "Availability: FDA Cleared and CE Marked; available for sale in Florida and Pennsylvania, with a waitlist in other U.S. s"
+  },
+  {
+    "card": "Dermasensor",
+    "old_label": "PARTIAL",
+    "why": "wall_category=human_verification",
+    "url": "https://www.dermasensor.com/how-dermasensor-works/",
+    "statement": "Summary: DermaSensor is a handheld, FDA-cleared point-of-care device that uses elastic scattering spectroscopy (ESS) and"
+  },
+  {
+    "card": "Dermasensor",
+    "old_label": "PARTIAL",
+    "why": "wall_category=human_verification",
+    "url": "https://www.dermasensor.com/resource/dermasensors-mission/",
+    "statement": "Summary: DermaSensor is a handheld, FDA-cleared point-of-care device that uses elastic scattering spectroscopy (ESS) and"
+  },
+  {
+    "card": "Dermasensor",
+    "old_label": "PARTIAL",
+    "why": "wall_category=human_verification",
+    "url": "https://www.dermasensor.com/summary-of-dermasensor-device-safety-and-effectiveness-results-from-three-clinical-studies/",
+    "statement": "Summary: DermaSensor is a handheld, FDA-cleared point-of-care device that uses elastic scattering spectroscopy (ESS) and"
+  },
+  {
+    "card": "Dermasensor",
+    "old_label": "PARTIAL",
+    "why": "wall_category=human_verification",
+    "url": "https://www.dermasensor.com/summary-of-dermasensor-device-safety-and-effectiveness-results-from-three-clinical-studies/",
+    "statement": "Medical Purpose: Evaluate skin lesions suggestive of melanoma, BCC, and/or SCC in patients aged 40 and above to assist i"
+  },
+  {
+    "card": "Dermasensor",
+    "old_label": "PARTIAL",
+    "why": "wall_category=human_verification",
+    "url": "https://www.dermasensor.com/how-dermasensor-works/",
+    "statement": "Acceptable Input: Applied non-invasively to an intact skin lesion already assessed as suspicious for skin cancer; takes "
+  },
+  {
+    "card": "Dermasensor",
+    "old_label": "PARTIAL",
+    "why": "wall_category=human_verification",
+    "url": "https://www.dermasensor.com/",
+    "statement": "Acceptable Input: Applied non-invasively to an intact skin lesion already assessed as suspicious for skin cancer; takes "
+  },
+  {
+    "card": "Dermasensor",
+    "old_label": "PARTIAL",
+    "why": "wall_category=human_verification",
+    "url": "https://www.dermasensor.com/faq/",
+    "statement": "Output: An objective 'Investigate Further' (positive) or 'Monitor' (negative) result; positive results include a Similar"
+  },
+  {
+    "card": "Dermasensor",
+    "old_label": "PARTIAL",
+    "why": "wall_category=human_verification",
+    "url": "https://www.dermasensor.com/summary-of-dermasensor-device-safety-and-effectiveness-results-from-three-clinical-studies/",
+    "statement": "Role in Decision-Making: Adjunctive referral support only, used alongside clinical assessment (including visual analysis"
+  },
+  {
+    "card": "Dermasensor",
+    "old_label": "PARTIAL",
+    "why": "wall_category=human_verification",
+    "url": "https://www.dermasensor.com/how-dermasensor-works/",
+    "statement": "Intended Users: Physicians who are not dermatologists (e.g. primary care, family medicine, internal medicine, walk-in cl"
+  },
+  {
+    "card": "Dermasensor",
+    "old_label": "PARTIAL",
+    "why": "wall_category=human_verification",
+    "url": "https://www.dermasensor.com/",
+    "statement": "Intended Users: Physicians who are not dermatologists (e.g. primary care, family medicine, internal medicine, walk-in cl"
+  },
+  {
+    "card": "Dermasensor",
+    "old_label": "PARTIAL",
+    "why": "wall_category=human_verification",
+    "url": "https://www.dermasensor.com/faq/",
+    "statement": "Intended Users: Physicians who are not dermatologists (e.g. primary care, family medicine, internal medicine, walk-in cl"
+  },
+  {
+    "card": "Dermasensor",
+    "old_label": "PARTIAL",
+    "why": "wall_category=human_verification",
+    "url": "https://www.dermasensor.com/",
+    "statement": "Target Patient Population: Patients aged 40 and above with skin lesions already assessed as suspicious for skin cancer."
+  },
+  {
+    "card": "Dermasensor",
+    "old_label": "PARTIAL",
+    "why": "wall_category=human_verification",
+    "url": "https://www.dermasensor.com/summary-of-dermasensor-device-safety-and-effectiveness-results-from-three-clinical-studies/",
+    "statement": "Known Performance Limitations: False positives/negatives may lead to unnecessary referrals or missed malignant lesions. "
+  },
+  {
+    "card": "Dermasensor",
+    "old_label": "UNSUPPORTED",
+    "why": "reason mentions wall/empty-extract",
+    "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC12126654/",
+    "statement": "Skin Type Representation & Equity: In a DERM-SUCCESS sub-analysis of 1,005 patients, 72% were Fitzpatrick I-III and 28% "
+  },
+  {
+    "card": "Dermasensor",
+    "old_label": "PARTIAL",
+    "why": "wall_category=human_verification",
+    "url": "https://www.dermasensor.com/faq/",
+    "statement": "Required Clinician Oversight: Must be used by a physician (not necessarily a dermatologist) in conjunction with full cli"
+  },
+  {
+    "card": "Dermasensor",
+    "old_label": "UNSUPPORTED",
+    "why": "wall_category=human_verification",
+    "url": "https://www.dermasensor.com/how-dermasensor-works/",
+    "statement": "Training Data: Proprietary neural network trained on spectral data from over 2,000 histopathologically confirmed skin le"
+  },
+  {
+    "card": "Dermasensor",
+    "old_label": "PARTIAL",
+    "why": "wall_category=human_verification",
+    "url": "https://www.dermasensor.com/summary-of-dermasensor-device-safety-and-effectiveness-results-from-three-clinical-studies/",
+    "statement": "Performance: Device sensitivity of 95.5% (DERM-SUCCESS) was superior to study PCP investigators (83.0%); AUROC 0.803 vs "
+  },
+  {
+    "card": "Dermasensor",
+    "old_label": "PARTIAL",
+    "why": "wall_category=human_verification",
+    "url": "https://www.dermasensor.com/resource/advancing-skin-cancer-detection-american-academy-of-dermatology-journal-publishes-dermasensors-breakthrough-melanoma-detection-results-from-a-major-multicenter-trial/",
+    "statement": "Limitations in Evaluating Performance: Training data bias due to proprietary, non-public datasets; DERM-ASSESS III was a"
+  },
+  {
+    "card": "Dermasensor",
+    "old_label": "PARTIAL",
+    "why": "wall_category=human_verification",
+    "url": "https://www.dermasensor.com/faq/",
+    "statement": "Plans for Ongoing Monitoring: Algorithm is locked per FDA requirements and not continually updated; revalidated and upda"
+  },
+  {
+    "card": "Dermasensor",
+    "old_label": "PARTIAL",
+    "why": "wall_category=human_verification",
+    "url": "https://www.dermasensor.com/faq/",
+    "statement": "Scheduled Updates: Approximately every two years, each requiring new FDA clearance; not continuously learning."
+  },
+  {
+    "card": "Dermasensor",
+    "old_label": "PARTIAL",
+    "why": "wall_category=human_verification",
+    "url": "https://support.dermasensor.com/",
+    "statement": "Inquiries / Report an Issue: https://www.dermasensor.com/contact-us/"
+  },
+  {
+    "card": "Dermasensor",
+    "old_label": "PARTIAL",
+    "why": "wall_category=human_verification",
+    "url": "https://www.dermasensor.com/contact-us/",
+    "statement": "Inquiries / Report an Issue: https://www.dermasensor.com/contact-us/"
+  },
+  {
+    "card": "SkinVision",
+    "old_label": "PARTIAL",
+    "why": "cookie/captcha/login texthead",
+    "url": "https://www.skinvision.com/about/",
+    "statement": "Developer: SkinVision, founded in 2012 by Erik de Heus, headquartered in Amsterdam, the Netherlands."
+  },
+  {
+    "card": "SkinVision",
+    "old_label": "UNSUPPORTED",
+    "why": "cookie/captcha/login texthead",
+    "url": "https://www.skinvision.com/scientific-evidence",
+    "statement": "Version: SkinVision app version 6.0."
+  },
+  {
+    "card": "SkinVision",
+    "old_label": "PARTIAL",
+    "why": "cookie/captcha/login texthead",
+    "url": "https://www.skinvision.com/about/",
+    "statement": "Summary: SkinVision is an AI-powered mobile app that lets users photograph moles and skin lesions with a smartphone and "
+  },
+  {
+    "card": "SkinVision",
+    "old_label": "UNSUPPORTED",
+    "why": "cookie/captcha/login texthead",
+    "url": "https://www.skinvision.com/getting-started",
+    "statement": "Acceptable Input: A smartphone photo of a skin lesion captured via the app's guided camera (lesion centered, in focus, a"
+  },
+  {
+    "card": "SkinVision",
+    "old_label": "PARTIAL",
+    "why": "cookie/captcha/login texthead",
+    "url": "https://www.skinvision.com/getting-started",
+    "statement": "Intended Users: Individuals at risk of developing skin cancer (consumer/self-use), as well as healthcare professionals w"
+  },
+  {
+    "card": "SkinVision",
+    "old_label": "PARTIAL",
+    "why": "cookie/captcha/login texthead",
+    "url": "https://www.skinvision.com/getting-started",
+    "statement": "Target Patient Population: General consumers seeking to self-monitor skin lesions for skin cancer risk; not intended for"
+  },
+  {
+    "card": "SkinVision",
+    "old_label": "UNSUPPORTED",
+    "why": "wall_category=human_verification",
+    "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC7027514/",
+    "statement": "Known Performance Limitations: Independent studies report sensitivity/specificity varying by evaluation, e.g. 73% sensit"
+  },
+  {
+    "card": "SkinVision",
+    "old_label": "UNSUPPORTED",
+    "why": "reason mentions wall/empty-extract",
+    "url": "https://pubmed.ncbi.nlm.nih.gov/31494983/",
+    "statement": "Known Performance Limitations: Independent studies report sensitivity/specificity varying by evaluation, e.g. 73% sensit"
+  },
+  {
+    "card": "SkinVision",
+    "old_label": "UNSUPPORTED",
+    "why": "wall_category=human_verification",
+    "url": "https://medicalxpress.com/news/2019-09-skinvision-skin-cancer.html",
+    "statement": "Known Performance Limitations: Independent studies report sensitivity/specificity varying by evaluation, e.g. 73% sensit"
+  },
+  {
+    "card": "SkinVision",
+    "old_label": "UNSUPPORTED",
+    "why": "cookie/captcha/login texthead",
+    "url": "https://www.skinvision.com/articles/how-does-skinvisions-algorithm-detect-skin-cancer",
+    "statement": "Skin Type Representation & Equity: Full dataset composition is not publicly disclosed; the app is intended for all skin "
+  },
+  {
+    "card": "SkinVision",
+    "old_label": "UNSUPPORTED",
+    "why": "cookie/captcha/login texthead",
+    "url": "https://www.skinvision.com/clinical-research",
+    "statement": "Skin Type Representation & Equity: Full dataset composition is not publicly disclosed; the app is intended for all skin "
+  },
+  {
+    "card": "SkinVision",
+    "old_label": "UNSUPPORTED",
+    "why": "cookie/captcha/login texthead",
+    "url": "https://www.skinvision.com/getting-started",
+    "statement": "Required Clinician Oversight: None required for use of the app itself; anyone with a smartphone can use it. Outputs are "
+  },
+  {
+    "card": "SkinVision",
+    "old_label": "UNSUPPORTED",
+    "why": "cookie/captcha/login texthead",
+    "url": "https://www.skinvision.com/articles/how-does-skinvisions-algorithm-detect-skin-cancer",
+    "statement": "Model Type: Proprietary convolutional neural network (CNN) architecture for smartphone image-based skin lesion risk asse"
+  },
+  {
+    "card": "SkinVision",
+    "old_label": "UNSUPPORTED",
+    "why": "reason mentions wall/empty-extract",
+    "url": "https://pubmed.ncbi.nlm.nih.gov/31494983/",
+    "statement": "Training Data: Trained and validated on a proprietary dataset of dermatologist-reviewed smartphone images; one published"
+  },
+  {
+    "card": "SkinVision",
+    "old_label": "UNSUPPORTED",
+    "why": "cookie/captcha/login texthead",
+    "url": "https://www.skinvision.com/articles/how-does-skinvisions-algorithm-detect-skin-cancer",
+    "statement": "Training Data: Trained and validated on a proprietary dataset of dermatologist-reviewed smartphone images; one published"
+  },
+  {
+    "card": "SkinVision",
+    "old_label": "UNSUPPORTED",
+    "why": "reason mentions wall/empty-extract",
+    "url": "https://pubmed.ncbi.nlm.nih.gov/31494983/",
+    "statement": "Model Development & Validation: Clinically validated per ISO 14971 risk management and ISO 13485/27001 quality and secur"
+  },
+  {
+    "card": "SkinVision",
+    "old_label": "UNSUPPORTED",
+    "why": "cookie/captcha/login texthead",
+    "url": "https://www.skinvision.com/scientific-evidence",
+    "statement": "Performance: Reported sensitivity ranges from approximately 73% to over 95% across different independent studies, with s"
+  },
+  {
+    "card": "SkinVision",
+    "old_label": "UNSUPPORTED",
+    "why": "wall_category=human_verification",
+    "url": "https://www.sciencedirect.com/science/article/pii/S0022202X23029640",
+    "statement": "Performance: Reported sensitivity ranges from approximately 73% to over 95% across different independent studies, with s"
+  },
+  {
+    "card": "SkinVision",
+    "old_label": "UNSUPPORTED",
+    "why": "reason mentions wall/empty-extract",
+    "url": "https://pubmed.ncbi.nlm.nih.gov/31494983/",
+    "statement": "Limitations in Evaluating Performance: Sensitivity/specificity estimates vary substantially across studies and between c"
+  },
+  {
+    "card": "SkinVision",
+    "old_label": "UNSUPPORTED",
+    "why": "cookie/captcha/login texthead",
+    "url": "https://www.skinvision.com/articles/how-does-skinvisions-algorithm-detect-skin-cancer",
+    "statement": "Limitations in Evaluating Performance: Sensitivity/specificity estimates vary substantially across studies and between c"
+  },
+  {
+    "card": "SkinVision",
+    "old_label": "UNSUPPORTED",
+    "why": "cookie/captcha/login texthead",
+    "url": "https://skinvision-static-content.s3-eu-west-1.amazonaws.com/website/en/Privacy_Policy_SkinVision.pdf",
+    "statement": "Plans for Ongoing Monitoring: Algorithm is continuously updated using newly submitted user images; user data is retained"
+  },
+  {
+    "card": "SkinVision",
+    "old_label": "UNSUPPORTED",
+    "why": "cookie/captcha/login texthead",
+    "url": "https://www.skinvision.com/articles/how-machine-learning-detects-skin-cancer",
+    "statement": "Plans for Ongoing Monitoring: Algorithm is continuously updated using newly submitted user images; user data is retained"
+  },
+  {
+    "card": "SkinVision",
+    "old_label": "UNSUPPORTED",
+    "why": "cookie/captcha/login texthead",
+    "url": "https://www.skinvision.com/articles/how-machine-learning-detects-skin-cancer",
+    "statement": "Scheduled Updates: Continuous training and improvement of the algorithm using new sets of submitted images; no fixed rel"
+  },
+  {
+    "card": "SkinVision",
+    "old_label": "UNSUPPORTED",
+    "why": "cookie/captcha/login texthead",
+    "url": "https://www.skinvision.com/contact-us",
+    "statement": "Inquiries / Report an Issue: support@skinvision.com | https://www.skinvision.com/contact-us"
+  },
+  {
+    "card": "SkinVision",
+    "old_label": "UNSUPPORTED",
+    "why": "cookie/captcha/login texthead",
+    "url": "https://www.skinvision.com/instructions-for-use",
+    "statement": "Inquiries / Report an Issue: support@skinvision.com | https://www.skinvision.com/contact-us"
+  }
+]

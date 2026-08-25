@@ -129,6 +129,7 @@ def plot_sourcecheckup_boxplots(
     title: str,
     models: list[str] | None = None,
     seed: int = 0,
+    metric_label: str = "SourceCheckup (%)",
 ) -> Path:
     """Manual vs Auto SourceCheckup boxplot + stats panel (CI + permutation p).
 
@@ -174,7 +175,7 @@ def plot_sourcecheckup_boxplots(
         )
         ax.set_ylabel("Percent")
         ax.set_ylim(0, 100)
-        ax.set_title("SourceCheckup (%)", pad=8)
+        ax.set_title(metric_label, pad=8)
 
         mean_m, mean_a = float(np.mean(m)), float(np.mean(a))
         ci_m = _bootstrap_ci_mean(m, seed=seed)
@@ -186,7 +187,7 @@ def plot_sourcecheckup_boxplots(
             "Groups: Manual vs Auto (values are % per model)",
             f"Models (n={n_models}): {', '.join(model_names)}",
             "",
-            "SourceCheckup (%)",
+            metric_label,
             f"  Manual: n={m.size} mean={mean_m:.2f}  95% CI [{ci_m[0]:.2f}, {ci_m[1]:.2f}]",
             f"  Auto:   n={a.size} mean={mean_a:.2f}  95% CI [{ci_a[0]:.2f}, {ci_a[1]:.2f}]",
             f"  Δ (Auto − Manual): {delta:+.2f} pp",
@@ -263,8 +264,20 @@ def main() -> None:
         manual=list(sc_manual),
         auto=list(sc_auto),
         output_path=out_box,
-        title="Auto vs Manual: SourceCheckup (eval-3, 5 models)",
+        title="Auto vs Manual: SourceCheckup strict (eval-3, 5 models)",
         models=MODEL_ORDER,
+        metric_label="SourceCheckup strict (%)",
+    )
+
+    out_box_partial = figures_out / "sourcecheckup_auto_vs_manual_boxplots_partial.png"
+    plot_sourcecheckup_boxplots(
+        manual=list(sc_manual_partial),
+        auto=list(sc_auto_partial),
+        output_path=out_box_partial,
+        title="Auto vs Manual: SourceCheckup partial-credit (eval-3, 5 models)",
+        models=MODEL_ORDER,
+        seed=1,
+        metric_label="SourceCheckup partial-credit (%)",
     )
 
     if exclude_extra:

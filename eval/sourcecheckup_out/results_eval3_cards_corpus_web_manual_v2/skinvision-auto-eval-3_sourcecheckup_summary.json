@@ -1,0 +1,11 @@
+{
+  "name": "skinvision-auto-eval-3",
+  "pairs_csv": "/Users/isabellegatmaitan/Documents/GitHub/aad-model-card-generator/eval/sourcecheckup_out/pairs_eval3_cards/skinvision-auto-eval-3_pairs.csv",
+  "total_pairs": 8,
+  "supported": 8,
+  "partial": 0,
+  "unsupported": 0,
+  "strict_score": 1.0,
+  "partial_credit_score": 1.0,
+  "wall_fails_relabelled_to_supported": 0
+}
