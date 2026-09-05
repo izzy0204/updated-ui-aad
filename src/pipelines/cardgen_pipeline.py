@@ -742,14 +742,17 @@ class CardGenPipeline:
 
     async def generate_chai_model_card(self, model_name: str, extracted_content: Dict[str, Any], developer_name: str = "", application_url: str = "") -> ClinicalModelCard:
         """
-        Generate a CHAI model card using the extracted content and user inputs.
+        Generate a clinical model card. Returns only the card object.
+
+        Prefer ``generate_model_card`` when callers also need sources/content.
+        ``extracted_content`` is unused; discovery runs inside ``generate_model_card``.
         """
-        # Use the existing generate_model_card method but with application URL support
-        return await self.generate_model_card(
+        chai_card, _, _ = await self.generate_model_card(
             model_name=model_name,
             developer_name=developer_name,
-            application_url=application_url
+            application_url=application_url,
         )
+        return chai_card
 
     async def generate_model_card(
         self,

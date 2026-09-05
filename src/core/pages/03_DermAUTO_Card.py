@@ -1,6 +1,7 @@
 import sys
 from pathlib import Path
 from typing import Dict, List, Optional, Tuple
+import re
 
 _SRC_DIR = Path(__file__).resolve().parents[2]
 if str(_SRC_DIR) not in sys.path:
@@ -60,12 +61,25 @@ def _resolve_card_paths(filename: str) -> Tuple[Optional[Path], Optional[Path]]:
     return None, None
 
 
+def _display_source_label(raw: str) -> str:
+    """UI-facing label with eval-round markers stripped (no eval-2 / eval-3 evidence)."""
+    label = Path(raw).name
+    for suffix in (".clinical.json", ".clinical.md", ".citations.json", ".json", ".md"):
+        if label.endswith(suffix):
+            label = label[: -len(suffix)]
+            break
+    label = re.sub(r"-?eval[-_ ]?\d+", "", label, flags=re.IGNORECASE)
+    label = re.sub(r"[-_]+", " ", label).strip()
+    return label or "Model card"
+
+
 st.set_page_config(page_title="DermAUTO-CARD", layout="wide")
 st.title("DermAUTO-CARD")
 st.caption("Clinician-centered model card viewer (JSON canonical, markdown for upload).")
 
 with st.sidebar:
     st.subheader("Source")
+    # Stems may mix eval rounds; labels never mention eval-2 / eval-3.
     ordered_sources: List[Tuple[str, str]] = [
         ("A · DermaSensor", "dermasensor-auto-eval-3"),
         ("B · DermaSensor", "dermasensor-manual-eval-3"),
@@ -75,8 +89,8 @@ with st.sidebar:
         ("B · DERM", "derm-manual-eval-3"),
         ("A · DermGPT", "dermgpt-auto-eval-3"),
         ("B · DermGPT", "dermgpt-manual-eval-3"),
-        ("A · Skin Vision", "skinvision-auto-eval-3"),
-        ("B · Skin Vision", "skinvision-manual-eval-3"),
+        ("A · Skin Vision", "skinvision-auto-eval-2"),
+        ("B · Skin Vision", "skinvision-manual-eval-2"),
     ]
     option_to_path: Dict[str, Path] = {}
     for label, stem in ordered_sources:
@@ -91,6 +105,7 @@ with st.sidebar:
     default_idx = options.index(default_key) if default_key in option_to_path else 0
 
     selected_path: Optional[Path] = None
+    selected_key: Optional[str] = None
     if options:
         selected_key = st.selectbox("Select a model card", options=options, index=min(default_idx, len(options) - 1))
         selected_path = option_to_path.get(selected_key)
@@ -108,13 +123,13 @@ md_text = ""
 citations_data = None
 
 if uploaded is not None:
-    source_label = uploaded.name
+    source_label = _display_source_label(uploaded.name)
     if uploaded.name.endswith(".json"):
         card = ClinicalModelCard.from_dict(__import__("json").loads(uploaded.read().decode("utf-8")))
     else:
         md_text = uploaded.read().decode("utf-8", errors="replace")
 elif selected_path and selected_path.exists():
-    source_label = next((k for k, v in option_to_path.items() if v == selected_path), selected_path.name)
+    source_label = selected_key or _display_source_label(selected_path.name)
     if selected_path.suffix == ".json":
         card = ClinicalModelCard.from_dict(__import__("json").loads(selected_path.read_text(encoding="utf-8")))
         citations_data = load_citations_for_markdown(selected_path)

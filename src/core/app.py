@@ -183,35 +183,31 @@ def main_tab_content():
             status_text = st.empty()
             
             try:
-                # Initialize CardGen pipeline
+                # Full pipeline lives in generate_model_card (discover + extract + generate).
                 async def run_cardgen_pipeline():
                     async with CardGenPipeline() as pipeline:
-                        # Step 1: Source Discovery
                         status_text.text("Finding information about your model...")
                         progress_bar.progress(25)
-                        
-                        sources = await pipeline.discover_model_sources(model_name, developer_name, application_url)
-                        
-                        # Step 2: Content Extraction
+
                         status_text.text("Extracting technical details and documentation...")
                         progress_bar.progress(50)
-                        
-                        extracted_content = await pipeline.extract_content_from_sources(sources)
-                        
-                        # Step 3: Model Card Generation
+
                         status_text.text("Analyzing with AI and generating comprehensive model card...")
                         progress_bar.progress(75)
-                        
-                        chai_card = await pipeline.generate_chai_model_card(model_name, extracted_content, developer_name, application_url)
-                        
+
+                        chai_card, sources, content = await pipeline.generate_model_card(
+                            model_name=model_name,
+                            developer_name=developer_name or "",
+                            application_url=application_url or "",
+                        )
+
                         progress_bar.progress(100)
                         status_text.text("Model card generated successfully!")
-                        
-                        return chai_card, sources, extracted_content
-                
+                        return chai_card, sources, content
+
                 # Run the pipeline
                 chai_model_card, sources, extracted_content = asyncio.run(run_cardgen_pipeline())
-                
+
                 # Store in session state for output tab (overwrites previous)
                 st.session_state.generated_model_card = chai_model_card
                 st.session_state.generated_model_card_json = chai_model_card.to_json()
@@ -261,40 +257,34 @@ def main_tab_content():
                     if scoring.get("recommendations_count", 0) > 0:
                         st.info(f"**Recommendations:** {scoring['recommendations_count']} improvement suggestions available")
                 
-                # Quick stats
+                # Quick stats (pipeline sources shape: web_search / publications / fda / citations)
                 st.subheader("Generation Summary")
                 col1, col2, col3, col4 = st.columns(4)
-                
-                total_sources = sum(len(source_list) for source_list in sources.values())
-                aggregated = extracted_content.get('aggregated_content', {})
-                
+
+                web_discovered = (sources.get("web_search") or {}).get("discovered") or []
+                web_urls = (sources.get("web_search") or {}).get("top_urls") or []
+                publications = sources.get("publications") or []
+                fda_records = sources.get("fda") or []
+                citations = sources.get("citations") or {}
+                if isinstance(citations, dict):
+                    citation_count = len(citations.get("references") or {}) or sum(
+                        1 for k, v in citations.items()
+                        if k not in ("schema_version", "schemaVersion", "_sources_metadata", "references", "field_citations", "fieldCitations", "fields")
+                        and isinstance(v, list) and v
+                    )
+                else:
+                    citation_count = 0
+                total_sources = len(web_discovered) or len(web_urls) or (len(publications) + len(fda_records))
+
                 with col1:
                     st.metric("Sources Found", total_sources)
                 with col2:
-                    st.metric("Content Pieces", len(aggregated.get('descriptions', [])))
+                    st.metric("Publications / FDA", len(publications) + len(fda_records))
                 with col3:
-                    # Enhanced metrics counting with fallback extraction
-                    from utils.utils import extract_metrics_keywords, extract_references_from_text
-                    
-                    # Use raw content for fallback extraction
-                    all_content = " ".join([
-                        content.get('raw_content', '') or str(content) 
-                        for content in extracted_content.get('raw_content', [])
-                    ])
-                    
-                    metrics_count = len(aggregated.get('metrics', {}))
-                    if metrics_count == 0 and all_content:
-                        fallback_metrics = extract_metrics_keywords(all_content)
-                        metrics_count = len([metric for metric_list in fallback_metrics.values() for metric in metric_list])
-                    
-                    st.metric("Metrics Extracted", metrics_count)
+                    metrics_count = len(getattr(getattr(chai_model_card, "performance", None), "metrics", None) or [])
+                    st.metric("Performance Metrics", metrics_count)
                 with col4:
-                    references_count = len(aggregated.get('references', []))
-                    if references_count == 0 and all_content:
-                        fallback_references = extract_references_from_text(all_content)
-                        references_count = len(fallback_references)
-                    
-                    st.metric("References Found", references_count)
+                    st.metric("Cited Sources", citation_count)
                 
                 # Model card preview
                 st.subheader("Your Model Card")
@@ -372,25 +362,28 @@ def main_tab_content():
                         st.markdown("---")
                     
                     st.markdown("### Sources Discovered")
-                    
+
                     source_cols = st.columns(4)
                     with source_cols[0]:
-                        st.metric("GitHub Repos", len(sources.get('github', [])))
+                        st.metric("Web URLs", len(web_urls) or len(web_discovered))
                     with source_cols[1]:
-                        st.metric("Research Papers", len(sources.get('pubmed', [])))
+                        st.metric("Research Papers", len(publications))
                     with source_cols[2]:
-                        st.metric("HuggingFace", len(sources.get('huggingface', [])))
+                        st.metric("FDA Records", len(fda_records))
                     with source_cols[3]:
-                        st.metric("ArXiv Papers", len(sources.get('arxiv', [])))
-                    
+                        st.metric("Cited Sources", citation_count)
+
                     st.markdown("### Compliance Standards")
-                    st.markdown("- CHAI Schema v0.1 compliant")
+                    st.markdown("- Clinical model card schema v2.0")
                     st.markdown("- HTI-1 regulation ready")
                     st.markdown("- 45 CFR 170.315 compatible")
                     st.markdown("- Medical AI documentation standards")
-                    
-                    st.markdown(f"**Generated:** {chai_model_card.extraction_timestamp}")
-                    
+
+                    generated_at = getattr(chai_model_card, "extraction_timestamp", None) or getattr(
+                        chai_model_card, "last_updated", None
+                    )
+                    if generated_at:
+                        st.markdown(f"**Generated / last updated:** {generated_at}")
             except RateLimitExceededError as e:
                 # Clear any existing model card on rate limit error
                 if 'generated_model_card' in st.session_state:
