@@ -1,0 +1,18 @@
+{
+  "cohorts": [
+    "eval3",
+    "eval3_overall"
+  ],
+  "has_scipy": true,
+  "bootstrap_method": "percentile_bootstrap_10000_resamples",
+  "permutation_method": "exact_sign_flip_enumeration",
+  "primary_decision_rule": "bootstrap_ci_lower_bound_gt_minus_delta",
+  "delta_selection": "analyst_specified_moderate_conservative_liberal",
+  "outputs": {
+    "paired_deltas": "/Users/isabellegatmaitan/Documents/GitHub/aad-model-card-generator/eval/ni_analysis/ni_paired_deltas.csv",
+    "global_tests": "/Users/isabellegatmaitan/Documents/GitHub/aad-model-card-generator/eval/ni_analysis/ni_global_tests.csv",
+    "per_product_moderate": "/Users/isabellegatmaitan/Documents/GitHub/aad-model-card-generator/eval/ni_analysis/ni_per_product_moderate.csv",
+    "pi_report": "/Users/isabellegatmaitan/Documents/GitHub/aad-model-card-generator/eval/ni_analysis/PI_REPORT.md"
+  },
+  "primary_endpoint": "sourcecheckup_partial @ moderate delta (eval3_overall / eval3)"
+}

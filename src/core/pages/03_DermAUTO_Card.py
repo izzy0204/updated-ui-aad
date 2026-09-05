@@ -9,11 +9,27 @@ if str(_SRC_DIR) not in sys.path:
 import streamlit as st
 
 from core.chai_schema import ClinicalModelCard
+from core.citation_render import ensure_clickable_citations
 from core.source_regulatory import load_citations_for_markdown
 from core.dermauto_card_render import (
     is_clinical_markdown,
     render_from_card,
 )
+
+
+def _companion_clinical_md(path: Path) -> Optional[Path]:
+    """Resolve ``*.clinical.md`` next to a clinical JSON / citations path."""
+    name = path.name
+    if name.endswith(".clinical.json"):
+        md = path.with_name(name.replace(".clinical.json", ".clinical.md"))
+    elif name.endswith(".citations.json"):
+        md = path.with_name(name.replace(".citations.json", ".clinical.md"))
+    elif name.endswith(".clinical.md"):
+        md = path
+    else:
+        md = path.with_suffix(".clinical.md")
+    return md if md.is_file() else None
+
 
 _PAGE_DIR = Path(__file__).resolve().parent
 REPO_ROOT = _PAGE_DIR.parents[3]
@@ -102,15 +118,22 @@ elif selected_path and selected_path.exists():
     if selected_path.suffix == ".json":
         card = ClinicalModelCard.from_dict(__import__("json").loads(selected_path.read_text(encoding="utf-8")))
         citations_data = load_citations_for_markdown(selected_path)
+        citations_data = ensure_clickable_citations(
+            citations_data, md_path=_companion_clinical_md(selected_path)
+        )
     else:
         md_path = selected_path
         json_path, _ = _resolve_card_paths(selected_path.name)
         if json_path and json_path.exists():
             card = ClinicalModelCard.from_dict(__import__("json").loads(json_path.read_text(encoding="utf-8")))
             citations_data = load_citations_for_markdown(json_path)
+            citations_data = ensure_clickable_citations(
+                citations_data, md_path=_companion_clinical_md(json_path) or md_path
+            )
         else:
             md_text = selected_path.read_text(encoding="utf-8", errors="replace")
             citations_data = load_citations_for_markdown(selected_path)
+            citations_data = ensure_clickable_citations(citations_data, md_text=md_text)
 
 if card is None and not md_text.strip():
     st.warning("Pick or upload a model card to render.")

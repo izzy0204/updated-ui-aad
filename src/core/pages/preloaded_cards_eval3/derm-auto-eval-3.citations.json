@@ -60,5 +60,258 @@
       "source_type": "clinical_trial",
       "regulatory_tier": "green"
     }
+  },
+  "schema_version": "clinical-model-card-citations-1.0",
+  "references": {
+    "1": {
+      "url": "https://skin-analytics.com/wp-content/uploads/2025/04/SA-001165-LB-13-DERM-Instructions-for-Use.pdf",
+      "title": "",
+      "source": ""
+    },
+    "2": {
+      "url": "https://skin-analytics.com/wp-content/uploads/2025/01/SA-001165-LB-v12-DERM-Instructions-for-Use_20Jan2025.pdf",
+      "title": "",
+      "source": ""
+    },
+    "3": {
+      "url": "https://skin-analytics.com/news/regulatory-certification/derm-class-iii-ce-mark/",
+      "title": "",
+      "source": ""
+    },
+    "4": {
+      "url": "https://www.applytosupply.digitalmarketplace.service.gov.uk/g-cloud/services/422642264464760",
+      "title": "",
+      "source": ""
+    },
+    "5": {
+      "url": "https://www.frontiersin.org/journals/medicine/articles/10.3389/fmed.2023.1288521/full",
+      "title": "",
+      "source": ""
+    },
+    "6": {
+      "url": "https://unityinsights.co.uk/our-insights/ai-in-health-and-care-award-skin-analytics-evaluation/",
+      "title": "",
+      "source": ""
+    },
+    "7": {
+      "url": "https://skin-analytics.com/news/skin-cancer/prospective-study-shows-ai-as-accurate-as-clinical-specialist/",
+      "title": "",
+      "source": ""
+    },
+    "8": {
+      "url": "https://clinicaltrials.gov/study/NCT04116983",
+      "title": "",
+      "source": ""
+    },
+    "9": {
+      "url": "https://clinicaltrials.gov/study/NCT04123678",
+      "title": "",
+      "source": ""
+    },
+    "10": {
+      "url": "https://clinicaltrials.gov/study/NCT05126173",
+      "title": "",
+      "source": ""
+    }
+  },
+  "field_citations": {
+    "acceptable_input": [
+      {
+        "citationIds": [
+          "1",
+          "4"
+        ],
+        "sentence_level": true
+      }
+    ],
+    "availability": [
+      {
+        "citationIds": [
+          "1",
+          "4"
+        ],
+        "sentence_level": true
+      }
+    ],
+    "clinical_trial": [
+      {
+        "citationIds": [
+          "8",
+          "9",
+          "10"
+        ],
+        "sentence_level": true
+      }
+    ],
+    "developer": [
+      {
+        "citationIds": [
+          "1"
+        ],
+        "sentence_level": true
+      }
+    ],
+    "intended_users": [
+      {
+        "citationIds": [
+          "1",
+          "4"
+        ],
+        "sentence_level": true
+      }
+    ],
+    "known_performance_limitations": [
+      {
+        "citationIds": [
+          "1"
+        ],
+        "sentence_level": true
+      }
+    ],
+    "medical_purpose": [
+      {
+        "citationIds": [
+          "1",
+          "4"
+        ],
+        "sentence_level": true
+      }
+    ],
+    "model_development_and_validation.description": [
+      {
+        "citationIds": [
+          "1"
+        ],
+        "sentence_level": true
+      }
+    ],
+    "model_name": [
+      {
+        "citationIds": [
+          "1"
+        ],
+        "sentence_level": true
+      }
+    ],
+    "model_type": [
+      {
+        "citationIds": [
+          "1"
+        ],
+        "sentence_level": true
+      }
+    ],
+    "ongoing_monitoring_plan": [
+      {
+        "citationIds": [
+          "1",
+          "4"
+        ],
+        "sentence_level": true
+      }
+    ],
+    "output": [
+      {
+        "citationIds": [
+          "1"
+        ],
+        "sentence_level": true
+      }
+    ],
+    "performance.summary": [
+      {
+        "citationIds": [
+          "3",
+          "6",
+          "7"
+        ],
+        "sentence_level": true
+      }
+    ],
+    "performance_evaluation_limitations": [
+      {
+        "citationIds": [
+          "1",
+          "5"
+        ],
+        "sentence_level": true
+      }
+    ],
+    "regulatory_approval_status": [
+      {
+        "citationIds": [
+          "3"
+        ],
+        "sentence_level": true
+      }
+    ],
+    "required_clinician_oversight": [
+      {
+        "citationIds": [
+          "1",
+          "3"
+        ],
+        "sentence_level": true
+      }
+    ],
+    "role_in_decision_making": [
+      {
+        "citationIds": [
+          "1",
+          "4"
+        ],
+        "sentence_level": true
+      }
+    ],
+    "scheduled_updates": [
+      {
+        "citationIds": [
+          "4"
+        ],
+        "sentence_level": true
+      }
+    ],
+    "skin_type_representation_equity": [
+      {
+        "citationIds": [
+          "1",
+          "5"
+        ],
+        "sentence_level": true
+      }
+    ],
+    "summary": [
+      {
+        "citationIds": [
+          "1",
+          "3"
+        ],
+        "sentence_level": true
+      }
+    ],
+    "target_patient_population": [
+      {
+        "citationIds": [
+          "1"
+        ],
+        "sentence_level": true
+      }
+    ],
+    "training_data.description": [
+      {
+        "citationIds": [
+          "1"
+        ],
+        "sentence_level": true
+      }
+    ],
+    "version": [
+      {
+        "citationIds": [
+          "1"
+        ],
+        "sentence_level": true
+      }
+    ]
   }
 }

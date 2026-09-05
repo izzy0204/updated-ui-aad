@@ -5,6 +5,7 @@ from __future__ import annotations
 import logging
 import re
 from dataclasses import dataclass, field
+from pathlib import Path
 from typing import Any, Dict, List, Optional, Set, Tuple
 
 from core.dermauto_card_render import CITATION_IN_TEXT
@@ -380,3 +381,126 @@ def apply_render_time_citations(
             injected = inject_citations_into_text(clean, spans, fallback_ids=fallback or None)
             out[sec_name][label] = injected
     return out
+
+
+# Display-label prefixes used in clinical markdown bullets → sidecar field keys.
+_MD_LABEL_TO_FIELD_KEY: Tuple[Tuple[str, str], ...] = (
+    ("Model Name", "model_name"),
+    ("Developer", "developer"),
+    ("Regulatory Approval Status", "regulatory_approval_status"),
+    ("Regulatory Approval Date", "regulatory_approval_date"),
+    ("Version", "version"),
+    ("Last Updated", "last_updated"),
+    ("Availability", "availability"),
+    ("Summary", "summary"),
+    ("Medical Purpose", "medical_purpose"),
+    ("Acceptable Input", "acceptable_input"),
+    ("Output", "output"),
+    ("Role in Decision-Making", "role_in_decision_making"),
+    ("Intended Users", "intended_users"),
+    ("Target Patient Population", "target_patient_population"),
+    ("Known Performance Limitations", "known_performance_limitations"),
+    ("Skin Type Representation & Equity", "skin_type_representation_equity"),
+    ("Required Clinician Oversight", "required_clinician_oversight"),
+    ("Model Type", "model_type"),
+    ("Training Data", "training_data.description"),
+    ("Model Development & Validation", "model_development_and_validation.description"),
+    ("Clinical Trial", "clinical_trial"),
+    ("Performance", "performance.summary"),
+    ("Limitations in Evaluating Performance", "performance_evaluation_limitations"),
+    ("Plans for Ongoing Monitoring", "ongoing_monitoring_plan"),
+    ("Scheduled Updates", "scheduled_updates"),
+    ("Inquiries / Report an Issue", "contact"),
+)
+
+_MD_FIELD_BULLET = re.compile(r"^\s*-\s*\*\*([^*]+):\*\*\s*(.*)$")
+_MD_CITE_GROUP = re.compile(r"\[\s*(\d+(?:\s*,\s*\d+)*)\s*\]")
+
+
+def _md_label_to_field_key(label: str) -> Optional[str]:
+    label = label.strip()
+    for base, key in sorted(_MD_LABEL_TO_FIELD_KEY, key=lambda x: -len(x[0])):
+        if label == base:
+            return key
+        if (
+            label.startswith(base + " ")
+            or label.startswith(base + "—")
+            or label.startswith(base + "–")
+            or label.startswith(base + " /")
+            or label.startswith(base + " (")
+        ):
+            return key
+    return None
+
+
+def build_sidecar_from_clinical_md(md_text: str) -> Dict[str, Any]:
+    """Build ``references`` + ``field_citations`` from clinical markdown with inline ``[n]`` markers."""
+    references = build_references_from_md(md_text)
+    ids_by_field: Dict[str, Set[int]] = {}
+    for raw in md_text.splitlines():
+        m = _MD_FIELD_BULLET.match(raw)
+        if not m:
+            continue
+        field_key = _md_label_to_field_key(m.group(1))
+        if not field_key:
+            continue
+        ids: Set[int] = set()
+        for group in _MD_CITE_GROUP.findall(m.group(2)):
+            for part in group.split(","):
+                part = part.strip()
+                if part.isdigit():
+                    n = int(part)
+                    if n in references:
+                        ids.add(n)
+        if ids:
+            ids_by_field.setdefault(field_key, set()).update(ids)
+
+    field_citations = {
+        fk: [{"citationIds": [str(i) for i in sorted(ids)], "sentence_level": True}]
+        for fk, ids in sorted(ids_by_field.items())
+    }
+    return {
+        "schema_version": "clinical-model-card-citations-1.0",
+        "references": {str(n): meta for n, meta in sorted(references.items())},
+        "field_citations": field_citations,
+    }
+
+
+def ensure_clickable_citations(
+    citations: Optional[Dict[str, Any]],
+    md_path: Optional[Path] = None,
+    md_text: Optional[str] = None,
+) -> Optional[Dict[str, Any]]:
+    """
+    If the sidecar has no usable references/field citations, fill them from companion
+    clinical markdown (keeps existing keys such as ``_sources_metadata``).
+    """
+    normalized = normalize_citation_sidecar(citations)
+    if normalized.available:
+        return citations
+
+    text = md_text
+    if text is None and md_path is not None:
+        p = Path(md_path)
+        if p.is_file():
+            try:
+                text = p.read_text(encoding="utf-8")
+            except OSError:
+                text = None
+    if not text or not str(text).strip():
+        return citations
+
+    built = build_sidecar_from_clinical_md(text)
+    if not built.get("references"):
+        return citations
+
+    merged: Dict[str, Any] = dict(citations) if isinstance(citations, dict) else {}
+    merged.setdefault("schema_version", built["schema_version"])
+    merged["references"] = built["references"]
+    merged["field_citations"] = built["field_citations"]
+    logger.info(
+        "Enriched empty citation sidecar from clinical markdown (%d refs, %d fields)",
+        len(built["references"]),
+        len(built["field_citations"]),
+    )
+    return merged

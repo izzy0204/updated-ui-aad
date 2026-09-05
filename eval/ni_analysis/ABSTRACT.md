@@ -1,0 +1,7 @@
+# Abstract (results paragraph — corrected)
+
+Mean paired differences were assessed using 95% percentile bootstrap confidence intervals (10,000 resamples) with metric-specific non-inferiority margins (NIMs); non-inferiority was declared when the bootstrap CI lower bound exceeded −NIM. Automated model cards required significantly less generation time compared to manual cards (mean, 2.15 vs 240 minutes; *P* = .007). Automated cards met **global** non-inferiority criteria across evaluated quality metrics at the specified NIMs (SourceCheckup from eval-3; FactScore and Flesch from best-of eval-2/eval-3 per product), although SkinVision fell outside the FactScore margin at the product level.
+
+Mean paired differences (Auto − Manual, except Flesch–Kincaid) were +10.4 percentage points (SourceCheckup partial-credit; 95% CI, 4.2 to 17.3; NIM, 10) and +17.7 percentage points (SourceCheckup strict; 95% CI, 7.9 to 29.7; NIM, 8). For FactScore, mean differences were +4.8 percentage points (partial-credit; 95% CI, −8.2 to 15.1; NIM, 15) and +7.9 percentage points (strict; 95% CI, −7.4 to 20.9; NIM, 15). Readability differences were +13.7 Flesch Reading Ease points (95% CI, 3.1 to 25.0; NIM, 10) and +2.8 grade levels (Flesch–Kincaid; Manual grade minus Auto grade; 95% CI, 0.8 to 5.2; NIM, 2), indicating easier automated text.
+
+**Source:** `eval/ni_analysis/ni_global_tests.csv` (cohort `eval3_overall`, moderate δ tier). Generation-time statistics should be verified against your timing logs (not stored in `ni_analysis/`).
