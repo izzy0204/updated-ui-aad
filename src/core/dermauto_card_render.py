@@ -338,15 +338,21 @@ def card_to_sections(card: Any, citations: Optional[Dict[str, Any]] = None) -> D
     status_label = REGULATORY_STATUS_LABELS.get(
         card.regulatory_approval_status, str(card.regulatory_approval_status.value)
     )
+    hide_last_updated = False
     if citations and isinstance(citations, dict):
         display = citations.get("regulatory_status_display")
         if display:
             status_label = str(display)
+        hide_last_updated = bool(citations.get("hide_last_updated"))
 
     def d(val: Optional[str]) -> str:
         if val is None or not str(val).strip():
             return "Not disclosed"
         return str(val).strip()
+
+    version_display = (
+        d(card.version) if hide_last_updated else format_version_with_date(card.version, card.last_updated)
+    )
 
     sections: Dict[str, Dict[str, str]] = {
         "1) Metadata": {
@@ -356,7 +362,7 @@ def card_to_sections(card: Any, citations: Optional[Dict[str, Any]] = None) -> D
             "Regulatory Approval Date": d(
                 card.regulatory_approval_date.isoformat() if card.regulatory_approval_date else None
             ),
-            "Version": format_version_with_date(card.version, card.last_updated),
+            "Version": version_display,
             "Availability": d(card.availability),
         },
         "2) Summary": {"Summary": d(card.summary)},

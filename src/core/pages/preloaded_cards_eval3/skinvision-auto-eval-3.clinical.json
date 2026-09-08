@@ -3,22 +3,22 @@
   "modelName": "Skin Vision",
   "applicationUrl": "https://www.skinvision.com/en-us",
   "developer": "SkinVision",
-  "regulatoryApprovalStatus": "UNKNOWN",
+  "regulatoryApprovalStatus": "CE_MARKED",
   "regulatoryApprovalDate": null,
   "version": "",
   "lastUpdated": "2026-07-25",
-  "availability": null,
+  "availability": "SkinVision has partnerships with health insurers, cancer clinics, and research universities in the United Kingdom, Australia, Germany, the Netherlands, and New Zealand, and skin checks may be covered by a user's health insurance provider. The service is not yet available in the United States; U.S. launch is planned pending applicable regulatory clearance.",
   "summary": "SkinVision is a health technology company focused on increasing access to skin health awareness and care. It supports individuals in becoming more aware of their skin over time, helping them take a more active role in their health journey. The service is currently not available in the United States, pending regulatory clearance.",
   "medicalPurpose": "To increase access to skin health awareness and care, and to support individuals in becoming more aware of their skin over time.",
-  "acceptableInput": "",
-  "output": "",
+  "acceptableInput": "A smartphone photo of a skin spot or mole.",
+  "output": "A risk indication for the most common types of skin cancer, delivered within 30\u201360 seconds, with a recommendation on next steps, including whether to see a healthcare professional.",
   "roleInDecisionMaking": "To help individuals take a more active role in their skin health journey by increasing awareness and accessibility to information.",
   "intendedUsers": "Individuals seeking to increase their awareness and understanding of their skin health.",
   "targetPatientPopulation": "The target patient population includes individuals and people seeking to increase their skin health awareness and care, become more aware of their skin over time, and take a more active role in their health journey.",
   "knownPerformanceLimitations": "SkinVision is not yet available in the United States; U.S. availability is subject to FDA authorization and U.S. launch is planned pending applicable regulatory clearance.",
   "skinTypeRepresentationEquity": "",
-  "requiredClinicianOversight": "",
-  "modelType": "",
+  "requiredClinicianOversight": "SkinVision is not intended to replace traditional methods for evaluating skin cancer risk, does not provide a diagnosis, and is not a substitute for visits to a healthcare professional.",
+  "modelType": "AI-based algorithm for skin cancer risk assessment, combining smartphone image analysis with oversight from dermatologists.",
   "trainingData": {
     "description": "",
     "datasetUrl": null
@@ -29,14 +29,14 @@
   },
   "clinicalTrial": null,
   "performance": {
-    "summary": "",
+    "summary": "The SkinVision algorithm has a sensitivity greater than 90% in detecting the three most common types of skin cancer (malignant melanoma, squamous cell carcinoma, and basal cell carcinoma) and a specificity of 89%, measured on SkinVision's user population. Users have received more than 3.5 million risk assessments, and the service has identified over 50,000 cases of melanoma and other skin cancers.",
     "metrics": []
   },
   "performanceEvaluationLimitations": "",
-  "ongoingMonitoringPlan": null,
+  "ongoingMonitoringPlan": "SkinVision invests in ongoing research and clinical evidence collection, supported by a quality system involving dermatologists worldwide, to maintain and improve the reliability and accuracy of its risk-assessment service.",
   "scheduledUpdates": null,
   "contact": {
-    "email": null,
+    "email": "info@skinvision.com",
     "url": "https://www.skinvision.com/en-us"
   }
 }

@@ -5,6 +5,18 @@
       "reason": "Included in context and directly cited",
       "source_type": "web",
       "regulatory_tier": "gray"
+    },
+    "https://www.skinvision.com/getting-started": {
+      "usage": "both",
+      "reason": "Included in context and directly cited",
+      "source_type": "web",
+      "regulatory_tier": "blue"
+    },
+    "https://play.google.com/store/apps/details?id=com.rubytribe.skinvision.ac&hl=en-US": {
+      "usage": "both",
+      "reason": "Included in context and directly cited",
+      "source_type": "web",
+      "regulatory_tier": "blue"
     }
   },
   "model_name": [
@@ -41,6 +53,18 @@
       "snippet": "U.S. launch is planned pending applicable regulatory clearance.",
       "source_type": "web",
       "regulatory_tier": "gray"
+    },
+    {
+      "url": "https://www.skinvision.com/getting-started",
+      "snippet": "SkinVision is a clinically validated, regulated medical device. Among others, it has a CE mark, TGA approval, and ISO certification.",
+      "source_type": "web",
+      "regulatory_tier": "blue"
+    },
+    {
+      "url": "https://play.google.com/store/apps/details?id=com.rubytribe.skinvision.ac&hl=en-US",
+      "snippet": "The SkinVision app is a regulated medical device with European CE marking.",
+      "source_type": "web",
+      "regulatory_tier": "blue"
     }
   ],
   "summary": [
@@ -200,7 +224,7 @@
   "_regulatory_tiers": {
     "model_name": "gray",
     "developer": "gray",
-    "regulatory_approval_status": "gray",
+    "regulatory_approval_status": "blue",
     "regulatory_approval_date": "gray",
     "version": "gray",
     "last_updated": "gray",
@@ -228,7 +252,7 @@
   "_regulatory_tiers_composite": {
     "1) Metadata|||Model Name": "gray",
     "1) Metadata|||Developer": "gray",
-    "1) Metadata|||Regulatory Approval Status": "gray",
+    "1) Metadata|||Regulatory Approval Status": "blue",
     "1) Metadata|||Regulatory Approval Date": "gray",
     "1) Metadata|||Version": "gray",
     "1) Metadata|||Last Updated": "gray",
@@ -258,6 +282,14 @@
     "1": {
       "url": "https://www.skinvision.com/en-us",
       "snippet": "SkinVision is a health technology company"
+    },
+    "2": {
+      "url": "https://www.skinvision.com/getting-started",
+      "snippet": "SkinVision is a clinically validated, regulated medical device."
+    },
+    "3": {
+      "url": "https://play.google.com/store/apps/details?id=com.rubytribe.skinvision.ac&hl=en-US",
+      "snippet": "SkinVision is a dermatologist-approved service"
     }
   },
   "field_citations": {
@@ -282,7 +314,9 @@
         "citationIds": [
           "1",
           "1",
-          "1"
+          "1",
+          "2",
+          "3"
         ],
         "sentence_level": true
       }
@@ -379,8 +413,76 @@
       {
         "text": "Contact page",
         "citationIds": [
+          "1",
+          "3"
+        ]
+      }
+    ],
+    "availability": [
+      {
+        "text": "SkinVision has partnerships with health insurers, cancer clinics, and research universities in the United Kingdom, Australia, Germany, the Netherlands, and New Zealand, and skin checks may be covered by a user's health insurance provider. The service is not yet available in the United States; U.S. launch is planned pending applicable regulatory clearance.",
+        "citationIds": [
+          "3",
           "1"
         ]
+      }
+    ],
+    "acceptable_input": [
+      {
+        "citationIds": [
+          "3"
+        ],
+        "sentence_level": true
+      }
+    ],
+    "output": [
+      {
+        "citationIds": [
+          "3"
+        ],
+        "sentence_level": true
+      }
+    ],
+    "required_clinician_oversight": [
+      {
+        "citationIds": [
+          "3"
+        ],
+        "sentence_level": true
+      }
+    ],
+    "model_type": [
+      {
+        "citationIds": [
+          "2"
+        ],
+        "sentence_level": true
+      }
+    ],
+    "performance": [
+      {
+        "citationIds": [
+          "2",
+          "3"
+        ],
+        "sentence_level": true
+      }
+    ],
+    "performance.summary": [
+      {
+        "citationIds": [
+          "2",
+          "3"
+        ],
+        "sentence_level": true
+      }
+    ],
+    "ongoing_monitoring_plan": [
+      {
+        "citationIds": [
+          "2"
+        ],
+        "sentence_level": true
       }
     ]
   },
@@ -412,5 +514,74 @@
     "snippet_mismatch:model_development_and_validation",
     "snippet_mismatch:model_development_and_validation",
     "sentence_level_fallback:model_development_and_validation"
-  ]
+  ],
+  "availability": [
+    {
+      "url": "https://play.google.com/store/apps/details?id=com.rubytribe.skinvision.ac&hl=en-US",
+      "snippet": "SkinVision has partnerships with leading health insurers, cancer clinics and research universities in the United Kingdom, Australia, Germany, the Netherlands, and New Zealand.",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    },
+    {
+      "url": "https://www.skinvision.com/en-us",
+      "snippet": "currently not available in the United States. U.S. launch is planned pending applicable regulatory clearance.",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    }
+  ],
+  "acceptable_input": [
+    {
+      "url": "https://play.google.com/store/apps/details?id=com.rubytribe.skinvision.ac&hl=en-US",
+      "snippet": "Take a photo with your smartphone and receive a risk indication within 30 seconds.",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    }
+  ],
+  "output": [
+    {
+      "url": "https://play.google.com/store/apps/details?id=com.rubytribe.skinvision.ac&hl=en-US",
+      "snippet": "Take a photo with your smartphone and receive a risk indication within 30 seconds. We provide recommendations on the next steps to take, including whether to visit a healthcare professional.",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    }
+  ],
+  "required_clinician_oversight": [
+    {
+      "url": "https://play.google.com/store/apps/details?id=com.rubytribe.skinvision.ac&hl=en-US",
+      "snippet": "The SkinVision Service is not intended to replace traditional methods for the evaluation of skin cancer risk level, does not give a diagnosis, and is not a substitute for visits to a healthcare professional.",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    }
+  ],
+  "model_type": [
+    {
+      "url": "https://www.skinvision.com/getting-started",
+      "snippet": "The SkinVision app is at the core of the SkinVision service. Empowered by a highly accurate AI-based algorithm, it combines cutting-edge technology with best-in-class dermatologists expertise and support.",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    }
+  ],
+  "performance": [
+    {
+      "url": "https://www.skinvision.com/getting-started",
+      "snippet": "The SkinVision Service algorithm has a sensitivity of greater than 90% in the detection of the three most common types of skin cancer (Malignant Melanoma (MM), Squamous Cell Carcinoma (SCC) and Basal Cell Carcinoma (BCC)) and a specificity of 89%.",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    },
+    {
+      "url": "https://play.google.com/store/apps/details?id=com.rubytribe.skinvision.ac&hl=en-US",
+      "snippet": "Our users have received more than 3.5 million risk assessments and we've found over 50,000 cases of melanoma and other types of skin cancer.",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    }
+  ],
+  "ongoing_monitoring_plan": [
+    {
+      "url": "https://www.skinvision.com/getting-started",
+      "snippet": "The SkinVision app is empowered by a highly accurate AI algorithm and is supported by an advanced quality system involving the best dermatologists worldwide.",
+      "source_type": "web",
+      "regulatory_tier": "gray"
+    }
+  ],
+  "hide_last_updated": true
 }

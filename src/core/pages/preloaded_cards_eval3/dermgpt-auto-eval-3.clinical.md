@@ -7,7 +7,7 @@ schema_version: clinical-model-card-2.0
 ## 1) Metadata
 - **Model Name:** DermGPT [1,4,5]
 - **Developer:** Dr. Faranak "Fara" Kamangar MD [1,4,5]
-- **Regulatory Approval Status:** Regulatory Status Unknown
+- **Regulatory Approval Status:** Not Authorized / Consumer Tool
 - **Regulatory Approval Date:** Not disclosed
 - **Version:** DermGPT was recently unveiled at a limited press briefing (as of November 2023) and is continuously updated and improved.
 - **Last Updated:** 2026-07-25
