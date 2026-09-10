@@ -133,6 +133,24 @@
         "sentence_level": true
       }
     ],
+    "acceptable_input": [
+      {
+        "citationIds": [
+          "12"
+        ],
+        "sentence_level": true
+      }
+    ],
+    "output": [
+      {
+        "citationIds": [
+          "1",
+          "5",
+          "12"
+        ],
+        "sentence_level": true
+      }
+    ],
     "intended_users": [
       {
         "citationIds": [

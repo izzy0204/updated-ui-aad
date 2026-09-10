@@ -10,8 +10,8 @@
   "availability": "Available in the United States. Accessible via website for providers (forus.com). Supports providers across all 50 states. Not known to be available outside the U.S.",
   "summary": "Forus is an AI-powered platform that automates the end-to-end medication access process, including prior authorization (PA) submission, appeals, pharmacy routing, affordability/enrollment in patient assistance programs, and patient communication.",
   "medicalPurpose": "Intended for physician practices and their staff to automate all steps of obtaining prior authorization, from prescribing the medication to the patient actually getting it. This includes PA form generation and submission, appeals, enrollment forms, benefit verifications, PA renewal tracking, and patient communication.",
-  "acceptableInput": "Electronic prescriptions (structured data), clinical notes (unstructured text/PDFs), patient records, payer policy data.",
-  "output": "Completed PA forms (structured forms), appeal letters (text documents), enrollment forms, patient SMS notifications (text), pharmacy routing instructions, and portal dashboard status updates. Workflow: patient records and prescription data are pulled from the EHR (via integration) or uploaded manually; AI reads clinical documentation and matches it against payer-specific PA requirements and formulary rules; AI auto-generates PA form content within 24 hours; provider reviews and approves the completed PA in the Forus portal; Forus submits to the payer and conducts status follow-ups; if denied, AI analyzes the denial reason and generates an appeal letter drawing on clinical documentation and payer-specific appeal strategies; provider reviews and approves the appeal letter before submission; the system continuously learns from case outcomes.",
+  "acceptableInput": "Electronic prescriptions (structured data) or manual upload of patient records.",
+  "output": "Completed prior authorization forms, appeal letters, enrollment forms, patient communication, pharmacy routing information. How output is generated: 1. Patient records and prescription data are pulled from the EHR (via integration) or uploaded directly to Forus. 2. AI auto-generates PA form content within the same day and submits. 3. Forus conducts follow-ups. 4. If denied, Forus generates an appeal letter for provider review and submits. 5. Forus routes the prescription to the correct pharmacy.",
   "roleInDecisionMaking": "The platform automates administrative work and does not make clinical decisions.",
   "intendedUsers": "Doctors and their staff, including providers of all sizes from 1-2 provider private practices to large physician groups and health systems. Provider must be able to e-prescribe (electronic prescriptions only; Forus does not currently support non-eRx practices).",
   "targetPatientPopulation": "All U.S. patients who are prescribed medications requiring prior authorization. Forus supports every medication, insurance, and pharmacy, including both retail and specialty drugs.",
@@ -27,7 +27,11 @@
     "description": "No external or independent validation process is publicly disclosed. The platform's engineering blog describes how Forus employs LLM-as-judge evaluator systems for quality monitoring. Case studies from individual practices are available on the Forus blog, including how Goodman Dermatology helps patients access medications after denials.",
     "publicationUrl": null
   },
-  "clinicalTrial": null,
+  "clinicalTrial": {
+    "identifier": null,
+    "url": null,
+    "description": "None identified. No peer-reviewed publications found."
+  },
   "performance": {
     "summary": "Traditional model performance metrics are not available; however performance metrics from individual case studies can be found on Forus's website. From Forus's case studies on its blog: at one practice called Family Allergy and Asthma, Forus cut PA turnaround time from 7+ days to 1.1 and reduced per-patient workload by 70%. At another, called DOCS Dermatology, they helped achieve same-day submission and approvals in <1 day.",
     "metrics": [
