@@ -31,7 +31,7 @@
     "description": "A double-blind study compared DermGPT's responses to ChatGPT's for dermatology-related queries. The study involved a voluntary, anonymous survey distributed to dermatologists (faculty and residents) at the University of California, Irvine, and the University of California, Davis. A total of 19 responses were received, comprising 13 attending physicians and 6 residents or fellows, corresponding to an overall response rate of approximately 20%. Participants were blinded to which model produced which response and asked to choose preferred answers based on quality, suitability for patient care, or accuracy. Overall, DermGPT's answers (48.1%) were preferred over ChatGPT's (28.4%) with a statistically significant \u03c72 test (P=.04). However, the study was constrained by a small rater sample (n=19) and multiple ratings per rater and question, so P values are considered exploratory rather than confirmatory, limiting generalizability."
   },
   "performance": {
-    "summary": "In a comparative study, ChatGPT's references were preferred overall (46%) over DermGPT's (23.5%), though the \u03c72 test for references was not significant (P=.50). In the attending group, ChatGPT references were preferred (48.2%) over DermGPT (23.1%), and similarly in the resident group (ChatGPT: 41.1% vs..",
+    "summary": "In a comparative study, ChatGPT's references were preferred overall (46%) over DermGPT's (23.5%), though the \u03c72 test for references was not significant (P=.50). In the attending group, ChatGPT references were preferred (48.2%) over DermGPT (23.1%), and similarly in the resident group (ChatGPT: 41.1% vs.",
     "metrics": []
   },
   "performanceEvaluationLimitations": "",

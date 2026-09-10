@@ -11,7 +11,7 @@
   "summary": "Intended as an assistant for dermatologists and staff to support practice management tasks and access dermatology knowledge; not a stand-alone decision maker or replacement for medical care/decision-making.",
   "medicalPurpose": "Intended as an assistant for dermatologists and staff to support practice management tasks and access dermatology knowledge; not a stand-alone decision maker or replacement for medical care/decision-making.",
   "acceptableInput": "Input: natural language text; Output: natural language text (with citations), plus generated documents/letters.",
-  "output": "Natural-language answers and drafts for clinical/admin tasks (e.g.., patient education, prior authorizations, messaging responses, study support).",
+  "output": "Natural-language answers and drafts for clinical/admin tasks (e.g., patient education, prior authorizations, messaging responses, study support).",
   "roleInDecisionMaking": "Intended as an assistant for dermatologists and staff to support practice management tasks and access dermatology knowledge; not a stand-alone decision maker or replacement for medical care/decision-making.",
   "intendedUsers": "Dermatologists and dermatology staff (RNs, MAs, ancillary staff); some sources describe broader audiences, but primary positioning is clinical workflow support. No special technical expertise described; clinical expertise required to appropriately apply outputs.",
   "targetPatientPopulation": "Not specified; tool is primarily provider-facing.",
