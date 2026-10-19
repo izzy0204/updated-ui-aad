@@ -406,6 +406,31 @@ def render_from_card(
     citations: Optional[Dict[str, Any]] = None,
 ) -> str:
     """Render HTML directly from ClinicalModelCard (canonical JSON path)."""
+    prep = prepare_card_render(card, source_label=source_label, hide_citations=hide_citations, citations=citations)
+    return render_full_card_html(
+        sections=prep["sections"],
+        refs=prep["refs"],
+        doc_title=prep["doc_title"],
+        doc_title_html=prep["doc_title_html"],
+        source_label=source_label,
+        hide_citations=hide_citations,
+        manual_linkify=True,
+        regulatory_by_key=prep["regulatory_by_key"],
+        citations_unavailable=not prep["citations_available"],
+        metrics_table_html=prep["metrics_table_html"] or None,
+        metrics_table_section="5) Mechanism and Development",
+        metrics_table_after_field="Performance",
+    )
+
+
+def prepare_card_render(
+    card: Any,
+    *,
+    source_label: str,
+    hide_citations: bool = False,
+    citations: Optional[Dict[str, Any]] = None,
+) -> Dict[str, Any]:
+    """Citation-resolved sections, refs, tiers and metrics table shared by the card renderers."""
     import logging
 
     from core.citation_render import (
@@ -502,20 +527,16 @@ def render_from_card(
             )
         metrics_table_html = header + "".join(rows_html) + "</tbody></table>"
 
-    return render_full_card_html(
-        sections=sections,
-        refs=refs,
-        doc_title=doc_title,
-        doc_title_html=doc_title_html,
-        source_label=source_label,
-        hide_citations=hide_citations,
-        manual_linkify=True,
-        regulatory_by_key=regulatory_by_key,
-        citations_unavailable=not citations_available,
-        metrics_table_html=metrics_table_html or None,
-        metrics_table_section="5) Mechanism and Development",
-        metrics_table_after_field="Performance",
-    )
+    return {
+        "sections": sections,
+        "refs": refs,
+        "tier": tier,
+        "regulatory_by_key": regulatory_by_key,
+        "doc_title": doc_title,
+        "doc_title_html": doc_title_html,
+        "citations_available": citations_available,
+        "metrics_table_html": metrics_table_html,
+    }
 
 
 def body_before_references(md_text: str, *, allow_sources_heading: bool) -> str:
@@ -876,3 +897,135 @@ def render_full_card_html(
     )
     parts.append("</div>")
     return "\n".join(parts)
+
+
+# Detail view (Figma "model card" modal). Styling lives in ``core.ui_theme`` (``mc-`` classes).
+_SECTION_NUMBER = re.compile(r"^\s*\d+\)\s*")
+_HEADER_FIELDS = {"Model Name", "Developer"}
+_INLINE_VALUE_MAX = 32
+
+
+def plain_preview(text: str) -> str:
+    """Citation- and markdown-link-free text for previews and truncated labels."""
+    from core.citation_render import strip_inline_citation_markers
+
+    t = strip_citations(strip_inline_citation_markers(text or ""))
+    return MD_LINK.sub(lambda m: m.group(1), t).strip()
+
+
+def truncate(text: str, limit: int) -> str:
+    text = " ".join((text or "").split())
+    return text if len(text) <= limit else text[: limit - 1].rstrip() + "…"
+
+
+def _detail_row(label: str, value: str, value_html: str, *, extra_html: str = "", tier: Optional[str] = None) -> str:
+    preview = plain_preview(value)
+    tier_style = ""
+    if tier and tier != "gray" and tier in REGULATORY_ROW_STYLE:
+        bg, accent = REGULATORY_ROW_STYLE[tier]
+        tier_style = f' style="background:{bg};box-shadow:inset 4px 0 0 {accent};"'
+    muted = " mc-muted" if preview.lower() == "not disclosed" else ""
+    if (len(preview) <= _INLINE_VALUE_MAX or tier_style) and not extra_html:
+        return (
+            f'<div class="mc-row mc-row-static"{tier_style}>'
+            f'<span class="mc-row-label">{html.escape(label)}</span>'
+            f'<span class="mc-row-value{muted}">{value_html}</span>'
+            "</div>"
+        )
+    return (
+        f'<details class="mc-row"{tier_style}>'
+        f'<summary><span class="mc-row-label">{html.escape(label)}</span>'
+        f'<span class="mc-row-hint">{html.escape(preview)}</span><span class="mc-chev"></span></summary>'
+        f'<div class="mc-row-body">{value_html}{extra_html}</div>'
+        "</details>"
+    )
+
+
+def render_card_detail_html(
+    card: Any,
+    *,
+    citations: Optional[Dict[str, Any]] = None,
+    tags: Tuple[str, ...] = (),
+    hide_citations: bool = False,
+) -> str:
+    """Modal-style card: title, tags, summary, then one expandable row per field."""
+    prep = prepare_card_render(
+        card, source_label=card.model_name or "model card", hide_citations=hide_citations, citations=citations
+    )
+    sections: Dict[str, Dict[str, str]] = prep["sections"]
+    refs: Dict[int, str] = prep["refs"]
+    fmt: Callable[[str], str] = lambda t: format_field(t, refs, hide_citations, linkify_urls_flag=True)
+
+    metadata = next((f for s, f in sections.items() if _SECTION_NUMBER.sub("", s) == "Metadata"), {})
+    summary = next((f.get("Summary", "") for s, f in sections.items() if _SECTION_NUMBER.sub("", s) == "Summary"), "")
+    version = plain_preview(card.version or "") or "Not disclosed"
+    last_updated = card.last_updated.isoformat() if hasattr(card.last_updated, "isoformat") else (card.last_updated or "")
+
+    parts: List[str] = ['<div class="mc-detail">', '<div class="mc-detail-head">']
+    parts.append('<div class="mc-detail-id">')
+    parts.append(f'<div class="mc-detail-title">{prep["doc_title_html"]}</div>')
+    if tags:
+        parts.append('<div class="mc-tags">' + "".join(f'<span class="mc-tag">{html.escape(t)}</span>' for t in tags) + "</div>")
+    meta_lines = [f'Developed by {fmt(metadata.get("Developer", "Not disclosed"))}']
+    if _is_http_url(card.application_url):
+        url = str(card.application_url).strip()
+        meta_lines.append(
+            f'Application URL: <a href="{html.escape(href(url), quote=True)}" target="_blank" '
+            f'rel="noopener noreferrer">{html.escape(url)}</a>'
+        )
+    parts.append('<div class="mc-meta">' + "<br>".join(meta_lines) + "</div></div>")
+    parts.append(
+        '<div class="mc-detail-side">'
+        f"Citations: {len(refs)}<br>"
+        f'<span title="{html.escape(version, quote=True)}">Version: {html.escape(truncate(version, 28))}</span>'
+        "</div></div>"
+    )
+
+    if summary:
+        parts.append('<div class="mc-summary-title">Summary &amp; Details</div>')
+        parts.append(f'<div class="mc-summary">{fmt(summary)}</div>')
+
+    parts.append('<div class="mc-rows">')
+    for sec_name, fields in sections.items():
+        title = _SECTION_NUMBER.sub("", sec_name)
+        if title == "Summary" or not fields:
+            continue
+        rows: List[str] = []
+        for field_name, value in fields.items():
+            if title == "Metadata" and field_name in _HEADER_FIELDS:
+                continue
+            ck = composite_section_field_key(sec_name, field_name)
+            tier = prep["regulatory_by_key"].get(ck)
+            value_html = fmt(value)
+            if field_name == "Regulatory Approval Status":
+                value_html = f"{value_html}{regulatory_tooltip_html()}"
+            extra = ""
+            if field_name == "Performance" and prep["metrics_table_html"]:
+                extra = f'<div class="mc-metrics">{prep["metrics_table_html"]}</div>'
+            rows.append(_detail_row(field_name, value, value_html, extra_html=extra, tier=tier))
+        if rows:
+            parts.append(f'<div class="mc-group"><div class="mc-group-title">{html.escape(title)}</div>{"".join(rows)}</div>')
+
+    if refs and not hide_citations:
+        ref_rows = "".join(
+            f'<div class="mc-ref"><span>[{n}]</span> <a href="{html.escape(href(refs[n]), quote=True)}" '
+            f'target="_blank" rel="noopener noreferrer">{html.escape(refs[n])}</a></div>'
+            for n in sorted(refs)
+        )
+        parts.append(
+            '<div class="mc-group"><details class="mc-row"><summary><span class="mc-row-label">Citations</span>'
+            f'<span class="mc-row-hint">{len(refs)} sources</span><span class="mc-chev"></span></summary>'
+            f'<div class="mc-row-body">{ref_rows}</div></details></div>'
+        )
+    elif not prep["citations_available"] and not hide_citations:
+        parts.append('<div class="mc-foot mc-warn">Citations unavailable — source links could not be loaded.</div>')
+    parts.append("</div>")
+
+    parts.append(
+        '<div class="mc-foot">'
+        f"Citations: {len(refs)}<br>"
+        f"Version: {html.escape(truncate(version, 60))}<br>"
+        f"Last Updated: {html.escape(str(last_updated) or 'Not disclosed')}"
+        "</div></div>"
+    )
+    return "".join(parts)

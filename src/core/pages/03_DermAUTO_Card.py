@@ -16,29 +16,11 @@ from core.dermauto_card_render import (
     is_clinical_markdown,
     render_from_card,
 )
-
-
-def _companion_clinical_md(path: Path) -> Optional[Path]:
-    """Resolve ``*.clinical.md`` next to a clinical JSON / citations path."""
-    name = path.name
-    if name.endswith(".clinical.json"):
-        md = path.with_name(name.replace(".clinical.json", ".clinical.md"))
-    elif name.endswith(".citations.json"):
-        md = path.with_name(name.replace(".citations.json", ".clinical.md"))
-    elif name.endswith(".clinical.md"):
-        md = path
-    else:
-        md = path.with_suffix(".clinical.md")
-    return md if md.is_file() else None
+from core.card_library import PRELOADED_DIRS, bundled_card_paths, companion_clinical_md as _companion_clinical_md
 
 
 _PAGE_DIR = Path(__file__).resolve().parent
 REPO_ROOT = _PAGE_DIR.parents[3]
-PRELOADED_DIRS: Tuple[Path, ...] = (
-    _PAGE_DIR / "preloaded_cards_eval3",
-    _PAGE_DIR / "preloaded_cards",
-    REPO_ROOT / "preloaded_cards",
-)
 OUTPUTS_DIR = REPO_ROOT / "outputs"
 
 
@@ -79,26 +61,7 @@ st.caption("Clinician-centered model card viewer (JSON canonical, markdown for u
 
 with st.sidebar:
     st.subheader("Source")
-    # Stems may mix eval rounds; labels never mention eval-2 / eval-3.
-    ordered_sources: List[Tuple[str, str]] = [
-        ("A · DermaSensor", "dermasensor-auto-eval-3"),
-        ("B · DermaSensor", "dermasensor-manual-eval-3"),
-        ("A · Forus", "tandem-auto-eval-3"),
-        ("B · Forus", "tandem-manual-eval-3"),
-        ("A · DERM", "derm-auto-eval-3"),
-        ("B · DERM", "derm-manual-eval-3"),
-        ("A · DermGPT", "dermgpt-auto-eval-3"),
-        ("B · DermGPT", "dermgpt-manual-eval-3"),
-        ("A · Skin Vision", "skinvision-auto-eval-2"),
-        ("B · Skin Vision", "skinvision-manual-eval-2"),
-    ]
-    option_to_path: Dict[str, Path] = {}
-    for label, stem in ordered_sources:
-        for base in PRELOADED_DIRS:
-            jp = base / f"{stem}.clinical.json"
-            if jp.exists():
-                option_to_path[label] = jp
-                break
+    option_to_path: Dict[str, Path] = bundled_card_paths()
 
     options = list(option_to_path.keys())
     default_key = "A · DermGPT"

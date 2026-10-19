@@ -68,7 +68,18 @@ from dataclasses import fields as dc_fields
 
 from pipelines.cardgen_pipeline import CardGenPipeline
 from core.chai_schema import ClinicalModelCard, REGULATORY_STATUS_LABELS
-from core.dermauto_card_render import format_version_with_date
+from core.card_library import load_library
+from core.citation_render import normalize_citation_sidecar
+from core.dermauto_card_render import plain_preview, render_card_detail_html
+from core.ui_theme import (
+    LOGO_HTML,
+    THEME_CSS,
+    gallery_card_footer_html,
+    gallery_card_html,
+    generate_explainer_html,
+    hero_html,
+    stat_tiles_html,
+)
 from ai_extractors.ai_extractor import RateLimitExceededError, QuotaExceededError
 
 
@@ -113,18 +124,156 @@ if 'generated_model_card' not in st.session_state:
     st.session_state.generated_model_card = None
 if 'generated_model_card_json' not in st.session_state:
     st.session_state.generated_model_card_json = None
+if 'page' not in st.session_state:
+    st.session_state.page = "home"
 
-st.title("Medical AI Model Card Generator")
-st.markdown("### Generate professional model cards for medical AI systems in one simple step")
+st.html(THEME_CSS)
+
+NAV_PAGES = (("home", "Model Cards"), ("generate", "Generate Model"), ("output", "Output"))
+
+
+def render_header():
+    logo_col, nav_col, menu_col = st.columns([2.2, 5, 0.6], vertical_alignment="center")
+    with logo_col:
+        st.html(LOGO_HTML)
+    with nav_col:
+        for col, (page, label) in zip(st.columns(len(NAV_PAGES)), NAV_PAGES):
+            with col:
+                key = "mc_nav_active" if st.session_state.page == page else f"mc_nav_{page}"
+                if st.button(label, key=key, use_container_width=True):
+                    st.session_state.page = page
+                    st.rerun()
+    with menu_col:
+        # Keyed containers (not popover(key=...)) so styling works on Streamlit < 1.50.
+        with st.container(key="mc_menu"), st.popover("⋮"):
+            st.page_link("pages/03_DermAUTO_Card.py", label="DermAUTO-CARD viewer")
+
+
+def _card_tags(card, *extra):
+    status = REGULATORY_STATUS_LABELS.get(card.regulatory_approval_status, "Regulatory Status Unknown")
+    return tuple(extra) + (status,)
+
+
+def _citation_count(citations):
+    return len(normalize_citation_sidecar(citations).references) if citations else 0
+
+
+@st.cache_resource(show_spinner="Loading model cards...")
+def _bundled_library():
+    return load_library()
+
+
+def _gallery_entries():
+    """Generated card (if any) first, then the bundled library cards."""
+    entries = []
+    card = _restore_model_card_from_session()
+    if card is not None:
+        entries.append({
+            "key": "generated", "card": card, "citations": st.session_state.get("generated_citations"),
+            "tags": _card_tags(card, "New"),
+        })
+    for item in _bundled_library():
+        entries.append({
+            "key": item.key, "card": item.card, "citations": item.citations,
+            "tags": _card_tags(item.card, f"Card {item.label.split(' · ')[0]}"),
+        })
+    return entries
+
+
+def _download_buttons(card, key_prefix):
+    stem = (card.model_name or 'model_card').replace(' ', '_')
+    col1, col2 = st.columns(2)
+    with col1:
+        st.download_button(
+            label="Download JSON",
+            data=card.to_json(),
+            file_name=f"{stem}_model_card.clinical.json",
+            mime="application/json",
+            use_container_width=True,
+            key=f"{key_prefix}_json",
+        )
+    with col2:
+        st.download_button(
+            label="Download Markdown",
+            data=card.to_markdown(),
+            file_name=f"{stem}_model_card.clinical.md",
+            mime="text/markdown",
+            use_container_width=True,
+            key=f"{key_prefix}_md",
+        )
+
+
+def _open_card_dialog(entry):
+    @st.dialog(" ", width="large")
+    def _dialog():
+        st.html(render_card_detail_html(
+            entry["card"],
+            citations=entry["citations"],
+            tags=entry["tags"],
+        ))
+        _download_buttons(entry["card"], f"dlg_{entry['key']}")
+
+    _dialog()
+
+
+SORT_OPTIONS = {
+    "Alphabetical": lambda e: (e["card"].model_name or "").lower(),
+    "Last Updated": lambda e: -(e["card"].last_updated.toordinal() if hasattr(e["card"].last_updated, "toordinal") else 0),
+}
+
+
+def home_page_content():
+    entries = _gallery_entries()
+
+    search_col, sort_col, filter_col = st.columns([6, 2.4, 1.2], vertical_alignment="center")
+    with search_col:
+        query = st.text_input("Search", placeholder="Search Model Cards...", label_visibility="collapsed", key="mc_search")
+    with sort_col:
+        sort_by = st.selectbox(
+            "Sort", list(SORT_OPTIONS), format_func=lambda s: f"Sort by... {s}",
+            label_visibility="collapsed", key="mc_sort",
+        )
+    with filter_col:
+        with st.container(key="mc_filters"), st.popover("Filters", use_container_width=True):
+            statuses = sorted({e["tags"][-1] for e in entries})
+            chosen = st.multiselect("Regulatory status", statuses, key="mc_filter_status")
+
+    q = (query or "").strip().lower()
+    if q:
+        entries = [
+            e for e in entries
+            if q in " ".join(
+                [e["card"].model_name or "", e["card"].developer or "", plain_preview(e["card"].summary or ""), *e["tags"]]
+            ).lower()
+        ]
+    if chosen:
+        entries = [e for e in entries if e["tags"][-1] in chosen]
+    entries.sort(key=SORT_OPTIONS[sort_by])
+
+    if not entries:
+        st.html('<div class="mc-empty">No model cards match your search.</div>')
+        return
+
+    for row_start in range(0, len(entries), 3):
+        cols = st.columns(3, gap="medium")
+        for col, entry in zip(cols, entries[row_start:row_start + 3]):
+            with col:
+                with st.container(key=f"mc_card_{entry['key']}"):
+                    st.html(gallery_card_html(entry["card"], tags=entry["tags"]))
+                    foot_col, learn_col = st.columns([2.4, 1.2], vertical_alignment="bottom")
+                    with foot_col:
+                        st.html(gallery_card_footer_html(entry["card"], _citation_count(entry["citations"])))
+                    with learn_col:
+                        if st.button("Learn More →", key=f"mc_learn_{entry['key']}"):
+                            _open_card_dialog(entry)
+
 
 # Define tab content functions first
 def main_tab_content():
-    # Simple interface - just one input and one button
-    st.markdown("---")
-
-    col1, col2 = st.columns([3, 1])
-    
-    with col1:
+    # Simple interface - one form, one button
+    _, form_col, _ = st.columns([1, 2.6, 1])
+    with form_col, st.container(key="mc_gen_form"):
+        st.html('<div class="mc-form-title">Generate Model</div>')
         model_name = st.text_input(
             "Enter the name of your AI model:",
             placeholder="e.g., Derm Foundation, SkinVision, MelanomaNet",
@@ -144,35 +293,15 @@ def main_tab_content():
             placeholder="e.g., https://example.com/model-docs, https://github.com/org/model",
             help="Enter the main website or documentation URL for this AI application. This source will be prioritized for field filling."
         )
-    
-    with col2:
-        st.markdown("<br>", unsafe_allow_html=True)  # Add spacing
-        generate_button = st.button("Generate Model Card", type="primary", use_container_width=True)
-    
-    # Remove cache management section
-    
-    # What we do explanation
-    with st.expander("What happens when you click 'Generate Model Card'?"):
-        st.markdown("""
-        **Automated Discovery & Analysis:**
-        1. **Find Information** - Search research papers, GitHub repositories, and documentation
-        2. **Extract Details** - Pull out technical specs, performance metrics, and usage info
-        3. **AI Analysis** - Use advanced AI to analyze bias, risks, and clinical considerations
-        4. **Generate Card** - Create a professional model card meeting medical AI standards
-        
-        **You Get:**
-        - Complete technical documentation
-        - Bias and fairness analysis
-        - Clinical risk assessment  
-        - Regulatory compliance information
-        - Ready-to-use model card in multiple formats (JSON, Markdown, XML)
-        
-        **Enhanced Discovery:** Uses advanced AI to analyze discovered sources for comprehensive model documentation.
-        """)
-    
-    # Developer-focused optimization info
-    st.info("**Enhanced Discovery**: When you specify a developer name or application URL, the system prioritizes those sources for more accurate and targeted information extraction. The Application URL will be used as the primary source for field filling.")
-    
+
+        # Developer-focused optimization info
+        st.html(
+            '<div class="mc-form-note"><b>Enhanced Discovery:</b> When you specify a developer name or application URL, '
+            "the system prioritizes those sources for more accurate and targeted information extraction. "
+            "The Application URL will be used as the primary source for field filling.</div>"
+        )
+        generate_button = st.button("Generate Model Card", type="primary", use_container_width=True, key="mc_generate")
+
     # Main generation logic
     if generate_button:
         if not model_name:
@@ -213,54 +342,12 @@ def main_tab_content():
                 st.session_state.generated_model_card_json = chai_model_card.to_json()
                 st.session_state.generated_sources = sources
                 st.session_state.generated_content = extracted_content
+                st.session_state.generated_citations = sources.get("citations")
                 
                 # Success message with tab guidance
-                st.success("Your model card has been generated! View the complete formatted output in the **Output tab**.")
-                
-                # Show scoring information if available
-                if sources.get("scoring"):
-                    scoring = sources["scoring"]
-                    st.subheader("Model Card Scoring")
-                    
-                    # Color-coded scoring display
-                    col1, col2, col3 = st.columns(3)
-                    
-                    with col1:
-                        completion = scoring["completion_percentage"]
-                        if completion >= 75:
-                            st.success(f"Completion: {completion:.1f}%")
-                        elif completion >= 50:
-                            st.warning(f"Completion: {completion:.1f}%")
-                        else:
-                            st.error(f"Completion: {completion:.1f}%")
-                    
-                    with col2:
-                        clinical_level = scoring["clinical_usability_level"]
-                        if clinical_level == "green":
-                            st.success(f"Clinical: {clinical_level.upper()}")
-                        elif clinical_level == "yellow":
-                            st.warning(f"Clinical: {clinical_level.upper()}")
-                        else:
-                            st.error(f"Clinical: {clinical_level.upper()}")
-                    
-                    with col3:
-                        st.info(f"Fields: {scoring['filled_fields']}/{scoring['total_fields']}")
-                    
-                    # Overall rating
-                    st.info(f"**Overall Rating:** {scoring['overall_rating']}")
-                    
-                    # Critical missing fields
-                    if scoring.get("critical_missing_fields"):
-                        st.warning(f"**Critical Missing Fields:** {', '.join(scoring['critical_missing_fields'])}")
-                    
-                    # Recommendations count
-                    if scoring.get("recommendations_count", 0) > 0:
-                        st.info(f"**Recommendations:** {scoring['recommendations_count']} improvement suggestions available")
+                st.success("Your model card has been generated! View the complete formatted output in the **Output** page.")
                 
                 # Quick stats (pipeline sources shape: web_search / publications / fda / citations)
-                st.subheader("Generation Summary")
-                col1, col2, col3, col4 = st.columns(4)
-
                 web_discovered = (sources.get("web_search") or {}).get("discovered") or []
                 web_urls = (sources.get("web_search") or {}).get("top_urls") or []
                 publications = sources.get("publications") or []
@@ -276,41 +363,27 @@ def main_tab_content():
                     citation_count = 0
                 total_sources = len(web_discovered) or len(web_urls) or (len(publications) + len(fda_records))
 
-                with col1:
-                    st.metric("Sources Found", total_sources)
-                with col2:
-                    st.metric("Publications / FDA", len(publications) + len(fda_records))
-                with col3:
-                    metrics_count = len(getattr(getattr(chai_model_card, "performance", None), "metrics", None) or [])
-                    st.metric("Performance Metrics", metrics_count)
-                with col4:
-                    st.metric("Cited Sources", citation_count)
-                
+                metrics_count = len(getattr(getattr(chai_model_card, "performance", None), "metrics", None) or [])
+
+                st.html('<div class="mc-section-title">Generation Summary</div>')
+                st.html(stat_tiles_html((
+                    ("Sources Found", total_sources),
+                    ("Publications / FDA", len(publications) + len(fda_records)),
+                    ("Performance Metrics", metrics_count),
+                    ("Cited Sources", citation_count),
+                )))
+
                 # Model card preview
-                st.subheader("Your Model Card")
-                
-                with st.expander("Model Card Preview", expanded=True):
-                    col1, col2 = st.columns(2)
-                    
-                    with col1:
-                        st.markdown("**Basic Information**")
-                        st.markdown(f"**Model Name:** {chai_model_card.model_name}")
-                        st.markdown(f"**Developer:** {_card_developer(chai_model_card) or 'Not specified'}")
-                        st.markdown(f"**Type:** {chai_model_card.model_type}")
-                        
-                        st.markdown("**Summary:**")
-                        summary_text = chai_model_card.summary if chai_model_card.summary else "AI model for medical/dermatology applications"
-                        st.markdown(summary_text[:300] + ("..." if len(summary_text) > 300 else ""))
-                    
-                    with col2:
-                        st.markdown("**Key Details**")
-                        st.markdown(f"**Medical Purpose:** {(chai_model_card.medical_purpose or 'Not specified')[:200]}")
-                        st.markdown(f"**Intended Users:** {chai_model_card.intended_users or 'Healthcare professionals'}")
-                        st.markdown(f"**Regulatory Status:** {REGULATORY_STATUS_LABELS.get(chai_model_card.regulatory_approval_status, 'Unknown')}")
-                
+                st.html('<div class="mc-section-title">Your Model Card</div>')
+                with st.container(key="mc_card_generated_preview"):
+                    st.html(render_card_detail_html(
+                        chai_model_card,
+                        citations=st.session_state.generated_citations,
+                        tags=_card_tags(chai_model_card, "New"),
+                    ))
+
                 # Download section
-                st.subheader("Download Your Model Card")
-                st.markdown("Choose your preferred format:")
+                st.html('<div class="mc-section-title">Download Your Model Card</div>')
                 
                 col1, col2 = st.columns(2)
                 
@@ -463,10 +536,14 @@ def main_tab_content():
                 - If the error persists, please report it with the error details above
                 """)
 
+    # What we do explanation
+    st.html(generate_explainer_html())
+
+
 def output_tab_content():
     """Output tab with persistent model card display"""
-    st.markdown("### Model Card Output")
-    
+    st.html('<div class="mc-page-title">Model Card Output</div>')
+
     card = _restore_model_card_from_session()
     if card is not None:
         # Add a clear button at the top
@@ -475,6 +552,7 @@ def output_tab_content():
             if st.button("Clear Output", help="Clear the current model card output"):
                 st.session_state.generated_model_card = None
                 st.session_state.generated_model_card_json = None
+                st.session_state.generated_citations = None
                 st.rerun()
         
         with col2:
@@ -483,181 +561,27 @@ def output_tab_content():
         st.markdown("---")
         display_model_card_output(card)
     else:
-        st.info("No model card generated yet. Go to the Main tab and generate a model card to see the output here.")
+        st.info("No model card generated yet. Go to the Generate Model page and generate a model card to see the output here.")
         st.markdown("")
         st.markdown("**How it works:**")
-        st.markdown("- Generate a model card on the Main tab")
+        st.markdown("- Generate a model card on the Generate Model page")
         st.markdown("- The output will automatically appear here")
         st.markdown("- Output persists when you switch between tabs")
         st.markdown("- Generate a new model card to replace the current output")
 
 def display_model_card_output(chai_model_card):
-    """Display the model card in a consolidated card format with visual sections"""
-    
-    # Main Model Card - Consolidated View
-    st.markdown(
-        f"""
-        <div style="
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            padding: 2rem;
-            border-radius: 15px;
-            margin-bottom: 2rem;
-            color: white;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-        ">
-            <h1 style="margin: 0; font-size: 2.5rem; text-align: center; text-shadow: 2px 2px 4px rgba(0,0,0,0.3);">
-                 {chai_model_card.model_name or 'AI Model'}
-            </h1>
-            <p style="text-align: center; font-size: 1.2rem; margin: 1rem 0; opacity: 0.9;">
-                {_card_developer(chai_model_card) or 'Unknown Developer'}
-            </p>
-        </div>
-        """, 
-        unsafe_allow_html=True
-    )
-    
-    # Key Info Cards Grid
-    col1, col2, col3 = st.columns(3)
-    
-    with col1:
-        st.markdown(
-            f"""
-            <div style="
-                background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
-                padding: 1.5rem;
-                border-radius: 10px;
-                color: white;
-                text-align: center;
-                box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-                margin-bottom: 1rem;
-            ">
-                <h3 style="margin: 0; color: white;"> Basic Info</h3>
-                <hr style="border-color: rgba(255,255,255,0.3);">
-                <p><strong>Type:</strong> {chai_model_card.model_type or 'Not specified'}</p>
-                <p><strong>Version:</strong> {format_version_with_date(_card_version(chai_model_card), chai_model_card.last_updated)}</p>
-            </div>
-            """,
-            unsafe_allow_html=True
-        )
-    
-    with col2:
-        risk_level = chai_model_card.role_in_decision_making or 'Advisory'
-        risk_color = "#27ae60"
-        
-        st.markdown(
-            f"""
-            <div style="
-                background: linear-gradient(135deg, {risk_color} 0%, {risk_color}CC 100%);
-                padding: 1.5rem;
-                border-radius: 10px;
-                color: white;
-                text-align: center;
-                box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-                margin-bottom: 1rem;
-            ">
-                <h3 style="margin: 0; color: white;"> Decision Role</h3>
-                <hr style="border-color: rgba(255,255,255,0.3);">
-                <p style="font-size: 1.2rem; font-weight: bold;">{risk_level[:80]}</p>
-                <p><strong>Performance limitations:</strong> {(chai_model_card.known_performance_limitations or 'Not specified')[:50]}...</p>
-            </div>
-            """,
-            unsafe_allow_html=True
-        )
-    
-    with col3:
-        st.markdown(
-            f"""
-            <div style="
-                background: linear-gradient(135deg, #8360c3 0%, #2ebf91 100%);
-                padding: 1.5rem;
-                border-radius: 10px;
-                color: white;
-                text-align: center;
-                box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-                margin-bottom: 1rem;
-            ">
-                <h3 style="margin: 0; color: white;"> Usage</h3>
-                <hr style="border-color: rgba(255,255,255,0.3);">
-                <p><strong>Users:</strong> {chai_model_card.intended_users or 'Healthcare professionals'}</p>
-                <p><strong>Regulatory:</strong> {REGULATORY_STATUS_LABELS.get(chai_model_card.regulatory_approval_status, 'Unknown')}</p>
-            </div>
-            """,
-            unsafe_allow_html=True
-        )
-    
-    # Summary Section
-    summary_text = chai_model_card.summary or 'No summary available'
-    st.markdown(
-        f"""
-        <div style="
-            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
-            padding: 1.5rem;
-            border-radius: 10px;
-            margin-bottom: 2rem;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-        ">
-            <h3 style="margin: 0 0 1rem 0; color: #8B4513;"> Model Summary</h3>
-            <p style="color: #2c3e50; font-size: 1.1rem; line-height: 1.6;">{summary_text}</p>
-        </div>
-        """,
-        unsafe_allow_html=True
-    )
-    
-    # Keywords section removed in clinical schema v1.0
-    
-    # Expandable detailed sections
-    with st.expander("Detailed Technical Information", expanded=False):
-        display_detailed_sections(chai_model_card)
-    
+    """Display the model card in the same detail layout as the gallery pop-up."""
+    citations = st.session_state.get("generated_citations")
+    with st.container(key="mc_card_output"):
+        st.html(render_card_detail_html(
+            chai_model_card,
+            citations=citations,
+            tags=_card_tags(chai_model_card),
+        ))
+
     # Download Section
     st.markdown("### Download Options")
-    col1, col2 = st.columns(2)
-    
-    with col1:
-        st.download_button(
-            label="Download JSON",
-            data=chai_model_card.to_json(),
-            file_name=f"{(chai_model_card.model_name or 'model_card').replace(' ', '_')}_model_card.clinical.json",
-            mime="application/json",
-            use_container_width=True,
-            key="json_download"
-        )
-    
-    with col2:
-        st.download_button(
-            label="Download Markdown",
-            data=chai_model_card.to_markdown(),
-            file_name=f"{(chai_model_card.model_name or 'model_card').replace(' ', '_')}_model_card.clinical.md",
-            mime="text/markdown",
-            use_container_width=True,
-            key="markdown_download"
-        )
-
-def display_detailed_sections(chai_model_card):
-    """Display clinical model card sections."""
-    from core.clinical_display import (
-        iter_display_sections,
-        performance_metrics_rows,
-        regulatory_status_badge_md,
-    )
-
-    current_section = None
-    for section, field_name, label, text in iter_display_sections(chai_model_card):
-        if section != current_section:
-            if current_section is not None:
-                st.markdown("---")
-            st.subheader(section)
-            current_section = section
-        if field_name == "regulatory_approval_status":
-            st.markdown(regulatory_status_badge_md(chai_model_card.regulatory_approval_status, label), unsafe_allow_html=True)
-        elif field_name == "performance" and performance_metrics_rows(chai_model_card):
-            st.markdown(f"**{label}:** {text}")
-            st.markdown("**Performance Metrics**")
-            st.table(performance_metrics_rows(chai_model_card))
-        elif field_name in ("contact", "training_data", "model_development_and_validation", "clinical_trial"):
-            st.markdown(f"**{label}:** {text}")
-        else:
-            st.markdown(f"**{label}:** {text}")
+    _download_buttons(chai_model_card, "output")
 
 
 def display_sources_section(chai_model_card):
@@ -746,13 +670,17 @@ def display_sources_section(chai_model_card):
     st.info("All information in this model card was extracted from the sources listed above.")
 
 
-# Create tabs and use the functions
-tab1, tab2 = st.tabs(["Main", "Output"])
+render_header()
+if st.session_state.page in ("home", "generate"):
+    st.html(hero_html(
+        "Medical AI Model Card Generator",
+        "Generate professional model cards for medical AI systems in one simple step",
+        compact=st.session_state.page != "home",
+    ))
 
-with tab1:
-    # Main tab content
+if st.session_state.page == "generate":
     main_tab_content()
-
-with tab2:
-    # Output tab content
+elif st.session_state.page == "output":
     output_tab_content()
+else:
+    home_page_content()

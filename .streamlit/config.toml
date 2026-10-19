@@ -1,0 +1,15 @@
+# Light theme matching the Figma "Medical AI Model Card Website" design.
+# Extra styling (fonts, cards, nav) lives in src/core/ui_theme.py.
+[theme]
+base = "light"
+primaryColor = "#1f1f1f"
+backgroundColor = "#fafafa"
+secondaryBackgroundColor = "#ebebeb"
+textColor = "#1f1f1f"
+linkColor = "#0b57d0"
+font = "Inter, system-ui, sans-serif"
+headingFont = "Inter, system-ui, sans-serif"
+baseRadius = "large"
+buttonRadius = "full"
+borderColor = "#cfcfcf"
+showWidgetBorder = false
